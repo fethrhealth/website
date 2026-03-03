@@ -1,0 +1,315 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Tema claro (principal) — valores extraídos de attio.com ── */
+
+    /* Fondos */
+    --background:            0 0% 100%;        /* white-100 #ffffff */
+    --background-secondary:  240 11% 98%;      /* white-200 #fafafb */
+    --surface-subtle:        220 14% 96%;      /* white-300 #f3f4f6 */
+    --surface:               220 16% 94%;      /* white-400 #edeff3 */
+    --muted:                 220 16% 94%;      /* white-400 #edeff3 */
+    --muted-foreground:      220 9% 46%;       /* black-900 #a4adba */
+
+    /* Bordes */
+    --border:                220 16% 94%;      /* white-500 #e4e7ec */
+    --input:                 220 16% 94%;      /* white-500 #e4e7ec */
+    --ring:                  217 84% 55%;      /* blue-500  #266df0 */
+
+    /* Texto */
+    --foreground:            225 6% 11%;       /* black-100 #1c1d1f */
+    --foreground-secondary:  225 6% 15%;       /* black-300 #232529 */
+    --foreground-tertiary:   220 13% 34%;      /* black-600 #505967 */
+    --foreground-caption:    220 13% 68%;      /* black-900 #a4adba */
+
+    /* Componentes shadcn */
+    --popover:               0 0% 100%;
+    --popover-foreground:    225 6% 11%;
+    --card:                  0 0% 100%;
+    --card-foreground:       225 6% 11%;
+    --primary:               225 6% 11%;       /* black-100 */
+    --primary-foreground:    0 0% 100%;        /* white-100 */
+    --secondary:             220 16% 94%;      /* white-400 */
+    --secondary-foreground:  225 6% 11%;       /* black-100 */
+    --accent:                220 16% 94%;      /* white-400 */
+    --accent-foreground:     225 6% 11%;       /* black-100 */
+    --destructive:           1 100% 67%;       /* red-500 #ff5b59 */
+    --destructive-foreground:0 0% 100%;
+
+    /* Links */
+    --link:                  217 84% 55%;      /* blue-500 #266df0 */
+    --link-strong:           217 68% 45%;      /* blue-600 #245bc2 */
+
+    /* Radio base para shadcn */
+    --radius: 0.5rem;                          /* radius-lg de attio */
+
+    /* Curvas de Bézier como variables CSS (usadas por componentes custom) */
+    --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-out-cubic:    cubic-bezier(0.33, 1, 0.68, 1);
+    --ease-in-cubic:     cubic-bezier(0.32, 0, 0.67, 0);
+    --ease-emphasized:   cubic-bezier(0.2, 0, 0, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Scrollbar sutil — igual que attio */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d3d8df;
+  }
+
+  /* Selección de texto */
+  ::selection {
+    background: #c8dcff;   /* blue-200 */
+    color: #1c1d1f;        /* black-100 */
+  }
+}
+
+@layer components {
+  /*
+   * Subrayado animado — copiado exactamente de attio.com.
+   * El gradient crece de 0% → 100% al hacer hover en el PADRE con clase `group`.
+   *
+   * Uso:
+   *   <a class="group" href="...">
+   *     <span class="attio-group-hover-underline">Texto</span>
+   *   </a>
+   *
+   * Solo activa en dispositivos con hover real (no touch) gracias al media query.
+   */
+  .attio-group-hover-underline {
+    paint-order: stroke fill;
+    -webkit-text-stroke-width: 0.1em;
+    -webkit-text-stroke-color: #fff;       /* halo blanco para separar el underline de los descenders */
+    mix-blend-mode: multiply;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 91%;
+    background-repeat: no-repeat;
+    background-size: 0% 0.06em;
+    transition-property: background-size;
+    transition-duration: 0.4s;
+    transition-timing-function: var(--ease-in-out-cubic);
+  }
+
+  /* Dark mode: blend mode invertido, halo negro */
+  .attio-group-hover-underline:where(.dark, .dark *) {
+    mix-blend-mode: screen;
+    -webkit-text-stroke-color: #000;
+  }
+
+  /* Solo en dispositivos con hover real — evita activación accidental en touch */
+  @media (hover: hover) {
+    .attio-group-hover-underline:is(:where(.group):hover *) {
+      background-size: 100% 0.06em;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Botones — extraídos de attio.com
+ * Uso: añadir la clase junto a las clases base de dimensiones/border-radius.
+ * Ejemplo: <button class="button-primary rounded-full px-4 py-2 border text-sm">
+ * ───────────────────────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Botón Primary ────────────────────────────────────────────────────────── */
+
+  /* @property permite animar propiedades CSS custom de tipo <color> */
+  @property --button-primary-bg-from {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #000;
+  }
+  @property --button-primary-bg-to {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #000;
+  }
+
+  .button-primary {
+    background-image: radial-gradient(at center -10%, var(--button-primary-bg-from) 0%, var(--button-primary-bg-to) 100%);
+    background-color: var(--button-primary-bg-fallback);
+    border-color: var(--button-primary-border);
+    color: var(--button-primary-text);
+    transition-property: color, border-color, --button-primary-bg-from, --button-primary-bg-to;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+
+    --button-primary-bg-from:              #202124;
+    --button-primary-bg-to:                #202124;
+    --button-primary-bg-fallback:          #202124;
+    --button-primary-border:               #505967;
+    --button-primary-text:                 #f3f4f6;
+    --button-primary-bg-hover-from:        #505967;
+    --button-primary-bg-hover-to:          #202124;
+    --button-primary-bg-hover-fallback:    #383e47;
+    --button-primary-border-hover:         #505967;
+    --button-primary-text-hover:           #ffffff;
+    --button-primary-bg-active-from:       #383e47;
+    --button-primary-bg-active-to:         #383e47;
+    --button-primary-bg-active-fallback:   #505967;
+    --button-primary-border-active:        #505967;
+    --button-primary-text-active:          #ffffff;
+    --button-primary-bg-disabled-from:     #b5bdc9;
+    --button-primary-bg-disabled-to:       #b5bdc9;
+    --button-primary-bg-disabled-fallback: #b5bdc9;
+    --button-primary-border-disabled:      #b5bdc9;
+    --button-primary-text-disabled:        #ffffff;
+  }
+
+  .button-primary:hover,
+  .button-primary[data-state=open] {
+    --button-primary-bg-from:  var(--button-primary-bg-hover-from);
+    --button-primary-bg-to:    var(--button-primary-bg-hover-to);
+    border-color:              var(--button-primary-border-hover);
+    color:                     var(--button-primary-text-hover);
+    transition-duration: 50ms;
+  }
+
+  .button-primary:active,
+  .button-primary[data-active=true] {
+    --button-primary-bg-from:  var(--button-primary-bg-active-from);
+    --button-primary-bg-to:    var(--button-primary-bg-active-to);
+    border-color:              var(--button-primary-border-active);
+    color:                     var(--button-primary-text-active);
+    transition-duration: 50ms;
+  }
+
+  .button-primary:disabled {
+    --button-primary-bg-from:  var(--button-primary-bg-disabled-from);
+    --button-primary-bg-to:    var(--button-primary-bg-disabled-to);
+    border-color:              var(--button-primary-border-disabled);
+    color:                     var(--button-primary-text-disabled);
+    pointer-events: none;
+  }
+
+  /* Safari no soporta @property → fallback sin gradiente animado */
+  @supports (-webkit-hyphens: none) {
+    .button-primary {
+      background-image: none;
+      background-color: var(--button-primary-bg-fallback);
+      transition-property: color, border-color, background-color;
+    }
+    .button-primary:hover,
+    .button-primary[data-state=open] {
+      background-color: var(--button-primary-bg-hover-fallback);
+    }
+    .button-primary:active,
+    .button-primary[data-active=true] {
+      background-color: var(--button-primary-bg-active-fallback);
+    }
+    .button-primary:disabled {
+      background-color: var(--button-primary-bg-disabled-fallback);
+    }
+  }
+
+  /* ── Botón Outline ────────────────────────────────────────────────────────── */
+
+  .button-outline {
+    background:          var(--button-outline-bg);
+    border-color:        var(--button-outline-border);
+    color:               var(--button-outline-text);
+    transition-property: color, border-color, background;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+
+    --button-outline-bg:                   #ffffff;
+    --button-outline-border:               #cad0d9;
+    --button-outline-text:                 #2e3238;
+    --button-outline-bg-hover:             #ffffff;
+    --button-outline-border-hover:         #6f7988;
+    --button-outline-text-hover:           #2e3238;
+    --button-outline-bg-active:            #f3f4f6;
+    --button-outline-border-active:        #383e47;
+    --button-outline-text-active:          #232529;
+    --button-outline-bg-disabled:          #ffffff;
+    --button-outline-border-disabled:      #e4e7ec;
+    --button-outline-text-disabled:        #cad0d9;
+  }
+
+  .button-outline:hover,
+  .button-outline[data-state=open] {
+    background:    var(--button-outline-bg-hover);
+    border-color:  var(--button-outline-border-hover);
+    color:         var(--button-outline-text-hover);
+    transition-duration: 50ms;
+  }
+
+  .button-outline:active,
+  .button-outline[data-active=true] {
+    background:    var(--button-outline-bg-active);
+    border-color:  var(--button-outline-border-active);
+    color:         var(--button-outline-text-active);
+    transition-duration: 50ms;
+  }
+
+  .button-outline:disabled {
+    background:    var(--button-outline-bg-disabled);
+    border-color:  var(--button-outline-border-disabled);
+    color:         var(--button-outline-text-disabled);
+    pointer-events: none;
+  }
+
+  /* ── Botón Ghost ──────────────────────────────────────────────────────────── */
+
+  .button-ghost {
+    background:          transparent;
+    border-color:        transparent;
+    color:               var(--button-ghost-text);
+    transition-property: color, background;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+
+    --button-ghost-text:             #2e3238;
+    --button-ghost-bg-hover:         #f3f4f6;
+    --button-ghost-text-hover:       #232529;
+    --button-ghost-bg-active:        #edeff3;
+    --button-ghost-text-active:      #1c1d1f;
+    --button-ghost-text-disabled:    #cad0d9;
+  }
+
+  .button-ghost:hover,
+  .button-ghost[data-state=open] {
+    background: var(--button-ghost-bg-hover);
+    color:      var(--button-ghost-text-hover);
+    transition-duration: 50ms;
+  }
+
+  .button-ghost:active,
+  .button-ghost[data-active=true] {
+    background: var(--button-ghost-bg-active);
+    color:      var(--button-ghost-text-active);
+    transition-duration: 50ms;
+  }
+
+  .button-ghost:disabled {
+    color:          var(--button-ghost-text-disabled);
+    pointer-events: none;
+  }
+}
