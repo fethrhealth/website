@@ -141,7 +141,7 @@ export function Navbar() {
         {/* ── Logo ──────────────────────────────────────────────────────── */}
         <Link href="/" className="flex-shrink-0">
           <Image
-            src="/assets/logo.svg"
+            src="/assets/logos/logo.svg"
             alt="Fethr Health"
             width={96}
             height={28}

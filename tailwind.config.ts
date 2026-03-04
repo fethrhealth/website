@@ -126,6 +126,15 @@ const config: Config = {
         'stroke-strong':        '#cad0d9',        // white-800
         'stroke-accent':        '#709ff5',        // blue-400
 
+        // bg-primary-background — var(--internal-color-primary-background) = white-100
+        'primary-background':   '#ffffff',
+
+        // Aliases con el orden de palabras de attio.com (ej. text-subtle-stroke)
+        'weak-stroke':          '#edeff3',        // = stroke-weak   / white-400
+        'subtle-stroke':        '#e4e7ec',        // = stroke-subtle / white-500
+        'default-stroke':       '#d3d8df',        // = stroke-default / white-700
+        'strong-stroke':        '#cad0d9',        // = stroke-strong / white-800
+
         'fg-primary':           '#1c1d1f',        // black-100
         'fg-secondary':         '#232529',        // black-300
         'fg-tertiary':          '#505967',        // black-600

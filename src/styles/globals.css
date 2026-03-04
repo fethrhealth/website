@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    /* ── Spacing base (Tailwind v4 compat) — 1 unidad = 0.25rem = 4px ── */
+    --spacing: 0.25rem;
+
     /* ── Tema claro (principal) — valores extraídos de attio.com ── */
 
     /* Fondos */
@@ -45,6 +48,12 @@
 
     /* Radio base para shadcn */
     --radius: 0.5rem;                          /* radius-lg de attio */
+
+    /* Variables internas de attio (permiten pegar clases CSS de attio sin cambios) */
+    --internal-color-subtle-stroke:  #e4e7ec;   /* = stroke-subtle / white-500 */
+    --internal-color-default-stroke: #d3d8df;   /* = stroke-default / white-700 */
+    --internal-color-strong-stroke:  #cad0d9;   /* = stroke-strong / white-800 */
+    --internal-color-muted-strong-background: #d3d8df;
 
     /* Curvas de Bézier como variables CSS (usadas por componentes custom) */
     --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
@@ -92,6 +101,38 @@
 }
 
 @layer components {
+  /* Citas — copia exacta de attio.com
+   * TODO: añadir var(--font-tiempos-text) cuando tengamos la fuente */
+  .text-quote-responsive {
+    font-size: 1.5rem;
+    font-family: var(--font-tiempos-text, var(--font-inter), serif);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+
+  @media (min-width: 992px) {
+    .text-quote-responsive {
+      font-size: 1.75rem;
+      font-family: var(--font-tiempos-text, var(--font-inter), serif);
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+    }
+  }
+
+  .text-quote {
+    font-size: 1.75rem;
+    font-family: var(--font-tiempos-text, var(--font-inter), serif);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+
+  .text-quote-sm {
+    font-size: 1.5rem;
+    font-family: var(--font-tiempos-text, var(--font-inter), serif);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+
   /*
    * Subrayado animado — copiado exactamente de attio.com.
    * El gradient crece de 0% → 100% al hacer hover en el PADRE con clase `group`.
@@ -311,5 +352,116 @@
   .button-ghost:disabled {
     color:          var(--button-ghost-text-disabled);
     pointer-events: none;
+  }
+
+  .text-muted-strong-background {
+    color: var(--internal-color-muted-strong-background);
+  }
+}
+
+/* ─── Container — copia exacta de attio.com ──────────────────────────────────
+ * --spacing = 0.25rem (4px)
+ * --container-md → TODO: confirmar valor real de attio (:root en su CSS)
+ * ─────────────────────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding-inline: calc(var(--spacing) * 6);
+  margin-inline: auto;
+}
+
+@media not all and (min-width: 375px) {
+  .container {
+    padding-inline: calc(var(--spacing) * 4);
+  }
+}
+
+@media (min-width: 375px) {
+  .container {
+    max-width: var(--container-md);
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: calc(var(--spacing) * 156);  /* 39rem = 624px */
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: calc(var(--spacing) * 360);  /* 90rem = 1440px */
+  }
+}
+
+/* ─── TrialSection — tokens de color (light + dark) ──────────────────────────
+ * Para cambiar el tema edita SOLO estas variables.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.trial-section {
+  --trial-bg:         #FAFAFB;
+  --trial-border:     #E4E7EC;
+  --trial-hex-light:  #ffffff;
+  --trial-hex-muted:  #FAFAFB;
+  --trial-hex-stroke: #505967;
+  --trial-hatch:      #F3F4F6;
+  --trial-grid-line:  #EDEFF3;
+}
+
+.dark .trial-section {
+  --trial-bg:         #131416;
+  --trial-border:     #2a2d35;
+  --trial-hex-light:  #1c1d1f;
+  --trial-hex-muted:  #0f1012;
+  --trial-hex-stroke: #8f99a8;
+  --trial-hatch:      #2a2d35;
+  --trial-grid-line:  #2a2d35;
+}
+
+/* Grid de puntos del panel derecho */
+.trial-grid-bg {
+  background-image:
+    linear-gradient(to right,  var(--trial-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--trial-grid-line) 1px, transparent 1px);
+}
+
+/* Tipografía de headings — copia exacta de attio.com */
+@layer components {
+  .text-heading-responsive-md {
+    font-size: 2rem;        /* heading-sm */
+    line-height: 2.375rem;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  @media (min-width: 992px) {
+    .text-heading-responsive-md {
+      font-size: 2.5rem;    /* heading-md */
+      line-height: 2.75rem;
+    }
+  }
+
+  /* Attio: base = heading-md (2.5rem), desktop = heading-lg (3.5rem) */
+  .text-heading-responsive-lg {
+    font-size: 2.5rem;
+    line-height: 2.75rem;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  @media (min-width: 992px) {
+    .text-heading-responsive-lg {
+      font-size: 3.5rem;    /* heading-lg */
+      line-height: 3.75rem;
+      letter-spacing: -0.015em;
+    }
+  }
+
+  /* Serif accent — mismas dimensiones que heading-md, fuente serif */
+  .text-heading-md-serif {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    font-family: var(--font-tiempos-text, Georgia, serif);
   }
 }

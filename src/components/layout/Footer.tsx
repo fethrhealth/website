@@ -150,7 +150,7 @@ export default function Footer() {
           <div className="col-span-12 lg:col-span-4">
             <Link href="/" aria-label="Fethr Health home">
               <Image
-                src="/assets/logo.svg"
+                src="/assets/logos/logo.svg"
                 alt="Fethr Health"
                 width={103}
                 height={26}

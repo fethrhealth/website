@@ -10,7 +10,8 @@
       "Bash(npm config:*)",
       "Bash(/c/Users/jorge/OneDrive/Escritorio/fethr-website/create-pages.sh:*)",
       "Bash(npx tsc:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(python3:*)"
     ]
   }
 }
