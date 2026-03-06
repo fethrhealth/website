@@ -43,11 +43,14 @@ const config: Config = {
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT:    'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          foreground: 'hsl(vara(--primary-foreground))',
         },
         secondary: {
           DEFAULT:    'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
+        },
+        tertiary: {
+          foreground: 'hsl(var(--foreground-tertiary))',
         },
         destructive: {
           DEFAULT:    'hsl(var(--destructive))',
@@ -95,6 +98,7 @@ const config: Config = {
           900: '#b5bdc9',
         },
         blue: {
+          300: '#b3ccfe',    // light blue — focus ring
           400: '#709ff5',
           500: '#266df0',
           600: '#245bc2',
@@ -128,6 +132,8 @@ const config: Config = {
 
         // bg-primary-background — var(--internal-color-primary-background) = white-100
         'primary-background':   '#ffffff',
+        // bg-secondary-background — alias de background-secondary (orden de palabras de attio)
+        'secondary-background': '#fafafb',        // = white-200
 
         // Aliases con el orden de palabras de attio.com (ej. text-subtle-stroke)
         'weak-stroke':          '#edeff3',        // = stroke-weak   / white-400
@@ -200,6 +206,8 @@ const config: Config = {
       // ─── TRANSICIONES ──────────────────────────────────────
       transitionDuration: {
         DEFAULT: '150ms',
+        '50':  '50ms',
+        '400': '400ms',
       },
       transitionTimingFunction: {
         DEFAULT:         'cubic-bezier(0.4, 0, 0.2, 1)',

@@ -1,11 +1,20 @@
+import { FeatureTabsSection } from '@/components/sections/FeatureTabsSection'
+import { PlatformNavSection } from '@/components/sections/PlatformNavSection'
+import TrialSection from '@/components/sections/TrialSection'
+import Divider from '@/components/ui/divider'
+import { DATA_PAGE_TABS } from '@/data/feature-tabs'
+
 /**
  * Data page — /platform/data
- * TODO Phase 2: Implement pixel-perfect design.
  */
 export default function DataPage(): React.ReactElement {
   return (
     <main>
-      <h1>Data</h1>
+      <FeatureTabsSection {...DATA_PAGE_TABS} />
+      <Divider/>
+      <PlatformNavSection currentHref="/platform/data" />
+      <Divider/>
+      <TrialSection />
     </main>
   )
 }

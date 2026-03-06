@@ -50,10 +50,11 @@
     --radius: 0.5rem;                          /* radius-lg de attio */
 
     /* Variables internas de attio (permiten pegar clases CSS de attio sin cambios) */
-    --internal-color-subtle-stroke:  #e4e7ec;   /* = stroke-subtle / white-500 */
-    --internal-color-default-stroke: #d3d8df;   /* = stroke-default / white-700 */
-    --internal-color-strong-stroke:  #cad0d9;   /* = stroke-strong / white-800 */
-    --internal-color-muted-strong-background: #d3d8df;
+    --internal-color-caption-foreground: theme('colors.black.900');  /* = fg-caption / black-900 */
+    --internal-color-subtle-stroke:  theme('colors.white.500');   /* = stroke-subtle / white-500 */
+    --internal-color-default-stroke: theme('colors.white.700');   /* = stroke-default / white-700 */
+    --internal-color-strong-stroke:  theme('colors.white.800');   /* = stroke-strong / white-800 */
+    --internal-color-muted-strong-background: theme('colors.white.700');
 
     /* Curvas de Bézier como variables CSS (usadas por componentes custom) */
     --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
@@ -90,13 +91,13 @@
     @apply bg-border rounded-full;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #d3d8df;
+    background: theme('colors.white.700');
   }
 
   /* Selección de texto */
   ::selection {
-    background: #c8dcff;   /* blue-200 */
-    color: #1c1d1f;        /* black-100 */
+    background: #c8dcff;   /* blue-200 — no está en la paleta, se deja hardcoded */
+    color: theme('colors.black.100');
   }
 }
 
@@ -147,7 +148,7 @@
   .attio-group-hover-underline {
     paint-order: stroke fill;
     -webkit-text-stroke-width: 0.1em;
-    -webkit-text-stroke-color: #fff;       /* halo blanco para separar el underline de los descenders */
+    -webkit-text-stroke-color: theme('colors.white.100');  /* halo blanco para separar el underline de los descenders */
     mix-blend-mode: multiply;
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0 91%;
@@ -202,26 +203,26 @@
     transition-duration: 300ms;
     transition-timing-function: ease-in-out;
 
-    --button-primary-bg-from:              #202124;
-    --button-primary-bg-to:                #202124;
-    --button-primary-bg-fallback:          #202124;
-    --button-primary-border:               #505967;
-    --button-primary-text:                 #f3f4f6;
-    --button-primary-bg-hover-from:        #505967;
-    --button-primary-bg-hover-to:          #202124;
-    --button-primary-bg-hover-fallback:    #383e47;
-    --button-primary-border-hover:         #505967;
-    --button-primary-text-hover:           #ffffff;
-    --button-primary-bg-active-from:       #383e47;
-    --button-primary-bg-active-to:         #383e47;
-    --button-primary-bg-active-fallback:   #505967;
-    --button-primary-border-active:        #505967;
-    --button-primary-text-active:          #ffffff;
-    --button-primary-bg-disabled-from:     #b5bdc9;
-    --button-primary-bg-disabled-to:       #b5bdc9;
-    --button-primary-bg-disabled-fallback: #b5bdc9;
-    --button-primary-border-disabled:      #b5bdc9;
-    --button-primary-text-disabled:        #ffffff;
+    --button-primary-bg-from:              theme('colors.black.200');
+    --button-primary-bg-to:                theme('colors.black.200');
+    --button-primary-bg-fallback:          theme('colors.black.200');
+    --button-primary-border:               theme('colors.black.600');
+    --button-primary-text:                 theme('colors.white.300');
+    --button-primary-bg-hover-from:        theme('colors.black.600');
+    --button-primary-bg-hover-to:          theme('colors.black.200');
+    --button-primary-bg-hover-fallback:    theme('colors.black.500');
+    --button-primary-border-hover:         theme('colors.black.600');
+    --button-primary-text-hover:           theme('colors.white.100');
+    --button-primary-bg-active-from:       theme('colors.black.500');
+    --button-primary-bg-active-to:         theme('colors.black.500');
+    --button-primary-bg-active-fallback:   theme('colors.black.600');
+    --button-primary-border-active:        theme('colors.black.600');
+    --button-primary-text-active:          theme('colors.white.100');
+    --button-primary-bg-disabled-from:     theme('colors.white.900');
+    --button-primary-bg-disabled-to:       theme('colors.white.900');
+    --button-primary-bg-disabled-fallback: theme('colors.white.900');
+    --button-primary-border-disabled:      theme('colors.white.900');
+    --button-primary-text-disabled:        theme('colors.white.100');
   }
 
   .button-primary:hover,
@@ -280,18 +281,18 @@
     transition-duration: 300ms;
     transition-timing-function: ease-in-out;
 
-    --button-outline-bg:                   #ffffff;
-    --button-outline-border:               #cad0d9;
-    --button-outline-text:                 #2e3238;
-    --button-outline-bg-hover:             #ffffff;
-    --button-outline-border-hover:         #6f7988;
-    --button-outline-text-hover:           #2e3238;
-    --button-outline-bg-active:            #f3f4f6;
-    --button-outline-border-active:        #383e47;
-    --button-outline-text-active:          #232529;
-    --button-outline-bg-disabled:          #ffffff;
-    --button-outline-border-disabled:      #e4e7ec;
-    --button-outline-text-disabled:        #cad0d9;
+    --button-outline-bg:                   theme('colors.white.100');
+    --button-outline-border:               theme('colors.white.800');
+    --button-outline-text:                 theme('colors.black.400');
+    --button-outline-bg-hover:             theme('colors.white.100');
+    --button-outline-border-hover:         theme('colors.black.700');
+    --button-outline-text-hover:           theme('colors.black.400');
+    --button-outline-bg-active:            theme('colors.white.300');
+    --button-outline-border-active:        theme('colors.black.500');
+    --button-outline-text-active:          theme('colors.black.300');
+    --button-outline-bg-disabled:          theme('colors.white.100');
+    --button-outline-border-disabled:      theme('colors.white.500');
+    --button-outline-text-disabled:        theme('colors.white.800');
   }
 
   .button-outline:hover,
@@ -327,12 +328,12 @@
     transition-duration: 300ms;
     transition-timing-function: ease-in-out;
 
-    --button-ghost-text:             #2e3238;
-    --button-ghost-bg-hover:         #f3f4f6;
-    --button-ghost-text-hover:       #232529;
-    --button-ghost-bg-active:        #edeff3;
-    --button-ghost-text-active:      #1c1d1f;
-    --button-ghost-text-disabled:    #cad0d9;
+    --button-ghost-text:             theme('colors.black.400');
+    --button-ghost-bg-hover:         theme('colors.white.300');
+    --button-ghost-text-hover:       theme('colors.black.300');
+    --button-ghost-bg-active:        theme('colors.white.400');
+    --button-ghost-text-active:      theme('colors.black.100');
+    --button-ghost-text-disabled:    theme('colors.white.800');
   }
 
   .button-ghost:hover,
@@ -356,6 +357,15 @@
 
   .text-muted-strong-background {
     color: var(--internal-color-muted-strong-background);
+  }
+
+  /*
+   * BentoGridSection — dashed corner-frame decoration.
+   * --border-offset: how far the frame extends outside the card boundary.
+   * With gap-[1px] between cards, 0.5px centers the dashes in the gap.
+   */
+  .bento-frame {
+    --border-offset: 0.5px;
   }
 }
 
@@ -398,23 +408,23 @@
  * Para cambiar el tema edita SOLO estas variables.
  * ─────────────────────────────────────────────────────────────────────────── */
 .trial-section {
-  --trial-bg:         #FAFAFB;
-  --trial-border:     #E4E7EC;
-  --trial-hex-light:  #ffffff;
-  --trial-hex-muted:  #FAFAFB;
-  --trial-hex-stroke: #505967;
-  --trial-hatch:      #F3F4F6;
-  --trial-grid-line:  #EDEFF3;
+  --trial-bg:         theme('colors.white.200');
+  --trial-border:     theme('colors.white.500');
+  --trial-hex-light:  theme('colors.white.100');
+  --trial-hex-muted:  theme('colors.white.200');
+  --trial-hex-stroke: theme('colors.black.600');
+  --trial-hatch:      theme('colors.white.300');
+  --trial-grid-line:  theme('colors.white.400');
 }
 
 .dark .trial-section {
-  --trial-bg:         #131416;
-  --trial-border:     #2a2d35;
-  --trial-hex-light:  #1c1d1f;
-  --trial-hex-muted:  #0f1012;
-  --trial-hex-stroke: #8f99a8;
-  --trial-hatch:      #2a2d35;
-  --trial-grid-line:  #2a2d35;
+  --trial-bg:         #131416;            /* fuera de paleta — se deja hardcoded */
+  --trial-border:     #2a2d35;            /* fuera de paleta — se deja hardcoded */
+  --trial-hex-light:  theme('colors.black.100');
+  --trial-hex-muted:  #0f1012;            /* fuera de paleta — se deja hardcoded */
+  --trial-hex-stroke: theme('colors.black.800');
+  --trial-hatch:      #2a2d35;            /* fuera de paleta — se deja hardcoded */
+  --trial-grid-line:  #2a2d35;            /* fuera de paleta — se deja hardcoded */
 }
 
 /* Grid de puntos del panel derecho */
@@ -440,6 +450,21 @@
     }
   }
 
+  /* Attio: base = heading-xs (1.75rem), desktop = heading-sm (2rem) @ 1200px */
+  .text-heading-responsive-sm {
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  @media (min-width: 1200px) {
+    .text-heading-responsive-sm {
+      font-size: 2rem;      /* heading-sm */
+      line-height: 2.375rem;
+    }
+  }
+
   /* Attio: base = heading-md (2.5rem), desktop = heading-lg (3.5rem) */
   .text-heading-responsive-lg {
     font-size: 2.5rem;
@@ -454,6 +479,23 @@
       line-height: 3.75rem;
       letter-spacing: -0.015em;
     }
+  }
+
+  /*
+   * Overline — etiqueta pequeña en mayúsculas (ej. "01 / App partners").
+   * Extraído de attio.com. Usa --font-inter (no tenemos inter-display separado).
+   * color → --internal-color-caption-foreground = fg-caption / black-900 / #a4adba
+   */
+  .text-overline {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--internal-color-caption-foreground);
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "calt" on;
   }
 
   /* Serif accent — mismas dimensiones que heading-md, fuente serif */

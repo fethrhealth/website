@@ -4,71 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-interface TestimonialFeature {
-  label: string
-}
-
-interface Testimonial {
-  id: string
-  name: string
-  title: string
-  company: string
-  avatarSrc: string
-  logoSrc: string
-  logoWidth: number
-  logoHeight: number
-  quote: string
-  features: TestimonialFeature[]
-}
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-// Avatares → public/assets/images/testimonials/[id]-avatar.png
-// Logos   → public/assets/logos/testimonials/[id].svg
-
-const TESTIMONIALS: Testimonial[] = [
-  {
-    id: 'bravado',
-    name: 'Sahil Mansuri',
-    title: 'CEO & Co-founder',
-    company: 'Bravado',
-    avatarSrc: '/assets/images/testimonials/bravado-avatar.png',
-    logoSrc: '/assets/logos/testimonials/bravado.svg',
-    logoWidth: 168,
-    logoHeight: 36,
-    quote:
-      '"Fethr is the first healthcare CRM that feels truly modern. It\'s powerful, flexible, and fast to build with. There\'s nothing like it on the market."',
-    features: [{ label: 'Workflows' }, { label: 'Deals' }, { label: 'Reports' }],
-  },
-  {
-    id: 'flatfile',
-    name: 'David Boskovic',
-    title: 'CEO & Founder',
-    company: 'Flatfile',
-    avatarSrc: '/assets/images/testimonials/flatfile-avatar.png',
-    logoSrc: '/assets/logos/testimonials/flatfile.svg',
-    logoWidth: 124,
-    logoHeight: 36,
-    quote:
-      '"We tried five different CRMs before Fethr. Nothing came close to this level of flexibility and automation for our healthcare workflows."',
-    features: [{ label: 'Custom objects' }, { label: 'Integrations' }, { label: 'Reports' }],
-  },
-  {
-    id: 'snackpass',
-    name: 'Jamie Marshall',
-    title: 'COO & Co-founder',
-    company: 'Snackpass',
-    avatarSrc: '/assets/images/testimonials/snackpass-avatar.png',
-    logoSrc: '/assets/logos/testimonials/snackpass.svg',
-    logoWidth: 158,
-    logoHeight: 36,
-    quote:
-      '"Fethr completely replaced our spreadsheets and three other tools. Our patient outreach is now automated and our team saves hours every week."',
-    features: [{ label: 'Lists' }, { label: 'Workflows' }, { label: 'API' }],
-  },
-]
+import { HOME_TESTIMONIALS, type Testimonial } from '@/data/testimonials'
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -231,14 +167,18 @@ function TestimonialCard({
 
           {/* Company logo — desktop only */}
           <div className="mx-11 mb-8 hidden h-9 w-full shrink-0 items-center lg:flex xl:mb-12">
-            <Image
-              src={t.logoSrc}
-              alt={t.company}
-              width={t.logoWidth}
-              height={t.logoHeight}
-              className="h-9 w-fit shrink-0"
-              style={{ fill: '#2e3238' }}
-            />
+            {t.logoSrc ? (
+              <Image
+                src={t.logoSrc}
+                alt={t.company}
+                width={t.logoWidth ?? 168}
+                height={t.logoHeight ?? 36}
+                className="h-9 w-fit shrink-0"
+                style={{ fill: '#2e3238' }}
+              />
+            ) : (
+              <h2 className="w-fit shrink-0 whitespace-nowrap text-overline">{t.logoText}</h2>
+            )}
           </div>
 
           {/* Quote + attribution */}
@@ -272,13 +212,17 @@ function TestimonialCard({
 
           {/* Company logo — mobile bottom bar */}
           <div className="absolute inset-x-0 bottom-0 flex h-[60px] w-full items-center justify-start px-5 lg:hidden">
-            <Image
-              src={t.logoSrc}
-              alt={t.company}
-              width={t.logoWidth}
-              height={24}
-              className="h-6 w-auto"
-            />
+            {t.logoSrc ? (
+              <Image
+                src={t.logoSrc}
+                alt={t.company}
+                width={t.logoWidth ?? 168}
+                height={24}
+                className="h-6 w-auto"
+              />
+            ) : (
+              <h2 className="w-fit shrink-0 whitespace-nowrap text-overline">{t.logoText}</h2>
+            )}
           </div>
         </div>
       </div>
@@ -288,7 +232,7 @@ function TestimonialCard({
 
 // ─── Main section ─────────────────────────────────────────────────────────────
 
-export default function TestimonialsSection() {
+export function TestimonialsSection({ items = HOME_TESTIMONIALS }: { items?: Testimonial[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
@@ -298,9 +242,9 @@ export default function TestimonialsSection() {
         {/* Mobile top decorative border */}
         <div className="h-5 border-[#E4E7EC] border-x border-b lg:hidden" />
 
-        {/* Cards wrapper — reversed on desktop so first card appears rightmost */}
+        {/* Cards wrapper — first item in array = leftmost = active by default */}
         <div className="flex flex-col items-stretch border-[#E4E7EC] border-x lg:flex-row-reverse">
-          {TESTIMONIALS.map((t, i) => (
+          {items.map((t, i) => (
             <div key={t.id} className="contents">
               <TestimonialCard
                 t={t}
@@ -308,7 +252,7 @@ export default function TestimonialsSection() {
                 onActivate={() => setActiveIndex(i)}
               />
               {/* Separator — horizontal on mobile, vertical on desktop, hidden after last */}
-              {i < TESTIMONIALS.length - 1 && (
+              {i < items.length - 1 && (
                 <div className="h-px shrink-0 bg-[#E4E7EC] lg:h-auto lg:w-px" />
               )}
             </div>

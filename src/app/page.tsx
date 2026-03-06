@@ -1,4 +1,4 @@
-import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import TrialSection from '@/components/sections/TrialSection'
 import SecuritySection from '@/components/sections/SecuritySection'
 import { CtaSection } from '@/components/sections/CtaSection'
@@ -12,7 +12,7 @@ export default function HomePage(): React.ReactElement {
   return (
     <main>
       <TrialSection />
-      <TestimonialsSection />
+      <TestimonialsSection/>
       <SecuritySection />
       <Divider />
       <CtaSection />
