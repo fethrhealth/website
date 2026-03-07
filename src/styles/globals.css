@@ -38,7 +38,7 @@
     --secondary:             220 16% 94%;      /* white-400 */
     --secondary-foreground:  225 6% 11%;       /* black-100 */
     --accent:                220 16% 94%;      /* white-400 */
-    --accent-foreground:     225 6% 11%;       /* black-100 */
+    --accent-foreground:     216 10% 48%;      /* black-700 #6f7988 */
     --destructive:           1 100% 67%;       /* red-500 #ff5b59 */
     --destructive-foreground:0 0% 100%;
 
@@ -50,6 +50,7 @@
     --radius: 0.5rem;                          /* radius-lg de attio */
 
     /* Variables internas de attio (permiten pegar clases CSS de attio sin cambios) */
+    --internal-color-accent-foreground:  theme('colors.black.700');  /* = fg-accent  / black-700 #6f7988 */
     --internal-color-caption-foreground: theme('colors.black.900');  /* = fg-caption / black-900 */
     --internal-color-subtle-stroke:  theme('colors.white.500');   /* = stroke-subtle / white-500 */
     --internal-color-default-stroke: theme('colors.white.700');   /* = stroke-default / white-700 */
