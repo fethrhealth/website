@@ -9,13 +9,19 @@ export const metadata: Metadata = {
 }
 
 async function getPosts(): Promise<BlogPost[]> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/blog-posts?where[status][equals]=published&sort=-publishDate&depth=1&limit=100`,
-    { next: { revalidate: 60 } },
-  )
-  if (!res.ok) return []
-  const data = (await res.json()) as { docs: BlogPost[] }
-  return data.docs
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
+  if (!baseUrl) return []
+  try {
+    const res = await fetch(
+      `${baseUrl}/api/blog-posts?where[status][equals]=published&sort=-publishDate&depth=1&limit=100`,
+      { next: { revalidate: 60 } },
+    )
+    if (!res.ok) return []
+    const data = (await res.json()) as { docs: BlogPost[] }
+    return data.docs
+  } catch {
+    return []
+  }
 }
 
 export default async function BlogPage(): Promise<React.ReactElement> {
