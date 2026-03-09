@@ -7,7 +7,7 @@ import { ScrollAccordionSection } from '@/components/sections/ScrollAccordionSec
 import TrialSection from '@/components/sections/TrialSection'
 import Divider from '@/components/ui/divider'
 import { DATA_PAGE_TABS } from '@/data/feature-tabs'
-import { DATA_GRID_ITEMS, DATA_GRID_QUOTE, DATA_SOURCES_ITEMS } from '@/data/platform-data'
+import { DATA_ENRICHMENT_ITEMS, DATA_GRID_ITEMS, DATA_GRID_QUOTE, DATA_SOURCES_ITEMS } from '@/data/platform-data'
 
 /**
  * Data page — /platform/data
@@ -26,7 +26,11 @@ export default function DataPage(): React.ReactElement {
         quote={DATA_GRID_QUOTE}
       />
       <DataContextSection />
-      <EnrichmentSection />
+      <EnrichmentSection
+        heading="Automatic enrichment, automatic advantage."
+        subheading="Get the context you need for every prospect, automatically drawn from 100s of sources and pre-analyzed by AI."
+        items={DATA_ENRICHMENT_ITEMS}
+      />
       <Divider/>
       <ScrollAccordionSection
         heading='Unify your data sources.'

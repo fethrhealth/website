@@ -3,7 +3,8 @@
  */
 
 import type { NumberedGridItem, FeatureGridQuote } from '@/components/sections/FeatureGridSection'
-import { ScrollAccordionItem } from '@/components/sections/ScrollAccordionSection'
+import type { ScrollAccordionItem } from '@/components/sections/ScrollAccordionSection'
+import type { EnrichmentItem } from '@/components/sections/EnrichmentSection'
 
 // ─── Numbered grid (2-col, dot bg) ────────────────────────────────────────────
 
@@ -52,6 +53,37 @@ export const DATA_GRID_QUOTE: FeatureGridQuote = {
   role: 'Head of Business Operations · Modal',
 }
 
+
+// ─── Enrichment grid (3-col, image cards) ─────────────────────────────────────
+
+export const DATA_ENRICHMENT_ITEMS: EnrichmentItem[] = [
+  {
+    id: 'enr1',
+    image: '/assets/images/platform/data/enrichment/record-enriched.webp',
+    imageWidth: 1472,
+    imageHeight: 1008,
+    title: 'Every record, enriched.',
+    description: 'Revenue to location, employee count, company size, and more.',
+  },
+  {
+    id: 'enr2',
+    image: '/assets/images/platform/data/enrichment/customer-conversations.webp',
+    imageWidth: 1820,
+    imageHeight: 1820,
+    title: 'Customer conversations in context.',
+    description: 'Your team gets live customer context from every email, meeting, record, and more.',
+  },
+  {
+    id: 'enr3',
+    image: '/assets/images/platform/data/enrichment/data-powered.webp',
+    imageWidth: 2000,
+    imageHeight: 2000,
+    title: 'Data-powered workflows.',
+    description: 'Automate your go-to-market decisions based on the most reliable dataset in the industry.',
+  },
+]
+
+// ─── Scroll accordion (data sources) ──────────────────────────────────────────
 
 export const DATA_SOURCES_ITEMS: ScrollAccordionItem[] = [
   {
