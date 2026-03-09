@@ -17,11 +17,7 @@ export const metadata: Metadata = {
   description: 'Fethr Health — healthcare data platform.',
 }
 
-interface RootLayoutProps {
-  children: React.ReactNode
-}
-
-export default function RootLayout({ children }: RootLayoutProps): React.ReactElement {
+export default function SiteLayout({ children }: { children: React.ReactNode }): React.ReactElement {
   return (
     <html lang="en" className={inter.variable}>
       <body className="bg-background text-foreground antialiased">

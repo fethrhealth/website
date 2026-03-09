@@ -11,7 +11,13 @@
       "Bash(/c/Users/jorge/OneDrive/Escritorio/fethr-website/create-pages.sh:*)",
       "Bash(npx tsc:*)",
       "mcp__ide__getDiagnostics",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:payloadcms.com)",
+      "Bash(cat:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)"
     ]
   }
 }

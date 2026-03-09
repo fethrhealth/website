@@ -176,6 +176,26 @@ const config: Config = {
         },
       },
 
+      // ─── CUSTOM SPACING ────────────────────────────────────
+      spacing: {
+        '3.25': '0.8125rem', // px-3.25 — attio button horizontal padding
+        '15': '3.75rem',     // h-15 / w-15 etc. — used by attio spacers
+        '25': '6.25rem',     // h-25
+        '30': '7.5rem',      // h-30
+      },
+
+      // ─── CUSTOM GRIDS ───────────────────────────────────────
+      gridTemplateColumns: {
+        '8':  'repeat(8, minmax(0, 1fr))',
+        '16': 'repeat(16, minmax(0, 1fr))',
+        '24': 'repeat(24, minmax(0, 1fr))',
+      },
+
+      // ─── LINE HEIGHT ────────────────────────────────────────
+      lineHeight: {
+        '6.5': '1.625rem',  // leading-6.5 — blog body line height (attio)
+      },
+
       // ─── BORDER RADIUS ─────────────────────────────────────
       borderRadius: {
         lg: 'var(--radius)',

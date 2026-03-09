@@ -5,6 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { BlogPosts } from '@/collections/BlogPosts'
 import { Media } from '@/collections/Media'
+import { Users } from '@/collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,8 +23,8 @@ export default buildConfig({
     },
   },
 
-  // Collections — blog + media only
-  collections: [BlogPosts, Media],
+  // Collections — blog + media + auth
+  collections: [BlogPosts, Media, Users],
 
   editor: lexicalEditor(),
 

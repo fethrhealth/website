@@ -507,4 +507,31 @@
     font-weight: 400;
     font-family: var(--font-tiempos-text, Georgia, serif);
   }
+
+  /* Site header height — used for sticky ToC offset */
+  :root {
+    --site-header-height: 60px;
+  }
+
+  /* Blog article prose — applied to the Lexical content wrapper */
+  .blog-prose > * + * { margin-top: 1.25rem; }
+  .blog-prose h2 + * { margin-top: 1.25rem; }
+  .blog-prose h3 + * { margin-top: 0.625rem; }
+  .blog-prose h2:not(:first-child) { margin-top: 3.75rem; }
+  .blog-prose h3:not(:first-child) { margin-top: 3.75rem; }
+  .blog-prose h2:not(:last-child)  { margin-bottom: 1.25rem; }
+  .blog-prose h3:not(:last-child)  { margin-bottom: 0.5rem; }
+  @media (min-width: 992px) {
+    .blog-prose h2:not(:first-child) { margin-top: 5rem; }
+    .blog-prose h3:not(:first-child) { margin-top: 5rem; }
+  }
+
+  /* Hide scrollbar while keeping scroll functionality — used by blog category sidebar on mobile */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }

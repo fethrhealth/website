@@ -59,6 +59,14 @@ export const BlogPosts: CollectionConfig = {
       label: 'Author',
     },
     {
+      name: 'authorRole',
+      type: 'text',
+      label: 'Author Role',
+      admin: {
+        description: 'E.g. "Product Marketing", "CEO & Co-founder"',
+      },
+    },
+    {
       name: 'publishDate',
       type: 'date',
       label: 'Publish Date',

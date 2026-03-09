@@ -215,7 +215,7 @@ export function PageHero({
                   {primaryCta && secondaryCta && (
                     <Link
                       href={secondaryCta.href}
-                      className="button-outline relative inline-flex cursor-pointer items-center justify-center rounded-[10px] px-3 text-sm h-9 max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+                      className="button-outline border relative inline-flex cursor-pointer items-center justify-center rounded-[10px] px-3 text-sm h-9 max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                     >
                       {secondaryCta.label}
                     </Link>
