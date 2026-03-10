@@ -1,4 +1,5 @@
 import { DataContextSection } from '@/components/sections/DataContextSection'
+import { DataHeroSection } from '@/components/sections/DataHeroSection'
 import { EnrichmentSection } from '@/components/sections/EnrichmentSection'
 import { FeatureGridSection } from '@/components/sections/FeatureGridSection'
 import { FeatureTabsSection } from '@/components/sections/FeatureTabsSection'
@@ -15,6 +16,8 @@ import { DATA_ENRICHMENT_ITEMS, DATA_GRID_ITEMS, DATA_GRID_QUOTE, DATA_SOURCES_I
 export default function DataPage(): React.ReactElement {
   return (
     <main>
+      <DataHeroSection />
+      <Divider />
       <FeatureGridSection
         heading='Blazingly fast, amazingly flexible.'
         subheading='Create the exact data model your business needs with custom objects.'

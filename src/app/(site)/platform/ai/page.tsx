@@ -1,3 +1,4 @@
+import { AiHeroSection } from "@/components/sections/AiHeroSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
 import { EnrichmentSection } from "@/components/sections/EnrichmentSection";
 import { FeatureGridSection } from "@/components/sections/FeatureGridSection";
@@ -14,6 +15,7 @@ import { ITEMS, SMARTER_CALLS, AUTONOMOUS_WORK, ASK_ATTIO_ITEMS, ASK_ATTIO_QUOTE
 export default function AIPage(): React.ReactElement {
   return (
     <main>
+      <AiHeroSection />
       <CompaniesSection/>
       <Divider/>
       <FeatureGridSection
