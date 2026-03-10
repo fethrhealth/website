@@ -332,8 +332,9 @@ export function Navbar() {
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 h-[60px] transition-all duration-150',
+        'border-b border-subtle-stroke',
         isScrolled
-          ? 'bg-background/95 backdrop-blur-md border-b border-subtle-stroke shadow-sm'
+          ? 'bg-background/95 backdrop-blur-md shadow-sm'
           : 'bg-transparent',
       )}
     >

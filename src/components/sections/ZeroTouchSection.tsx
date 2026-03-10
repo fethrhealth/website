@@ -324,8 +324,8 @@ function InfiniteScrollContacts() {
       <div
         className="absolute inset-x-3 inset-y-8 overflow-hidden"
         style={{
-          maskImage:
-            "linear-gradient(to bottom, transparent, transparent 10%, black 40%, black 65%, transparent 88%, transparent)",
+          maskImage: "linear-gradient(to bottom, black 65%, transparent 88%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 65%, transparent 88%)",
         }}
       >
         <div className="animate-scroll-up flex flex-col">

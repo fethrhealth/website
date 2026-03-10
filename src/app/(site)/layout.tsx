@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Lora } from 'next/font/google'
 import '@/styles/globals.css'
 import { Navbar } from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
+import { ClientFooter } from '@/components/layout/ClientFooter'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,7 +28,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }):
       <body className="bg-background text-foreground antialiased">
         <Navbar />
         <main className="pt-[60px]">{children}</main>
-        <Footer />
+        <ClientFooter />
       </body>
     </html>
   )
