@@ -491,6 +491,22 @@
     }
   }
 
+  /* Serif variant — mismos tamaños que text-heading-responsive-md, fuente serif */
+  .text-heading-responsive-md-serif {
+    font-size: 2rem;
+    line-height: 2.375rem;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+    font-family: var(--font-lora), Georgia, serif;
+  }
+
+  @media (min-width: 992px) {
+    .text-heading-responsive-md-serif {
+      font-size: 2.5rem;
+      line-height: 2.75rem;
+    }
+  }
+
   /*
    * Overline — etiqueta pequeña en mayúsculas (ej. "01 / App partners").
    * Extraído de attio.com. Usa --font-inter (no tenemos inter-display separado).

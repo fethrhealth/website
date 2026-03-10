@@ -365,7 +365,7 @@ export function AiHeroSection() {
               flex center → aspect-square container → gradient+canvas grid (stacked)
               + absolute inset-0 overlay for the cards
           */}
-          <div className="ai-hero-gradient-animate relative w-full overflow-hidden rounded-2xl bg-white">
+          <div className="ai-hero-gradient-animate relative w-full overflow-hidden rounded-2xl bg-white-0">
             <div className="relative flex w-full items-center justify-center">
 
               {/* Square canvas area — matches attio's aspect-square lg:w-[586px] */}

@@ -374,7 +374,7 @@ export function CtaSection() {
                   type="email"
                   name="email"
                   placeholder="Your email address"
-                  className="block w-full rounded-[10px] border border-default-stroke bg-white p-[10px_13px] text-base text-gray-700 placeholder:text-gray-400 outline-none transition-all duration-300 ease-out focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300"
+                  className="block w-full rounded-[10px] border border-default-stroke bg-white-0 p-[10px_13px] text-base text-gray-700 placeholder:text-gray-400 outline-none transition-all duration-300 ease-out focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300"
                 />
                 <button
                   type="submit"

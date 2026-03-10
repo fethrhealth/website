@@ -8,8 +8,9 @@ const config: Config = {
 
       // ─── FUENTES ───────────────────────────────────────────
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains-mono)', 'monospace'],
+        sans:  ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        mono:  ['var(--font-jetbrains-mono)', 'monospace'],
+        serif: ['var(--font-lora)', 'Georgia', 'serif'],
       },
 
       // ─── TIPOGRAFÍA ────────────────────────────────────────
@@ -75,6 +76,7 @@ const config: Config = {
 
         // ─── PALETA DE PRIMITIVOS (extraídos de attio.com) ───
         black: {
+          0:   '#000000',        // black-0  — negro puro (Attio dark:bg-black-0)
           50:  '#101113',
           100: '#1c1d1f',
           200: '#202124',
@@ -228,6 +230,7 @@ const config: Config = {
         DEFAULT: '150ms',
         '50':  '50ms',
         '400': '400ms',
+        '600': '600ms',
       },
       transitionTimingFunction: {
         DEFAULT:         'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -259,12 +262,17 @@ const config: Config = {
           from: { opacity: '1', transform: 'scale(1)' },
           to:   { opacity: '0', transform: 'scale(0.95)' },
         },
+        'scroll-up': {
+          from: { transform: 'translateY(0)' },
+          to:   { transform: 'translateY(-50%)' },
+        },
       },
       animation: {
         'slide-down':  'slideDown 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
         'slide-up':    'slideUp 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
         'dialog-in':   'dialog-scale-in 0.15s cubic-bezier(0.2, 0, 0, 1)',
         'dialog-out':  'dialog-scale-out 0.15s cubic-bezier(0.2, 0, 0, 1)',
+        'scroll-up':   'scroll-up 18s linear infinite',
       },
     },
   },
