@@ -4,15 +4,63 @@
  * Reusable feature grid used on multiple platform pages.
  * Supports two card variants and configurable layout/style options.
  *
- * Card variants:
- *   'icon'     — small icon + title + description (3-col, solid rules, hatching bg)
- *   'numbered' — [01] overline + image + title + description (2-col, dashed rules, dots bg)
+ * ── Card variants ──────────────────────────────────────────────────────────────
  *
- * Usage examples:
- *   <FeatureGridSection heading="..." subheading="..." items={ICON_ITEMS} />
- *   <FeatureGridSection cols={2} background="dots" rules="dashed" guideLines items={NUMBERED_ITEMS} quote={QUOTE} bottomConnector />
+ *   'icon'
+ *     Small icon + title + description.
+ *     Intended for 3-column layouts with solid rules and hatching background.
+ *
+ *   'numbered'
+ *     [01] overline + visual slot + title + description.
+ *     Intended for 2-column layouts with dashed rules and dot-grid background.
+ *
+ *     The visual slot accepts EITHER:
+ *       • image / imageWidth / imageHeight  — a static Next.js <Image>
+ *       • visual                            — any React node (Framer Motion
+ *           animation, custom SVG, etc.). The node is rendered inside an
+ *           aspect-[5/3] container with position:relative, so your component
+ *           should use `className="absolute inset-0 size-full"` to fill it.
+ *
+ * ── Usage examples ─────────────────────────────────────────────────────────────
+ *
+ *   // Static image card
+ *   const ITEMS: NumberedGridItem[] = [
+ *     {
+ *       kind: 'numbered',
+ *       number: '[01]',
+ *       image: '/assets/images/bento-1.png',
+ *       imageWidth: 2164,
+ *       imageHeight: 902,
+ *       title: 'Track the journey.',
+ *       description: 'See who progresses through each step.',
+ *     },
+ *   ]
+ *
+ *   // Animation card — pass a React component as `visual`
+ *   const ITEMS: NumberedGridItem[] = [
+ *     {
+ *       kind: 'numbered',
+ *       number: '[04]',
+ *       visual: SmartSendingAnimation,   // ← pass the function, NOT <Jsx />
+ *       title: 'Smart sending.',
+ *       description: 'Land in their inbox when they\'re ready.',
+ *     },
+ *   ]
+ *
+ *   // Section usage
+ *   <FeatureGridSection
+ *     heading="Every interaction in Fethr."
+ *     subheading="Track enrollment, replies, meetings, and status for every contact."
+ *     cols={2}
+ *     background="dots"
+ *     rules="dashed"
+ *     guideLines
+ *     items={ITEMS}
+ *     bottomConnector
+ *   />
  */
 
+import { createElement, type ComponentType } from 'react'
 import Image from 'next/image'
 import Divider from '../ui/divider'
 
@@ -25,15 +73,25 @@ export interface IconGridItem {
   description: string
 }
 
-export interface NumberedGridItem {
+/**
+ * Visual slot for NumberedGridItem — mutually exclusive:
+ *   • Provide `image` + `imageWidth` + `imageHeight` for a static photo/screenshot.
+ *   • Provide `visual` for a zero-prop React component (Framer Motion animation,
+ *     custom SVG, etc.). Pass the component function itself — NOT pre-rendered JSX.
+ *     Example: `visual: MyAnimation`  (not `visual: <MyAnimation />`)
+ *     The component renders inside an aspect-[5/3] relative container — use
+ *     `className="absolute inset-0 size-full"` inside your component to fill it.
+ */
+type NumberedGridVisual =
+  | { image: string; imageWidth: number; imageHeight: number; visual?: never }
+  | { visual: ComponentType; image?: never; imageWidth?: never; imageHeight?: never }
+
+export type NumberedGridItem = {
   kind: 'numbered'
-  number: string        // e.g. '[01]'
-  image: string
-  imageWidth: number
-  imageHeight: number
+  number: string   // e.g. '[01]'
   title: string
   description: string
-}
+} & NumberedGridVisual
 
 export type FeatureGridItem = IconGridItem | NumberedGridItem
 
@@ -143,16 +201,23 @@ function NumberedCard({ item }: { item: NumberedGridItem }) {
     <div className="grid grid-cols-12 bg-primary-background">
       <div className="col-[2/-2] flex flex-col gap-4 py-7">
         <span className="text-overline text-accent-foreground">{item.number}</span>
+
+        {/* Visual slot — static image or custom animation component */}
         <div className="relative aspect-[5/3] w-full">
-          <Image
-            src={item.image}
-            alt=""
-            width={item.imageWidth}
-            height={item.imageHeight}
-            loading="eager"
-            className="absolute inset-0 size-full object-contain"
-          />
+          {item.visual ? (
+            createElement(item.visual)
+          ) : (
+            <Image
+              src={item.image}
+              alt=""
+              width={item.imageWidth}
+              height={item.imageHeight}
+              loading="eager"
+              className="absolute inset-0 size-full object-contain"
+            />
+          )}
         </div>
+
         <div>
           <h3 className="text-balance font-semibold text-lg text-secondary-foreground lg:max-xl:text-base max-md:text-base">
             {item.title}

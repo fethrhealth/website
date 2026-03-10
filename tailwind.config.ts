@@ -89,6 +89,7 @@ const config: Config = {
           900: '#a4adba',
         },
         white: {
+          0:   '#ffffff',        // white-0 — blanco puro (par de black-0)
           100: '#ffffff',
           200: '#fafafb',
           300: '#f3f4f6',

@@ -1,3 +1,4 @@
+import { FeatureGridSection } from "@/components/sections/FeatureGridSection";
 import { FeaturePreviewSection } from "@/components/sections/FeaturePreviewSection";
 import { PlatformNavSection } from "@/components/sections/PlatformNavSection";
 import { QuoteSection } from "@/components/sections/QuoteSection";
@@ -5,7 +6,7 @@ import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSec
 import TrialSection from "@/components/sections/TrialSection";
 import { ZeroTouchSection } from "@/components/sections/ZeroTouchSection";
 import Divider from "@/components/ui/divider";
-import { HANDWRITTEN_WARMTH_ITEMS } from "@/data/platform-sequences"
+import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-sequences"
 
 /**
  * Sequences page — /platform/sequences
@@ -26,17 +27,28 @@ export default function SequencesPage(): React.ReactElement {
         author="Margaret Shen"
         role="Head of Patient Operations · Modal"
       />
-      <Divider/>
+      <Divider />
       <ZeroTouchSection
         heading="Zero-touch follow-ups."
         subheading="Fethr keeps patients moving forward while your team focuses on care."
       />
-      <Divider/>
+      <Divider />
       <ScrollAccordionSection
         heading='Handwritten warmth.'
         subheading='Every touch feels 1-to-1, even when juggling 100 accounts.'
         items={HANDWRITTEN_WARMTH_ITEMS}
       />
+      <Divider />
+      <FeatureGridSection
+        heading='Every interaction in Attio.'
+        subheading='Track enrollment, replies, meetings, and status for every contact.'
+        cols={2}
+        background='dots'
+        rules='dashed'
+        guideLines
+        items={INTERACTION_ITEMS}
+      />
+      <Divider />
       <PlatformNavSection currentHref="/platform/sequences" />
       <TrialSection />
     </main>

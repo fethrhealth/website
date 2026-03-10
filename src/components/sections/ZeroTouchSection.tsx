@@ -81,7 +81,7 @@ function SignalEnrollmentAnimation() {
         </div>
 
         {/* Card 2 – enrolled */}
-        <div className="relative w-full rounded-xl border border-[#e4e7ec] bg-white px-3 py-2.5 shadow-[0_0_2px_rgba(28,40,64,0.12),0_1px_3px_rgba(24,41,75,0.04)]">
+        <div className="relative w-full rounded-xl border border-[#e4e7ec] bg-white-0 px-3 py-2.5 shadow-[0_0_2px_rgba(28,40,64,0.12),0_1px_3px_rgba(24,41,75,0.04)]">
           <div className="mb-0.5 flex items-center gap-2">
             <span className="size-2 shrink-0 rounded-full bg-[#0fc27b]" />
             <p className="text-[11px] font-semibold text-[#232529]">Enrolled in onboarding</p>
@@ -110,7 +110,7 @@ function CursorBadge({ color, label, uid }: { color: string; label: string; uid:
   const r = (parseInt(color.slice(1, 3), 16) / 255).toFixed(4)
   const g = (parseInt(color.slice(3, 5), 16) / 255).toFixed(4)
   const b = (parseInt(color.slice(5, 7), 16) / 255).toFixed(4)
-  const cm8  = `0 0 0 0 ${r} 0 0 0 0 ${g} 0 0 0 0 ${b} 0 0 0 0.08 0`
+  const cm8 = `0 0 0 0 ${r} 0 0 0 0 ${g} 0 0 0 0 ${b} 0 0 0 0.08 0`
   const cm12 = `0 0 0 0 ${r} 0 0 0 0 ${g} 0 0 0 0 ${b} 0 0 0 0.12 0`
 
   return (
@@ -195,9 +195,9 @@ interface ProviderBadge {
 }
 
 const PROVIDER_BADGES: ProviderBadge[] = [
-  { label: "John",  team: "Support", color: "#0DA669", angle: 30  },
-  { label: "Ethan", team: "Sales",   color: "#F97316", angle: 150 },
-  { label: "Roza",  team: "Product", color: "#9162F9", angle: 240 },
+  { label: "John", team: "Support", color: "#0DA669", angle: 30 },
+  { label: "Ethan", team: "Product", color: "#F97316", angle: 120 },
+  { label: "Roza", team: "Sales", color: "#9162F9", angle: 250 },
 ]
 
 const OUTER_R = 107.5
@@ -248,20 +248,35 @@ function RotatingCirclesAnimation() {
         </svg>
 
         {/* Provider badges – absolutely positioned over SVG at circle edge points */}
-        {PROVIDER_BADGES.map(({ label, team, color, angle }) => {
+        {PROVIDER_BADGES.map(({ label, team, color, angle }, i) => {
           const rad = (angle * Math.PI) / 180
           const pctX = ((160 + OUTER_R * Math.sin(rad)) / 320) * 100
           const pctY = ((160 - OUTER_R * Math.cos(rad)) / 320) * 100
+          // Each badge floats at its own pace so they never move in sync
+          const floatDuration = 3.2 + i * 0.7
+          const floatDelay   = i * 0.9
           return (
-            <div
+            <motion.div
               key={label}
               className="absolute flex flex-col items-center gap-1"
               style={{
                 left: `${pctX}%`,
                 top: `${pctY}%`,
-                transform: "translate(-50%, -50%)",
                 filter: `drop-shadow(0 6px 16px ${color}55)`,
               }}
+              animate={{ y: [0, -6, 0], x: [0, i % 2 === 0 ? 2 : -2, 0] }}
+              transition={{
+                duration: floatDuration,
+                delay: floatDelay,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+              // translate(-50%,-50%) lives here so motion can handle y/x freely
+              initial={{ x: 0, y: 0 }}
+              transformTemplate={({ x, y }) =>
+                `translate(-50%, -50%) translateX(${x}) translateY(${y})`
+              }
             >
               <CursorBadge color={color} label={label} uid={`zt-${label.replace(/\W/g, "")}`} />
               <span
@@ -270,7 +285,7 @@ function RotatingCirclesAnimation() {
               >
                 {team}
               </span>
-            </div>
+            </motion.div>
           )
         })}
 
@@ -283,18 +298,17 @@ function RotatingCirclesAnimation() {
 
 interface Contact {
   name: string
-  initial: string
-  avatarColor: string
+  avatar: string
   enrolledAgo: string
-  nextFollowUp: string
+  nextEmail: string
 }
 
 const CONTACTS: Contact[] = [
-  { name: "Maria Garcia",  initial: "M", avatarColor: "#7c6af5", enrolledAgo: "3 days ago",  nextFollowUp: "2 days" },
-  { name: "James Wilson",  initial: "J", avatarColor: "#0da669", enrolledAgo: "2 days ago",  nextFollowUp: "3 days" },
-  { name: "Priya Patel",   initial: "P", avatarColor: "#f97316", enrolledAgo: "yesterday",   nextFollowUp: "1 day"  },
-  { name: "Chen Wei",      initial: "C", avatarColor: "#3b82f6", enrolledAgo: "6 hours ago", nextFollowUp: "2 days" },
-  { name: "Amara Johnson", initial: "A", avatarColor: "#ec4899", enrolledAgo: "1 hour ago",  nextFollowUp: "2 days" },
+  { name: "Bridget Moore", avatar: "/assets/images/platform/sequences/zero-touch/bridget.avif", enrolledAgo: "3 days ago", nextEmail: "2 days" },
+  { name: "Cody Fisher", avatar: "/assets/images/platform/sequences/zero-touch/cody.avif", enrolledAgo: "2 days ago", nextEmail: "3 days" },
+  { name: "Esther Howard", avatar: "/assets/images/platform/sequences/zero-touch/esther.avif", enrolledAgo: "yesterday", nextEmail: "1 day" },
+  { name: "Jessica Miles", avatar: "/assets/images/platform/sequences/zero-touch/jessica.avif", enrolledAgo: "6 hours ago", nextEmail: "2 days" },
+  { name: "Steve Martin", avatar: "/assets/images/platform/sequences/zero-touch/steve.avif", enrolledAgo: "1 hour ago", nextEmail: "2 days" },
 ]
 
 function InfiniteScrollContacts() {
@@ -304,7 +318,7 @@ function InfiniteScrollContacts() {
   return (
     <div className="absolute inset-0">
       {/* White fill masks the dot-grid visible through the gaps between cards */}
-      <div className="absolute inset-x-3 inset-y-8 bg-white" />
+      <div className="absolute inset-x-3 inset-y-8 bg-white-0" />
 
       {/* Scrolling window with fade masks at top/bottom */}
       <div
@@ -317,15 +331,13 @@ function InfiniteScrollContacts() {
         <div className="animate-scroll-up flex flex-col">
           {items.map((c, i) => (
             <div key={i} className="w-full p-1">
-              <div className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-xl border border-[#eeeff1] bg-[#fff] px-3 py-2">
+              <div className="grid grid-cols-[auto_1fr] items-center gap-2 rounded-xl border border-[#eeeff1] bg-white-0 px-3 py-2">
 
-                {/* Colored initial avatar */}
-                <div
-                  className="flex size-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
-                  style={{ backgroundColor: c.avatarColor }}
-                >
-                  {c.initial}
-                </div>
+                {/* Photo avatar */}                                                                                                                                                                                                        <img
+                  src={c.avatar}
+                  alt={c.name}
+                  className="size-7 shrink-0 rounded-full object-cover"
+                />
 
                 {/* Name + timing */}
                 <div>
@@ -340,7 +352,7 @@ function InfiniteScrollContacts() {
                       <path d="M8.09 5.18C8.09 4.79 8.01 4.4 7.86 4.04C7.71 3.68 7.5 3.35 7.22 3.07C6.94 2.79 6.61 2.57 6.25 2.42C5.89 2.27 5.5 2.2 5.11 2.2L5.11 5.18H8.09Z" fill="#0FC27B" />
                     </svg>
                     <p className="text-[11px] leading-5 text-[#6f7988]">
-                      Follow-up email in {c.nextFollowUp}
+                      Automate email in {c.nextEmail}
                     </p>
                   </div>
                 </div>
