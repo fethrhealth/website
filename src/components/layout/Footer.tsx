@@ -9,6 +9,7 @@ interface FooterLink {
   href: string
   external?: boolean   // renders diagonal arrow + opens in new tab
   badge?: string       // "New" label
+  disabled?: boolean   // page doesn't exist yet — renders as <span>, no navigation
 }
 
 interface FooterColumn {
@@ -28,20 +29,20 @@ const COLUMNS: FooterColumn[] = [
   {
     title: 'Platform',
     links: [
-      { label: 'Refer a team',      href: '/refer',    badge: 'New' },
-      { label: 'Changelog',         href: '/changelog' },
-      { label: 'Gmail extension',   href: '#',         external: true },
-      { label: 'iOS app',           href: '#',         external: true },
-      { label: 'Android app',       href: '#',         external: true },
-      { label: 'Security',          href: '/security' },
+      { label: 'Refer a team',      href: '/refer',      badge: 'New' },
+      { label: 'Changelog',         href: '/changelog',  disabled: true },
+      { label: 'Gmail extension',   href: '#',           external: true },
+      { label: 'iOS app',           href: '#',           external: true },
+      { label: 'Android app',       href: '#',           external: true },
+      { label: 'Security',          href: '/security',   disabled: true },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'Customers',         href: '/customers' },
+      { label: 'Customers',         href: '/customers',  disabled: true },
       { label: 'Blog',              href: '/blog' },
-      { label: 'Careers',           href: '/careers' },
+      { label: 'Careers',           href: '/careers',    disabled: true },
       { label: 'Manifesto',         href: '/redefine' },
       { label: 'Become a partner',  href: '/partners' },
     ],
@@ -49,12 +50,12 @@ const COLUMNS: FooterColumn[] = [
   {
     title: 'Import from',
     links: [
-      { label: 'Salesforce', href: '/help' },
-      { label: 'HubSpot',    href: '/help' },
-      { label: 'Pipedrive',  href: '/help' },
-      { label: 'Zoho',       href: '/help' },
-      { label: 'Excel',      href: '/help' },
-      { label: 'CSV',        href: '/help' },
+      { label: 'Salesforce', href: '/help', disabled: true },
+      { label: 'HubSpot',    href: '/help', disabled: true },
+      { label: 'Pipedrive',  href: '/help', disabled: true },
+      { label: 'Zoho',       href: '/help', disabled: true },
+      { label: 'Excel',      href: '/help', disabled: true },
+      { label: 'CSV',        href: '/help', disabled: true },
     ],
   },
   {
@@ -62,7 +63,7 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Startups',              href: '/startups' },
       { label: 'Healthcare providers',  href: '/' },
-      { label: 'Deal flow',             href: '/' },
+      { label: 'Deal flow',             href: '/',         disabled: true },
     ],
   },
   {
@@ -78,11 +79,11 @@ const COLUMNS: FooterColumn[] = [
     title: 'Resources',
     links: [
       { label: 'Startup program',   href: '/startups' },
-      { label: 'Help center',       href: '/help' },
-      { label: 'Developer docs',    href: '#', external: true },
-      { label: 'System status',     href: '#', external: true },
-      { label: 'Hire an expert',    href: '/experts' },
-      { label: 'Downloads',         href: '/download' },
+      { label: 'Help center',       href: '/help',       disabled: true },
+      { label: 'Developer docs',    href: '#',           external: true },
+      { label: 'System status',     href: '#',           external: true },
+      { label: 'Hire an expert',    href: '/experts',    disabled: true },
+      { label: 'Downloads',         href: '/download',   disabled: true },
     ],
   },
 ]
@@ -118,8 +119,8 @@ const SOCIAL_LINKS: SocialLink[] = [
 ]
 
 const LEGAL_LINKS: FooterLink[] = [
-  { label: 'Terms & Conditions', href: '/legal/terms' },
-  { label: 'Privacy Policy',     href: '/legal/privacy' },
+  { label: 'Terms & Conditions', href: '/legal/terms',    disabled: true },
+  { label: 'Privacy Policy',     href: '/legal/privacy',  disabled: true },
 ]
 
 // ─── External link arrow (diagonal, 14×14) ───────────────────────────────────
@@ -166,6 +167,11 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
       {link.external && <ExternalArrow />}
     </>
   )
+
+  // Page doesn't exist yet — render as non-interactive span
+  if (link.disabled) {
+    return <span className={className}>{inner}</span>
+  }
 
   if (link.external) {
     return (
@@ -265,15 +271,24 @@ export default function Footer() {
               <p>© 2026 Fethr Health Inc. All rights reserved.</p>
 
               <div className="flex flex-wrap items-center gap-x-6">
-                {LEGAL_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="-mx-1 rounded-lg p-1 transition-colors duration-300 ease-in-out hover:text-white-900 hover:duration-150 active:text-white-400 active:duration-50"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {LEGAL_LINKS.map((link) =>
+                  link.disabled ? (
+                    <span
+                      key={link.label}
+                      className="-mx-1 rounded-lg p-1"
+                    >
+                      {link.label}
+                    </span>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="-mx-1 rounded-lg p-1 transition-colors duration-300 ease-in-out hover:text-white-900 hover:duration-150 active:text-white-400 active:duration-50"
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
 
