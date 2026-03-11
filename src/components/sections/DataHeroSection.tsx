@@ -414,9 +414,9 @@ const C_TopArc = (
 const C_BottomLine = (
   <div key="deal-to-image-s" className="absolute top-0 left-0 col-start-[60] row-start-[13]">
     <svg className="-translate-x-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="2" height="80" viewBox="0 0 2 80">
-      <path d="M1 0v80" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px"></path></svg>
+      <path d="M1 0v80" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px"></path></svg>
     <svg className="absolute top-0 left-0 -translate-x-1/2 -translate-y-[3px]" width="38" height="15" viewBox="0 0 38 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="2" cy="2" r="2" transform="matrix(0 1 1 0 17 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(0 1 1 0 17 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -440,15 +440,15 @@ const C_CompanyToPerson_PLG = (
 const C_CompanyToDeal_PLS = (
   <div key="company-to-deal-pls" className="absolute top-(--row-height) bottom-0 left-0 col-start-[12] col-end-[21] row-start-[6] row-end-[11] hidden h-[calc(100%-var(--row-height)*1.5)] w-full xl:block">
     <svg className="h-[calc(100%+1px)] w-[calc(100%+1px)] -translate-x-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 107 117">
-      <path d="M1 0V52C1 74.4021 1 85.6031 5.35974 94.1596C9.19467 101.686 15.3139 107.805 22.8404 111.64C31.3968 116 42.5979 116 65 116H107" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M1 0V52C1 74.4021 1 85.6031 5.35974 94.1596C9.19467 101.686 15.3139 107.805 22.8404 111.64C31.3968 116 42.5979 116 65 116H107" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute top-0 left-0 -translate-x-1/2 -translate-y-[3px]" width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g><path d="M22 3C22 4.10457 21.1046 5 20 5C18.8954 5 18 4.10457 18 3C18 1.89543 18.8954 1 20 1C21.1046 1 22 1.89543 22 3Z" fill="white" stroke="#E4E7EC" stroke-width="2"></path></g>
+      <g><path d="M22 3C22 4.10457 21.1046 5 20 5C18.8954 5 18 4.10457 18 3C18 1.89543 18.8954 1 20 1C21.1046 1 22 1.89543 22 3Z" fill="white" stroke="#E4E7EC" strokeWidth="2"></path></g>
     </svg>
     <svg className="absolute right-0 bottom-0 translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 3V3C9.27247 3 7.4087 3 5.93853 3.60896C3.97831 4.42091 2.42091 5.97831 1.60896 7.93853C0.999999 9.4087 0.999999 11.2725 0.999999 15L0.999998 25C0.999998 28.7275 0.999997 30.5913 1.60896 32.0615C2.42091 34.0217 3.9783 35.5791 5.93853 36.391C7.4087 37 9.27246 37 13 37V37" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle><circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle><circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -456,18 +456,18 @@ const C_CompanyToDeal_PLS = (
 const C_DealToPerson_PLS = (
   <div key="deal-to-person-pls" className="absolute top-[calc(var(--row-height)/2-1.5px)] col-start-[43] col-end-[49] row-start-10 row-end-11 xl:col-start-43 xl:col-end-49">
     <svg className="translate-y-[0.5px]" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 70 2">
-      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute bottom-0 left-0 -translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 37V37C6.72753 37 8.5913 37 10.0615 36.391C12.0217 35.5791 13.5791 34.0217 14.391 32.0615C15 30.5913 15 28.7275 15 25L15 15C15 11.2725 15 9.4087 14.391 7.93853C13.5791 5.97831 12.0217 4.42092 10.0615 3.60896C8.5913 3 6.72753 3 3 3V3" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 22)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 39)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 5)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 22)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 39)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 5)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg><svg className="absolute right-0 bottom-0 translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 3V3C9.27247 3 7.4087 3 5.93853 3.60896C3.97831 4.42091 2.42091 5.97831 1.60896 7.93853C0.999999 9.4087 0.999999 11.2725 0.999999 15L0.999998 25C0.999998 28.7275 0.999997 30.5913 1.60896 32.0615C2.42091 34.0217 3.9783 35.5791 5.93853 36.391C7.4087 37 9.27246 37 13 37V37" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -475,13 +475,13 @@ const C_DealToPerson_PLS = (
 const C_PersonToUser_PLS = (
   <div key="person-to-user-pls" className="absolute top-[calc(var(--row-height)/2-1.5px)] col-start-[71] col-end-[77] row-start-10 row-end-11 xl:col-start-71 xl:col-end-77">
     <svg className="translate-y-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 70 2">
-      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute bottom-0 left-0 -translate-x-[3px] translate-y-1/2" width="15" height="38" viewBox="0 0 15 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="3" cy="19" r="2" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="3" cy="19" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
     <svg className="absolute right-0 bottom-0 translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="13" cy="20" r="2" transform="rotate(-180 13 20)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="13" cy="20" r="2" transform="rotate(-180 13 20)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -489,16 +489,16 @@ const C_PersonToUser_PLS = (
 const C_UserToWorkspace_PLS = (
   <div key="user-to-workspace-pls" className="absolute top-(--row-height) bottom-0 left-0 col-start-[99] col-end-[108] row-start-[6] row-end-[11] hidden h-[calc(100%-var(--row-height)*1.5)] w-full xl:block">
     <svg className="h-[calc(100%+1px)] w-[calc(100%+1px)]" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 107 117">
-      <path d="M106 0V52C106 74.4021 106 85.6031 101.64 94.1596C97.8053 101.686 91.6861 107.805 84.1596 111.64C75.6032 116 64.4021 116 42 116H-5.94008e-07" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M106 0V52C106 74.4021 106 85.6031 101.64 94.1596C97.8053 101.686 91.6861 107.805 84.1596 111.64C75.6032 116 64.4021 116 42 116H-5.94008e-07" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute bottom-0 left-0 -translate-x-[3px] translate-y-1/2" width="15" height="38" viewBox="0 0 15 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 21)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 21)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
     <svg className="absolute top-0 right-0 translate-x-1/2 -translate-y-[3px]" width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 3V3C3 6.72753 3 8.5913 3.60896 10.0615C4.42092 12.0217 5.97831 13.5791 7.93853 14.391C9.4087 15 11.2725 15 15 15L25 15C28.7275 15 30.5913 15 32.0615 14.391C34.0217 13.5791 35.5791 12.0217 36.391 10.0615C37 8.5913 37 6.72753 37 3V3" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(5.56363e-08 1 1 -5.56363e-08 18 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(5.56363e-08 1 1 -5.56363e-08 1 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(5.56363e-08 1 1 -5.56363e-08 35 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(5.56363e-08 1 1 -5.56363e-08 18 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(5.56363e-08 1 1 -5.56363e-08 1 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(5.56363e-08 1 1 -5.56363e-08 35 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -506,10 +506,10 @@ const C_UserToWorkspace_PLS = (
 const C_DealToImage_PLS = (
   <div key="deal-to-image-pls" className="absolute col-start-[-95] col-end-[-60] row-start-[13] h-[calc(100%+7*var(--row-height))] w-full xl:col-start-[-88] xl:col-end-[-60]">
     <svg className="h-[calc(100%+3px)] -translate-x-px -translate-y-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 331 81">
-      <path d="M1 0L1 10.5C0.999999 27.0685 14.4315 40.5 31 40.5L300 40.5C316.569 40.5 330 53.9315 330 70.5L330 81" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px"></path>
+      <path d="M1 0L1 10.5C0.999999 27.0685 14.4315 40.5 31 40.5L300 40.5C316.569 40.5 330 53.9315 330 70.5L330 81" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px"></path>
     </svg>
     <svg className="absolute top-0 left-0 -translate-x-1/2 -translate-y-[3px]" width="38" height="15" viewBox="0 0 38 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="19" cy="3" r="2" transform="rotate(90 19 3)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="19" cy="3" r="2" transform="rotate(90 19 3)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -517,19 +517,19 @@ const C_DealToImage_PLS = (
 const C_PartnershipToCompany_S = (
   <div key="partnership-to-company-s" className="absolute top-[var(--row-height)] bottom-0 left-0 col-start-[12] col-end-[21] row-start-[6] row-end-[11] hidden h-[calc(100%-var(--row-height)*1.5)] w-full xl:block">
     <svg className="h-[calc(100%+1px)] w-[calc(100%+1px)] -translate-x-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 107 117">
-      <path d="M1 0V52C1 74.4021 1 85.6031 5.35974 94.1596C9.19467 101.686 15.3139 107.805 22.8404 111.64C31.3968 116 42.5979 116 65 116H107" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px">
+      <path d="M1 0V52C1 74.4021 1 85.6031 5.35974 94.1596C9.19467 101.686 15.3139 107.805 22.8404 111.64C31.3968 116 42.5979 116 65 116H107" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px">
       </path>
     </svg>
     <svg className="absolute top-0 left-0 -translate-x-1/2 -translate-y-[3px]" width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g><path d="M3 3C3 6.72753 3 8.5913 3.60896 10.0615C4.42092 12.0217 5.97831 13.5791 7.93853 14.391C9.4087 15 11.2725 15 15 15H25C28.7275 15 30.5913 15 32.0615 14.391C34.0217 13.5791 35.5791 12.0217 36.391 10.0615C37 8.5913 37 6.72753 37 3" stroke="#E4E7EC"></path><path d="M22 3C22 4.10457 21.1046 5 20 5C18.8954 5 18 4.10457 18 3C18 1.89543 18.8954 1 20 1C21.1046 1 22 1.89543 22 3Z" fill="white" stroke="#E4E7EC" stroke-width="2"></path>
-        <path d="M5 3C5 4.10457 4.10457 5 3 5C1.89543 5 1 4.10457 1 3C1 1.89543 1.89543 1 3 1C4.10457 1 5 1.89543 5 3Z" fill="white" stroke="#E4E7EC" stroke-width="2"></path>
-        <path d="M39 3C39 4.10457 38.1046 5 37 5C35.8954 5 35 4.10457 35 3C35 1.89543 35.8954 1 37 1C38.1046 1 39 1.89543 39 3Z" fill="white" stroke="#E4E7EC" stroke-width="2"></path></g>
+      <g><path d="M3 3C3 6.72753 3 8.5913 3.60896 10.0615C4.42092 12.0217 5.97831 13.5791 7.93853 14.391C9.4087 15 11.2725 15 15 15H25C28.7275 15 30.5913 15 32.0615 14.391C34.0217 13.5791 35.5791 12.0217 36.391 10.0615C37 8.5913 37 6.72753 37 3" stroke="#E4E7EC"></path><path d="M22 3C22 4.10457 21.1046 5 20 5C18.8954 5 18 4.10457 18 3C18 1.89543 18.8954 1 20 1C21.1046 1 22 1.89543 22 3Z" fill="white" stroke="#E4E7EC" strokeWidth="2"></path>
+        <path d="M5 3C5 4.10457 4.10457 5 3 5C1.89543 5 1 4.10457 1 3C1 1.89543 1.89543 1 3 1C4.10457 1 5 1.89543 5 3Z" fill="white" stroke="#E4E7EC" strokeWidth="2"></path>
+        <path d="M39 3C39 4.10457 38.1046 5 37 5C35.8954 5 35 4.10457 35 3C35 1.89543 35.8954 1 37 1C38.1046 1 39 1.89543 39 3Z" fill="white" stroke="#E4E7EC" strokeWidth="2"></path></g>
     </svg>
     <svg className="absolute right-0 bottom-0 translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 3V3C9.27247 3 7.4087 3 5.93853 3.60896C3.97831 4.42091 2.42091 5.97831 1.60896 7.93853C0.999999 9.4087 0.999999 11.2725 0.999999 15L0.999998 25C0.999998 28.7275 0.999997 30.5913 1.60896 32.0615C2.42091 34.0217 3.9783 35.5791 5.93853 36.391C7.4087 37 9.27246 37 13 37V37" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -537,12 +537,12 @@ const C_PartnershipToCompany_S = (
 const C_CompanyToNull_S = (
   <div key="company-to-null-s" className="absolute top-[calc(var(--row-height)/2)] left-0 col-start-[28] col-end-[44] row-start-[4] row-end-[7] h-[calc(100%-var(--row-height)/2)] w-full xl:col-start-[23] xl:col-end-[39]">
     <svg className="h-[calc(100%+3px)] translate-x-0.5 -translate-y-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 191 68">
-      <path d="M0 1L76 1C92.5685 1 106 14.4315 106 31L106 37C106 53.5685 119.431 67 136 67L191 67" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M0 1L76 1C92.5685 1 106 14.4315 106 31L106 37C106 53.5685 119.431 67 136 67L191 67" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="@-translate-x-[3px] absolute top-0 left-0 -translate-x-[3px] -translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 37V37C6.72753 37 8.5913 37 10.0615 36.391C12.0217 35.5791 13.5791 34.0217 14.391 32.0615C15 30.5913 15 28.7275 15 25L15 15C15 11.2725 15 9.4087 14.391 7.93853C13.5791 5.97831 12.0217 4.42092 10.0615 3.60896C8.5913 3 6.72753 3 3 3V3" stroke="#E4E7EC"></path>
-      <circle cx="3" cy="3" r="2" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="3" cy="20" r="2" fill="white" stroke="#E4E7EC" stroke-width="2"></circle><circle cx="3" cy="37" r="2" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="3" cy="3" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="3" cy="20" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle><circle cx="3" cy="37" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -567,13 +567,13 @@ const C_CompanyToPerson_S = (
 const C_NullToInvoices_S = (
   <div key="null-to-invoices-s" className="absolute col-start-[55] col-end-[92] row-span-[4] row-start-[4] w-full xl:col-end-[97]">
     <svg className="-translate-x-px -translate-y-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="75" viewBox="0 0 429 75">
-      <path d="M0.5 75L0.500001 57.7013L0.500002 36.7987L0.500002 31C0.500003 14.4315 13.9315 1.00001 30.5 1.00002L429 1.00002" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M0.5 75L0.500001 57.7013L0.500002 36.7987L0.500002 31C0.500003 14.4315 13.9315 1.00001 30.5 1.00002L429 1.00002" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute top-0 right-0 translate-x-[3px] -translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 3V3C9.27247 3 7.4087 3 5.93853 3.60896C3.97831 4.42091 2.42091 5.97831 1.60896 7.93853C0.999999 9.4087 0.999999 11.2725 0.999999 15L0.999998 25C0.999998 28.7275 0.999997 30.5913 1.60896 32.0615C2.42091 34.0217 3.9783 35.5791 5.93853 36.391C7.4087 37 9.27246 37 13 37V37" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -581,13 +581,13 @@ const C_NullToInvoices_S = (
 const C_PersonToInvoices_S = (
   <div key="person-to-invoices_S" className="absolute top-(--row-height) bottom-0 left-0 col-start-[99] col-end-[108] row-start-[6] row-end-[11] hidden h-[calc(100%-var(--row-height)*1.5)] w-full xl:block">
     <svg className="h-[calc(100%+1px)] w-[calc(100%+1px)]" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 107 117">
-      <path d="M106 0V52C106 74.4021 106 85.6031 101.64 94.1596C97.8053 101.686 91.6861 107.805 84.1596 111.64C75.6032 116 64.4021 116 42 116H-5.94008e-07" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M106 0V52C106 74.4021 106 85.6031 101.64 94.1596C97.8053 101.686 91.6861 107.805 84.1596 111.64C75.6032 116 64.4021 116 42 116H-5.94008e-07" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute top-0 right-0 translate-x-1/2 -translate-y-[3px]" width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g><path d="M22 3C22 4.10457 21.1046 5 20 5C18.8954 5 18 4.10457 18 3C18 1.89543 18.8954 1 20 1C21.1046 1 22 1.89543 22 3Z" fill="white" stroke="#E4E7EC" stroke-width="2"></path></g>
+      <g><path d="M22 3C22 4.10457 21.1046 5 20 5C18.8954 5 18 4.10457 18 3C18 1.89543 18.8954 1 20 1C21.1046 1 22 1.89543 22 3Z" fill="white" stroke="#E4E7EC" strokeWidth="2"></path></g>
     </svg>
     <svg className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-[3px]" width="38" height="15" viewBox="0 0 38 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="2" cy="2" r="2" transform="matrix(-8.74228e-08 -1 -1 8.74228e-08 21 14)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-8.74228e-08 -1 -1 8.74228e-08 21 14)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -595,18 +595,18 @@ const C_PersonToInvoices_S = (
 const C_DealToPerson_S = (
   <div key="deal-to-person-s" className="absolute top-[calc(var(--row-height)/2-1.5px)] col-start-[71] col-end-[77] row-start-[10] row-end-[11] xl:col-start-[71] xl:col-end-[77]">
     <svg className="translate-y-[0.5px]" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 70 2">
-      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute bottom-0 left-0 -translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 37V37C6.72753 37 8.5913 37 10.0615 36.391C12.0217 35.5791 13.5791 34.0217 14.391 32.0615C15 30.5913 15 28.7275 15 25L15 15C15 11.2725 15 9.4087 14.391 7.93853C13.5791 5.97831 12.0217 4.42092 10.0615 3.60896C8.5913 3 6.72753 3 3 3V3" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 22)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 39)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 5)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 22)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 39)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 5)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg><svg className="absolute right-0 bottom-0 translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 3V3C9.27247 3 7.4087 3 5.93853 3.60896C3.97831 4.42091 2.42091 5.97831 1.60896 7.93853C0.999999 9.4087 0.999999 11.2725 0.999999 15L0.999998 25C0.999998 28.7275 0.999997 30.5913 1.60896 32.0615C2.42091 34.0217 3.9783 35.5791 5.93853 36.391C7.4087 37 9.27246 37 13 37V37" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -614,16 +614,16 @@ const C_DealToPerson_S = (
 const C_CompanyToDeal_S = (
   <div key="company-to-deal-s" className="absolute top-[calc(var(--row-height)/2-1.5px)] col-start-[38] col-end-[47] row-start-[10] row-end-[11] xl:col-start-[43] xl:col-end-[49]">
     <svg className="translate-y-[0.5px]" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 70 2">
-      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px" strokeDashoffset="0px"></path>
+      <path d="M0 1L70 1.00001" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px" strokeDashoffset="0px"></path>
     </svg>
     <svg className="absolute bottom-0 left-0 -translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 22)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(1 -4.37114e-08 -4.37114e-08 -1 1 22)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
     <svg className="absolute right-0 bottom-0 translate-x-[3px] translate-y-1/2" width="16" height="40" viewBox="0 0 16 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 3V3C9.27247 3 7.4087 3 5.93853 3.60896C3.97831 4.42091 2.42091 5.97831 1.60896 7.93853C0.999999 9.4087 0.999999 11.2725 0.999999 15L0.999998 25C0.999998 28.7275 0.999997 30.5913 1.60896 32.0615C2.42091 34.0217 3.9783 35.5791 5.93853 36.391C7.4087 37 9.27246 37 13 37V37" stroke="#E4E7EC"></path>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
-      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 18)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(-1 -4.37114e-08 -4.37114e-08 1 15 35)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -631,9 +631,9 @@ const C_CompanyToDeal_S = (
 const C_DealToImage_S = (
   <div key="deal-to-image-s" className="absolute top-0 left-0 col-start-[60] row-start-[13]">
     <svg className="-translate-x-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="2" height="80" viewBox="0 0 2 80">
-      <path d="M1 0v80" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px"></path></svg>
+      <path d="M1 0v80" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px"></path></svg>
     <svg className="absolute top-0 left-0 -translate-x-1/2 -translate-y-[3px]" width="38" height="15" viewBox="0 0 38 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="2" cy="2" r="2" transform="matrix(0 1 1 0 17 1)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="2" cy="2" r="2" transform="matrix(0 1 1 0 17 1)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )
@@ -689,10 +689,10 @@ const C_PersonToUser_plg = (
 const C_UserToImage_plg = (
   <div className="absolute col-start-[-60] col-end-[-42] row-start-[13] h-[calc(100%+7*var(--row-height))] w-full xl:col-end-[-46]">
     <svg className="h-[calc(100%+3px)] translate-x-px -translate-y-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 167 81">
-      <path d="M166 0L166 10.5C166 27.0685 152.569 40.5 136 40.5L31 40.5C14.4315 40.5 0.999994 53.9315 0.999993 70.5L0.999993 81" stroke="#E4E7EC" pathLength="1" stroke-dasharray="1px 1px"></path>
+      <path d="M166 0L166 10.5C166 27.0685 152.569 40.5 136 40.5L31 40.5C14.4315 40.5 0.999994 53.9315 0.999993 70.5L0.999993 81" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px"></path>
     </svg>
     <svg className="absolute top-0 right-0 translate-x-1/2 -translate-y-[3px]" width="38" height="15" viewBox="0 0 38 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="19" cy="3" r="2" transform="rotate(90 19 3)" fill="white" stroke="#E4E7EC" stroke-width="2"></circle>
+      <circle cx="19" cy="3" r="2" transform="rotate(90 19 3)" fill="white" stroke="#E4E7EC" strokeWidth="2"></circle>
     </svg>
   </div>
 )

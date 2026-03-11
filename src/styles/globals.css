@@ -446,6 +446,14 @@
 
 /* Tipografía de headings — copia exacta de attio.com */
 @layer components {
+  /* Inter Display para todos los headings — igual que attio.com */
+  .text-heading-responsive-sm,
+  .text-heading-responsive-md,
+  .text-heading-responsive-lg,
+  .text-heading-responsive-xl {
+    font-family: var(--font-inter-display, var(--font-inter), system-ui, sans-serif);
+  }
+
   .text-heading-responsive-md {
     font-size: 2rem;        /* heading-sm */
     line-height: 2.375rem;
@@ -504,6 +512,23 @@
     .text-heading-responsive-md-serif {
       font-size: 2.5rem;
       line-height: 2.75rem;
+    }
+  }
+
+  /* Serif variant — mismos tamaños que text-heading-responsive-lg, fuente serif + peso normal */
+  .text-heading-responsive-lg-serif {
+    font-size: 2.5rem;     /* heading-md */
+    line-height: 2.75rem;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    font-family: var(--font-lora), Georgia, serif;
+  }
+
+  @media (min-width: 992px) {
+    .text-heading-responsive-lg-serif {
+      font-size: 3.5rem;   /* heading-lg */
+      line-height: 3.75rem;
+      letter-spacing: -0.015em;
     }
   }
 

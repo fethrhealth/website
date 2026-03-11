@@ -8,9 +8,10 @@ const config: Config = {
 
       // ─── FUENTES ───────────────────────────────────────────
       fontFamily: {
-        sans:  ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono:  ['var(--font-jetbrains-mono)', 'monospace'],
-        serif: ['var(--font-lora)', 'Georgia', 'serif'],
+        sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-inter-display)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+        mono:    ['var(--font-jetbrains-mono)', 'monospace'],
+        serif:   ['var(--font-lora)', 'Georgia', 'serif'],
       },
 
       // ─── TIPOGRAFÍA ────────────────────────────────────────
@@ -184,7 +185,9 @@ const config: Config = {
         '3.25': '0.8125rem', // px-3.25 — attio button horizontal padding
         '15': '3.75rem',     // h-15 / w-15 etc. — used by attio spacers
         '25': '6.25rem',     // h-25
-        '30': '7.5rem',      // h-30
+        '30': '7.5rem',      // h-30  / gap-y-30
+        '35': '8.75rem',     // pt-35 — workflows hero xl padding
+        '38': '9.5rem',      // gap-y-38 — workflows hero lg gap
       },
 
       // ─── CUSTOM GRIDS ───────────────────────────────────────

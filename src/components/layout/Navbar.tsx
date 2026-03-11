@@ -191,10 +191,10 @@ const RESOURCE_ITEMS: NavDropdownItem[] = [
   { title: 'Become a Partner', href: '/partners', description: 'Join our partner ecosystem',             icon: partnersIcon },
 ]
 
-const STANDALONE_LINKS = [
-  { title: 'Customers', href: '/customers' },
-  { title: 'Pricing',   href: '/pricing' },
-]
+// const STANDALONE_LINKS = [
+//   { title: 'Customers', href: '/customers' },
+//   { title: 'Pricing',   href: '/pricing' },
+// ]
 
 // ─── Framer Motion variants (kept from existing) ──────────────────────────────
 
@@ -422,7 +422,7 @@ export function Navbar() {
                 </NavigationMenuItem>
 
                 {/* ── Standalone links ──────────────────────────────────── */}
-                {STANDALONE_LINKS.map((link) => (
+                {/* {STANDALONE_LINKS.map((link) => (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuLink asChild>
                       <Link href={link.href} className={plainLinkCn}>
@@ -430,7 +430,7 @@ export function Navbar() {
                       </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
-                ))}
+                ))} */}
 
               </NavigationMenuList>
             </NavigationMenu>
@@ -526,13 +526,13 @@ export function Navbar() {
 
                 <div className="my-2 border-t border-subtle-stroke" />
 
-                {STANDALONE_LINKS.map((link) => (
+                {/* {STANDALONE_LINKS.map((link) => (
                   <SheetClose asChild key={link.href}>
                     <Link href={link.href} className={mobileNavLinkCn}>
                       {link.title}
                     </Link>
                   </SheetClose>
-                ))}
+                ))} */}
               </nav>
 
               {/* Mobile CTA buttons */}

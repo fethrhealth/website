@@ -5,6 +5,7 @@ import { FeatureCardsSection } from '@/components/sections/FeatureCardsSection'
 import { ImageGridSection } from '@/components/sections/ImageGridSection'
 import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
+import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
 import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, AUTOMATE_YOUR_WAY, BETTER_SYSTEM_FEATURES, WORKFLOW_INTEGRATIONS } from '@/data/platform-workflows'
 
 /**
@@ -13,7 +14,8 @@ import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, AUTOMATE_YOUR_WAY,
 export default function WorkflowsPage(): React.ReactElement {
   return (
     <main>
-      <CompaniesSection/>
+      <WorkflowsHeroSection />
+      <CompaniesSection />
       <AccordionImageSection
       headerLayout="split"
       headingPrimary="Automate your way to\n"
