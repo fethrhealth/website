@@ -242,7 +242,9 @@ export function AccordionImageSection({
                 ))}
               </div>
 
-              {/* Image column — fades when active item changes */}
+              {/* Image column — all images stay in the DOM; only the active one
+                  is in flow (sizes the container). Inactive ones are absolute
+                  so they never collapse the container during transitions. */}
               <div
                 className={cn(
                   'relative col-span-full lg:col-span-6',
@@ -251,25 +253,26 @@ export function AccordionImageSection({
                     : 'xl:col-start-1 xl:col-span-5 lg:order-first',
                 )}
               >
-                <AnimatePresence mode="wait">
-                  {activeItem && (
-                    <motion.div
-                      key={activeItem.imageSrc}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2, ease: 'easeInOut' }}
-                    >
-                      <Image
-                        src={activeItem.imageSrc}
-                        alt={activeItem.imageAlt ?? ''}
-                        width={activeItem.imageWidth ?? 2272}
-                        height={activeItem.imageHeight ?? 1704}
-                        className="rounded-3xl"
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {items.map((item, i) => (
+                  <div
+                    key={item.imageSrc}
+                    aria-hidden={i !== openIndex}
+                    className={cn(
+                      'transition-opacity duration-200 ease-in-out',
+                      i === openIndex
+                        ? 'opacity-100'
+                        : 'pointer-events-none absolute inset-0 opacity-0',
+                    )}
+                  >
+                    <Image
+                      src={item.imageSrc}
+                      alt={i === openIndex ? (item.imageAlt ?? '') : ''}
+                      width={item.imageWidth ?? 2272}
+                      height={item.imageHeight ?? 1704}
+                      className="rounded-3xl w-full"
+                    />
+                  </div>
+                ))}
               </div>
 
             </div>

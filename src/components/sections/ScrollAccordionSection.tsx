@@ -14,8 +14,9 @@
  */
 
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -89,6 +90,22 @@ export function ScrollAccordionSection({
     setBarProgress(idx === n - 1 ? 100 : (scaled - idx) * 100)
   })
 
+  /**
+   * Scroll to the position where item `index` becomes active.
+   * The container is n×100svh; scrollYProgress = index/n puts us at the
+   * exact start of that item's scroll range.
+   */
+  const scrollToItem = useCallback((index: number) => {
+    if (!containerRef.current) return
+    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY
+    const containerHeight = containerRef.current.offsetHeight   // n × 100svh
+    const viewportHeight = window.innerHeight
+    window.scrollTo({
+      top: containerTop + (index / n) * (containerHeight - viewportHeight),
+      behavior: 'smooth',
+    })
+  }, [n])
+
   const activeItem = items[activeIndex] ?? items[0]!
 
   return (
@@ -121,10 +138,19 @@ export function ScrollAccordionSection({
                   {items.map((item, i) => {
                     const isActive = i === activeIndex
                     return (
-                      <div key={item.title} className="flex flex-col pt-7 transition-all">
-                        <h3 className="w-fit font-semibold text-lg text-secondary-foreground lg:max-xl:text-base">
-                          {item.title}
-                        </h3>
+                      <div key={item.title} className="flex flex-col pt-7">
+                        <button
+                          type="button"
+                          onClick={() => scrollToItem(i)}
+                          className={cn(
+                            'group w-fit cursor-pointer text-left transition-colors duration-200',
+                            isActive ? 'text-fg-primary' : 'text-fg-tertiary hover:text-fg-primary',
+                          )}
+                        >
+                          <h3 className="font-semibold text-lg lg:max-xl:text-base">
+                            <span className="attio-group-hover-underline">{item.title}</span>
+                          </h3>
+                        </button>
 
                         {/* Animated description + progress bar */}
                         <AnimatePresence initial={false}>
@@ -253,29 +279,36 @@ export function ScrollAccordionSection({
               <div className="relative col-[2/-2] h-48">
                 <div className="absolute inset-x-0 bottom-8 h-32">
 
-                  {/* Progress bars row */}
+                  {/* Progress bars row — also act as click targets to jump to each item */}
                   <div className="absolute inset-x-0 top-8 flex gap-1.5">
-                    {items.map((_, i) => (
-                      <div
+                    {items.map((item, i) => (
+                      <button
                         key={i}
-                        className="h-0.5 w-full overflow-hidden rounded-full bg-subtle-stroke"
-                        role="progressbar"
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-valuenow={i < activeIndex ? 100 : i === activeIndex ? Math.round(barProgress) : 0}
+                        type="button"
+                        onClick={() => scrollToItem(i)}
+                        aria-label={`Go to ${item.title}`}
+                        className="h-3 w-full cursor-pointer -my-1.5 py-1.5"
                       >
                         <div
-                          className="size-full bg-accent-foreground"
-                          style={{
-                            transform:
-                              i < activeIndex
-                                ? 'translateX(0%)'
-                                : i === activeIndex
-                                ? `translateX(-${100 - barProgress}%)`
-                                : 'translateX(-100%)',
-                          }}
-                        />
-                      </div>
+                          className="h-0.5 w-full overflow-hidden rounded-full bg-subtle-stroke"
+                          role="progressbar"
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-valuenow={i < activeIndex ? 100 : i === activeIndex ? Math.round(barProgress) : 0}
+                        >
+                          <div
+                            className="size-full bg-accent-foreground"
+                            style={{
+                              transform:
+                                i < activeIndex
+                                  ? 'translateX(0%)'
+                                  : i === activeIndex
+                                  ? `translateX(-${100 - barProgress}%)`
+                                  : 'translateX(-100%)',
+                            }}
+                          />
+                        </div>
+                      </button>
                     ))}
                   </div>
 

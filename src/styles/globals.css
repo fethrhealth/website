@@ -66,6 +66,12 @@
     --internal-color-strong-stroke:  theme('colors.white.800');   /* = stroke-strong / white-800 */
     --internal-color-muted-strong-background: theme('colors.white.700');
 
+    /* Aliases usados en SVG inline por DevelopersHeroSection (var(--color-*) syntax de attio) */
+    --color-weak-stroke:          theme('colors.white.400');  /* #edeff3 */
+    --color-caption-foreground:   theme('colors.black.900');  /* #a4adba */
+    --color-primary-background:   theme('colors.white.100');  /* #ffffff */
+    --color-surface:              theme('colors.white.400');  /* #edeff3 */
+
     /* Curvas de Bézier como variables CSS (usadas por componentes custom) */
     --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
     --ease-out-cubic:    cubic-bezier(0.33, 1, 0.68, 1);

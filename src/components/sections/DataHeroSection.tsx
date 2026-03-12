@@ -687,7 +687,7 @@ const C_PersonToUser_plg = (
 )
 
 const C_UserToImage_plg = (
-  <div className="absolute col-start-[-60] col-end-[-42] row-start-[13] h-[calc(100%+7*var(--row-height))] w-full xl:col-end-[-46]">
+  <div key="user-to-image-plg" className="absolute col-start-[-60] col-end-[-42] row-start-[13] h-[calc(100%+7*var(--row-height))] w-full xl:col-end-[-46]">
     <svg className="h-[calc(100%+3px)] translate-x-px -translate-y-px" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 167 81">
       <path d="M166 0L166 10.5C166 27.0685 152.569 40.5 136 40.5L31 40.5C14.4315 40.5 0.999994 53.9315 0.999993 70.5L0.999993 81" stroke="#E4E7EC" pathLength="1" strokeDasharray="1px 1px"></path>
     </svg>

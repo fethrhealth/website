@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, Fragment, type ReactNode } from 'react'
+import { useState, useEffect, useCallback, useRef, Fragment, type ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
@@ -296,6 +296,10 @@ const triggerCn = cn(
   'text-fg-secondary hover:text-fg-primary',
   'hover:bg-surface-subtle data-[state=open]:bg-surface-subtle',
   'data-[state=open]:text-fg-primary',
+  // Override shadcn base focus:bg-accent that causes dual-highlight on click+hover.
+  // Mouse-click focus → no background. Keyboard focus-visible → keep highlight.
+  'focus:bg-transparent focus:text-fg-secondary',
+  'focus-visible:bg-surface-subtle focus-visible:text-fg-primary',
   'rounded-[10px] border border-transparent transition-colors duration-300 hover:duration-75',
 )
 
@@ -318,6 +322,22 @@ const mobileNavLinkCn = cn(
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+
+  // Track when a trigger was last hovered-open so we can block accidental
+  // click-to-close for ~600 ms (matches Attio behavior).
+  const lastHoverOpenMs = useRef(0)
+
+  const handleTriggerPointerEnter = useCallback(() => {
+    lastHoverOpenMs.current = Date.now()
+  }, [])
+
+  // Radix composeEventHandlers respects event.defaultPrevented — calling
+  // e.preventDefault() here cancels Radix's own toggle handler.
+  const handleTriggerClick = useCallback((e: React.MouseEvent) => {
+    if (Date.now() - lastHoverOpenMs.current < 600) {
+      e.preventDefault()
+    }
+  }, [])
 
   const handleScroll = useCallback(() => {
     setIsScrolled(window.scrollY > 8)
@@ -362,7 +382,11 @@ export function Navbar() {
 
                 {/* ── Platform dropdown ─────────────────────────────────── */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={triggerCn}>
+                  <NavigationMenuTrigger
+                    className={triggerCn}
+                    onPointerEnter={handleTriggerPointerEnter}
+                    onClick={handleTriggerClick}
+                  >
                     Platform
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -397,7 +421,11 @@ export function Navbar() {
 
                 {/* ── Resources dropdown ────────────────────────────────── */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={triggerCn}>
+                  <NavigationMenuTrigger
+                    className={triggerCn}
+                    onPointerEnter={handleTriggerPointerEnter}
+                    onClick={handleTriggerClick}
+                  >
                     Resources
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>

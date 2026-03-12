@@ -29,61 +29,31 @@ const COLUMNS: FooterColumn[] = [
   {
     title: 'Platform',
     links: [
-      { label: 'Refer a team',      href: '/refer',      badge: 'New' },
-      { label: 'Changelog',         href: '/changelog',  disabled: true },
-      { label: 'Gmail extension',   href: '#',           external: true },
-      { label: 'iOS app',           href: '#',           external: true },
-      { label: 'Android app',       href: '#',           external: true },
-      { label: 'Security',          href: '/security',   disabled: true },
+      { label: 'Refer a team', href: '/refer' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'Customers',         href: '/customers',  disabled: true },
-      { label: 'Blog',              href: '/blog' },
-      { label: 'Careers',           href: '/careers',    disabled: true },
-      { label: 'Manifesto',         href: '/redefine' },
-      { label: 'Become a partner',  href: '/partners' },
-    ],
-  },
-  {
-    title: 'Import from',
-    links: [
-      { label: 'Salesforce', href: '/help', disabled: true },
-      { label: 'HubSpot',    href: '/help', disabled: true },
-      { label: 'Pipedrive',  href: '/help', disabled: true },
-      { label: 'Zoho',       href: '/help', disabled: true },
-      { label: 'Excel',      href: '/help', disabled: true },
-      { label: 'CSV',        href: '/help', disabled: true },
-    ],
-  },
-  {
-    title: 'Fethr for',
-    links: [
-      { label: 'Startups',              href: '/startups' },
-      { label: 'Healthcare providers',  href: '/' },
-      { label: 'Deal flow',             href: '/',         disabled: true },
-    ],
-  },
-  {
-    title: 'Apps',
-    links: [
-      { label: 'Gmail',    href: '#', external: true },
-      { label: 'Outlook',  href: '#', external: true },
-      { label: 'Slack',    href: '#', external: true },
-      { label: 'Zapier',   href: '#', external: true },
+      { label: 'Blog',             href: '/blog' },
+      { label: 'Manifesto',        href: '/redefine' },
+      { label: 'Become a Partner', href: '/partners',  disabled: true },
+      { label: 'Startup Program',  href: '/startups' },
     ],
   },
   {
     title: 'Resources',
     links: [
-      { label: 'Startup program',   href: '/startups' },
-      { label: 'Help center',       href: '/help',       disabled: true },
-      { label: 'Developer docs',    href: '#',           external: true },
-      { label: 'System status',     href: '#',           external: true },
-      { label: 'Hire an expert',    href: '/experts',    disabled: true },
-      { label: 'Downloads',         href: '/download',   disabled: true },
+      { label: 'Help Center',  href: '/help',                 disabled: true },
+      { label: 'Developers',   href: '/platform/developers' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Terms & Conditions', href: '/legal/terms',    disabled: true },
+      { label: 'Privacy Policy',     href: '/legal/privacy',  disabled: true },
+      { label: 'Referral Policy',    href: '/legal/referral', disabled: true },
     ],
   },
 ]
@@ -118,11 +88,6 @@ const SOCIAL_LINKS: SocialLink[] = [
   },
 ]
 
-const LEGAL_LINKS: FooterLink[] = [
-  { label: 'Terms & Conditions', href: '/legal/terms',    disabled: true },
-  { label: 'Privacy Policy',     href: '/legal/privacy',  disabled: true },
-]
-
 // ─── External link arrow (diagonal, 14×14) ───────────────────────────────────
 
 function ExternalArrow() {
@@ -132,7 +97,7 @@ function ExternalArrow() {
       height="14"
       viewBox="0 0 14 14"
       fill="none"
-      className="ml-0.5 -rotate-45 text-black-700 transition-colors duration-200 ease-in-out group-hover:text-white-900 group-hover:delay-50 group-active:text-white-400 group-active:duration-50"
+      className="ml-0.5 -rotate-45 text-fg-caption transition-colors duration-200 ease-in-out-cubic group-hover:text-fg-secondary group-hover:delay-50 group-focus:text-fg-secondary group-focus:delay-50 group-active:text-fg-primary group-active:duration-50"
       aria-hidden
     >
       <path
@@ -151,9 +116,9 @@ function ExternalArrow() {
 function FooterLinkItem({ link }: { link: FooterLink }) {
   const className = cn(
     'group -mx-1 flex w-fit items-center rounded-lg p-1',
-    'text-sm font-normal text-white-900',
+    'text-sm font-normal text-fg-tertiary',
     'transition-colors duration-150 ease-out',
-    'hover:text-white-400 active:text-white-200 active:duration-50',
+    'hover:text-fg-secondary focus-visible:text-fg-secondary active:text-fg-primary active:duration-50',
   )
 
   const inner = (
@@ -192,11 +157,10 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
 
 export default function Footer() {
   return (
-    // `dark` class forces attio-group-hover-underline into dark mode (screen blend, black halo)
-    <footer className="relative flex min-h-[40svh] w-full flex-col justify-between bg-black-0 dark">
+    <footer className="relative flex min-h-[40svh] w-full flex-col justify-between bg-primary-background">
 
       {/* ── Top border line ───────────────────────────────────────────── */}
-      <svg width="100%" height="1" className="text-black-400 shrink-0" aria-hidden>
+      <svg width="100%" height="1" className="text-subtle-stroke shrink-0" aria-hidden>
         <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeLinecap="round" />
       </svg>
 
@@ -207,13 +171,12 @@ export default function Footer() {
           {/* Logo — 1 column wide on desktop, wider on smaller screens */}
           <div className="col-[1/2] max-lg:col-[1/3] max-md:col-[1/5] max-sm:col-[1/-1]">
             <Link href="/" className="-m-1.5 inline-block rounded-lg p-1.5" aria-label="Fethr Health home">
-              {/* brightness-0 invert → convierte cualquier logo oscuro en blanco */}
               <Image
                 src="/assets/logos/logo.svg"
                 alt="Fethr Health"
                 width={103}
                 height={26}
-                className="w-full brightness-0 invert"
+                className="w-full"
                 priority={false}
               />
             </Link>
@@ -230,7 +193,7 @@ export default function Footer() {
           >
             {COLUMNS.map((col) => (
               <div key={col.title} className="break-inside-avoid pb-7">
-                <h2 className="py-1 text-sm text-black-700">{col.title}</h2>
+                <h2 className="py-1 text-sm text-fg-caption">{col.title}</h2>
                 <ul className="flex flex-col">
                   {col.links.map((link) => (
                     <li key={link.href + link.label}>
@@ -246,7 +209,7 @@ export default function Footer() {
       </div>
 
       {/* ── Bottom bar ────────────────────────────────────────────────── */}
-      <div className="w-full bg-black-50">
+      <div className="w-full bg-secondary-background">
         <div className="container mx-auto px-6">
           <div className="flex flex-wrap items-center justify-between gap-6 px-px py-10">
 
@@ -259,38 +222,17 @@ export default function Footer() {
                   aria-label={social.label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex size-7 shrink-0 items-center justify-center rounded-lg text-black-700 transition-colors duration-300 ease-in-out hover:text-white-900 hover:duration-150 active:text-white-400 active:duration-50"
+                  className="group flex size-7 shrink-0 items-center justify-center rounded-lg text-fg-caption transition-colors duration-400 ease-in-out hover:text-fg-tertiary hover:duration-150 active:text-fg-secondary active:duration-50"
                 >
                   {social.icon}
                 </a>
               ))}
             </div>
 
-            {/* Copyright + legal links */}
-            <div className="flex flex-wrap items-center gap-4 text-xs font-normal text-black-700">
-              <p>© 2026 Fethr Health Inc. All rights reserved.</p>
-
-              <div className="flex flex-wrap items-center gap-x-6">
-                {LEGAL_LINKS.map((link) =>
-                  link.disabled ? (
-                    <span
-                      key={link.label}
-                      className="-mx-1 rounded-lg p-1"
-                    >
-                      {link.label}
-                    </span>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="-mx-1 rounded-lg p-1 transition-colors duration-300 ease-in-out hover:text-white-900 hover:duration-150 active:text-white-400 active:duration-50"
-                    >
-                      {link.label}
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
+            {/* Copyright */}
+            <p className="text-xs font-normal text-fg-caption">
+              © 2026 Fethr Health Inc. All rights reserved.
+            </p>
 
           </div>
         </div>
