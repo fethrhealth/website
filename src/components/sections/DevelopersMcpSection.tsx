@@ -250,46 +250,44 @@ function ToolCallsSvg() {
 // Four tool-pill nodes radiating in a fan from a central "Reason" hub,
 // representing parallel multi-tool execution across systems.
 function MultiToolSvg() {
+  const CX = 140, CY = 170, R = 108
+  // Round to 3 decimal places to eliminate SSR ↔ browser floating-point
+  // precision mismatches (Math.sin/cos give slightly different results in
+  // Node vs the browser, causing React hydration errors).
+  const r = (n: number) => Math.round(n * 1000) / 1000
+
   const tools = [
     { label: 'search', angle: -55 },
     { label: 'write', angle: -18 },
     { label: 'read', angle: 18 },
     { label: 'sync', angle: 55 },
-  ] as const
-  const CX = 140, CY = 170, R = 108
+  ].map(({ label, angle }) => {
+    const rad = (angle * Math.PI) / 180
+    return { label, x: r(CX + R * Math.sin(rad)), y: r(CY - R * Math.cos(rad)) }
+  })
 
   return (
     <svg viewBox="0 0 280 220" className="w-full" style={{ maxWidth: '240px' }} aria-hidden>
       {/* Spokes */}
-      {tools.map(({ label, angle }) => {
-        const rad = (angle * Math.PI) / 180
-        const x = CX + R * Math.sin(rad)
-        const y = CY - R * Math.cos(rad)
-        return (
-          <line key={label}
-            x1={CX} y1={CY - 24} x2={x} y2={y + 12}
-            stroke="var(--internal-color-subtle-stroke)" strokeWidth="1"
-            strokeDasharray="3 4" />
-        )
-      })}
+      {tools.map(({ label, x, y }) => (
+        <line key={label}
+          x1={CX} y1={CY - 24} x2={x} y2={y + 12}
+          stroke="var(--internal-color-subtle-stroke)" strokeWidth="1"
+          strokeDasharray="3 4" />
+      ))}
 
       {/* Tool pill nodes */}
-      {tools.map(({ label, angle }) => {
-        const rad = (angle * Math.PI) / 180
-        const x = CX + R * Math.sin(rad)
-        const y = CY - R * Math.cos(rad)
-        return (
-          <g key={label}>
-            <rect x={x - 24} y={y - 12} width="48" height="24" rx="12"
-              fill="var(--color-primary-background)"
-              stroke="var(--internal-color-subtle-stroke)" strokeWidth="1" />
-            <text x={x} y={y + 5} textAnchor="middle" fontSize="9"
-              fill="#1c1d1f" fontFamily="var(--font-inter)" fontWeight="500">
-              {label}
-            </text>
-          </g>
-        )
-      })}
+      {tools.map(({ label, x, y }) => (
+        <g key={label}>
+          <rect x={x - 24} y={y - 12} width="48" height="24" rx="12"
+            fill="var(--color-primary-background)"
+            stroke="var(--internal-color-subtle-stroke)" strokeWidth="1" />
+          <text x={x} y={y + 5} textAnchor="middle" fontSize="9"
+            fill="#1c1d1f" fontFamily="var(--font-inter)" fontWeight="500">
+            {label}
+          </text>
+        </g>
+      ))}
 
       {/* Central hub ellipse */}
       <ellipse cx={CX} cy={CY} rx="38" ry="24"
