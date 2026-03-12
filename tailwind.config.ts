@@ -183,6 +183,8 @@ const config: Config = {
       // ─── CUSTOM SPACING ────────────────────────────────────
       spacing: {
         '3.25': '0.8125rem', // px-3.25 — attio button horizontal padding
+        '4.5':  '1.125rem',  // size-4.5 — small icon badge (enrollment header)
+        '6.5':  '1.625rem',  // h-6.5 — connector line height (sequences hero)
         '15': '3.75rem',     // h-15 / w-15 etc. — used by attio spacers
         '25': '6.25rem',     // h-25
         '30': '7.5rem',      // h-30  / gap-y-30

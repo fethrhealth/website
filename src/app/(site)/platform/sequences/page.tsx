@@ -1,3 +1,4 @@
+import { SequencesHeroSection } from "@/components/sections/SequencesHeroSection";
 import { FeatureGridSection } from "@/components/sections/FeatureGridSection";
 import { FeaturePreviewSection } from "@/components/sections/FeaturePreviewSection";
 import { PlatformNavSection } from "@/components/sections/PlatformNavSection";
@@ -14,6 +15,8 @@ import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-seq
 export default function SequencesPage(): React.ReactElement {
   return (
     <main>
+      <SequencesHeroSection />
+      <Divider/>
       <FeaturePreviewSection
         heading="Step inside Sequences."
         description="Convert warm signals into outreach that closes itself."

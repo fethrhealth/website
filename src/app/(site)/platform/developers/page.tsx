@@ -5,6 +5,7 @@ import { DevelopersMcpSection } from '@/components/sections/DevelopersMcpSection
 import { DevelopersRestApiSection } from '@/components/sections/DevelopersRestApiSection'
 import { DevelopersReviewSection } from '@/components/sections/DevelopersReviewSection'
 import { DevelopersSdkAppsSection } from '@/components/sections/DevelopersSdkAppsSection'
+import Divider from '@/components/ui/divider'
 
 /**
  * Developers page — /platform/developers
