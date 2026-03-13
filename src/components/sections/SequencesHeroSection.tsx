@@ -163,9 +163,9 @@ function MeetingPill({ delay, avatar1, avatar2 }: MeetingPillProps) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay, ease: EASE }}
     >
-      {/* Expanding rings — matches Attio's computed transforms */}
-      <div className="absolute -inset-px rounded-full border border-default-stroke" style={{ transform: 'scaleX(1.053) scaleY(1.212)' }} />
-      <div className="absolute -inset-2 rounded-full border border-subtle-stroke"   style={{ transform: 'scaleX(1.046) scaleY(1.148)' }} />
+      {/* Expanding rings — asymmetric pulse matching Attio's scaleX/Y targets */}
+      <div className="absolute -inset-px rounded-full border border-default-stroke animate-ring-pulse-inner" />
+      <div className="absolute -inset-2 rounded-full border border-subtle-stroke   animate-ring-pulse-outer" />
       <div className="flex items-center">
         <div className="relative size-10 rounded-full outline-2 outline-white-100 overflow-hidden bg-white-300">
           <Image src={avatar1} alt="" fill sizes="40px" className="object-cover" />

@@ -77,6 +77,28 @@
     --ease-out-cubic:    cubic-bezier(0.33, 1, 0.68, 1);
     --ease-in-cubic:     cubic-bezier(0.32, 0, 0.67, 0);
     --ease-emphasized:   cubic-bezier(0.2, 0, 0, 1);
+
+    /* Attio shadow layers — extracted from attio.com (hex fallback) */
+    --shadow-attio-layer-1: 0px 1px 3px 0px #00000003;
+    --shadow-attio-layer-2: 0px 2px 4px -1px #00000005;
+    --shadow-attio-layer-3: 0px 4px 8px -2px #00000008;
+    --shadow-attio-layer-4: 0px 8px 16px -4px #0000000a;
+    --shadow-attio-layer-5: 0px 16px 32px -8px #0000000d;
+    --shadow-attio-layer-6: 0px 32px 64px -16px #0000000f;
+    --shadow-attio-layer-7: 0px 64px 128px -32px #00000012;
+  }
+
+  /* Wide-gamut overrides — richer shadows in browsers that support lab() */
+  @supports (color: lab(0% 0 0)) {
+    :root {
+      --shadow-attio-layer-1: 0px 1px 3px 0px lab(0% 0 0 / 0.01);
+      --shadow-attio-layer-2: 0px 2px 4px -1px lab(0% 0 0 / 0.02);
+      --shadow-attio-layer-3: 0px 4px 8px -2px lab(0% 0 0 / 0.03);
+      --shadow-attio-layer-4: 0px 8px 16px -4px lab(0% 0 0 / 0.04);
+      --shadow-attio-layer-5: 0px 16px 32px -8px lab(0% 0 0 / 0.05);
+      --shadow-attio-layer-6: 0px 32px 64px -16px lab(0% 0 0 / 0.06);
+      --shadow-attio-layer-7: 0px 64px 128px -32px lab(0% 0 0 / 0.07);
+    }
   }
 }
 
@@ -115,6 +137,12 @@
     background: #c8dcff;   /* blue-200 — no está en la paleta, se deja hardcoded */
     color: theme('colors.black.100');
   }
+}
+
+/* Cursor blink — used in AskHeroSection typing animation */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
 @layer components {
@@ -661,5 +689,89 @@
   }
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+
+  /* ── Horizontal mask — fades both edges of a full-width element ────────────
+   * Used on the dashed separator lines in HomeContextSection (mobile layout).
+   * The line spans w-screen but fades out 5 % from each edge.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-x-from-95\% {
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+
+  /* ── Vertical mask — top is transparent, fades to fully visible at 80% ─────
+   * Used for decorative background grid lines that should appear to emerge
+   * from below the header text (PromptLibrarySection and similar sections).
+   * top 0–80%: transparent → opaque; bottom 20%: fully visible.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-t-to-80\% {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 80%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 80%);
+  }
+
+  /* ── Horizontal mask — strong edge fades (80 % of content visible) ─────────
+   * Used on the mobile tab strip in TabsSection to hint at scrollability.
+   * Fades 20 % from each horizontal edge.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-x-from-80\% {
+    mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+  }
+
+  /* ── Horizontal mask — subtle edge fades (96 % of content visible) ─────────
+   * Used on the ruler/ticker strip in TabsSection to softly trim its edges.
+   * Fades 4 % from each horizontal edge.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-x-from-96\% {
+    mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  }
+
+  /* ── Radial vignette mask — dot pattern fades out from the centre ────────────
+   * Used in TabsSection's right visual panel: dots visible at edges,
+   * transparent in the centre so animated content stands out clearly.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-radial-vignette {
+    mask-image: radial-gradient(circle, transparent 0%, black 100%);
+    -webkit-mask-image: radial-gradient(circle, transparent 0%, black 100%);
+  }
+
+  /* ── Caption foreground — alias for fg-caption text color ───────────────────
+   * Maps to --internal-color-caption-foreground = fg-caption / black-900 / #a4adba.
+   * Lets us paste Attio's .text-caption-foreground classes without modification.
+  ────────────────────────────────────────────────────────────────────────── */
+  .text-caption-foreground {
+    color: var(--internal-color-caption-foreground);
+  }
+
+  /* ── Chart reveal animations (HomeScaleSection / similar) ──────────────────
+   * mask-to-right     — permanent right-edge fade (softens the chart boundary)
+   * mask-reveal-to-right — entrance: reveals from left → right via clip-path
+   * mask-reveal-to-bottom — entrance: reveals from top  → bottom via clip-path
+   * Both reveal classes respect animation-delay set inline on each element.
+  ────────────────────────────────────────────────────────────────────────── */
+
+  .mask-to-right {
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  }
+
+  .mask-reveal-to-right {
+    animation: chart-reveal-right 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @keyframes chart-reveal-right {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0% 0 0); }
+  }
+
+  .mask-reveal-to-bottom {
+    animation: chart-reveal-bottom 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @keyframes chart-reveal-bottom {
+    from { clip-path: inset(0 0 100% 0); }
+    to   { clip-path: inset(0 0 0% 0); }
   }
 }

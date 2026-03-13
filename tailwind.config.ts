@@ -52,7 +52,8 @@ const config: Config = {
           foreground: 'hsl(var(--secondary-foreground))',
         },
         tertiary: {
-          foreground: 'hsl(var(--foreground-tertiary))',
+          DEFAULT:    'hsl(var(--foreground-tertiary))',  // text-tertiary
+          foreground: 'hsl(var(--foreground-tertiary))',  // text-tertiary-foreground
         },
         destructive: {
           DEFAULT:    'hsl(var(--destructive))',
@@ -184,7 +185,9 @@ const config: Config = {
       spacing: {
         '3.25': '0.8125rem', // px-3.25 — attio button horizontal padding
         '4.5':  '1.125rem',  // size-4.5 — small icon badge (enrollment header)
+        '7.5':  '1.875rem',  // left-7.5 / inset-x-7.5 — attio content panel compact padding
         '6.5':  '1.625rem',  // h-6.5 — connector line height (sequences hero)
+        '13':   '3.25rem',   // h-13 — prompt card min-height (52px)
         '15': '3.75rem',     // h-15 / w-15 etc. — used by attio spacers
         '25': '6.25rem',     // h-25
         '30': '7.5rem',      // h-30  / gap-y-30
@@ -209,6 +212,19 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+
+      // ─── BOX SHADOWS ───────────────────────────────────────
+      // Attio multi-layer shadows — CSS vars defined in globals.css :root
+      boxShadow: {
+        'attio-4': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2),var(--shadow-attio-layer-3),var(--shadow-attio-layer-4)',
+        'attio-5': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2),var(--shadow-attio-layer-3),var(--shadow-attio-layer-4),var(--shadow-attio-layer-5)',
+        'attio-6': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2),var(--shadow-attio-layer-3),var(--shadow-attio-layer-4),var(--shadow-attio-layer-5),var(--shadow-attio-layer-6)',
+      },
+
+      // ─── BACKDROP BLUR ─────────────────────────────────────
+      backdropBlur: {
+        'xs': '2px',  // backdrop-blur-xs — subtle blur for light card overlays
       },
 
       // ─── ANCHOS MÁXIMOS ────────────────────────────────────
@@ -272,13 +288,24 @@ const config: Config = {
           from: { transform: 'translateY(0)' },
           to:   { transform: 'translateY(-50%)' },
         },
+        // Meeting pill expanding rings — asymmetric pulse (matches Attio scaleX/Y targets)
+        'ring-pulse-inner': {
+          '0%':       { transform: 'scaleX(1) scaleY(1)',           opacity: '1' },
+          '70%, 100%': { transform: 'scaleX(1.053) scaleY(1.212)', opacity: '0' },
+        },
+        'ring-pulse-outer': {
+          '0%':       { transform: 'scaleX(1) scaleY(1)',           opacity: '0.7' },
+          '70%, 100%': { transform: 'scaleX(1.046) scaleY(1.148)', opacity: '0' },
+        },
       },
       animation: {
-        'slide-down':  'slideDown 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
-        'slide-up':    'slideUp 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
-        'dialog-in':   'dialog-scale-in 0.15s cubic-bezier(0.2, 0, 0, 1)',
-        'dialog-out':  'dialog-scale-out 0.15s cubic-bezier(0.2, 0, 0, 1)',
-        'scroll-up':   'scroll-up 18s linear infinite',
+        'slide-down':       'slideDown 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
+        'slide-up':         'slideUp 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
+        'dialog-in':        'dialog-scale-in 0.15s cubic-bezier(0.2, 0, 0, 1)',
+        'dialog-out':       'dialog-scale-out 0.15s cubic-bezier(0.2, 0, 0, 1)',
+        'scroll-up':        'scroll-up 18s linear infinite',
+        'ring-pulse-inner': 'ring-pulse-inner 2.4s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'ring-pulse-outer': 'ring-pulse-outer 2.4s cubic-bezier(0, 0, 0.2, 1) 0.4s infinite',
       },
     },
   },
