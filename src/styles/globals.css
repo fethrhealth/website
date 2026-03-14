@@ -71,6 +71,7 @@
     --color-caption-foreground:   theme('colors.black.900');  /* #a4adba */
     --color-primary-background:   theme('colors.white.100');  /* #ffffff */
     --color-surface:              theme('colors.white.400');  /* #edeff3 */
+    --internal-color-surface:     var(--color-surface);       /* #edeff3 */
 
     /* Curvas de Bézier como variables CSS (usadas por componentes custom) */
     --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
@@ -139,10 +140,26 @@
   }
 }
 
+/* Permissions rings — used in PermissionsCardVisual (AskChatDemoSection card 2) */
+@keyframes permissions-spin-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes permissions-spin-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
 /* Cursor blink — used in AskHeroSection typing animation */
 @keyframes cursor-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
+}
+
+/* Loading dots — used in AskChatDemoSection AI loading indicator */
+@keyframes chat-dot-bounce {
+  0%, 80%, 100% { transform: translateY(0);    opacity: 0.35; }
+  40%           { transform: translateY(-4px); opacity: 1;    }
 }
 
 @layer components {
@@ -728,6 +745,55 @@
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
   }
 
+  /* ── Bottom mask — content fades out in the bottom 38% ─────────────────────
+   * Used in TabVisualVC: long text overflows the panel and fades gracefully.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-b-from-38\% {
+    mask-image: linear-gradient(to bottom, black 0%, black 62%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 62%, transparent 100%);
+  }
+
+  /* ── Vertical mask — top transparent, fades to solid at 70% ─────────────────
+   * Used for dashed side lines in AskChatDemoSection heading area.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-t-to-70\% {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 70%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 70%);
+  }
+
+  /* ── Bottom mask variable — sets the fade start point ───────────────────────
+   * Apply together with mask-b-to-XX% to configure the fade start position.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-b-from-50\% {
+    --mask-b-start: 50%;
+  }
+
+  /* ── Bottom mask — solid → transparent by 85% ────────────────────────────────
+   * Use with mask-b-from-XX% to set where the fade begins.
+   * Used in AskChatDemoSection chat area to fade the demo into the background.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-b-to-85\% {
+    mask-image: linear-gradient(to bottom, black 0%, black var(--mask-b-start, 60%), transparent 85%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--mask-b-start, 60%), transparent 85%);
+  }
+
+  /* ── Bottom mask — solid → transparent by 100% ───────────────────────────────
+   * Use with mask-b-from-XX% to fade content fully to transparent at the edge.
+   * Used in card inner visuals (e.g. IntelligentSuggestionsCardVisual).
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-b-to-100\% {
+    mask-image: linear-gradient(to bottom, black 0%, black var(--mask-b-start, 50%), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--mask-b-start, 50%), transparent 100%);
+  }
+
+  /* ── Horizontal mask — subtle edge fades (90 % center visible) ──────────────
+   * Used on the dot pattern background in AskChatDemoSection.
+  ────────────────────────────────────────────────────────────────────────── */
+  .mask-x-from-90\% {
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
   /* ── Radial vignette mask — dot pattern fades out from the centre ────────────
    * Used in TabsSection's right visual panel: dots visible at edges,
    * transparent in the centre so animated content stands out clearly.
@@ -743,6 +809,21 @@
   ────────────────────────────────────────────────────────────────────────── */
   .text-caption-foreground {
     color: var(--internal-color-caption-foreground);
+  }
+
+  /* ── Caption foreground — text-decoration-color alias ───────────────────────
+   * Used for underline color on person/company name links in card visuals.
+  ────────────────────────────────────────────────────────────────────────── */
+  .decoration-caption-foreground {
+    text-decoration-color: var(--internal-color-caption-foreground);
+  }
+
+  /* ── Surface background — alias for white-400 (#edeff3) ─────────────────────
+   * Maps to --internal-color-surface = --color-surface = white-400.
+   * Lets us paste Attio's .bg-surface classes without modification.
+  ────────────────────────────────────────────────────────────────────────── */
+  .bg-surface {
+    background-color: var(--internal-color-surface);
   }
 
   /* ── Chart reveal animations (HomeScaleSection / similar) ──────────────────

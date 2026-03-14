@@ -193,6 +193,19 @@ const config: Config = {
         '30': '7.5rem',      // h-30  / gap-y-30
         '35': '8.75rem',     // pt-35 — workflows hero xl padding
         '38': '9.5rem',      // gap-y-38 — workflows hero lg gap
+        '70':  '17.5rem',    // max-w-70 / w-70 — card inner visual max-width
+        '74':  '18.5rem',    // max-w-74 — card 3 inner visual max-width
+        '160': '40rem',      // h-160 — large panel height (ask chat demo)
+      },
+
+      // ─── RING WIDTH ─────────────────────────────────────────────
+      ringWidth: {
+        '3': '3px',          // ring-3 — attio panel ring decoration
+      },
+
+      // ─── SCALE ──────────────────────────────────────────────────
+      scale: {
+        '116': '1.16',       // scale-116 — permissions SVG slight zoom
       },
 
       // ─── CUSTOM GRIDS ───────────────────────────────────────
@@ -220,6 +233,8 @@ const config: Config = {
         'attio-4': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2),var(--shadow-attio-layer-3),var(--shadow-attio-layer-4)',
         'attio-5': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2),var(--shadow-attio-layer-3),var(--shadow-attio-layer-4),var(--shadow-attio-layer-5)',
         'attio-6': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2),var(--shadow-attio-layer-3),var(--shadow-attio-layer-4),var(--shadow-attio-layer-5),var(--shadow-attio-layer-6)',
+        // Elevation 1 — lightest product shadow (used on list-row cards in visuals)
+        'attio-product-e1': 'var(--shadow-attio-layer-1),var(--shadow-attio-layer-2)',
       },
 
       // ─── BACKDROP BLUR ─────────────────────────────────────

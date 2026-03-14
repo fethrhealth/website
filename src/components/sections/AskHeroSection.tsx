@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
+import { HeroRainGrid } from '@/components/ui/HeroRainGrid'
 
 // ─── Shadows ──────────────────────────────────────────────────────────────────
 
@@ -672,11 +673,13 @@ export function AskHeroSection(): ReactNode {
       {/* ── Main flex area ───────────────────────────────────────────────── */}
       <div className="relative flex flex-1 flex-col overflow-hidden">
 
-        {/* Canvas placeholder — animated graphic added later */}
+        {/* HeroRainGrid canvas — lines rise from bottom, wave + parabola animation */}
         <div
-          className="pointer-events-auto absolute inset-0 -inset-x-[0.5px] overflow-hidden"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
           aria-hidden="true"
-        />
+        >
+          <HeroRainGrid className="h-full w-full" />
+        </div>
 
         {/* Content grid */}
         <div className="pointer-events-none relative grid flex-1 grid-cols-12">
