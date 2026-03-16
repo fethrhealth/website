@@ -316,10 +316,10 @@ export function FeatureGridSection({
                   </div>
                   <div className="relative col-[2/-2] flex flex-col items-center text-center py-32 gap-4">
                     <blockquote className="text-quote-responsive text-secondary-foreground">
-                      &ldquo;{quote.text}&rdquo;
+                      &quot;{quote.text}&quot;
                     </blockquote>
                     <cite className="not-italic text-sm flex flex-col items-center gap-0.5">
-                      <span className="font-semibold text-secondary-foreground">{quote.author}</span>
+                      <span className="mt-10 font-semibold text-secondary-foreground text-sm">{quote.author}</span>
                       <span className="text-accent-foreground">{quote.role}</span>
                     </cite>
                   </div>

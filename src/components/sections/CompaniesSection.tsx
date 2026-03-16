@@ -6,6 +6,7 @@ import { HOME_COMPANY_LOGOS, type CompanyLogo } from '@/data/company-logos'
 export function CompaniesSection({
   logos = HOME_COMPANY_LOGOS,
   heading,
+  maxLogos,
 }: {
   logos?: CompanyLogo[]
   /**
@@ -13,7 +14,10 @@ export function CompaniesSection({
    * Si no se pasa, no se renderiza nada.
    */
   heading?: string
+  /** Limita cuántos logos se muestran. Por defecto muestra todos. */
+  maxLogos?: number
 }) {
+  const visibleLogos = maxLogos !== undefined ? logos.slice(0, maxLogos) : logos
   return (
     <div className="container">
       <div>
@@ -47,7 +51,7 @@ export function CompaniesSection({
                 'max-md:[&>*:nth-child(n+10)]:hidden',
               ].join(' ')}
             >
-              {logos.map((logo) => (
+              {visibleLogos.map((logo) => (
                 <Image
                   key={logo.src}
                   src={logo.src}

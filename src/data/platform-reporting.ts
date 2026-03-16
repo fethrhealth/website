@@ -17,7 +17,7 @@ export const REPORTING_ENGINE: BentoItem[] = [
     description: "Attio\’s powerful engine allows you to find whichever insights you\’re looking for.",
     imageSrc: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
+    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
   {
@@ -26,7 +26,7 @@ export const REPORTING_ENGINE: BentoItem[] = [
     description: "Combine visualizations to instantly understand the full story and make better business decisions.",
     imageSrc: '/assets/images/platform/reporting/reporting-engine/build-powerful-dashboards.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
+    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/build-powerful-dashboards-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
   {

@@ -855,4 +855,47 @@
     from { clip-path: inset(0 0 100% 0); }
     to   { clip-path: inset(0 0 0% 0); }
   }
+
+  /* ── Home Bento Grid — responsive named-area grid ────────────────────────────
+   * Used by HomeBentoSection for both content rows and spacer rows.
+   * home-bento-grid  → full named-area layout (titleAndDescription + content cells)
+   * home-bento-spacer → same column template, no named areas (for dashed spacers)
+   * Column widths: mobile=1col, lg=280px+1fr, xl=280px+1fr+360px
+  ────────────────────────────────────────────────────────────────────────── */
+  .home-bento-grid,
+  .home-bento-spacer {
+    grid-template-columns: 1fr;
+  }
+
+  .home-bento-grid {
+    grid-template-areas:
+      "titleAndDescription"
+      "contentA";
+  }
+
+  @media (min-width: 992px) {
+    .home-bento-grid,
+    .home-bento-spacer {
+      grid-template-columns: 280px 1fr;
+    }
+
+    .home-bento-grid {
+      grid-template-areas: "titleAndDescription contentA";
+      grid-template-rows: 1fr;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .home-bento-grid,
+    .home-bento-spacer {
+      grid-template-columns: 280px 1fr 360px;
+    }
+
+    .home-bento-grid {
+      grid-template-areas:
+        "titleAndDescription contentA contentB"
+        "titleAndDescription contentA contentC";
+      grid-template-rows: 1fr minmax(240px, auto);
+    }
+  }
 }

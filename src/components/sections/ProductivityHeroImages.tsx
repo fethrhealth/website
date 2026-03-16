@@ -162,14 +162,14 @@ export function ProductivityHeroImages() {
       </div>
 
       {/* ── Mobile (horizontal scroll) ────────────────────────────────────── */}
-      <div className="mt-8 block lg:hidden">
-        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-6 [&::-webkit-scrollbar]:hidden">
+      <div className="mt-20 block lg:hidden max-w-[448px]">
+        <div className="flex snap-x snap-mandatory gap-y-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
 
           {/* Slide 1 */}
-          <div className="flex w-[calc(100vw-2rem)] shrink-0 snap-start flex-col gap-y-3">
+          <div className="flex w-full shrink-0 snap-start flex-col gap-y-3 px-4 pb-6 ">
             <div className={cn(cardCls, 'overflow-hidden')}>
               <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-note.jpg"
+                src="/assets/images/platform/productivity/hero/productivity-hero-note-mobile.avif"
                 alt=""
                 width={1524}
                 height={708}
@@ -179,7 +179,7 @@ export function ProductivityHeroImages() {
             </div>
             <div className={cn(cardCls, 'overflow-hidden')}>
               <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-list.jpg"
+                src="/assets/images/platform/productivity/hero/productivity-hero-list-mobile.avif"
                 alt=""
                 width={1524}
                 height={908}
@@ -190,10 +190,10 @@ export function ProductivityHeroImages() {
           </div>
 
           {/* Slide 2 */}
-          <div className="flex w-[calc(100vw-2rem)] shrink-0 snap-start flex-col gap-y-3">
+          <div className="flex w-full shrink-0 snap-start flex-col gap-y-3 px-4 pb-6 ">
             <div className={cn(cardCls, 'overflow-hidden')}>
               <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-email.jpg"
+                src="/assets/images/platform/productivity/hero/productivity-hero-email-mobile.avif"
                 alt=""
                 width={1524}
                 height={908}
@@ -203,7 +203,7 @@ export function ProductivityHeroImages() {
             </div>
             <div className={cn(cardCls, 'overflow-hidden')}>
               <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-comment.jpg"
+                src="/assets/images/platform/productivity/hero/productivity-hero-comment-mobile.avif"
                 alt=""
                 width={1524}
                 height={708}

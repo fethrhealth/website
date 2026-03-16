@@ -4,14 +4,17 @@ import SecuritySection from '@/components/sections/SecuritySection'
 import { CtaSection } from '@/components/sections/CtaSection'
 import Divider from '@/components/ui/divider'
 import { HomeScaleSection } from '@/components/sections/HomeScaleSection'
+import { HomeBentoSection } from '@/components/sections/HomeBentoSection'
+import { HomeHeroSection } from '@/components/sections/HomeHeroSection'
 
 /**
  * Home page — pixel-perfect clone of attio.com adapted for Fethr Health.
- * TODO Phase 2: Build remaining sections (Hero, Features, CTA, etc.)
  */
 export default function HomePage(): React.ReactElement {
   return (
     <main>
+      <HomeHeroSection />
+      <HomeBentoSection />
       <TrialSection />
       <TestimonialsSection />
       <HomeScaleSection

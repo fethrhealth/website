@@ -97,7 +97,7 @@ export const BENTO_EMAIL_RELEVANT: BentoItem[] = [
     description: "Streamline outreach for your entire team with custom templates built for any situation.",
     imageSrc: '/assets/images/platform/productivity/email-relevant/email-templates.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
+    imageSrcMobile: '/assets/images/platform/productivity/email-relevant/email-templates-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
   {
@@ -107,7 +107,7 @@ export const BENTO_EMAIL_RELEVANT: BentoItem[] = [
     description: "Send personalized emails to everyone all at once, without missing a beat.",
     imageSrc: '/assets/images/platform/productivity/email-relevant/emails-at-scale.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
+    imageSrcMobile: '/assets/images/platform/productivity/email-relevant/emails-at-scale-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
 ]
@@ -227,21 +227,21 @@ export const STAY_IN_THE_FLOW: AccordionItem[] = [
   {
     title: 'Bring in data from everywhere.',
     description: 'Add leads from X, Google Meets, and more with just a single click.',
-    imageSrc: '/assets/images/platform/reporting/data-exploration/group-your-way.webp',
+    imageSrc: '/assets/images/platform/productivity/flow/bring-data.webp',
     imageWidth: 2272,
     imageHeight: 1704,
   },
   {
     title: 'Run workflows anywhere on the web.',
     description: 'Run your automations on leads from anywhere on the web.',
-    imageSrc: '/assets/images/platform/reporting/data-exploration/set-better-targets.webp',
+    imageSrc: '/assets/images/platform/productivity/flow/run-workflows.webp',
     imageWidth: 2272,
     imageHeight: 1704,
   },
   {
     title: 'Understand context for every lead and prospect.',
     description: 'See all the relevant data about your customer as you interact with them.',
-    imageSrc: '/assets/images/platform/reporting/data-exploration/historical-data.webp',
+    imageSrc: '/assets/images/platform/productivity/flow/understand-context.webp',
     imageWidth: 2272,
     imageHeight: 1704,
   },
@@ -254,6 +254,7 @@ export const COLLABORATE_WITH_COMMENTS: BentoItem[] = [
     title: 'Add comments anywhere.',                                                                                                                                                     
     description: 'Make sure your teammates always have the right context for any workflow they’re collaborating on.',
     imageSrc: '/assets/images/platform/productivity/add-comments.webp',
+    imageSrcMobile: '/assets/images/platform/productivity/add-comments-mobile.webp',
     imageWidth: 1472, imageHeight: 1008,
   },
   {
@@ -262,7 +263,7 @@ export const COLLABORATE_WITH_COMMENTS: BentoItem[] = [
     description: "Have better discussions by creating intuitive threads around single comments.",
     imageSrc: '/assets/images/platform/productivity/thread-commenting.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
+    imageSrcMobile: '/assets/images/platform/productivity/thread-commenting-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
   {
@@ -272,7 +273,7 @@ export const COLLABORATE_WITH_COMMENTS: BentoItem[] = [
     description: "Combine visualizations to instantly understand the full story and make better business decisions.",
     imageSrc: '/assets/images/platform/productivity/comment-history.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/reporting/reporting-engine/customize-reports.webp',
+    imageSrcMobile: '/assets/images/platform/productivity/comment-history-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
 ]

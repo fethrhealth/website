@@ -185,17 +185,19 @@ const config: Config = {
       spacing: {
         '3.25': '0.8125rem', // px-3.25 — attio button horizontal padding
         '4.5':  '1.125rem',  // size-4.5 — small icon badge (enrollment header)
-        '7.5':  '1.875rem',  // left-7.5 / inset-x-7.5 — attio content panel compact padding
         '6.5':  '1.625rem',  // h-6.5 — connector line height (sequences hero)
+        '7.5':  '1.875rem',  // left-7.5 / inset-x-7.5 — attio content panel compact padding
+        '11.5': '2.875rem',  // h-11.5 — button height mobile (attio lg breakpoint)
         '13':   '3.25rem',   // h-13 — prompt card min-height (52px)
-        '15': '3.75rem',     // h-15 / w-15 etc. — used by attio spacers
-        '25': '6.25rem',     // h-25
-        '30': '7.5rem',      // h-30  / gap-y-30
-        '35': '8.75rem',     // pt-35 — workflows hero xl padding
-        '38': '9.5rem',      // gap-y-38 — workflows hero lg gap
-        '70':  '17.5rem',    // max-w-70 / w-70 — card inner visual max-width
-        '74':  '18.5rem',    // max-w-74 — card 3 inner visual max-width
-        '160': '40rem',      // h-160 — large panel height (ask chat demo)
+        '15':   '3.75rem',   // h-15 / w-15 etc. — used by attio spacers
+        '18':   '4.5rem',    // mt-18 / mb-18 — attio hero margin (72px); Tailwind default skips 16→20
+        '25':   '6.25rem',   // h-25
+        '30':   '7.5rem',    // h-30  / gap-y-30
+        '35':   '8.75rem',   // pt-35 — workflows hero xl padding
+        '38':   '9.5rem',    // gap-y-38 — workflows hero lg gap
+        '70':   '17.5rem',   // max-w-70 / w-70 — card inner visual max-width
+        '74':   '18.5rem',   // max-w-74 — card 3 inner visual max-width
+        '160':  '40rem',     // h-160 — large panel height (ask chat demo)
       },
 
       // ─── RING WIDTH ─────────────────────────────────────────────

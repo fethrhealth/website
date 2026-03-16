@@ -74,7 +74,7 @@ export default function ReportingPage(): React.ReactElement {
         headerLayout="centered"
         headingPrimary="Powerful"
         headingMuted=" data exploration"
-        subheading="The more teams you refer, the more exclusive bundles you can claim."
+        subheading="No matter how large the data set, Attio makes it easy to deep dive into the details."
         items={REPORTING_DATA_EXPLORATION}
       />
       <ImageGridSection

@@ -17,6 +17,7 @@ import Image from 'next/image'
 import { useRef, useState, useCallback } from 'react'
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import Divider from '../ui/divider'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -338,6 +339,7 @@ export function ScrollAccordionSection({
           </div>
         </div>
       </div>
+      <Divider/>
     </div>
   )
 }
