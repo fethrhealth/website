@@ -6,6 +6,7 @@ import Divider from '@/components/ui/divider'
 import { HomeScaleSection } from '@/components/sections/HomeScaleSection'
 import { HomeBentoSection } from '@/components/sections/HomeBentoSection'
 import { HomeHeroSection } from '@/components/sections/HomeHeroSection'
+import { HomeAdaptiveSection } from '@/components/sections/HomeAdaptiveSection'
 
 /**
  * Home page — pixel-perfect clone of attio.com adapted for Fethr Health.
@@ -17,6 +18,16 @@ export default function HomePage(): React.ReactElement {
       <HomeBentoSection />
       <Divider/>
       <TrialSection />
+      <HomeAdaptiveSection
+        index={2}
+        sectionLabel="Adaptive model"
+        sectionTag="/ data ↔ business"
+        heading="A seismic shift in CRM flexibility."
+        description="Fethr's powerful data model adapts to how your health team works, not the other way around. Your business model — perfectly reflected in your CRM."
+        ctaText="Explore the data model"
+        ctaHref="/platform/data"
+      >
+      </HomeAdaptiveSection>
       <TestimonialsSection />
       <HomeScaleSection
         index={4}
