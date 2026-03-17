@@ -21,6 +21,17 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { AutomationStackVisual } from '@/components/sections/AutomationStackVisual'
+import { AutomationWorkflowCanvas } from '@/components/sections/AutomationWorkflowCanvas'
+import { BentoCubeVisual } from '@/components/sections/BentoCubeVisual'
+import { BentoAtomVisual } from '@/components/sections/BentoAtomVisual'
+import { BentoNetworkVisual } from '@/components/sections/BentoNetworkVisual'
+import { BentoReportingVisual } from '@/components/sections/BentoReportingVisual'
+import { BentoRecordVisual } from '@/components/sections/BentoRecordVisual'
+import { BentoConnectDataVisual } from '@/components/sections/BentoConnectDataVisual'
+import { BentoReportingListVisual } from '@/components/sections/BentoReportingListVisual'
+import { DeployAIWorkflowCanvas } from './DeployAIWorkflowCanvas'
+import { BentoReportingChartVisual } from './BentoReportingChartVisual'
+import { BentoDataFlowVisual } from './BentoDataFlowVisual'
 
 // ─── SVG helpers ───────────────────────────────────────────────────────────────
 
@@ -92,7 +103,7 @@ function DotPatternCell({ patternId }: { patternId: string }): ReactNode {
 // ─── contentC — graph paper cell (xl only) ─────────────────────────────────────
 // 15 rows × 25px dashed H + 16 cols × 25px dashed V + solid crosshair at centre
 
-function GraphPaperCell(): ReactNode {
+function GraphPaperCell({ visual }: { visual?: ReactNode }): ReactNode {
   return (
     <div
       className="relative hidden min-h-[240px] w-full overflow-hidden bg-primary-background xl:flex"
@@ -135,6 +146,10 @@ function GraphPaperCell(): ReactNode {
         </div>
 
       </div>
+
+      {/* Per-row visual — rendered after grid lines so it sits on top */}
+      {visual}
+
     </div>
   )
 }
@@ -188,7 +203,7 @@ const BENTO_ITEMS: readonly BentoItem[] = [
 
 // ─── Bento row ─────────────────────────────────────────────────────────────────
 
-function BentoRow({ item, contentB }: { item: BentoItem; contentB?: ReactNode }): ReactNode {
+function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; contentA?: ReactNode; contentB?: ReactNode; contentC?: ReactNode }): ReactNode {
   return (
     <div className="container w-full lg:grid lg:grid-cols-12 lg:gap-x-6 lg:px-0 relative">
 
@@ -233,8 +248,8 @@ function BentoRow({ item, contentB }: { item: BentoItem; contentB?: ReactNode })
           </Link>
         </div>
 
-        {/* ── contentA — dot pattern placeholder ────────────────────────── */}
-        <DotPatternCell patternId={item.patternId} />
+        {/* ── contentA ──────────────────────────────────────────────────── */}
+        {contentA ?? <DotPatternCell patternId={item.patternId} />}
 
         {/* ── contentB — optional visual, visible xl only ─────────────────── */}
         <div
@@ -245,7 +260,7 @@ function BentoRow({ item, contentB }: { item: BentoItem; contentB?: ReactNode })
         </div>
 
         {/* ── contentC — graph paper cell, visible xl only ───────────────── */}
-        <GraphPaperCell />
+        <GraphPaperCell visual={contentC} />
 
       </div>
     </div>
@@ -299,7 +314,7 @@ export function HomeBentoSection(): ReactNode {
               style={{ backgroundImage: 'repeating-linear-gradient(125deg, transparent, transparent 6px, currentcolor 6px, currentcolor 7px)' }}
             />
 
-            <div className="container px-0">
+            <div className="w-full px-0">
 
               {/* ── Top spacer — dashed vertical column dividers ─────────── */}
               <div className="container relative w-full lg:grid lg:grid-cols-12 lg:gap-x-6 lg:px-0">
@@ -331,7 +346,26 @@ export function HomeBentoSection(): ReactNode {
                 <BentoRow
                   key={item.title}
                   item={item}
-                  contentB={i === 0 ? <AutomationStackVisual /> : undefined}
+                  contentA={
+                    i === 0 ? <AutomationWorkflowCanvas /> :
+                    i === 1 ? <DeployAIWorkflowCanvas /> :
+                    i === 2 ? <BentoDataFlowVisual /> :
+                    i === 3 ? <BentoReportingChartVisual /> :
+                    undefined
+                  }
+                  contentB={
+                    i === 0 ? <AutomationStackVisual /> :
+                    i === 1 ? <BentoRecordVisual /> :
+                    i === 2 ? <BentoConnectDataVisual /> :
+                    i === 3 ? <BentoReportingListVisual /> :
+                    undefined
+                  }
+                  contentC={
+                    i === 0 ? <BentoCubeVisual /> :
+                    i === 1 ? <BentoAtomVisual /> :
+                    i === 2 ? <BentoNetworkVisual /> :
+                    <BentoReportingVisual />
+                  }
                 />
               ))}
 

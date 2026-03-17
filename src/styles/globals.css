@@ -860,7 +860,7 @@
    * Used by HomeBentoSection for both content rows and spacer rows.
    * home-bento-grid  → full named-area layout (titleAndDescription + content cells)
    * home-bento-spacer → same column template, no named areas (for dashed spacers)
-   * Column widths: mobile=1col, lg=280px+1fr, xl=280px+1fr+360px
+   * Column widths: mobile=1col, lg=280px+1fr, xl=280px+1fr+320px
   ────────────────────────────────────────────────────────────────────────── */
   .home-bento-grid,
   .home-bento-spacer {
@@ -888,7 +888,7 @@
   @media (min-width: 1280px) {
     .home-bento-grid,
     .home-bento-spacer {
-      grid-template-columns: 280px 1fr 360px;
+      grid-template-columns: 280px 1fr 320px;
     }
 
     .home-bento-grid {
