@@ -46,7 +46,6 @@ export function DataContextSection() {
       background="hatching"
       rules="solid"
       items={ITEMS}
-      bottomConnector
       divider
     />
   )

@@ -56,7 +56,7 @@
  *     rules="dashed"
  *     guideLines
  *     items={ITEMS}
- *     bottomConnector
+
  *   />
  */
 
