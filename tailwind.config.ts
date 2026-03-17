@@ -11,7 +11,7 @@ const config: Config = {
         sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-inter-display)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
         mono:    ['var(--font-jetbrains-mono)', 'monospace'],
-        serif:   ['var(--font-lora)', 'Georgia', 'serif'],
+        serif:   ['var(--font-tiempos-text)', 'Georgia', 'serif'],
       },
 
       // ─── TIPOGRAFÍA ────────────────────────────────────────

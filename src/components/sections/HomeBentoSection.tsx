@@ -271,7 +271,7 @@ function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; con
 
 export function HomeBentoSection(): ReactNode {
   return (
-    <section id="home-bento" className="flex w-full max-w-[100vw] flex-col items-center justify-center overflow-x-clip">
+    <section id="home-bento" className="flex w-full max-w-[100vw] flex-col items-center justify-center overflow-x-clip overflow-hidden">
       <div className="relative flex w-full max-w-full flex-col items-center lg:px-6">
         <div className="relative flex w-full max-w-[1392px] flex-col">
 

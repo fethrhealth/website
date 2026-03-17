@@ -602,11 +602,11 @@
 
   /* Serif accent — mismas dimensiones que heading-md, fuente serif */
   .text-heading-md-serif {
-    font-size: inherit;
-    line-height: inherit;
+    font-family: var(--font-tiempos-text, Georgia, serif);
+    font-size: 2.5rem;
+    line-height: 2.75rem;
     letter-spacing: -0.015em;
     font-weight: 400;
-    font-family: var(--font-tiempos-text, Georgia, serif);
   }
 
   /* Site header height — used for sticky ToC offset */

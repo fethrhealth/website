@@ -1,25 +1,40 @@
 import type { Metadata } from 'next'
-import { Inter, Lora } from 'next/font/google'
+import localFont from 'next/font/local'
 import '@/styles/globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { ClientFooter } from '@/components/layout/ClientFooter'
 
-const inter = Inter({
-  subsets: ['latin'],
+// Self-hosted fonts extracted from attio.com — pixel-perfect match.
+// Files live in public/fonts/ (keep out of git if font license requires it).
+
+const inter = localFont({
+  src: [
+    { path: '../../../public/fonts/inter_regular.woff2',  weight: '400', style: 'normal' },
+    { path: '../../../public/fonts/inter_medium.woff2',   weight: '500', style: 'normal' },
+    { path: '../../../public/fonts/inter_semibold.woff2', weight: '600', style: 'normal' },
+    { path: '../../../public/fonts/inter_bold.woff2',     weight: '700', style: 'normal' },
+  ],
   variable: '--font-inter',
+  display: 'swap',
 })
 
-// Inter Display isn't on Google Fonts — using Inter as fallback until we
-// self-host the Inter Display optical-size variant.
-const interDisplay = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const interDisplay = localFont({
+  src: [
+    { path: '../../../public/fonts/inter_display_medium.woff2',   weight: '500', style: 'normal' },
+    { path: '../../../public/fonts/inter_display_semibold.woff2', weight: '600', style: 'normal' },
+    { path: '../../../public/fonts/inter_display_bold.woff2',     weight: '700', style: 'normal' },
+  ],
   variable: '--font-inter-display',
+  display: 'swap',
 })
 
-const lora = Lora({
-  subsets: ['latin'],
-  variable: '--font-lora',
+const tiempos = localFont({
+  src: [
+    { path: '../../../public/fonts/tiempos_text_regular.woff2',        weight: '400', style: 'normal' },
+    { path: '../../../public/fonts/tiempos_text_regular_italic.woff2', weight: '400', style: 'italic' },
+  ],
+  variable: '--font-tiempos-text',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -32,7 +47,7 @@ export const metadata: Metadata = {
 
 export default function SiteLayout({ children }: { children: React.ReactNode }): React.ReactElement {
   return (
-    <html lang="en" className={`${inter.variable} ${interDisplay.variable} ${lora.variable}`}>
+    <html lang="en" className={`${inter.variable} ${interDisplay.variable} ${tiempos.variable}`}>
       <body className="bg-background text-foreground antialiased">
         <Navbar />
         <main className="pt-[60px]">{children}</main>

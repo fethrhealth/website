@@ -64,11 +64,11 @@ function AnimatedQuote({ quote, isActive }: { quote: string; isActive: boolean }
           className="relative block overflow-clip pb-0.5 text-foreground"
         >
           <motion.span
-            className="inline-block will-change-transform"
+            className="inline-block will-change-transform leading-[29px] lg:leading-[34px]"
             animate={
               isActive
                 ? { y: 0, opacity: 1 }
-                : { y: '100%', opacity: 0 }
+                : { y: '100%', opacity:  0}
             }
             transition={{
               delay: isActive ? i * 0.025 : 0,
@@ -118,7 +118,7 @@ function TestimonialCard({
     >
       {/* Inner flex wrapper */}
       <div
-        className="relative flex w-full flex-col gap-y-6 lg:flex-row lg:gap-y-[60px]"
+        className="relative flex w-full flex-col gap-y-0 lg:flex-row lg:gap-y-[60px]"
         style={{ transitionDuration: '0.125s' }}
       >
 
@@ -126,16 +126,23 @@ function TestimonialCard({
         {/* NOTE: NO display:none — igual que attio. El overflow-hidden del card
             recorta el desbordamiento. Así funciona la animación fade/slide. */}
         <div
-          className="w-[288px] shrink-0 items-center mix-blend-darken lg:grid xl:grid-rows-[1fr_52px] xl:items-start"
+          className={cn(
+            'w-[288px] shrink-0 items-center mix-blend-darken lg:grid lg:!opacity-100 xl:grid-rows-[1fr_52px] xl:items-start',
+            isActive
+              ? 'opacity-100'
+              : 'opacity-0 h-0 overflow-hidden lg:h-auto lg:overflow-visible',
+          )}
           style={{
-            opacity: isActive ? 1 : 0,
             transform: isActive ? 'none' : 'translateX(-80px)',
             transition: 'opacity 0.125s, transform 0.125s',
           }}
         >
           {/* Avatar */}
           <div className="flex pt-10 pl-5 lg:justify-center lg:px-0 lg:pt-0 xl:pt-[120px]">
-            <div className="flex items-center justify-center size-[120px] lg:size-[220px] lg:pt-2 xl:pt-0">
+            <div
+              className="flex items-center justify-center max-h-[120px] min-h-[120px] min-w-[120px] max-w-[120px] opacity-0 lg:max-h-[220px] lg:min-h-[220px] lg:min-w-[220px] lg:max-w-[220px] lg:pt-2 xl:pt-0"
+              style={{ opacity: isActive ? 0.8 : 1, transition: 'opacity 0.125s' }}
+            >
               <Image
                 src={t.avatarSrc}
                 alt={t.name}
@@ -210,8 +217,13 @@ function TestimonialCard({
           {/* Dashed line above feature chips — xl only */}
           <DashedLine direction="h" />
 
-          {/* Company logo — mobile bottom bar */}
-          <div className="absolute inset-x-0 bottom-0 flex h-[60px] w-full items-center justify-start px-5 lg:hidden">
+          {/* Company logo — mobile bar: top-0 when collapsed (visible in 60px clip), bottom-0 when active */}
+          <div
+            className={cn(
+              'absolute inset-x-0 flex h-[60px] w-full items-center justify-start px-5 lg:hidden',
+              isActive ? 'bottom-0' : 'top-0',
+            )}
+          >
             {t.logoSrc ? (
               <Image
                 src={t.logoSrc}

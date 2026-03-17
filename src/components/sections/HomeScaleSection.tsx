@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { SectionLabel } from '@/components/ui/SectionLabel'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -198,11 +199,12 @@ export function HomeScaleSection({
                 {stats.map((stat, i) => (
                   <div
                     key={i}
-                    className="flex flex-col gap-1 lg:col-span-4 lg:gap-2 2xl:col-span-3 animate-in fade-in-0 fill-mode-both duration-300"
+                    className={cn(
+                      'flex flex-col gap-1 lg:col-span-4 lg:gap-2 2xl:col-span-3 animate-in fade-in-0 fill-mode-both duration-300',
+                      i >= 2 && 'lg:row-start-2',
+                    )}
                     style={{
                       animationDelay: `${STAT_DELAY_START + i * STAT_DELAY_STEP}ms`,
-                      /* Place first two stats in row 1, last two in row 2 on desktop */
-                      ...(i >= 2 ? { gridRowStart: 2 } : {}),
                     }}
                   >
                     {/* Value with left accent bar */}

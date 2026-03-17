@@ -120,8 +120,6 @@ export interface FeatureGridSectionProps {
   quote?: FeatureGridQuote
   /** After which item index to insert the quote (default: cols value) */
   quoteInsertAfter?: number
-  /** Show dashed vertical connector below the grid (default: false) */
-  bottomConnector?: boolean
   /** Append <Divider /> after the section (default: false) */
   divider?: boolean
 }
@@ -248,7 +246,6 @@ export function FeatureGridSection({
   items,
   quote,
   quoteInsertAfter,
-  bottomConnector = false,
   divider = false,
 }: FeatureGridSectionProps) {
   const splitAt = quoteInsertAfter ?? cols
@@ -308,14 +305,14 @@ export function FeatureGridSection({
               {/* First slice of cards (before quote) */}
               {items.slice(0, splitAt).map((item, i) => renderCard(item, i))}
 
-              {/* Optional full-width quote panel */}
+              {/* Optional full-width quote panel — mobile: order-last (end), desktop: DOM order (middle) */}
               {quote && (
-                <div className="relative col-[1/-1] grid grid-cols-12 bg-primary-background">
+                <div className="relative col-[1/-1] grid grid-cols-12 bg-primary-background order-last lg:order-none">
                   <div className="absolute inset-0 overflow-hidden">
                     <DotGridSvg id="fg-quote-dots" />
                   </div>
                   <div className="relative col-[2/-2] flex flex-col items-center text-center py-32 gap-4">
-                    <blockquote className="text-quote-responsive text-secondary-foreground">
+                    <blockquote className="text-quote-responsive text-secondary-foreground max-w-[20em]">
                       &quot;{quote.text}&quot;
                     </blockquote>
                     <cite className="not-italic text-sm flex flex-col items-center gap-0.5">
@@ -337,22 +334,20 @@ export function FeatureGridSection({
 
         </div>
 
-        {/* ── Bottom connector ────────────────────────────────────────────── */}
-        {bottomConnector && (
-          <div
-            aria-hidden
-            className="grid h-40 w-full overflow-hidden grid-cols-12 max-xl:h-30 max-lg:h-25"
-          >
-            <div className="col-[2/-2] flex justify-between">
-              <svg width="1" height="100%" className="text-subtle-stroke">
-                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
-              </svg>
-              <svg width="1" height="100%" className="text-subtle-stroke">
-                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
-              </svg>
-            </div>
+        {/* ── Bottom decorative connector — always rendered */}
+        <div
+          aria-hidden
+          className="grid h-40 w-full overflow-hidden grid-cols-12 max-xl:h-30 max-lg:h-25"
+        >
+          <div className="col-[2/-2] flex justify-between">
+            <svg width="1" height="100%" className="text-subtle-stroke">
+              <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
+            </svg>
+            <svg width="1" height="100%" className="text-subtle-stroke">
+              <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
+            </svg>
           </div>
-        )}
+        </div>
 
       </div>
       {divider && <Divider />}

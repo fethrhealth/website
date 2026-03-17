@@ -1,6 +1,6 @@
 export default function Divider() {
     return (
-      <svg width="100%" height="1" className="text-subtle-stroke w-full">
+      <svg width="100%" height="1" className="text-subtle-stroke block w-full">
         <line
           x1="0"
           y1="0.5"

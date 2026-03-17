@@ -255,7 +255,7 @@ export default function TrialSection() {
   return (
     <section className="trial-section" style={{ backgroundColor: 'var(--trial-bg)' }}>
       <div className="container">
-        <div className="relative">
+        <div className="relative" style={{ backgroundColor: 'var(--trial-bg)' }}>
 
           {/* ── Top decorative tick row ────────────────────────────────────── */}
           <TickRow position="top" />
@@ -352,10 +352,10 @@ export default function TrialSection() {
               </div>
             </div>
 
-            {/* Absolute left/right 1 px border lines */}
-            <div className="absolute top-0 left-0 h-full w-px" style={{ backgroundColor: 'var(--trial-border)' }} />
-            <div className="absolute top-0 right-0 h-full w-px" style={{ backgroundColor: 'var(--trial-border)' }} />
           </div>
+            {/* Absolute left/right 1 px border lines */}
+            <div className="absolute top-0 right-0 h-full w-px" style={{ backgroundColor: 'var(--trial-border)' }} />
+            <div className="absolute top-0 left-0 h-full w-px" style={{ backgroundColor: 'var(--trial-border)' }} />
 
           {/* ── Bottom decorative tick row ─────────────────────────────────── */}
           <TickRow position="bottom" />

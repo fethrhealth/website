@@ -170,13 +170,13 @@ export default function Footer() {
 
           {/* Logo — 1 column wide on desktop, wider on smaller screens */}
           <div className="col-[1/2] max-lg:col-[1/3] max-md:col-[1/5] max-sm:col-[1/-1]">
-            <Link href="/" className="-m-1.5 inline-block rounded-lg p-1.5" aria-label="Fethr Health home">
+            <Link href="/" className="-m-1.5 inline-block w-30 rounded-lg p-1.5" aria-label="Fethr Health home">
               <Image
                 src="/assets/logos/logo.svg"
                 alt="Fethr Health"
                 width={103}
                 height={26}
-                className="w-full"
+                className="w-auto"
                 priority={false}
               />
             </Link>

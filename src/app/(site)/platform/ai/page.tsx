@@ -39,6 +39,7 @@ export default function AIPage(): React.ReactElement {
         subheading="Every conversation captured, summarized, and synced to your CRM — instantly."
         items={ SMARTER_CALLS }
       />
+      <Divider/>
       <FeatureGridSection
         heading="CRM, meet MCP."
         subheading="Connect to Attio in AI tools and get work done anywhere, anytime."
@@ -46,7 +47,6 @@ export default function AIPage(): React.ReactElement {
         background="hatching"
         rules="solid"
         items={ITEMS}
-        bottomConnector
         divider
       />
       <PlatformNavSection currentHref="/platform/ai" />

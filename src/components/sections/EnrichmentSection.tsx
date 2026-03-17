@@ -121,6 +121,22 @@ export function EnrichmentSection({ heading, subheading, items }: EnrichmentSect
           </svg>
 
         </div>
+
+        {/* ── Bottom decorative connector */}
+        <div
+          aria-hidden
+          className="grid h-40 w-full overflow-hidden grid-cols-12 max-xl:h-30 max-lg:h-25"
+        >
+          <div className="col-[2/-2] flex justify-between">
+            <svg width="1" height="100%" className="text-subtle-stroke">
+              <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
+            </svg>
+            <svg width="1" height="100%" className="text-subtle-stroke">
+              <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
+            </svg>
+          </div>
+        </div>
+
       </div>
     </div>
   )

@@ -15,6 +15,7 @@ export default function HomePage(): React.ReactElement {
     <main>
       <HomeHeroSection />
       <HomeBentoSection />
+      <Divider/>
       <TrialSection />
       <TestimonialsSection />
       <HomeScaleSection
