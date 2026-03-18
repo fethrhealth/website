@@ -80,10 +80,10 @@ export function HomeSpeedSection({
 
           {/* ── Main centered content ─────────────────────────────────────── */}
           <div className="mx-auto flex flex-col items-center">
-            <div className="pt-20 lg:flex lg:flex-col lg:items-center lg:pt-[120px]">
+            <div className="pt-20 lg:flex lg:flex-col lg:items-center lg:pt-[120px] w-full">
 
               {/* Heading + description — inline, centered on desktop */}
-              <div className="max-w-[830px] text-heading-sm lg:text-center">
+              <div className="max-w-[830px] text-heading-sm lg:text-center font-display">
                 <h3 className="inline font-semibold">
                   <span className="font-semibold text-primary-foreground">
                     {heading}&nbsp;
@@ -149,10 +149,10 @@ export function HomeSpeedSection({
 
               </div>
 
-              {/* ── Visual slot — chart will be injected in second pass ────── */}
-              {children}
 
             </div>
+              {/* ── Visual slot — chart will be injected in second pass ────── */}
+              {children}
           </div>
 
         </div>

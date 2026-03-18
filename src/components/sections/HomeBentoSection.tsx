@@ -157,47 +157,47 @@ function GraphPaperCell({ visual }: { visual?: ReactNode }): ReactNode {
 // ─── Bento item data ───────────────────────────────────────────────────────────
 
 interface BentoItem {
-  readonly title:       string
+  readonly title: string
   readonly description: string
-  readonly linkLabel:   string
-  readonly linkHref:    string
+  readonly linkLabel: string
+  readonly linkHref: string
   /** Unique SVG pattern id — prevents duplicate IDs in the DOM */
-  readonly patternId:   string
-  readonly isLast:      boolean
+  readonly patternId: string
+  readonly isLast: boolean
 }
 
 const BENTO_ITEMS: readonly BentoItem[] = [
   {
-    title:       'Automate everything',
+    title: 'Automate everything',
     description: "You're in control. Automate even the most complex business processes with our powerful, intelligent automation engine.",
-    linkLabel:   'Explore automations',
-    linkHref:    '/platform/automations',
-    patternId:   'bento-dot-a',
-    isLast:      false,
+    linkLabel: 'Explore automations',
+    linkHref: '/platform/automations',
+    patternId: 'bento-dot-a',
+    isLast: false,
   },
   {
-    title:       'Deploy AI',
+    title: 'Deploy AI',
     description: 'Search and create with Ask Fethr, connect your stack with MCP, or put agents to work on complex tasks like prospecting and lead scoring.',
-    linkLabel:   'Explore AI',
-    linkHref:    '/platform/ask',
-    patternId:   'bento-dot-b',
-    isLast:      false,
+    linkLabel: 'Explore AI',
+    linkHref: '/platform/ask',
+    patternId: 'bento-dot-b',
+    isLast: false,
   },
   {
-    title:       'Connect any type of data',
+    title: 'Connect any type of data',
     description: 'Sync product data, billing data, and everything in between, for a real-time single source of truth for your business.',
-    linkLabel:   'Explore data',
-    linkHref:    '/platform/data',
-    patternId:   'bento-dot-c',
-    isLast:      false,
+    linkLabel: 'Explore data',
+    linkHref: '/platform/data',
+    patternId: 'bento-dot-c',
+    isLast: false,
   },
   {
-    title:       'Powerful reporting',
+    title: 'Powerful reporting',
     description: "Create real-time, detailed reports that scale with your data. Visualize, customize, and get deep insights in seconds — not hours.",
-    linkLabel:   'Explore reporting',
-    linkHref:    '/platform/reporting',
-    patternId:   'bento-dot-d',
-    isLast:      true,
+    linkLabel: 'Explore reporting',
+    linkHref: '/platform/reporting',
+    patternId: 'bento-dot-d',
+    isLast: true,
   },
 ]
 
@@ -229,10 +229,10 @@ function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; con
 
         {/* ── titleAndDescription ────────────────────────────────────────── */}
         <div
-          className="flex w-full flex-col items-start bg-primary-background px-[30px] pt-[30px] pb-[22px] lg:px-[36px] lg:pt-[32px] lg:pb-[24px]"
+          className="flex lg:max-w-[320px] flex-col items-start bg-primary-background px-[30px] pt-[30px] pb-[22px] lg:px-[36px] lg:pt-[32px] lg:pb-[24px]"
           style={{ gridArea: 'titleAndDescription' }}
         >
-          <h2 className="mb-[8px] font-display font-semibold text-lg xl:py-[2px] xl:text-xl">
+          <h2 className="mb-[8px] font-display !font-semibold text-lg xl:py-[2px] xl:text-xl">
             {item.title}
           </h2>
           <p className="mb-[12px] text-accent-foreground">
@@ -271,13 +271,13 @@ function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; con
 
 export function HomeBentoSection(): ReactNode {
   return (
-    <section id="home-bento" className="flex w-full max-w-[100vw] flex-col items-center justify-center overflow-x-clip overflow-hidden">
+    <section id="home-bento" className="flex w-full max-w-[100vw] flex-col items-center justify-center overflow-x-clip overflow-hidden font-display">
       <div className="relative flex w-full max-w-full flex-col items-center lg:px-6">
         <div className="relative flex w-full max-w-[1392px] flex-col">
 
           {/* ── Section label — desktop only ──────────────────────────────── */}
           <div className="hidden lg:block pt-[60px]">
-            <div className="flex items-center justify-between px-5 text-overline">
+            <div className="flex items-center justify-between px-5 text-overline font-display">
               <h2 className="flex gap-x-[6px]">
                 <span>[01]</span>
                 <span className="text-black-800">Powerful platform</span>
@@ -289,13 +289,13 @@ export function HomeBentoSection(): ReactNode {
 
           {/* ── Main heading ──────────────────────────────────────────────── */}
           <div className="container relative w-full lg:grid lg:grid-cols-12 lg:gap-x-6 lg:px-0">
-            <div className="col-span-10 col-start-2 max-w-[28em] text-balance pt-20 pb-16 text-heading-sm lg:pt-[120px]">
+            <div className="col-span-10 col-start-2 max-w-[28em] text-balance pt-20 pb-16 text-heading-sm lg:pt-[120px] overflow-hidden">
               <h3 className="inline">
                 <span className="font-semibold text-[#1c1d1f]">
                   GTM&nbsp;at&nbsp;full&nbsp;throttle.&nbsp;
                 </span>
               </h3>
-              <p className="inline font-medium text-accent-foreground">
+              <p className="sm:inline font-medium text-black-800">
                 Execute your revenue strategy with precision. Design powerful workflows, deploy AI, integrate your data and build detailed reports — all in one platform.
               </p>
             </div>
@@ -348,23 +348,23 @@ export function HomeBentoSection(): ReactNode {
                   item={item}
                   contentA={
                     i === 0 ? <AutomationWorkflowCanvas /> :
-                    i === 1 ? <DeployAIWorkflowCanvas /> :
-                    i === 2 ? <BentoDataFlowVisual /> :
-                    i === 3 ? <BentoReportingChartVisual /> :
-                    undefined
+                      i === 1 ? <DeployAIWorkflowCanvas /> :
+                        i === 2 ? <BentoDataFlowVisual /> :
+                          i === 3 ? <BentoReportingChartVisual /> :
+                            undefined
                   }
                   contentB={
                     i === 0 ? <AutomationStackVisual /> :
-                    i === 1 ? <BentoRecordVisual /> :
-                    i === 2 ? <BentoConnectDataVisual /> :
-                    i === 3 ? <BentoReportingListVisual /> :
-                    undefined
+                      i === 1 ? <BentoRecordVisual /> :
+                        i === 2 ? <BentoConnectDataVisual /> :
+                          i === 3 ? <BentoReportingListVisual /> :
+                            undefined
                   }
                   contentC={
                     i === 0 ? <BentoCubeVisual /> :
-                    i === 1 ? <BentoAtomVisual /> :
-                    i === 2 ? <BentoNetworkVisual /> :
-                    <BentoReportingVisual />
+                      i === 1 ? <BentoAtomVisual /> :
+                        i === 2 ? <BentoNetworkVisual /> :
+                          <BentoReportingVisual />
                   }
                 />
               ))}
@@ -388,9 +388,9 @@ export function HomeBentoSection(): ReactNode {
             </div>
           </div>
 
-        {/* Left/right outer vertical border lines — div+bg avoids SVG height:100% resolution issues */}
-        <div className="absolute inset-y-0 left-0 w-px !bg-subtle-stroke" />
-        <div className="absolute inset-y-0 right-0 w-px !bg-subtle-stroke" />
+          {/* Left/right outer vertical border lines — div+bg avoids SVG height:100% resolution issues */}
+          <div className="absolute inset-y-0 left-0 w-px !bg-subtle-stroke" />
+          <div className="absolute inset-y-0 right-0 w-px !bg-subtle-stroke" />
         </div>
 
 

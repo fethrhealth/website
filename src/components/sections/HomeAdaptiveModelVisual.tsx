@@ -1801,7 +1801,7 @@ export function HomeAdaptiveModelVisual() {
   }
 
   return (
-    <div className="container mt-10 w-full overflow-hidden">
+    <div className="pt-10 w-full overflow-hidden border-x border-subtle-stroke">
 
       {/* ── Tabs ─────────────────────────────────────────────────────────── */}
       <div className="scrollbar-none flex gap-x-1.5 overflow-x-scroll py-[20px] min-[450px]:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

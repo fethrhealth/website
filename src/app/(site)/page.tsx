@@ -20,12 +20,13 @@ export default function HomePage(): React.ReactElement {
       <HomeBentoSection />
       <Divider/>
       <TrialSection />
+      <Divider/>
       <HomeAdaptiveSection
         index={2}
         sectionLabel="Adaptive model"
         sectionTag="/ data ↔ business"
         heading="A seismic shift in CRM flexibility."
-        description="Fethr's powerful data model adapts to how your health team works, not the other way around. Your business model — perfectly reflected in your CRM."
+        description="Attio’s powerful data model adapts to how your business works, not the other way around. Your business model — perfectly reflected in your CRM."
         ctaText="Explore the data model"
         ctaHref="/platform/data"
       >
@@ -36,7 +37,7 @@ export default function HomePage(): React.ReactElement {
         sectionLabel="data enrichment"
         sectionTag="/ speed 1:1"
         heading="Build fast."
-        description="Forget months of setup. Fethr syncs immediately with your EMR and care calendar, building a powerful health CRM right before your eyes."
+        description="Forget months of setup. Attio syncs immediately with your email and calendar, building a powerful CRM right before your eyes."
         ctaText="Start for free"
         ctaHref="/sign-up"
       >
@@ -55,6 +56,7 @@ export default function HomePage(): React.ReactElement {
           { value: '99.9%', label: 'Uptime' },
         ]}
       />
+      <Divider/>
       <SecuritySection />
       <Divider />
       <CtaSection />

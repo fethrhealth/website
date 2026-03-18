@@ -471,14 +471,14 @@ function MonitorContent(): ReactNode {
       <div className="flex-1 overflow-hidden">
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
-            <tr className="h-[10px] lg:h-[36px]">
-              <th className="w-[10px] lg:w-[48px] px-[3px] lg:px-[16px]">
-                <div className="size-[4px] lg:size-[16px] rounded-[1px] lg:rounded border border-gray-300" />
+            <tr className="h-[20px] lg:h-[36px]">
+              <th className="w-[16px] lg:w-[48px] px-[3px] lg:px-[16px]">
+                <div className="size-[8px] lg:size-[16px] rounded-[1px] lg:rounded border border-gray-300" />
               </th>
               {['Status', 'Connector Name', 'Type', 'Application', 'Labels'].map((h, ci) => (
                 <th
                   key={h}
-                  className={`px-[2px] lg:px-[16px] text-[4px] lg:text-[11px] font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap text-left${ci >= 3 ? ' hidden lg:table-cell' : ''}`}
+                  className={`px-[2px] lg:px-[16px] font-medium text-[6px] leading-[10px] lg:text-[11px] lg:leading-4 text-gray-500 uppercase tracking-wider whitespace-nowrap text-left${ci >= 3 ? ' hidden lg:table-cell' : ''}`}
                 >
                   {h}
                 </th>
@@ -502,30 +502,30 @@ function MonitorContent(): ReactNode {
                   }}
                 >
                   {/* Checkbox */}
-                  <td className="w-[10px] lg:w-[48px] px-[3px] lg:px-[16px] py-[2px] lg:py-[10px]">
+                  <td className="w-[16px] lg:w-[48px] px-[3px] lg:px-[16px] py-[5px] lg:py-[10px]">
                     <div
-                      className={`size-[4px] lg:size-[16px] rounded-[1px] lg:rounded border flex items-center justify-center transition-all duration-300 ${selected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 opacity-40'}`}
+                      className={`size-[8px] lg:size-[16px] rounded-[1px] lg:rounded border flex items-center justify-center transition-all duration-300 ${selected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 opacity-40'}`}
                     >
                       {selected && (
-                        <svg width="3" height="3" viewBox="0 0 10 10" fill="none" className="lg:w-[10px] lg:h-[10px]">
+                        <svg width="5" height="5" viewBox="0 0 10 10" fill="none" className="lg:w-[10px] lg:h-[10px]">
                           <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
                     </div>
                   </td>
                   {/* Status */}
-                  <td className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px]">
-                    <div className="flex items-center gap-[2px] lg:gap-[6px]">
-                      <div className="size-[3px] lg:size-[10px] rounded-full shrink-0 transition-colors duration-500" style={{ backgroundColor: color }} />
-                      <span className="text-[4px] lg:text-[13px] font-medium transition-colors duration-500" style={{ color }}>{label}</span>
+                  <td className="px-[2px] lg:px-[16px] py-[5px] lg:py-[10px]">
+                    <div className="flex items-center gap-[3px] lg:gap-[6px]">
+                      <div className="size-[5px] lg:size-[10px] rounded-full shrink-0 transition-colors duration-500" style={{ backgroundColor: color }} />
+                      <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[13px] lg:leading-5 lg:tracking-[-0.28px] transition-colors duration-500" style={{ color }}>{label}</span>
                     </div>
                   </td>
                   {/* Name */}
-                  <td className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.name}</td>
+                  <td className="px-[2px] lg:px-[16px] py-[5px] lg:py-[10px] font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate text-gray-900">{row.name}</td>
                   {/* Type */}
-                  <td className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] text-gray-500">{row.type}</td>
+                  <td className="px-[2px] lg:px-[16px] py-[5px] lg:py-[10px] text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[13px] lg:leading-5 lg:tracking-[-0.28px] truncate text-gray-500">{row.type}</td>
                   {/* Application — lg only */}
-                  <td className="hidden lg:table-cell px-[16px] py-[10px] text-[13px] text-gray-500">{row.app}</td>
+                  <td className="hidden lg:table-cell px-[16px] py-[10px] text-[13px] leading-5 tracking-[-0.28px] text-gray-500">{row.app}</td>
                   {/* Labels — lg only */}
                   <td className="hidden lg:table-cell px-[16px] py-[10px]">
                     <div className="flex gap-[4px] flex-wrap">
@@ -722,8 +722,8 @@ function TablesContent(): ReactNode {
                     <path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" />
                     <path d="m21 2-9.6 9.6" /><circle cx="7.5" cy="15.5" r="5.5" />
                   </svg>
-                  <span className="font-medium text-[4px] lg:text-[10px] text-gray-900 uppercase tracking-wider whitespace-nowrap">id</span>
-                  <span className="text-gray-500 text-[3.5px] lg:text-[9px] whitespace-nowrap">uuid</span>
+                  <span className="font-medium text-[6px] lg:text-[10px] text-gray-900 uppercase tracking-wider whitespace-nowrap">id</span>
+                  <span className="text-gray-500 text-[5px] lg:text-[9px] whitespace-nowrap">uuid</span>
                 </div>
                 <SortChevron />
               </div>
@@ -737,8 +737,8 @@ function TablesContent(): ReactNode {
               ].map((col, ci, arr) => (
                 <div key={col.label} className={`flex items-center justify-between bg-gray-50 shrink-0 ${col.w} ${cp}${ci < arr.length - 1 ? ' border-r border-gray-200' : ''}`}>
                   <div className="flex items-center gap-[2px] lg:gap-[4px] min-w-0 flex-1">
-                    <span className="font-medium text-[4px] lg:text-[10px] text-gray-900 uppercase tracking-wider whitespace-nowrap">{col.label}</span>
-                    <span className="text-gray-500 text-[3.5px] lg:text-[9px] whitespace-nowrap">text</span>
+                    <span className="font-medium text-[6px] lg:text-[12px] text-gray-900 uppercase tracking-wider whitespace-nowrap">{col.label}</span>
+                    <span className="text-gray-500 text-[5px] lg:text-[10px] whitespace-nowrap">text</span>
                   </div>
                   <SortChevron />
                 </div>
@@ -749,7 +749,7 @@ function TablesContent(): ReactNode {
             {RACE_ROWS.map((row, i) => (
               <div
                 key={row.id}
-                className="flex bg-white hover:bg-gray-50 h-[24px] lg:h-[48px]"
+                className="flex bg-white hover:bg-gray-50 h-[24px] lg:h-[48px] font-mono"
                 style={{
                   opacity: i < visibleCount ? 1 : 0,
                   transform: i < visibleCount ? 'translateY(0)' : 'translateY(2px)',
@@ -758,31 +758,31 @@ function TablesContent(): ReactNode {
               >
                 {/* Checkbox */}
                 <div className={`flex items-center justify-center border-r border-b border-gray-100 bg-white shrink-0 w-[32px] lg:w-[65px] ${cp}`}>
-                  <div className="size-[4px] lg:size-[16px] border border-gray-200 rounded-[1px] lg:rounded" />
+                  <div className="size-[6px] lg:size-[16px] border border-gray-200 rounded-[1px] lg:rounded" />
                 </div>
                 {/* id */}
                 <div className={`flex items-center border-r border-b border-gray-100 bg-white shrink-0 w-[60px] lg:w-[120px] ${cp}`}>
-                  <span className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.id}</span>
+                  <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate">{row.id}</span>
                 </div>
                 {/* standard race */}
                 <div className={`flex items-center border-r border-b border-gray-100 bg-white shrink-0 w-[150px] lg:w-[300px] ${cp}`}>
-                  <span className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.race}</span>
+                  <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate">{row.race}</span>
                 </div>
                 {/* Cerner */}
                 <div className={`flex items-center border-r border-b border-gray-100 bg-white shrink-0 w-[75px] lg:w-[150px] ${cp}`}>
-                  <span className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.cerner}</span>
+                  <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate">{row.cerner}</span>
                 </div>
                 {/* Epic */}
                 <div className={`flex items-center border-r border-b border-gray-100 bg-white shrink-0 w-[75px] lg:w-[150px] ${cp}`}>
-                  <span className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.epic}</span>
+                  <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate">{row.epic}</span>
                 </div>
                 {/* eClinicalWorks */}
                 <div className={`flex items-center border-r border-b border-gray-100 bg-white shrink-0 w-[105px] lg:w-[210px] ${cp}`}>
-                  <span className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.ecw}</span>
+                  <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate">{row.ecw}</span>
                 </div>
                 {/* Athena */}
                 <div className={`flex items-center border-b border-gray-100 bg-white shrink-0 w-[90px] lg:w-[180px] ${cp}`}>
-                  <span className="px-[2px] lg:px-[16px] py-[2px] lg:py-[10px] text-[4px] lg:text-[13px] font-medium text-gray-900 whitespace-nowrap">{row.athena}</span>
+                  <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] truncate">{row.athena}</span>
                 </div>
               </div>
             ))}
@@ -1733,7 +1733,7 @@ function ProductUIMock({ activeTab }: { activeTab: TabIdx }): ReactNode {
 
           {/* ── Rounded mock card — full width ── */}
           <div
-            className="overflow-hidden bg-white-100 h-[320px] lg:h-[640px] pointer-events-none select-none rounded-xl border border-default-stroke"
+            className="overflow-hidden bg-white-100 h-[320px] lg:h-[640px] pointer-events-none select-none rounded-l-xl lg:rounded-xl border border-default-stroke"
             style={{
               boxShadow: '0px 2px 6px 0px rgba(28,40,64,0.06), 0px 6px 20px -2px rgba(28,40,64,0.08)',
               outline: '4px solid rgba(211,216,223,0.2)',
@@ -1801,7 +1801,7 @@ function ProductUIMock({ activeTab }: { activeTab: TabIdx }): ReactNode {
 
 /** Words of the testimonial quote. '|' = optional line-break, not a word. */
 const QUOTE_WORDS: readonly string[] = [
-  '"When', 'I', 'first', 'opened', 'Fethr,', '|',
+  '"When', 'I', 'first', 'opened', 'Attio,', '|',
   'I', 'instantly', 'got', 'the', 'feeling', 'this', 'was', '|',
   'the', 'next', 'generation', 'of', 'CRM."',
 ]
@@ -1872,7 +1872,7 @@ function StickyTestimonial(): ReactNode {
                   return (
                     <span
                       key={i}
-                      className="relative inline-flex transition-colors duration-[350ms] ease-out"
+                      className="relative font-display inline-flex transition-colors duration-[350ms] ease-out"
                       style={{ color: isLit ? 'rgb(23, 25, 29)' : 'rgb(202, 208, 217)' }}
                     >
                       {w}<span>&nbsp;</span>
@@ -1889,8 +1889,8 @@ function StickyTestimonial(): ReactNode {
                 color: wordsLit >= WORD_COUNT ? 'rgb(100, 110, 125)' : 'rgb(202, 208, 217)',
               }}
             >
-              <span className="font-bold text-[14px] lg:text-base">Sarah Chen&nbsp;</span>
-              <span className="text-[13px] lg:text-sm">Head of Revenue Operations · Memorial Health</span>
+              <span className="font-bold text-[14px] lg:text-base">Margaret Chen&nbsp;</span>
+              <span className="text-[13px] lg:text-sm">Head of Business Operations · Modal</span>
             </p>
           </div>
         </div>

@@ -289,7 +289,7 @@ export function Navbar() {
         className={cn(
           'fixed inset-x-0 top-0 z-50 h-[68px] transition-all duration-150',
           'border-b border-subtle-stroke',
-          isScrolled ? 'bg-background/95 backdrop-blur-md shadow-sm' : 'bg-transparent',
+          isScrolled ? 'bg-background/95 backdrop-blur-md shadow-sm' : 'bg-white-0',
         )}
       >
         <div className="container mx-auto px-6 h-full flex items-center justify-between">

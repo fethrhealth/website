@@ -37,11 +37,11 @@ export function HomeAdaptiveSection({
   const indexStr = `[${String(index).padStart(2, '0')}]`
 
   return (
-    <div>
-      <div className="container">
+    <div className="container">
+      <div className="overflow-hidden">
 
         {/* ── Desktop section label (hidden on mobile) ──────────────────── */}
-        <div className="hidden lg:block pt-[100px] border-subtle-stroke border-x">
+        <div className="hidden lg:block pt-[100px] border-subtle-stroke border-x font-display">
           <div className="flex items-center justify-between px-5 text-overline">
             <h2 className="flex gap-x-[6px]">
               <span>{indexStr}</span>
@@ -58,7 +58,7 @@ export function HomeAdaptiveSection({
         <div className="pt-20 lg:flex lg:flex-col lg:items-center lg:border-subtle-stroke lg:border-x lg:pt-[120px]">
 
           {/* Heading + description */}
-          <div className="max-w-[880px] text-heading-sm lg:text-center">
+          <div className="max-w-[880px] text-heading-sm lg:text-center font-display">
             <h3 className="inline">
               <span className="font-semibold text-primary-foreground">{heading}&nbsp;</span>
             </h3>
