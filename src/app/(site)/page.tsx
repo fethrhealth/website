@@ -4,6 +4,8 @@ import SecuritySection from '@/components/sections/SecuritySection'
 import { CtaSection } from '@/components/sections/CtaSection'
 import Divider from '@/components/ui/divider'
 import { HomeScaleSection } from '@/components/sections/HomeScaleSection'
+import { HomeSpeedSection } from '@/components/sections/HomeSpeedSection'
+import { HomeSpeedVisual } from '@/components/sections/HomeSpeedVisual'
 import { HomeBentoSection } from '@/components/sections/HomeBentoSection'
 import { HomeHeroSection } from '@/components/sections/HomeHeroSection'
 import { HomeAdaptiveSection } from '@/components/sections/HomeAdaptiveSection'
@@ -29,6 +31,17 @@ export default function HomePage(): React.ReactElement {
       >
       </HomeAdaptiveSection>
       <TestimonialsSection />
+      <HomeSpeedSection
+        index={3}
+        sectionLabel="data enrichment"
+        sectionTag="/ speed 1:1"
+        heading="Build fast."
+        description="Forget months of setup. Fethr syncs immediately with your EMR and care calendar, building a powerful health CRM right before your eyes."
+        ctaText="Start for free"
+        ctaHref="/sign-up"
+      >
+        <HomeSpeedVisual />
+      </HomeSpeedSection>
       <HomeScaleSection
         index={4}
         sectionLabel="Built for scale"

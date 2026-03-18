@@ -1,8 +1,10 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { FlickeringGrid } from '@/components/ui/flickering-grid'
 
 // ─── Dot-grid background ──────────────────────────────────────────────────────
 
@@ -117,7 +119,7 @@ function FiPlus() {
 
 function PatientIcon() {
   return (
-    <svg className="size-[14px] lg:size-5" width="14" height="14" viewBox="0 0 14 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 5.6c0-1.96 0-2.94.381-3.689a3.5 3.5 0 0 1 1.53-1.53C2.66 0 3.64 0 5.6 0h2.8c1.96 0 2.94 0 3.689.381a3.5 3.5 0 0 1 1.53 1.53C14 2.66 14 3.64 14 5.6v2.8c0 1.96 0 2.94-.382 3.689a3.5 3.5 0 0 1-1.529 1.53C11.34 14 10.36 14 8.4 14H5.6c-1.96 0-2.94 0-3.689-.382a3.5 3.5 0 0 1-1.53-1.529C0 11.34 0 10.36 0 8.4V5.6Zm4.308 5.708h5.384c.595 0 1.077-.482 1.077-1.077a2.585 2.585 0 0 0-2.584-2.585h-2.37a2.585 2.585 0 0 0-2.584 2.585c0 .595.482 1.077 1.077 1.077ZM7 6.618a1.963 1.963 0 1 0 0-3.926 1.963 1.963 0 0 0 0 3.926Z" fill="#0FC27B"></path></svg>
+    <svg className="size-[14px] lg:size-5" width="14" height="14" viewBox="0 0 14 14" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M0 5.6c0-1.96 0-2.94.381-3.689a3.5 3.5 0 0 1 1.53-1.53C2.66 0 3.64 0 5.6 0h2.8c1.96 0 2.94 0 3.689.381a3.5 3.5 0 0 1 1.53 1.53C14 2.66 14 3.64 14 5.6v2.8c0 1.96 0 2.94-.382 3.689a3.5 3.5 0 0 1-1.529 1.53C11.34 14 10.36 14 8.4 14H5.6c-1.96 0-2.94 0-3.689-.382a3.5 3.5 0 0 1-1.53-1.529C0 11.34 0 10.36 0 8.4V5.6Zm4.308 5.708h5.384c.595 0 1.077-.482 1.077-1.077a2.585 2.585 0 0 0-2.584-2.585h-2.37a2.585 2.585 0 0 0-2.584 2.585c0 .595.482 1.077 1.077 1.077ZM7 6.618a1.963 1.963 0 1 0 0-3.926 1.963 1.963 0 0 0 0 3.926Z" fill="#0FC27B"></path></svg>
   )
 }
 
@@ -185,6 +187,10 @@ type TableCell =
   | { type: 'number'; value: string }
   /** Plain grey text */
   | { type: 'text'; value: string }
+  /** Connection strength: colored icon + label */
+  | { type: 'strength'; label: string; level: 'very-strong' | 'strong' | 'good' | 'weak' }
+  /** Grey pill with optional avatar thumbnail + person name — used for Owner column */
+  | { type: 'person'; label: string; avatar?: string; avatarW?: number; avatarH?: number }
 
 /** Column header definition — used for cols 2–4 and the add column */
 interface TableColumnDef {
@@ -198,10 +204,14 @@ interface TableColumnDef {
 interface TableRowDef {
   /** Col 1: entity name */
   name: string
-  /** Col 1: avatar image path — omit to render the generic person SVG */
+  /** Col 1: avatar/logo image path — omit to render the generic person SVG */
   avatar?: string
   avatarW?: number
   avatarH?: number
+  /** Col 1: 'circle' (default, person photo) | 'square' (company logo, rounded corners) */
+  avatarStyle?: 'circle' | 'square'
+  /** Col 1: custom icon to show instead of avatar/GenericPersonAvatar (e.g. DealCurrencyIcon) */
+  nameIcon?: React.ReactNode
   /** One cell per entry in `tableColumns` (cols 2–4) */
   cells: TableCell[]
   /** Optional cell shown in the add column when addHovered — omit to leave blank */
@@ -269,9 +279,139 @@ const TABLE_USERS_SU: TableRowDef[] = [
   },
 ]
 
-// ─── Placeholder rows for tabs 2-4 (replace with real data per tab) ───────────
+// ─── Tab 2 (SaaS Startups): Companies table ───────────────────────────────────
+// Logos: add slack.png, loom.png, datadog.jpeg, vercel.jpeg to /public/images/logos/
 
-const TABLE_PLACEHOLDER: TableRowDef[] = TABLE_USERS_SU
+const TABLE_COMPANIES_SAAS: TableRowDef[] = [
+  {
+    name: 'Slack',
+    avatar: '/images/logos/slack.png',
+    avatarW: 256,
+    avatarH: 256,
+    avatarStyle: 'square',
+    cells: [
+      { type: 'email', value: 'slack.com' },
+      { type: 'text', value: 'San Francisco' },
+      { type: 'strength', label: 'Strong', level: 'strong' },
+    ],
+  },
+  {
+    name: 'Loom',
+    avatar: '/images/logos/loom.png',
+    avatarW: 225,
+    avatarH: 225,
+    avatarStyle: 'square',
+    cells: [
+      { type: 'email', value: 'loom.com' },
+      { type: 'text', value: 'San Francisco' },
+      { type: 'strength', label: 'Good', level: 'good' },
+    ],
+  },
+  {
+    name: 'DataDog',
+    avatar: '/images/logos/datadog.jpeg',
+    avatarW: 180,
+    avatarH: 180,
+    avatarStyle: 'square',
+    cells: [
+      { type: 'email', value: 'datadog.com' },
+      { type: 'text', value: 'New York City' },
+      { type: 'strength', label: 'Very strong', level: 'very-strong' },
+    ],
+  },
+  {
+    name: 'Vercel',
+    avatar: '/images/logos/vercel.jpeg',
+    avatarW: 100,
+    avatarH: 100,
+    avatarStyle: 'square',
+    cells: [
+      { type: 'email', value: 'vercel.com' },
+      { type: 'text', value: 'San Francisco' },
+      { type: 'strength', label: 'Strong', level: 'strong' },
+    ],
+  },
+]
+
+// ─── Tab 3 (SMBs): People table ───────────────────────────────────────────────
+// Logos already exist in /public/images/logos/
+
+const TABLE_PEOPLE_SMB: TableRowDef[] = [
+  {
+    name: 'Sophia Bennett',
+    cells: [
+      { type: 'email', value: 'sophia.bennett@gusto.com' },
+      { type: 'record', label: 'Gusto', logo: '/images/logos/gusto.png', logoW: 128, logoH: 128 },
+      { type: 'text-link', value: 'sophia-bennett' },
+    ],
+  },
+  {
+    name: 'Amina Hassan',
+    cells: [
+      { type: 'email', value: 'amina@canva.com' },
+      { type: 'record', label: 'Canva', logo: '/images/logos/canva.webp', logoW: 193, logoH: 192 },
+      { type: 'text-link', value: 'amina-hassan' },
+    ],
+  },
+  {
+    name: 'Charlotte Sullivan',
+    cells: [
+      { type: 'email', value: 'charlottesullivan@bluebottlecoffee.com' },
+      { type: 'record', label: 'Blue Bottle Coffee', logo: '/images/logos/blue-bottle-coffee.jpeg', logoW: 225, logoH: 225 },
+      { type: 'text-link', value: 'charlotte-sullivan' },
+    ],
+  },
+  {
+    name: 'Luca Moretti',
+    cells: [
+      { type: 'email', value: 'luca.moretti@brex.com' },
+      { type: 'record', label: 'Brex', logo: '/images/logos/brex.png', logoW: 225, logoH: 225 },
+      { type: 'text-link', value: 'luca-moretti' },
+    ],
+  },
+]
+
+// ─── Tab 4 (Investors): Deals table ───────────────────────────────────────────
+// Logos needed: add passionfroot.png, bravado.png, modal.png, kloudle.png to /public/images/logos/
+
+const TABLE_DEALS_IN: TableRowDef[] = [
+  {
+    name: 'Passionfroot – $2.5M Seed',
+    nameIcon: <DealCurrencyIcon />,
+    cells: [
+      { type: 'record', label: 'Passionfroot', logo: '/images/logos/passionfroot.png', logoW: 256, logoH: 256 },
+      { type: 'person', label: 'Daniel Chess' },
+      { type: 'status', label: 'Seed', color: 'yellow' },
+    ],
+  },
+  {
+    name: 'Bravado – $15M Series B',
+    nameIcon: <DealCurrencyIcon />,
+    cells: [
+      { type: 'record', label: 'Bravado', logo: '/images/logos/bravado.png', logoW: 217, logoH: 217 },
+      { type: 'person', label: 'Hannah Worley' },
+      { type: 'status', label: 'Series B', color: 'blue-soft' },
+    ],
+  },
+  {
+    name: 'Modal – $12M Series A',
+    nameIcon: <DealCurrencyIcon />,
+    cells: [
+      { type: 'record', label: 'Modal', logo: '/images/logos/modal.png', logoW: 272, logoH: 272 },
+      { type: 'person', label: 'Maria Levey' },
+      { type: 'status', label: 'Series A', color: 'teal' },
+    ],
+  },
+  {
+    name: 'Kloudle – $1M Pre-Seed',
+    nameIcon: <DealCurrencyIcon />,
+    cells: [
+      { type: 'record', label: 'Kloudle', logo: '/images/logos/kloudle.png', logoW: 736, logoH: 736 },
+      { type: 'person', label: 'Scott Gray' },
+      { type: 'status', label: 'Pre-Seed', color: 'orange' },
+    ],
+  },
+]
 
 // ─── Tab data (Fethr Health CRM) ─────────────────────────────────────────────
 
@@ -284,9 +424,9 @@ const TABS: TabConfig[] = [
       name: 'User',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'User ID' },
-        { icon: <FiDate />,     label: 'Engagement score' },
-        { icon: <FiId />,       label: 'User type' },
+        { icon: <FiText />, label: 'User ID' },
+        { icon: <FiDate />, label: 'Engagement score' },
+        { icon: <FiId />, label: 'User type' },
       ],
       moreCount: 4,
     },
@@ -295,9 +435,9 @@ const TABS: TabConfig[] = [
       name: 'Deal',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Deal name' },
-        { icon: <FiId />,       label: 'Workspace' },
-        { icon: <FiTag />,      label: 'Stage' },
+        { icon: <FiText />, label: 'Deal name' },
+        { icon: <FiId />, label: 'Workspace' },
+        { icon: <FiTag />, label: 'Stage' },
       ],
       moreCount: 2,
     },
@@ -306,9 +446,9 @@ const TABS: TabConfig[] = [
       name: 'Person',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Name' },
-        { icon: <FiId />,       label: 'Email' },
-        { icon: <FiCard />,     label: 'Company' },
+        { icon: <FiText />, label: 'Name' },
+        { icon: <FiId />, label: 'Email' },
+        { icon: <FiCard />, label: 'Company' },
       ],
       moreCount: 12,
     },
@@ -317,8 +457,8 @@ const TABS: TabConfig[] = [
       name: 'Workspace',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Name' },
-        { icon: <FiDate />,     label: 'Company' },
+        { icon: <FiText />, label: 'Name' },
+        { icon: <FiDate />, label: 'Company' },
         { icon: <FiPipeline />, label: 'Status' },
       ],
       moreCount: 7,
@@ -340,9 +480,9 @@ const TABS: TabConfig[] = [
       name: 'Deal',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Deal name' },
-        { icon: <FiEmail />,    label: 'Stage' },
-        { icon: <FiCard />,     label: 'Deal value' },
+        { icon: <FiText />, label: 'Deal name' },
+        { icon: <FiEmail />, label: 'Stage' },
+        { icon: <FiCard />, label: 'Deal value' },
       ],
       moreCount: 15,
     },
@@ -351,7 +491,7 @@ const TABS: TabConfig[] = [
       name: 'Person',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Name' },
+        { icon: <FiText />, label: 'Name' },
         { icon: <FiCurrency />, label: 'Email' },
         { icon: <FiPipeline />, label: 'Company' },
       ],
@@ -362,9 +502,9 @@ const TABS: TabConfig[] = [
       name: 'Company',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Domain' },
-        { icon: <FiCard />,     label: 'Industry' },
-        { icon: <FiId />,       label: 'Location' },
+        { icon: <FiText />, label: 'Domain' },
+        { icon: <FiCard />, label: 'Industry' },
+        { icon: <FiId />, label: 'Location' },
       ],
       moreCount: 8,
     },
@@ -373,19 +513,19 @@ const TABS: TabConfig[] = [
       name: 'Partnership',
       badge: 'Custom',
       attrs: [
-        { icon: <FiText />,     label: 'Partnership name' },
-        { icon: <FiText />,     label: 'Partnership type' },
+        { icon: <FiText />, label: 'Partnership name' },
+        { icon: <FiText />, label: 'Partnership type' },
         { icon: <FiPipeline />, label: 'Point of contact' },
       ],
       moreCount: 10,
     },
-    tableEntityLabel: 'People',
+    tableEntityLabel: 'Company',
     tableColumns: [
-      { headerIcon: <HdrEmailIcon />, headerLabel: 'Email' },
-      { headerIcon: <HdrCompanyIcon />, headerLabel: 'Company' },
-      { headerIcon: <HdrLinkedInIcon />, headerLabel: 'LinkedIn', hiddenOnMobile: true },
+      { headerIcon: <HdrGlobeIcon />, headerLabel: 'Domain' },
+      { headerIcon: <HdrLocationIcon />, headerLabel: 'Location' },
+      { headerIcon: <HdrStrengthIcon />, headerLabel: 'Connection strength', hiddenOnMobile: true },
     ],
-    tableRows: TABLE_PLACEHOLDER,
+    tableRows: TABLE_COMPANIES_SAAS,
   },
   {
     id: 'smbs',
@@ -395,9 +535,9 @@ const TABS: TabConfig[] = [
       name: 'Project',
       badge: 'Custom',
       attrs: [
-        { icon: <FiText />,     label: 'Company' },
-        { icon: <FiDate />,     label: 'Point of contact' },
-        { icon: <FiDate />,     label: 'Status' },
+        { icon: <FiText />, label: 'Company' },
+        { icon: <FiDate />, label: 'Point of contact' },
+        { icon: <FiDate />, label: 'Status' },
       ],
       moreCount: 5,
     },
@@ -406,9 +546,9 @@ const TABS: TabConfig[] = [
       name: 'Company',
       badge: 'Standard',
       attrs: [
-        { icon: <FiDate />,     label: 'Name' },
-        { icon: <FiText />,     label: 'Industry' },
-        { icon: <FiTag />,      label: 'Domain' },
+        { icon: <FiDate />, label: 'Name' },
+        { icon: <FiText />, label: 'Industry' },
+        { icon: <FiTag />, label: 'Domain' },
       ],
       moreCount: 8,
     },
@@ -417,9 +557,9 @@ const TABS: TabConfig[] = [
       name: 'Person',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Email' },
-        { icon: <FiTag />,      label: 'Company' },
-        { icon: <FiId />,       label: 'LinkedIn' },
+        { icon: <FiText />, label: 'Email' },
+        { icon: <FiTag />, label: 'Company' },
+        { icon: <FiId />, label: 'LinkedIn' },
       ],
       moreCount: 12,
     },
@@ -428,9 +568,9 @@ const TABS: TabConfig[] = [
       name: 'Invoice',
       badge: 'Custom',
       attrs: [
-        { icon: <FiDate />,     label: 'Company' },
-        { icon: <FiText />,     label: 'Status' },
-        { icon: <FiTag />,      label: 'Amount' },
+        { icon: <FiDate />, label: 'Company' },
+        { icon: <FiText />, label: 'Status' },
+        { icon: <FiTag />, label: 'Amount' },
       ],
       moreCount: 3,
     },
@@ -440,7 +580,7 @@ const TABS: TabConfig[] = [
       { headerIcon: <HdrCompanyIcon />, headerLabel: 'Company' },
       { headerIcon: <HdrLinkedInIcon />, headerLabel: 'LinkedIn', hiddenOnMobile: true },
     ],
-    tableRows: TABLE_PLACEHOLDER,
+    tableRows: TABLE_PEOPLE_SMB,
   },
   {
     id: 'investors',
@@ -450,9 +590,9 @@ const TABS: TabConfig[] = [
       name: 'Company',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Name' },
-        { icon: <FiId />,       label: 'Domain' },
-        { icon: <FiCard />,     label: 'Industry' },
+        { icon: <FiText />, label: 'Name' },
+        { icon: <FiId />, label: 'Domain' },
+        { icon: <FiCard />, label: 'Industry' },
       ],
       moreCount: 6,
     },
@@ -461,9 +601,9 @@ const TABS: TabConfig[] = [
       name: 'Person',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Name' },
-        { icon: <FiCard />,     label: 'Email' },
-        { icon: <FiTag />,      label: 'Company' },
+        { icon: <FiText />, label: 'Name' },
+        { icon: <FiCard />, label: 'Email' },
+        { icon: <FiTag />, label: 'Company' },
       ],
       moreCount: 11,
     },
@@ -472,8 +612,8 @@ const TABS: TabConfig[] = [
       name: 'Deal',
       badge: 'Standard',
       attrs: [
-        { icon: <FiText />,     label: 'Company' },
-        { icon: <FiTag />,      label: 'Investment amount' },
+        { icon: <FiText />, label: 'Company' },
+        { icon: <FiTag />, label: 'Investment amount' },
         { icon: <FiCurrency />, label: 'Deal stage' },
       ],
       moreCount: 10,
@@ -483,19 +623,19 @@ const TABS: TabConfig[] = [
       name: 'Fund',
       badge: 'Custom',
       attrs: [
-        { icon: <FiText />,     label: 'Name' },
-        { icon: <FiTag />,      label: 'Domain' },
+        { icon: <FiText />, label: 'Name' },
+        { icon: <FiTag />, label: 'Domain' },
         { icon: <FiCurrency />, label: 'Employees' },
       ],
       moreCount: 7,
     },
-    tableEntityLabel: 'People',
+    tableEntityLabel: 'Deal',
     tableColumns: [
-      { headerIcon: <HdrEmailIcon />, headerLabel: 'Email' },
       { headerIcon: <HdrCompanyIcon />, headerLabel: 'Company' },
-      { headerIcon: <HdrLinkedInIcon />, headerLabel: 'LinkedIn', hiddenOnMobile: true },
+      { headerIcon: <HdrOwnerIcon />, headerLabel: 'Owner' },
+      { headerIcon: <HdrSelectFieldIcon />, headerLabel: 'Funding round', hiddenOnMobile: true },
     ],
-    tableRows: TABLE_PLACEHOLDER,
+    tableRows: TABLE_DEALS_IN,
   },
 ]
 
@@ -671,8 +811,8 @@ const PersonToDeal_su = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0"   cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="17"  cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
     <div className="absolute bottom-[107.25px] -left-[0.5px]">
@@ -680,8 +820,8 @@ const PersonToDeal_su = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
   </div>
@@ -698,8 +838,8 @@ const DealToPerson_saas = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
     <div className="absolute top-px -right-px">
@@ -707,8 +847,8 @@ const DealToPerson_saas = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
   </div>
@@ -725,8 +865,8 @@ const CompanyToPerson_saas = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
     <div className="absolute -bottom-0 left-0">
@@ -748,8 +888,8 @@ const ProjectToCompany_smb = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
     <div className="absolute top-px -right-px">
@@ -776,8 +916,8 @@ const CompanyToPerson_sms = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
   </div>
@@ -799,8 +939,8 @@ const CompanyToPerson_in = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
   </div>
@@ -822,8 +962,8 @@ const CompanyToDeal_in = (
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
         <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
       </svg>
     </div>
   </div>
@@ -832,29 +972,29 @@ const CompanyToDeal_in = (
 /** Workspace to user tab 1 added */
 function WorkspaceToUser_su(show: boolean) {
   return (
-  <div key="workspace-to-user-su" className="pointer-events-none absolute top-[82px] right-0 left-0 col-start-[2] col-end-[5] row-start-[1] row-end-[3] transition-opacity duration-300 ease-in-out" style={{ opacity: show ? 1 : 0 }}>
-    <svg className="h-full w-full" viewBox="0 0 462 115" fill="none">
-      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M462 114L442.093 114C429.605 114 418.008 107.527 411.452 96.8976L362.548 17.6024C355.992 6.97263 344.395 0.500002 331.907 0.500002L0.49999 0.500002" stroke="#E4E7EC" />
-    </svg>
-    <div className="absolute -right-px bottom-[0.5px]">
-      <svg className="h-px w-px overflow-visible" fill="none">
-        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
-        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
-        <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+    <div key="workspace-to-user-su" className="pointer-events-none absolute top-[82px] right-0 left-0 col-start-[2] col-end-[5] row-start-[1] row-end-[3] transition-opacity duration-300 ease-in-out" style={{ opacity: show ? 1 : 0 }}>
+      <svg className="h-full w-full" viewBox="0 0 462 115" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M462 114L442.093 114C429.605 114 418.008 107.527 411.452 96.8976L362.548 17.6024C355.992 6.97263 344.395 0.500002 331.907 0.500002L0.49999 0.500002" stroke="#E4E7EC" />
       </svg>
+      <div className="absolute -right-px bottom-[0.5px]">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute top-[0.5px] left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
     </div>
-    <div className="absolute top-[0.5px] left-0">
-      <svg className="h-px w-px overflow-visible" fill="none">
-        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
-        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
-        <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-        <circle cx="-0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-      </svg>
-    </div>
-  </div>
   )
 }
 
@@ -875,8 +1015,8 @@ function WorkspaceToDeal_su(show: boolean) {
           <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
           <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
           <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
       </div>
     </div>
@@ -895,8 +1035,8 @@ function CompanyToPartnership_saas(show: boolean) {
           <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
           <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
           <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          <circle cx="-0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          <circle cx="-0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
       </div>
       <div className="absolute top-px -right-px">
@@ -904,8 +1044,8 @@ function CompanyToPartnership_saas(show: boolean) {
           <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
           <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
           <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          <circle cx="0.5" cy="0"   r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          <circle cx="0.5" cy="17"  r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
       </div>
     </div>
@@ -916,24 +1056,24 @@ function CompanyToPartnership_saas(show: boolean) {
 function ProjectToInvoice_smb(show: boolean) {
   return (
     <div className="pointer-events-none absolute top-0 right-0 bottom-[-29px] left-[128px] col-start-1 col-end-5 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out" style={{ opacity: show ? 1 : 0 }}>
-        <svg className="h-full w-full" viewBox="0 0 593 171" fill="none" preserveAspectRatio="none">
-          <path pathLength="1" strokeDasharray="1 1" d="M592.5 63.5H586.121C573.89 63.5 562.495 69.7104 555.866 79.9898L508.134 154.009C501.505 164.289 490.11 170.499 477.879 170.499H225C205.118 170.499 189 154.381 189 134.499V99C189 79.1177 172.892 63 153.009 63C122.767 63 79.7586 63 49.402 63C42.5972 63 35.9463 61.0713 30.1929 57.4376L9.38812 44.2978C4.16635 40.9998 1 35.255 1 29.079V0.5" stroke="#E4E7EC" strokeDashoffset="0" />
+      <svg className="h-full w-full" viewBox="0 0 593 171" fill="none" preserveAspectRatio="none">
+        <path pathLength="1" strokeDasharray="1 1" d="M592.5 63.5H586.121C573.89 63.5 562.495 69.7104 555.866 79.9898L508.134 154.009C501.505 164.289 490.11 170.499 477.879 170.499H225C205.118 170.499 189 154.381 189 134.499V99C189 79.1177 172.892 63 153.009 63C122.767 63 79.7586 63 49.402 63C42.5972 63 35.9463 61.0713 30.1929 57.4376L9.38812 44.2978C4.16635 40.9998 1 35.255 1 29.079V0.5" stroke="#E4E7EC" strokeDashoffset="0" />
+      </svg>
+      <div className="absolute top-[63.5px] -right-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
-        <div className="absolute top-[63.5px] -right-px">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
-        <div className="absolute -top-px left-px">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
       </div>
+      <div className="absolute -top-px left-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
   )
 }
 
@@ -941,24 +1081,24 @@ function ProjectToInvoice_smb(show: boolean) {
 function CompanyToInvoice_smb(show: boolean) {
   return (
     <div className="pointer-events-none absolute top-0 right-[129px] left-0 col-start-6 col-end-8 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out" style={{ opacity: show ? 1 : 0 }}>
-        <svg className="h-full w-full" viewBox="0 0 216 64" fill="none">
-          <path pathLength="1" strokeDasharray="1 1" d="M0 63L156.115 63C168.491 63 179.998 56.6435 186.588 46.1682L215 1" stroke="#E4E7EC" strokeDashoffset="0" />
+      <svg className="h-full w-full" viewBox="0 0 216 64" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" d="M0 63L156.115 63C168.491 63 179.998 56.6435 186.588 46.1682L215 1" stroke="#E4E7EC" strokeDashoffset="0" />
+      </svg>
+      <div className="absolute bottom-0 left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
-        <div className="absolute bottom-0 left-0">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
-        <div className="absolute -top-[0.5px] -right-[1px]">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
       </div>
+      <div className="absolute -top-[0.5px] -right-[1px]">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
   )
 }
 
@@ -966,28 +1106,28 @@ function CompanyToInvoice_smb(show: boolean) {
 function FundToPerson_in(show: boolean) {
   return (
     <div className="pointer-events-none absolute top-0 right-[129px] left-0 col-start-6 col-end-8 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out" style={{ opacity: show ? 1 : 0 }}>
-        <svg className="h-full w-full" viewBox="0 0 215 64" fill="none">
-          <path pathLength="1" strokeDasharray="1 1" d="M214 0.5V29.079C214 35.255 210.834 40.9998 205.612 44.2978L184.807 57.4376C179.054 61.0713 172.388 63 165.583 63H0" stroke="#E4E7EC" strokeDashoffset="0" />
+      <svg className="h-full w-full" viewBox="0 0 215 64" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" d="M214 0.5V29.079C214 35.255 210.834 40.9998 205.612 44.2978L184.807 57.4376C179.054 61.0713 172.388 63 165.583 63H0" stroke="#E4E7EC" strokeDashoffset="0" />
+      </svg>
+      <div className="absolute bottom-0 left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
-        <div className="absolute bottom-0 left-0">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
-        <div className="absolute -top-px right-0">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <path pathLength="1" strokeDasharray="1 1" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <path pathLength="1" strokeDasharray="1 1" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
       </div>
+      <div className="absolute -top-px right-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
   )
 }
 
@@ -995,24 +1135,24 @@ function FundToPerson_in(show: boolean) {
 function FundToDeal_in(show: boolean) {
   return (
     <div className="pointer-events-none absolute top-[61px] right-0 left-0 col-start-4 col-end-5 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out" style={{ opacity: show ? 1 : 0 }}>
-        <svg className="h-full w-full" viewBox="0 0 118 2" fill="none">
-          <path pathLength="1" strokeDasharray="1 1" d="M0 1L118 1" stroke="#E4E7EC" strokeDashoffset="0" />
+      <svg className="h-full w-full" viewBox="0 0 118 2" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" d="M0 1L118 1" stroke="#E4E7EC" strokeDashoffset="0" />
+      </svg>
+      <div className="absolute top-px -right-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
         </svg>
-        <div className="absolute top-px -right-px">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
-        <div className="absolute top-px left-0">
-          <svg className="h-px w-px overflow-visible" fill="none">
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
-            <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-            <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
-          </svg>
-        </div>
       </div>
+      <div className="absolute top-px left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
   )
 }
 
@@ -1031,9 +1171,9 @@ const TAB_CONNECTORS: Record<string, React.ReactNode[]> = {
 
 const TAB_ADD_CONNECTORS: Record<string, ((show: boolean) => React.ReactNode)[]> = {
   'health-systems': [WorkspaceToUser_su, WorkspaceToDeal_su],
-  'saas-startups':  [CompanyToPartnership_saas],
-  'smbs':           [ProjectToInvoice_smb, CompanyToInvoice_smb],
-  'investors':      [FundToPerson_in, FundToDeal_in],
+  'saas-startups': [CompanyToPartnership_saas],
+  'smbs': [ProjectToInvoice_smb, CompanyToInvoice_smb],
+  'investors': [FundToPerson_in, FundToDeal_in],
 }
 
 // ─── GridConnectors — renders the active tab's connector set ──────────────────
@@ -1048,10 +1188,12 @@ function DesktopCardGrid({
   tab,
   addHovered,
   onAddEnter,
+  contentVisible,
 }: {
   tab: TabConfig
   addHovered: boolean
   onAddEnter: () => void
+  contentVisible: boolean
 }) {
   const connectors = TAB_CONNECTORS[tab.id] ?? TAB_CONNECTORS['health-systems']!
 
@@ -1064,25 +1206,47 @@ function DesktopCardGrid({
       <div className="relative px-[34px] pt-[34px] pb-16">
         <div className="relative mx-auto grid grid-cols-[auto_2fr_auto_3fr_auto_2fr_auto]">
 
-          <div style={{ gridColumn: 1, gridRow: 1 }}>
+          <motion.div
+            style={{ gridColumn: 1, gridRow: 1 }}
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0 : 0, ease: 'easeOut' }}
+          >
             <ObjectCard card={tab.leftCard} />
-          </div>
+          </motion.div>
 
-          <div style={{ gridColumn: 7, gridRow: 1 }}>
+          <motion.div
+            style={{ gridColumn: 7, gridRow: 1 }}
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0.5 : 0, ease: 'easeOut' }}
+          >
             <ObjectCard card={tab.rightCard} />
-          </div>
+          </motion.div>
 
-          <div style={{ gridColumn: 3, gridRow: 2 }} className="-mt-5">
+          <motion.div
+            className="-mt-5"
+            style={{ gridColumn: 3, gridRow: 2 }}
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0.4 : 0, ease: 'easeOut' }}
+          >
             <ObjectCard card={tab.centerCard} />
-          </div>
+          </motion.div>
 
-          <div style={{ gridColumn: 5, gridRow: 2 }} className="-mt-5">
+          <motion.div
+            className="-mt-5"
+            style={{ gridColumn: 5, gridRow: 2 }}
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0.33 : 0, ease: 'easeOut' }}
+          >
             <AddObjectSlot
               addCard={tab.addCard}
               hovered={addHovered}
               onEnter={onAddEnter}
             />
-          </div>
+          </motion.div>
 
           {/* Connector paths — always visible */}
           <GridConnectors connectors={connectors} />
@@ -1104,10 +1268,12 @@ function MobileCardStrip({
   tab,
   addHovered,
   onAddEnter,
+  contentVisible,
 }: {
   tab: TabConfig
   addHovered: boolean
   onAddEnter: () => void
+  contentVisible: boolean
 }) {
   return (
     <div className="relative block min-[1320px]:hidden">
@@ -1116,22 +1282,42 @@ function MobileCardStrip({
       </div>
 
       <div className="relative flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-7 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="snap-center shrink-0">
+        <motion.div
+          className="snap-center shrink-0"
+          initial={false}
+          animate={{ y: contentVisible ? 0 : 8 }}
+          transition={{ duration: 0.32, delay: contentVisible ? 0 : 0, ease: 'easeOut' }}
+        >
           <ObjectCard card={tab.leftCard} />
-        </div>
-        <div className="snap-center shrink-0">
+        </motion.div>
+        <motion.div
+          className="snap-center shrink-0"
+          initial={false}
+          animate={{ y: contentVisible ? 0 : 8 }}
+          transition={{ duration: 0.32, delay: contentVisible ? 0.06 : 0, ease: 'easeOut' }}
+        >
           <ObjectCard card={tab.centerCard} />
-        </div>
-        <div className="snap-center shrink-0">
+        </motion.div>
+        <motion.div
+          className="snap-center shrink-0"
+          initial={false}
+          animate={{ y: contentVisible ? 0 : 8 }}
+          transition={{ duration: 0.32, delay: contentVisible ? 0.12 : 0, ease: 'easeOut' }}
+        >
           <ObjectCard card={tab.rightCard} />
-        </div>
-        <div className="snap-center shrink-0">
+        </motion.div>
+        <motion.div
+          className="snap-center shrink-0"
+          initial={false}
+          animate={{ y: contentVisible ? 0 : 8 }}
+          transition={{ duration: 0.32, delay: contentVisible ? 0.18 : 0, ease: 'easeOut' }}
+        >
           <AddObjectSlot
             addCard={tab.addCard}
             hovered={addHovered}
             onEnter={onAddEnter}
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   )
@@ -1139,13 +1325,29 @@ function MobileCardStrip({
 
 // ─── Data model table (static, pixel-perfect from attio.com) ─────────────────
 
-/** Reusable cell wrapper: stacked animation grid */
-function CellContent({ children }: { children: React.ReactNode }) {
+/** Reusable cell wrapper: animated slide-down per column */
+function CellContent({
+  children,
+  contentVisible = true,
+  colDelay = 0,
+}: {
+  children: React.ReactNode
+  contentVisible?: boolean
+  colDelay?: number
+}) {
   return (
     <div className="grid overflow-hidden *:col-start-1 *:row-start-1">
-      <div style={{ opacity: 1, transform: 'none' }}>
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={contentVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+        transition={{
+          duration: contentVisible ? 0.26 : 0.12,
+          delay: contentVisible ? colDelay : 0,
+          ease: 'easeOut',
+        }}
+      >
         {children}
-      </div>
+      </motion.div>
     </div>
   )
 }
@@ -1221,6 +1423,57 @@ function HdrLinkedInIcon() {
   )
 }
 
+/** Header globe icon — used for Domain column */
+function HdrGlobeIcon() {
+  return (
+    <svg className="size-2.5 shrink-0 lg:size-[14px]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <g stroke="#5C5E63" strokeWidth="1.1" strokeLinejoin="round">
+        <circle cx="7.801" cy="7" r="5.75" />
+        <path d="M7.8 1.25a8.132 8.132 0 0 0 0 11.5M7.8 1.25a8.132 8.132 0 0 1 0 11.5M2.492 7h10.616" />
+      </g>
+    </svg>
+  )
+}
+
+/** Header location pin icon — used for Location column */
+function HdrLocationIcon() {
+  return (
+    <svg className="size-2.5 shrink-0 lg:size-[14px]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M7 1.55c-2.443 0-4.45 2.042-4.45 4.593 0 1.699.708 3.295 1.655 4.47.472.586.993 1.053 1.495 1.37.508.323.96.467 1.3.467.341 0 .792-.144 1.3-.466.502-.318 1.023-.785 1.495-1.371.947-1.175 1.655-2.771 1.655-4.47C11.45 3.592 9.443 1.55 7 1.55ZM1.45 6.143C1.45 3.013 3.92.45 7 .45c3.08 0 5.55 2.563 5.55 5.693 0 1.998-.828 3.83-1.899 5.16-.537.666-1.145 1.22-1.762 1.61-.61.386-1.266.637-1.889.637s-1.28-.25-1.889-.637c-.617-.39-1.225-.944-1.762-1.61-1.071-1.33-1.899-3.162-1.899-5.16Z" fill="#5C5E63" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M7 4.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM4.7 6a2.3 2.3 0 1 1 4.6 0 2.3 2.3 0 0 1-4.6 0Z" fill="#5C5E63" />
+    </svg>
+  )
+}
+
+/** Header lightning bolt icon — used for Connection strength column */
+function HdrStrengthIcon() {
+  return (
+    <svg className="size-2.5 shrink-0 lg:size-[14px]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M7.533 2.397 3.265 7.091h1.863a.95.95 0 0 1 .95.95v3.58l4.64-4.763H8.483a.95.95 0 0 1-.95-.95v-3.51ZM6.98 1.37c.584-.642 1.653-.23 1.653.64v3.748h2.44c.841 0 1.268 1.01.681 1.613L6.61 12.654c-.595.61-1.631.19-1.631-.663v-3.8H2.926c-.825 0-1.258-.979-.703-1.589L6.98 1.37Z" fill="#5C5E63" />
+    </svg>
+  )
+}
+
+/** Header owner/person icon — used for Owner column */
+function HdrOwnerIcon() {
+  return (
+    <svg className="size-2.5 shrink-0 lg:size-[14px]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M5.492 8.85A2.442 2.442 0 0 0 3.05 11.29c0 .364.295.659.658.659h6.584a.658.658 0 0 0 .658-.659A2.442 2.442 0 0 0 8.508 8.85H5.492ZM1.95 11.29A3.542 3.542 0 0 1 5.492 7.75h3.016a3.542 3.542 0 0 1 3.542 3.541c0 .972-.787 1.759-1.758 1.759H3.708A1.758 1.758 0 0 1 1.95 11.29ZM7.1 2.05a1.7 1.7 0 1 0 0 3.4 1.7 1.7 0 0 0 0-3.4Zm-2.8 1.7a2.8 2.8 0 1 1 5.6 0 2.8 2.8 0 0 1-5.6 0Z" fill="#5C5E63" />
+    </svg>
+  )
+}
+
+/** Deal currency icon — grey rounded rect with dollar sign, used in col 1 for deal rows */
+function DealCurrencyIcon() {
+  return (
+    <svg className="size-[11px] lg:size-4" width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <rect width="12" height="12" rx="4.25" fill="#969696" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M.22 2.9C0 3.556 0 4.37 0 6s0 2.443.22 3.1a4.25 4.25 0 0 0 2.68 2.68C3.556 12 4.37 12 6 12s2.443 0 3.1-.22a4.25 4.25 0 0 0 2.68-2.68C12 8.444 12 7.63 12 6s0-2.443-.22-3.1A4.25 4.25 0 0 0 9.1.22C8.444 0 7.63 0 6 0S3.557 0 2.9.22A4.25 4.25 0 0 0 .22 2.9Zm2.55 3.838V5.262c0-1.034 0-1.551.2-1.946.177-.348.46-.63.807-.807.395-.201.912-.201 1.946-.201h.554c1.034 0 1.55 0 1.946.2.347.178.63.46.807.808.2.395.2.912.2 1.946v1.476c0 1.034 0 1.551-.2 1.946-.177.348-.46.63-.807.807-.395.201-.912.201-1.946.201h-.554c-1.034 0-1.55 0-1.946-.2a1.846 1.846 0 0 1-.807-.808c-.2-.395-.2-.912-.2-1.946Zm3.692-3.23a.462.462 0 0 0-.923 0c0 .037-.03.067-.067.071a1.169 1.169 0 0 0-.695.315 1.105 1.105 0 0 0-.346.8c0 .305.127.593.346.8.218.208.509.321.808.321h.83c.069 0 .13.026.172.066.04.04.06.087.06.132a.182.182 0 0 1-.06.132.249.249 0 0 1-.172.066h-1.32a.462.462 0 1 0 0 .923h.377c.037 0 .066.03.066.066a.462.462 0 1 0 .923 0c0-.037.03-.068.067-.071.259-.025.505-.134.695-.315.219-.209.346-.496.346-.8 0-.306-.127-.593-.346-.801a1.172 1.172 0 0 0-.808-.32h-.83a.249.249 0 0 1-.172-.067.183.183 0 0 1-.06-.132c0-.045.02-.092.06-.132a.249.249 0 0 1 .172-.065h1.301a.462.462 0 0 0 0-.923h-.359a.066.066 0 0 1-.065-.066ZM3.692 8.4c0-.255.207-.462.462-.462h3.692a.462.462 0 0 1 0 .923H4.154a.462.462 0 0 1-.462-.461Z" fill="#E7E7E7" />
+      <rect x=".4" y=".4" width="11.2" height="11.2" rx="3.85" stroke="#DEDEDE" strokeWidth=".8" />
+    </svg>
+  )
+}
+
 /** Generic grey person avatar — used when no real photo is available */
 function GenericPersonAvatar() {
   return (
@@ -1254,14 +1507,14 @@ function ExpandableCell({ isHeader }: { isHeader?: boolean }) {
 // ─── Cell renderer ────────────────────────────────────────────────────────────
 
 const STATUS_COLORS: Record<string, string> = {
-  blue:       'border-[#B8D0FF] text-[#407FF2]',
-  green:      'border-[#99E6C8] text-[#148a5e]',
-  yellow:     'border-[#FFEBAD] bg-[#FFF3CC] text-[#705500]',
-  orange:     'border-[#FEE0C8] bg-[#FEEEE1] text-[#753501]',
-  red:        'border-[#FFBCBC] text-[#b31212]',
-  grey:       'border-[#E6E7EA] text-[#5C5E63]',
-  purple:     'border-[#E8DDFE] bg-[#F5EEFF] text-[#4711BB]',
-  teal:       'border-[#C3EDF9] bg-[#DAF4FC] text-[#0A5A70]',
+  blue: 'border-[#B8D0FF] text-[#407FF2]',
+  green: 'border-[#99E6C8] text-[#148a5e]',
+  yellow: 'border-[#FFEBAD] bg-[#FFF3CC] text-[#705500]',
+  orange: 'border-[#FEE0C8] bg-[#FEEEE1] text-[#753501]',
+  red: 'border-[#FFBCBC] text-[#b31212]',
+  grey: 'border-[#E6E7EA] text-[#5C5E63]',
+  purple: 'border-[#E8DDFE] bg-[#F5EEFF] text-[#4711BB]',
+  teal: 'border-[#C3EDF9] bg-[#DAF4FC] text-[#0A5A70]',
   'blue-soft': 'border-[#D6E5FF] bg-[#E5EEFF] text-[#183C81]',
 }
 
@@ -1305,12 +1558,43 @@ function renderTableCell(cell: TableCell): React.ReactNode {
     case 'number':
     case 'text':
       return <div className="text-[#5F5D6A]">{cell.value}</div>
+    case 'person':
+      return (
+        <div className={cn(badgeBase, 'shrink-0 border-[#EEEFF1] bg-[#F4F5F6] text-[#5C5D63]', cell.avatar ? 'pl-0.5 lg:pl-[3px]' : '')}>
+          {cell.avatar && (
+            <Image
+              alt={cell.label}
+              src={cell.avatar}
+              width={cell.avatarW ?? 192}
+              height={cell.avatarH ?? 192}
+              className="size-2 rounded-sm lg:size-3"
+            />
+          )}
+          <div>{cell.label}</div>
+        </div>
+      )
+    case 'strength': {
+      const strengthIcon: Record<string, React.ReactNode> = {
+        'very-strong': <path d="m4.5 8.5 4.243-5v4H11.5l-4.546 5v-4H4.5Z" fill="#0FC27B" stroke="#0FC27B" strokeWidth="1.226" strokeLinecap="round" strokeLinejoin="round" />,
+        'strong': <rect x="4" y="4" width="8" height="8" rx="3" fill="#0FC27B" />,
+        'good': <rect x="4" y="4" width="8" height="8" rx="3" fill="#06A0C6" />,
+        'weak': <rect x="4" y="4" width="8" height="8" rx="3" fill="#E4E7EC" />,
+      }
+      return (
+        <div className="flex items-center gap-x-[3px] lg:gap-x-1">
+          <svg className="size-[11px] lg:size-4" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            {strengthIcon[cell.level]}
+          </svg>
+          <span>{cell.label}</span>
+        </div>
+      )
+    }
   }
 }
 
 // ─── Data model table ─────────────────────────────────────────────────────────
 
-function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boolean }) {
+function DataModelTable({ tab, addHovered, contentVisible }: { tab: TabConfig; addHovered: boolean; contentVisible: boolean }) {
   return (
     <div className="lg:px-[108px] xl:px-[241px] -ml-6 w-[calc(100%+48px)]">
       <div className="grid w-full grid-cols-[24px_1fr_24px] grid-rows-[10px_1fr_10px] pb-20 lg:grid-rows-[24px_1fr_24px]">
@@ -1332,7 +1616,17 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
                 <div className="h-full w-full overflow-hidden">
                   <div className="h-full w-full bg-[#D2D7DE]" />
                 </div>
-                <canvas className="relative h-full w-full" width={516} height={36} />
+                {/* <FlickeringGrid /> */}
+                <FlickeringGrid
+                    className="relative h-full w-full"
+                    maskMode
+                    maxOpacity={0.95}
+                    minOpacity={0.1}
+                    flickerChance={0.9}
+                    squareSize={4}
+                    gridGap={6}
+                    // onReady={() => setGridReady(true)}
+                  />
               </div>
             </div>
           </div>
@@ -1351,12 +1645,10 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
         <div
           className={cn(
             'grid border-[#EEEFF1] border-t border-l transition-[grid-template-columns] duration-700 [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] auto-rows-[28px] lg:auto-rows-[40px] pointer-events-none select-none',
-            // last col: 0fr collapsed → 1fr expanded when addHovered (only if tableAddColumn is defined)
-            tab.tableAddColumn
-              ? addHovered
-                ? 'grid-cols-[118px_1fr_1fr_1fr] md:grid-cols-[118px_1fr_1fr_1fr_1fr] lg:grid-cols-[173px_1fr_1fr_1fr_1fr]'
-                : 'grid-cols-[118px_1fr_1fr_0fr] md:grid-cols-[118px_1fr_1fr_1fr_0fr] lg:grid-cols-[173px_1fr_1fr_1fr_0fr]'
-              : 'grid-cols-[118px_1fr_1fr] md:grid-cols-[118px_1fr_1fr_1fr] lg:grid-cols-[173px_1fr_1fr_1fr]',
+            // 5th col: 0fr (always collapsed) → 1fr only when tableAddColumn is set and addHovered
+            addHovered && tab.tableAddColumn
+              ? 'grid-cols-[118px_1fr_1fr_1fr] md:grid-cols-[118px_1fr_1fr_1fr_1fr] lg:grid-cols-[173px_1fr_1fr_1fr_1fr]'
+              : 'grid-cols-[118px_1fr_1fr_0fr] md:grid-cols-[118px_1fr_1fr_1fr_0fr] lg:grid-cols-[173px_1fr_1fr_1fr_0fr]',
           )}
         >
 
@@ -1365,7 +1657,7 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
           {/* Col 1 header: entity icon + label */}
           <div className={cn(cellBase, 'pl-2.5 lg:pl-4')}>
             <RowCheckIcon />
-            <CellContent>
+            <CellContent contentVisible={contentVisible} colDelay={0}>
               <div className="ml-1 flex items-center gap-x-1 lg:gap-x-1.5">
                 {tab.tableEntityIcon}
                 <span>{tab.tableEntityLabel}</span>
@@ -1374,12 +1666,12 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
           </div>
 
           {/* Cols 2–4 headers: dynamic per tab */}
-          {tab.tableColumns.map((col) => (
+          {tab.tableColumns.map((col, colIdx) => (
             <div
               key={col.headerLabel}
               className={cn(cellBase, 'pl-1.5 lg:pl-2', col.hiddenOnMobile && 'hidden md:flex')}
             >
-              <CellContent>
+              <CellContent contentVisible={contentVisible} colDelay={(colIdx + 1) * 0.05}>
                 <div className="flex items-center gap-x-1 lg:gap-x-1.5">
                   {col.headerIcon}
                   <div>{col.headerLabel}</div>
@@ -1388,17 +1680,19 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
             </div>
           ))}
 
-          {/* Col 5 header: add column — only rendered when tableAddColumn is set */}
+          {/* Col 5 header: add column header when available, otherwise empty expandable cell */}
           {tab.tableAddColumn ? (
-            <div className={cn(cellBase, 'pl-1.5 lg:pl-2 overflow-hidden', tab.tableAddColumn.hiddenOnMobile && 'hidden md:flex')}>
-              <CellContent>
+            <div className={cn(cellBase, 'pl-1.5 lg:pl-2 overflow-hidden')}>
+              <CellContent contentVisible={contentVisible} colDelay={0.20}>
                 <div className="flex items-center gap-x-1 lg:gap-x-1.5">
                   {tab.tableAddColumn.headerIcon}
                   <div>{tab.tableAddColumn.headerLabel}</div>
                 </div>
               </CellContent>
             </div>
-          ) : null}
+          ) : (
+            <ExpandableCell isHeader />
+          )}
 
           {/* ── Data rows ── */}
           {tab.tableRows.map((row) => (
@@ -1406,11 +1700,13 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
               {/* Col 1: Name + avatar (real photo or generic placeholder) */}
               <div className={cn(cellBase, 'pl-2.5 lg:pl-4')}>
                 <RowCheckIcon />
-                <CellContent>
+                <CellContent contentVisible={contentVisible} colDelay={0}>
                   <div className="flex items-center gap-x-[6px]">
-                    {row.avatar
-                      ? <Image alt={row.name} src={row.avatar} width={row.avatarW ?? 192} height={row.avatarH ?? 192} className="ml-1 size-[11px] rounded-full lg:size-4" />
-                      : <GenericPersonAvatar />
+                    {row.nameIcon
+                      ? row.nameIcon
+                      : row.avatar
+                        ? <Image alt={row.name} src={row.avatar} width={row.avatarW ?? 192} height={row.avatarH ?? 192} className={cn('ml-1 size-[11px] lg:size-4', row.avatarStyle === 'square' ? 'rounded-[3px] lg:rounded-[5px]' : 'rounded-full')} />
+                        : <GenericPersonAvatar />
                     }
                     <div className="relative flex">
                       {row.name}
@@ -1430,16 +1726,18 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
                     tab.tableColumns[i]?.hiddenOnMobile && 'hidden md:flex',
                   )}
                 >
-                  <CellContent>{renderTableCell(cell)}</CellContent>
+                  <CellContent contentVisible={contentVisible} colDelay={(i + 1) * 0.05}>{renderTableCell(cell)}</CellContent>
                 </div>
               ))}
 
-              {/* Col 5: add column cell — only when tableAddColumn is set */}
+              {/* Col 5: add column cell when available, otherwise empty expandable cell */}
               {tab.tableAddColumn ? (
-                <div className={cn(cellBase, 'pl-1.5 lg:pl-2 overflow-hidden', tab.tableAddColumn.hiddenOnMobile && 'hidden md:flex')}>
-                  <CellContent>{row.addCell ? renderTableCell(row.addCell) : null}</CellContent>
+                <div className={cn(cellBase, 'pl-1.5 lg:pl-2 overflow-hidden')}>
+                  <CellContent contentVisible={contentVisible} colDelay={0.20}>{row.addCell ? renderTableCell(row.addCell) : null}</CellContent>
                 </div>
-              ) : null}
+              ) : (
+                <ExpandableCell />
+              )}
             </Fragment>
           ))}
         </div>
@@ -1479,14 +1777,27 @@ function DataModelTable({ tab, addHovered }: { tab: TabConfig; addHovered: boole
 // ─── Main export ──────────────────────────────────────────────────────────────
 
 export function HomeAdaptiveModelVisual() {
+  // `activeTab` drives button highlight immediately.
+  // `displayTab` only changes after the fade-out completes, so content never
+  // flickers mid-animation.
   const [activeTab, setActiveTab] = useState(0)
+  const [displayTab, setDisplayTab] = useState(0)
   const [addHovered, setAddHovered] = useState(false)
+  const [contentVisible, setContentVisible] = useState(true)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
-  const tab = TABS[activeTab]!
+  const tab = TABS[displayTab]!
 
   function handleTabChange(i: number) {
+    if (i === activeTab) return
     setActiveTab(i)
-    setAddHovered(false)
+    setContentVisible(false)                          // → blur out (160ms)
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      setDisplayTab(i)                                // swap content
+      setAddHovered(false)
+      setContentVisible(true)                         // → blur in (280ms)
+    }, 160)
   }
 
   return (
@@ -1517,22 +1828,31 @@ export function HomeAdaptiveModelVisual() {
         <div className="h-full w-[22px] shrink-0" aria-hidden />
       </div>
 
-      {/* ── Desktop grid (1320px+) ──────────────────────────────────────── */}
-      <DesktopCardGrid
-        tab={tab}
-        addHovered={addHovered}
-        onAddEnter={() => setAddHovered(true)}
-      />
+      {/* ── Cards + connectors (blur + fade, cards stagger on enter) ────── */}
+      <motion.div
+        initial={false}
+        animate={contentVisible ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(8px)' }}
+        transition={{ duration: contentVisible ? 0.28 : 0.16 }}
+      >
+        {/* Desktop grid (1320px+) */}
+        <DesktopCardGrid
+          tab={tab}
+          addHovered={addHovered}
+          onAddEnter={() => setAddHovered(true)}
+          contentVisible={contentVisible}
+        />
 
-      {/* ── Mobile / tablet strip (< 1320px) ────────────────────────────── */}
-      <MobileCardStrip
-        tab={tab}
-        addHovered={addHovered}
-        onAddEnter={() => setAddHovered(true)}
-      />
+        {/* Mobile / tablet strip (< 1320px) */}
+        <MobileCardStrip
+          tab={tab}
+          addHovered={addHovered}
+          onAddEnter={() => setAddHovered(true)}
+          contentVisible={contentVisible}
+        />
+      </motion.div>
 
-      {/* ── Data model table ─────────────────────────────────────────────── */}
-      <DataModelTable tab={tab} addHovered={addHovered} />
+      {/* ── Data model table (per-column slide-down on enter) ────────────── */}
+      <DataModelTable tab={tab} addHovered={addHovered} contentVisible={contentVisible} />
 
     </div>
   )

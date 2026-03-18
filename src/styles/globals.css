@@ -856,6 +856,20 @@
     to   { clip-path: inset(0 0 0% 0); }
   }
 
+  /* ── HomeSpeedVisual — traveling blue pulse on connector paths ───────────────
+   * Works with SVG pathLength="1" attribute to normalize dash values to 0–1 space.
+   * Total cycle: 1.5 s travel + 1.5 s invisible pause = 3 s.
+   * Use animation-delay on each path so pulses stagger after the draw-in finishes.
+  ────────────────────────────────────────────────────────────────────────── */
+  /* One-shot travel: 1.5 s from entry to exit. animationFillMode:'both' keeps
+     the element invisible before the delay and after completion. */
+  @keyframes pulse-dash {
+    0%   { stroke-dashoffset: 1.15; opacity: 0; }
+    5%   { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { stroke-dashoffset: -0.15; opacity: 0; }
+  }
+
   /* ── Home Bento Grid — responsive named-area grid ────────────────────────────
    * Used by HomeBentoSection for both content rows and spacer rows.
    * home-bento-grid  → full named-area layout (titleAndDescription + content cells)
