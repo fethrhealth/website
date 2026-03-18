@@ -165,7 +165,7 @@ export function PromptLibrarySection({
            *   Row 1 → moves LEFT  on scroll-down, RIGHT on scroll-up
            *   Row 2 → moves RIGHT on scroll-down, LEFT  on scroll-up
            */}
-          <div className="flex flex-col gap-y-5 pb-40 max-lg:pb-20">
+          <div className="flex flex-col gap-y-5 pb-40 max-lg:pb-20 max-lg:[zoom:0.6]">
 
             {/* Row 1 — slides left ─────────────────────────────────────── */}
             <motion.div

@@ -34,13 +34,13 @@ export default function AskAIPage(): React.ReactElement {
         ]}
       />
       <Divider/>
-      <Divider/>
       <HomeContextSection
         eyebrow="Powered by"
-        heading="Universal Context"
+        heading="Universal"
         trademark
         features={ CONTEXT_FEATURES }
       />
+      <Divider/>
       <AskChatDemoSection />
       <Divider/>
       <PromptLibrarySection

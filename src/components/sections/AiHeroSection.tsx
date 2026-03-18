@@ -329,16 +329,57 @@ export function AiHeroSection() {
       <p className="mt-4 max-w-xl text-balance text-lg text-secondary-foreground lg:text-xl max-lg:text-center">
         Beautifully intelligent. Designed to help your GTM team do their best work.
       </p>
-      <div className="flex w-full items-center gap-x-2.5 gap-y-2 mt-6 max-lg:justify-center">
+      <div className="flex w-full items-center justify-center lg:justify-start gap-x-2.5 gap-y-2 mt-6 max-lg:justify-center max-md:flex-col max-md:items-center">
+
+        {/* Desktop: Start for free — hidden on mobile */}
         <Link
           href="/signup"
-          className="button-primary relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm"
+          className="button-primary relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
         >
           Start for free
         </Link>
-        <button className="button-outline relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm">
+
+        {/* Mobile: email form — hidden on md+ */}
+        <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email address"
+            className="block w-full rounded-[10px] bg-primary-background p-[10px_13px] outline-none transition-all duration-300 ease-out text-secondary-foreground placeholder:text-accent-foreground border border-default-stroke hover:shadow-[0px_1px_4px_rgba(56,62,71,0.1)] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300 placeholder:text-base placeholder-shown:truncate"
+          />
+          <button
+            type="submit"
+            className="button-primary relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-11.5 gap-x-2 rounded-xl px-3.5 text-base"
+          >
+            <div className="absolute inset-0 flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="animate-spin opacity-0 transition-opacity duration-150" aria-hidden>
+                <circle cx="9" cy="9" r="8" stroke="currentColor" strokeOpacity="0.1" strokeWidth="1.5" />
+                <path d="M17 9C17 10.0506 16.7931 11.0909 16.391 12.0615C15.989 13.0321 15.3997 13.914 14.6569 14.6569C13.914 15.3997 13.0321 15.989 12.0615 16.391C11.0909 16.7931 10.0506 17 9 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <span className="transition-opacity duration-150">Send me a demo</span>
+          </button>
+        </form>
+
+        {/* Desktop: Talk to sales — hidden on mobile */}
+        <button
+          type="button"
+          className="button-outline relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+        >
           Talk to sales
         </button>
+
+        {/* Mobile: Talk to sales — ghost with arrow, hidden on md+ */}
+        <button
+          type="button"
+          className="button-ghost group relative inline-flex cursor-pointer items-center justify-center self-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-11.5 gap-x-2 rounded-xl px-3.5 text-base md:hidden"
+        >
+          <span>Talk to sales</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="relative transition-[translate] duration-[400ms] ease-in-out group-hover:translate-x-0.5 group-hover:duration-150 group-active:translate-x-0.5 group-active:duration-50" aria-hidden>
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
+          </svg>
+        </button>
+
       </div>
     </>
   )

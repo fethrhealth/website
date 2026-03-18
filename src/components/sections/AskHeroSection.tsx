@@ -860,6 +860,7 @@ export function AskHeroSection(): ReactNode {
               Engineered for performance. Unified by design. Powered by Universal Context.
             </p>
             <div className="flex items-center gap-2.5">
+              {/* Desktop buttons */}
               <button
                 type="button"
                 className="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border border-default-stroke bg-primary-background px-3 text-sm text-fg-primary transition-colors hover:bg-secondary-background max-md:hidden"
@@ -872,6 +873,31 @@ export function AskHeroSection(): ReactNode {
               >
                 Start for free
               </Link>
+
+              {/* Mobile email form */}
+              <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your email address"
+                  className="block w-full rounded-[10px] bg-primary-background p-[10px_13px] outline-none transition-all duration-300 ease-out text-fg-secondary placeholder:text-fg-accent border border-default-stroke hover:shadow-[0px_1px_4px_rgba(56,62,71,0.1)] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300 placeholder:text-base"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-transparent bg-fg-primary px-3.5 text-base text-white-100 transition-colors hover:bg-fg-secondary"
+                >
+                  Start for free
+                </button>
+                <button
+                  type="button"
+                  className="button-ghost group self-center inline-flex cursor-pointer items-center justify-center gap-x-1.5 rounded-xl border px-3.5 h-11 text-base transition-colors duration-300 ease-in-out hover:duration-50"
+                >
+                  <span>Talk to sales</span>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="relative transition-[translate] duration-[400ms] ease-in-out group-hover:translate-x-0.5 group-hover:duration-150 group-active:translate-x-0.5 group-active:duration-50" aria-hidden>
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
+                  </svg>
+                </button>
+              </form>
             </div>
           </div>
         </div>

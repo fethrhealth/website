@@ -27,14 +27,21 @@ interface RainGridProps {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const DEFAULT_H       = 300
-const LINE_COUNT      = 150
+// 1 line per 8px → desktop ~1200px gives ~150 lines (same as before).
+// Mobile ~375px → ~47 lines.
+const LINE_DENSITY_PX = 10
 const DOT_RADIUS      = 2
 const ENTER_DURATION  = 600
 const ENTER_MAX_DELAY = 800
 
-// Parabola: 0 at center, 1 at edges → center short, edges deep
-const EDGE_Y_FRAC   = 0.22
-const CENTER_Y_FRAC = 0.78
+// Parabola: center short, edges deep.
+// Amplitude scales with canvas width so it's less pronounced on mobile.
+// At ≥900 px → full amplitude. At 375 px → ~42% of full.
+const EDGE_Y_FRAC    = 0.22   // desktop anchor for center (shortest) lines
+const CENTER_Y_FRAC  = 0.78   // desktop anchor for edge (longest) lines
+// On mobile the parabola is flatter so lines look short — boost shifts the
+// whole parabola down to compensate. 0 at ≥900 px, full value at ~375 px.
+const MOBILE_LINE_BOOST = 0.45
 
 // Color schemes
 const COLORS = {
@@ -58,10 +65,16 @@ interface Line {
 }
 
 function buildLines(W: number, H: number, immediate: boolean): Line[] {
-  const cx      = W / 2
-  const hw      = W / 2
-  const edgeY   = H * EDGE_Y_FRAC
-  const centerY = H * CENTER_Y_FRAC
+  const LINE_COUNT = Math.round(W / LINE_DENSITY_PX)
+  const cx  = W / 2
+  const hw  = W / 2
+
+  // Scale parabola amplitude with canvas width — less pronounced on mobile
+  const amp   = (CENTER_Y_FRAC - EDGE_Y_FRAC) * Math.min(1, W / 900)
+  // Shift the entire parabola down on narrow screens so lines aren't too short
+  const boost = MOBILE_LINE_BOOST * Math.max(0, 1 - W / 900)
+  const edgeY   = H * (EDGE_Y_FRAC + boost)
+  const centerY = H * (EDGE_Y_FRAC + boost + amp)
 
   return Array.from({ length: LINE_COUNT }, (_, i) => {
     const x     = (i / (LINE_COUNT - 1)) * W

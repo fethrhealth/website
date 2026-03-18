@@ -129,13 +129,16 @@ export function ScrollAccordionSection({
             <div className="relative grid h-[540px] w-full grid-cols-12">
 
               {/* Left: heading + animated accordion */}
-              <div className="relative col-[2/6] pb-80">
+              <div className="col-[2/6] flex flex-col h-full overflow-hidden">
                 <div className="max-w-[20em] text-pretty text-heading-responsive-sm text-start mix-blend-multiply dark:mix-blend-screen">
                   <h2 className="inline text-pretty">{heading}</h2>{' '}
                   <p className="inline text-pretty font-medium text-black-800">{subheading}</p>
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0">
+                {/* Spacer — pushes accordion to bottom without absolute positioning */}
+                <div className="flex-1" />
+
+                <div className="flex flex-col">
                   {items.map((item, i) => {
                     const isActive = i === activeIndex
                     return (
@@ -277,11 +280,11 @@ export function ScrollAccordionSection({
 
             {/* Segmented progress bars + active item text */}
             <div className="relative grid w-full grid-cols-12">
-              <div className="relative col-[2/-2] h-48">
-                <div className="absolute inset-x-0 bottom-8 h-32">
+              <div className="relative col-[2/-2]">
+                <div className="flex flex-col pb-8">
 
                   {/* Progress bars row — also act as click targets to jump to each item */}
-                  <div className="absolute inset-x-0 top-8 flex gap-1.5">
+                  <div className="flex gap-1.5 pt-8">
                     {items.map((item, i) => (
                       <button
                         key={i}
@@ -317,7 +320,7 @@ export function ScrollAccordionSection({
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeIndex}
-                      className="absolute inset-x-0 bottom-0"
+                      className="w-full pt-5"
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}

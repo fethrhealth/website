@@ -19,7 +19,9 @@ import { cn } from '@/lib/utils'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const LINE_COUNT = 150
+// Line density: 1 line per 8px of canvas width.
+// Desktop ~1200px → ~150 lines (same as before). Mobile ~375px → ~47 lines.
+const LINE_DENSITY_PX = 11
 const DOT_RADIUS = 1.5
 
 const LINE_ALPHA = 0.15
@@ -70,13 +72,21 @@ interface DotLine {
 }
 
 function buildLines(W: number, H: number): DotLine[] {
+  const LINE_COUNT = Math.round(W / LINE_DENSITY_PX)
   const midY = H * MID_Y_FRAC
   const cx   = W / 2
   const hw   = W / 2
+
+  // Scale parabola amplitude with canvas width so it's less pronounced on mobile.
+  // At 900px+ → full amplitude (PARA_CTR - PARA_EDGE = 0.28).
+  // At 375px  → ~42% of that → edges only 12% above center instead of 28%.
+  const paraAmp  = (PARA_CTR - PARA_EDGE) * Math.min(1, W / 900)
+  const paraEdge = PARA_CTR - paraAmp
+
   return Array.from({ length: LINE_COUNT }, (_, i) => {
     const x  = (i / (LINE_COUNT - 1)) * W
     const t2 = ((x - cx) / hw) ** 2
-    const paraY = H * PARA_CTR - (H * PARA_CTR - H * PARA_EDGE) * t2
+    const paraY = H * PARA_CTR - (H * PARA_CTR - H * paraEdge) * t2
     return {
       x,
       dotY:     midY,
