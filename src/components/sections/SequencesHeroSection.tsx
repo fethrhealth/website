@@ -20,6 +20,7 @@ import { useEffect } from 'react'
 import { motion, useMotionValue, animate } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -76,7 +77,7 @@ function EmailCard({ subject, timestamp, lineGroups, delay }: EmailCardProps) {
           <span className="text-primary-foreground text-sm">{subject}</span>
           {/* Timestamp — vertical gradient mask, matches Attio */}
           <span
-            className="mr-0.5 inline-flex items-center overflow-hidden"
+            className="mr-0.5 inline-flex items-center md:overflow-hidden"
             style={{
               maskImage: 'linear-gradient(to bottom,transparent 0%,black 20%,black 80%,transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to bottom,transparent 0%,black 20%,black 80%,transparent 100%)',
@@ -247,15 +248,15 @@ export function SequencesHeroSection() {
   }, [])
 
   return (
-    <section className="overflow-hidden">
+    <section className="md:overflow-hidden">
       <div className="container flex flex-1 flex-col">
-        <div className="flex w-full flex-1 flex-col border-x border-subtle-stroke">
+        <div className="flex w-full flex-1 flex-col lg:border-x border-subtle-stroke">
           <div className="grid grid-cols-12">
             <div className="relative col-span-full lg:col-[2/-2] lg:border-x lg:border-subtle-stroke">
 
               {/* ── Visualization block (400px clipping window) ────────── */}
               <motion.div
-                className="pointer-events-none h-[400px] w-full overflow-hidden"
+                className="pointer-events-none h-[400px] w-full md:overflow-hidden"
                 style={{
                   y: outerY,
                   maskImage:
@@ -277,7 +278,7 @@ export function SequencesHeroSection() {
                 >
                   {/* ① Enrollment header + first email card
                         Appears immediately (t≈0.1–0.2s), stays put until t=1.0s */}
-                  <div className="relative w-full px-8">
+                  <div className="relative w-full md:px-8">
                     <div className="mx-auto mb-2 flex w-full max-w-lg flex-col items-start">
                       <EnrollmentHeader delay={0.1} />
                     </div>
@@ -302,7 +303,7 @@ export function SequencesHeroSection() {
 
                   {/* ③ Next steps card + Completed
                         Scroll step 2 at t=1.9s → these scroll into view */}
-                  <div className="relative w-full px-8">
+                  <div className="relative w-full md:px-8">
                     <svg width="100%" height="1" className="text-subtle-stroke absolute inset-x-0 top-px pointer-events-none">
                       <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
                     </svg>
@@ -323,7 +324,7 @@ export function SequencesHeroSection() {
 
                   {/* ④ Meeting pill — fades in at t=2.8s with no scroll
                         It sits at the bottom edge of the 400px window after step 2 */}
-                  <div className="relative flex w-full flex-col items-center px-8">
+                  <div className="relative flex w-full flex-col items-center md:px-8">
                     <svg width="100%" height="1" className="text-subtle-stroke absolute inset-x-0 top-px pointer-events-none">
                       <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
                     </svg>
@@ -390,7 +391,7 @@ export function SequencesHeroSection() {
                   >
                     Talk to sales
                   </Link>
-                  <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
+                  {/* <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
                     <input
                       type="email"
                       name="email"
@@ -400,7 +401,12 @@ export function SequencesHeroSection() {
                     <button type="submit" className="button-primary h-[46px] rounded-xl px-3.5 text-base">
                       Send me a demo
                     </button>
-                  </form>
+                  </form> */}
+                  <DemoRequestForm
+                    source='sequences'
+                    salesHref= ''
+                    className='md:hidden'
+                  />
                 </motion.div>
 
               </header>

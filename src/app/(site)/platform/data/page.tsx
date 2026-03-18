@@ -28,6 +28,7 @@ export default function DataPage(): React.ReactElement {
         items={DATA_GRID_ITEMS}
         quote={DATA_GRID_QUOTE}
       />
+      <Divider/>
       <DataContextSection />
       <EnrichmentSection
         heading="Automatic enrichment, automatic advantage."

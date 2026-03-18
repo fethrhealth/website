@@ -42,7 +42,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { DemoRequestForm } from "../ui/DemoRequestForm";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -88,10 +88,21 @@ export interface PageHeroProps {
 
   /**
    * Label for the submit button on the mobile email form.
-   * Defaults to "Send me a demo".
-   * Only shown when primaryCta is set.
+   * Defaults to "Send me a demo". Only shown when primaryCta is set.
    */
   mobileCta?: string;
+
+  /**
+   * Source identifier passed to DemoRequestForm — stored in Payload CMS.
+   * E.g. "refer-hero", "startups-hero". Only used when primaryCta is set.
+   */
+  mobileFormSource?: string;
+
+  /**
+   * Href for the ghost "Talk to sales" button in the mobile form.
+   * Pass null to hide it. Defaults to null (hidden).
+   */
+  mobileFormSalesHref?: string | null;
 
   /**
    * Tailwind padding-top class(es) for the outer grid wrapper.
@@ -124,9 +135,11 @@ export function PageHero({
   subheading,
   primaryCta,
   secondaryCta,
-  mobileCta = "Send me a demo",
-  paddingTop = "pt-16 lg:pt-24 xl:pt-32",
-  paddingBottom = "",
+  mobileCta          = "Send me a demo",
+  mobileFormSource,
+  mobileFormSalesHref = null,
+  paddingTop          = "pt-16 lg:pt-24 xl:pt-32",
+  paddingBottom       = "",
 }: PageHeroProps) {
   // Resolve heading element — default to h2 when badge exists (badge is the h1)
   const HeadingTag = headingAs ?? (badge ? "h2" : "h1");
@@ -221,23 +234,14 @@ export function PageHero({
                     </Link>
                   )}
 
-                  {/* Mobile email form — only when primaryCta is set */}
+                  {/* Mobile: email form — hidden on md+, only when primaryCta is set */}
                   {primaryCta && (
-                    <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Your email address"
-                        // outline-hidden is Tailwind v4 → outline-none in v3
-                        className="block w-full rounded-[10px] border border-default-stroke bg-primary-background p-[10px_13px] text-base text-secondary-foreground placeholder:text-muted-foreground outline-none transition-all duration-300 ease-out focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300"
-                      />
-                      <button
-                        type="submit"
-                        className="button-primary h-[46px] rounded-xl px-3.5 text-base"
-                      >
-                        {mobileCta}
-                      </button>
-                    </form>
+                    <DemoRequestForm
+                      submitLabel={mobileCta}
+                      source={mobileFormSource}
+                      salesHref={mobileFormSalesHref}
+                      className="max-w-xs md:hidden"
+                    />
                   )}
                 </motion.div>
               )}

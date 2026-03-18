@@ -24,6 +24,8 @@ export default function ProductivityPage(): React.ReactElement {
           subheading="Fethr propels go-to-market teams towards new levels of productivity and lets you seamlessly perform your daily work."
           primaryCta={{ label: 'Start for free', href: '/signup' }}
           secondaryCta={{ label: 'Talk to sales', href: '/contact' }}
+          mobileFormSource='productivity'
+          mobileFormSalesHref= ''
         />
         <ProductivityFloatingCursors />
         </div>

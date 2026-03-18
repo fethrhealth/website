@@ -1,3 +1,6 @@
+'use client'
+
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
@@ -38,7 +41,24 @@ const cardCls = cn(
 
 const LINE_GRADIENT = 'opacity-30 bg-[linear-gradient(270deg,#FFF_0%,#CAD0D9_4.04%,#CAD0D9_95.87%,#FFF_100%)]'
 
+const SLIDE_COUNT = 2
+
 export function ProductivityHeroImages() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [activeSlide, setActiveSlide] = useState(0)
+
+  function handleScroll() {
+    const el = scrollRef.current
+    if (!el) return
+    setActiveSlide(Math.round(el.scrollLeft / el.clientWidth))
+  }
+
+  function scrollToSlide(index: number) {
+    const el = scrollRef.current
+    if (!el) return
+    el.scrollTo({ left: index * el.clientWidth, behavior: 'smooth' })
+  }
+
   return (
     <>
       {/* ── Desktop ───────────────────────────────────────────────────────── */}
@@ -163,7 +183,11 @@ export function ProductivityHeroImages() {
 
       {/* ── Mobile (horizontal scroll) ────────────────────────────────────── */}
       <div className="mt-20 block lg:hidden max-w-[448px]">
-        <div className="flex snap-x snap-mandatory gap-y-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex snap-x snap-mandatory gap-y-3 overflow-x-auto [&::-webkit-scrollbar]:hidden"
+        >
 
           {/* Slide 1 */}
           <div className="flex w-full shrink-0 snap-start flex-col gap-y-3 px-4 pb-6 ">
@@ -214,6 +238,22 @@ export function ProductivityHeroImages() {
           </div>
 
         </div>
+
+        {/* Slide dots */}
+        <div className="mt-3 flex justify-center gap-x-2">
+          {Array.from({ length: SLIDE_COUNT }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToSlide(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={cn(
+                'h-2 w-2 rounded-full transition-colors duration-200',
+                i === activeSlide ? 'bg-slate-300' : 'bg-gray-100',
+              )}
+            />
+          ))}
+        </div>
+
       </div>
     </>
   )

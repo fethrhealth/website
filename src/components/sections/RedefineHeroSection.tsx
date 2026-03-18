@@ -46,7 +46,7 @@ export function RedefineHeroSection() {
   return (
     <header
       ref={ref}
-      className="relative z-[1] flex min-h-[calc(100vh-var(--site-header-height))] w-full max-w-2xl flex-col justify-center px-6 pb-32"
+      className="relative z-[1] flex min-h-[calc(100vh-var(--site-header-height))] w-full max-w-2xl flex-col justify-center lg:px-6 pb-32"
     >
       {/* ── Overline ───────────────────────────────────────────────────────── */}
       <motion.p

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { HeroRainGrid } from '@/components/ui/HeroRainGrid'
+import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Shadows ──────────────────────────────────────────────────────────────────
 
@@ -130,8 +131,8 @@ function FadeItem({ visible, className, children }: { visible: boolean; classNam
     <div
       className={className}
       style={{
-        opacity:    visible ? 1 : 0,
-        transform:  visible ? 'none' : 'translateY(5px)',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'none' : 'translateY(5px)',
         transition: 'opacity 0.28s ease, transform 0.28s ease',
       }}
     >
@@ -149,11 +150,11 @@ function FeatureRow({
   avatarSrcs,
   visible,
 }: {
-  label:      string
-  barLeft:    number
-  barWidth:   string
+  label: string
+  barLeft: number
+  barWidth: string
   avatarSrcs: string[]
-  visible:    boolean
+  visible: boolean
 }) {
   return (
     <FadeItem visible={visible} className="flex flex-col gap-1.5">
@@ -190,13 +191,13 @@ function FeatureRow({
 function TaskCard({
   text, avatar1, avatar2, assignee, assigneeExtra, contact, due,
 }: {
-  text:          string
-  avatar1:       string
-  avatar2:       string
-  assignee:      string
+  text: string
+  avatar1: string
+  avatar2: string
+  assignee: string
   assigneeExtra: string
-  contact:       string
-  due:           string
+  contact: string
+  due: string
 }) {
   return (
     <div
@@ -238,8 +239,8 @@ function TaskCard({
 // visibleItems: 0=nothing, 1=card frame, 2=item1, 3=item2, 4=item3
 
 interface ResultProps {
-  typedText:    string
-  isTyping:     boolean
+  typedText: string
+  isTyping: boolean
   visibleItems: number
 }
 
@@ -262,7 +263,7 @@ function ResultFeatureRequests({ typedText, isTyping, visibleItems }: ResultProp
         className="mb-8 flex w-full flex-col overflow-hidden rounded-lg md:rounded-xl bg-white-100"
         style={{
           boxShadow: INNER_CARD_SHADOW,
-          opacity:   showCard ? 1 : 0,
+          opacity: showCard ? 1 : 0,
           transform: showCard ? 'none' : 'translateY(6px)',
           transition: 'opacity 0.3s ease, transform 0.3s ease',
         }}
@@ -293,9 +294,9 @@ function ResultFeatureRequests({ typedText, isTyping, visibleItems }: ResultProp
         <div className="h-px bg-[rgba(0,0,0,0.05)]" />
 
         <div className="flex flex-col gap-3 px-3 pt-2 pb-3">
-          <FeatureRow label="EHR integration"    barLeft={40}  barWidth="25%" avatarSrcs={['/assets/icons/ask/hero/avatar-1.jpg', '/assets/icons/ask/hero/avatar-2.jpg']}                                                                        visible={visibleItems >= 2} />
-          <FeatureRow label="Mobile companion"   barLeft={140} barWidth="25%" avatarSrcs={['/assets/icons/ask/hero/avatar-1.jpg', '/assets/icons/ask/hero/avatar-2.jpg', '/assets/icons/ask/hero/avatar-3.jpg']} visible={visibleItems >= 3} />
-          <FeatureRow label="Billing automation" barLeft={230} barWidth="30%" avatarSrcs={['/assets/icons/ask/hero/avatar-3.jpg']}                                                                                visible={visibleItems >= 4} />
+          <FeatureRow label="EHR integration" barLeft={40} barWidth="25%" avatarSrcs={['/assets/icons/ask/hero/avatar-1.jpg', '/assets/icons/ask/hero/avatar-2.jpg']} visible={visibleItems >= 2} />
+          <FeatureRow label="Mobile companion" barLeft={140} barWidth="25%" avatarSrcs={['/assets/icons/ask/hero/avatar-1.jpg', '/assets/icons/ask/hero/avatar-2.jpg', '/assets/icons/ask/hero/avatar-3.jpg']} visible={visibleItems >= 3} />
+          <FeatureRow label="Billing automation" barLeft={230} barWidth="30%" avatarSrcs={['/assets/icons/ask/hero/avatar-3.jpg']} visible={visibleItems >= 4} />
         </div>
       </div>
     </div>
@@ -448,9 +449,9 @@ function ResultEmailDraft({ typedText, isTyping, visibleItems }: ResultProps) {
       <div
         className="mb-8 flex w-full flex-col rounded-lg md:rounded-xl bg-white-100"
         style={{
-          boxShadow:  INNER_CARD_SHADOW,
-          opacity:    showCard ? 1 : 0,
-          transform:  showCard ? 'none' : 'translateY(6px)',
+          boxShadow: INNER_CARD_SHADOW,
+          opacity: showCard ? 1 : 0,
+          transform: showCard ? 'none' : 'translateY(6px)',
           transition: 'opacity 0.3s ease, transform 0.3s ease',
         }}
       >
@@ -492,34 +493,34 @@ function ResultEmailDraft({ typedText, isTyping, visibleItems }: ResultProps) {
 // ─── Demo queries ──────────────────────────────────────────────────────────────
 
 interface DemoQuery {
-  text:         string   // text typed in the input
-  badge:        string   // label while searching  — e.g. "Searching calls"
-  badgeDone:    string   // label after found      — e.g. "Searched calls: 1 result"
+  text: string   // text typed in the input
+  badge: string   // label while searching  — e.g. "Searching calls"
+  badgeDone: string   // label after found      — e.g. "Searched calls: 1 result"
   responseText: string   // text typed above the inner card
-  suggestion:   string   // bottom chip
+  suggestion: string   // bottom chip
 }
 
 const QUERIES: DemoQuery[] = [
   {
-    text:         'Recap feature requests',
-    badge:        'Searching calls',
-    badgeDone:    'Searched calls: 1 result',
+    text: 'Recap feature requests',
+    badge: 'Searching calls',
+    badgeDone: 'Searched calls: 1 result',
     responseText: 'There were three feature requests mentioned in your latest customer feedback call with Acme Health:',
-    suggestion:   'Draft summary of feature requests to share with product',
+    suggestion: 'Draft summary of feature requests to share with product',
   },
   {
-    text:         'Prepare me for my day',
-    badge:        'Thinking',
-    badgeDone:    'Thought for 3s',
+    text: 'Prepare me for my day',
+    badge: 'Thinking',
+    badgeDone: 'Thought for 3s',
     responseText: "Here's your daily brief for Thursday, March 13:",
-    suggestion:   'Set a reminder for my Acme Health QBR at 11:30 AM',
+    suggestion: 'Set a reminder for my Acme Health QBR at 11:30 AM',
   },
   {
-    text:         'Draft a follow-up email',
-    badge:        'Searching records',
-    badgeDone:    'Searched records: 4 results',
+    text: 'Draft a follow-up email',
+    badge: 'Searching records',
+    badgeDone: 'Searched records: 4 results',
     responseText: "Based on your latest call with Richard, I\u2019ve summarized the main points and drafted a follow-up email:",
-    suggestion:   'Send this draft to sarah@acmehealth.com',
+    suggestion: 'Send this draft to sarah@acmehealth.com',
   },
 ]
 
@@ -531,22 +532,22 @@ type SendState = 'dim' | 'active' | 'badge'
 
 export function AskHeroSection(): ReactNode {
   // Widget enter animation (slide up on first render)
-  const [entered,       setEntered]       = useState(false)
+  const [entered, setEntered] = useState(false)
   // Active query
-  const [queryIndex,    setQueryIndex]    = useState(0)
+  const [queryIndex, setQueryIndex] = useState(0)
   // Text typed into the input bar
-  const [typedQuery,    setTypedQuery]    = useState('')
+  const [typedQuery, setTypedQuery] = useState('')
   // Right-side of the input bar: dim button / active button / searching badge
-  const [sendState,     setSendState]     = useState<SendState>('dim')
+  const [sendState, setSendState] = useState<SendState>('dim')
   // Whether the badge shows the "found" (done) state vs the "searching" state
-  const [badgeFound,    setBadgeFound]    = useState(false)
+  const [badgeFound, setBadgeFound] = useState(false)
   // Whether the result dropdown is mounted/visible
-  const [showCard,      setShowCard]      = useState(false)
+  const [showCard, setShowCard] = useState(false)
   // Text typed above the inner card
   const [typedResponse, setTypedResponse] = useState('')
-  const [isTypingResp,  setIsTypingResp]  = useState(false)
+  const [isTypingResp, setIsTypingResp] = useState(false)
   // How many items are visible inside the inner card (0–4)
-  const [visibleItems,  setVisibleItems]  = useState(0)
+  const [visibleItems, setVisibleItems] = useState(0)
 
   // ── Animation loop ──────────────────────────────────────────────────────────
 
@@ -657,15 +658,15 @@ export function AskHeroSection(): ReactNode {
   // ── Render result based on active query ──────────────────────────────────────
 
   const resultProps: ResultProps = {
-    typedText:    typedResponse,
-    isTyping:     isTypingResp,
+    typedText: typedResponse,
+    isTyping: isTypingResp,
     visibleItems,
   }
 
   const resultNode =
     queryIndex === 0 ? <ResultFeatureRequests {...resultProps} /> :
-    queryIndex === 1 ? <ResultDailyBrief      {...resultProps} /> :
-                       <ResultEmailDraft      {...resultProps} />
+      queryIndex === 1 ? <ResultDailyBrief      {...resultProps} /> :
+        <ResultEmailDraft      {...resultProps} />
 
   return (
     <section className="flex min-h-[calc(100svh-var(--site-header-height))] flex-col bg-gradient-to-b from-primary-background to-secondary-background">
@@ -705,8 +706,8 @@ export function AskHeroSection(): ReactNode {
             <div
               className="pointer-events-auto w-full max-w-md origin-bottom"
               style={{
-                opacity:    entered ? 1 : 0,
-                transform:  entered ? 'none' : 'translateY(20px)',
+                opacity: entered ? 1 : 0,
+                transform: entered ? 'none' : 'translateY(20px)',
                 transition: 'opacity 0.7s ease, transform 0.7s ease',
               }}
             >
@@ -739,9 +740,9 @@ export function AskHeroSection(): ReactNode {
                     <div
                       className="flex size-7 items-center justify-center rounded-lg border border-black/10 bg-[#266df0] text-white-100 md:size-8 md:rounded-[9px]"
                       style={{
-                        boxShadow:  'rgba(15,107,233,0.12) 0px 2px 4px -2px, rgba(15,107,233,0.08) 0px 3px 6px -2px',
-                        opacity:    sendState === 'badge' ? 0 : sendState === 'active' ? 1 : 0.35,
-                        transform:  sendState === 'badge' ? 'scale(0.85)' : 'none',
+                        boxShadow: 'rgba(15,107,233,0.12) 0px 2px 4px -2px, rgba(15,107,233,0.08) 0px 3px 6px -2px',
+                        opacity: sendState === 'badge' ? 0 : sendState === 'active' ? 1 : 0.35,
+                        transform: sendState === 'badge' ? 'scale(0.85)' : 'none',
                         transition: 'opacity 0.25s ease, transform 0.25s ease',
                       }}
                     >
@@ -754,34 +755,34 @@ export function AskHeroSection(): ReactNode {
                   <div
                     className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 md:right-[9px]"
                     style={{
-                      opacity:    sendState === 'badge' ? 1 : 0,
-                      transform:  sendState === 'badge' ? 'translateY(-50%)' : 'translateY(calc(-50% + 4px))',
+                      opacity: sendState === 'badge' ? 1 : 0,
+                      transform: sendState === 'badge' ? 'translateY(-50%)' : 'translateY(calc(-50% + 4px))',
                       transition: 'opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s',
                     }}
                   >
-                      <span className="relative flex h-5 items-center justify-center gap-1.5 rounded-md border border-[#666666]/20 px-1.5 py-0.5 font-medium text-[#666666]/60 text-[11px] leading-[14px] md:h-[22px] md:px-2 md:text-[13px] md:leading-[18px]">
-                        {/* Search-in-records icon — matches Attio's badge icon */}
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden className="size-3.5 text-[#666666]/40">
-                          <g clipPath="url(#badge-clip)">
-                            {/* Magnifying glass circle */}
-                            <path d="M10.3755 7.90283C11.7406 7.90306 12.8472 9.01028 12.8472 10.3755C12.8471 10.8607 12.7039 11.3111 12.4624 11.6929L13.6528 12.8843C13.8645 13.0966 13.8649 13.4407 13.6528 13.6528C13.4407 13.8649 13.0966 13.8645 12.8843 13.6528L11.6929 12.4624C11.3111 12.7039 10.8607 12.8471 10.3755 12.8472C9.01028 12.8472 7.90306 11.7406 7.90283 10.3755C7.90283 9.01014 9.01014 7.90283 10.3755 7.90283Z" fill="currentColor" />
-                            {/* Document frame */}
-                            <path d="M9.89307 1.15283C11.5246 1.15298 12.8472 2.47638 12.8472 4.10791V6.51807C12.847 6.81798 12.6041 7.06171 12.3042 7.06201C12.0041 7.06201 11.7604 6.81817 11.7603 6.51807V4.10791C11.7603 3.07683 10.9241 2.24087 9.89307 2.24072H4.10791C3.07674 2.24072 2.24072 3.07674 2.24072 4.10791V9.89307C2.24087 10.9241 3.07683 11.7603 4.10791 11.7603H6.51807C6.81817 11.7604 7.06201 12.0041 7.06201 12.3042C7.06171 12.6041 6.81798 12.847 6.51807 12.8472H4.10791C2.47638 12.8472 1.15298 11.5246 1.15283 9.89307V4.10791C1.15283 2.47628 2.47628 1.15283 4.10791 1.15283H9.89307Z" fill="currentColor" />
-                            {/* Inner lens circle */}
-                            <path d="M10.3755 8.99072C9.6106 8.99072 8.99072 9.6106 8.99072 10.3755C8.99095 11.1402 9.61073 11.7603 10.3755 11.7603C11.14 11.76 11.76 11.14 11.7603 10.3755C11.7603 9.61073 11.1402 8.99095 10.3755 8.99072Z" fill="currentColor" />
-                            {/* Row lines in document */}
-                            <path d="M6.51807 9.34912C6.8181 9.34935 7.06104 9.59298 7.06104 9.89307C7.06096 10.1931 6.81806 10.4368 6.51807 10.437H4.10693C3.80688 10.4369 3.56306 10.1931 3.56299 9.89307C3.56299 9.59293 3.80683 9.34927 4.10693 9.34912H6.51807Z" fill="currentColor" />
-                            <path d="M7.48193 7.42041C7.78216 7.42041 8.02588 7.66413 8.02588 7.96436C8.02588 8.26458 7.78216 8.5083 7.48193 8.5083H4.10693C3.80683 8.50815 3.56299 8.26449 3.56299 7.96436C3.56299 7.66422 3.80683 7.42056 4.10693 7.42041H7.48193Z" fill="currentColor" />
-                          </g>
-                          <defs>
-                            <clipPath id="badge-clip">
-                              <rect width="14" height="14" fill="white" />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        <span className="whitespace-nowrap">{badgeFound ? query.badgeDone : query.badge}</span>
-                      </span>
-                    </div>
+                    <span className="relative flex h-5 items-center justify-center gap-1.5 rounded-md border border-[#666666]/20 px-1.5 py-0.5 font-medium text-[#666666]/60 text-[11px] leading-[14px] md:h-[22px] md:px-2 md:text-[13px] md:leading-[18px]">
+                      {/* Search-in-records icon — matches Attio's badge icon */}
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden className="size-3.5 text-[#666666]/40">
+                        <g clipPath="url(#badge-clip)">
+                          {/* Magnifying glass circle */}
+                          <path d="M10.3755 7.90283C11.7406 7.90306 12.8472 9.01028 12.8472 10.3755C12.8471 10.8607 12.7039 11.3111 12.4624 11.6929L13.6528 12.8843C13.8645 13.0966 13.8649 13.4407 13.6528 13.6528C13.4407 13.8649 13.0966 13.8645 12.8843 13.6528L11.6929 12.4624C11.3111 12.7039 10.8607 12.8471 10.3755 12.8472C9.01028 12.8472 7.90306 11.7406 7.90283 10.3755C7.90283 9.01014 9.01014 7.90283 10.3755 7.90283Z" fill="currentColor" />
+                          {/* Document frame */}
+                          <path d="M9.89307 1.15283C11.5246 1.15298 12.8472 2.47638 12.8472 4.10791V6.51807C12.847 6.81798 12.6041 7.06171 12.3042 7.06201C12.0041 7.06201 11.7604 6.81817 11.7603 6.51807V4.10791C11.7603 3.07683 10.9241 2.24087 9.89307 2.24072H4.10791C3.07674 2.24072 2.24072 3.07674 2.24072 4.10791V9.89307C2.24087 10.9241 3.07683 11.7603 4.10791 11.7603H6.51807C6.81817 11.7604 7.06201 12.0041 7.06201 12.3042C7.06171 12.6041 6.81798 12.847 6.51807 12.8472H4.10791C2.47638 12.8472 1.15298 11.5246 1.15283 9.89307V4.10791C1.15283 2.47628 2.47628 1.15283 4.10791 1.15283H9.89307Z" fill="currentColor" />
+                          {/* Inner lens circle */}
+                          <path d="M10.3755 8.99072C9.6106 8.99072 8.99072 9.6106 8.99072 10.3755C8.99095 11.1402 9.61073 11.7603 10.3755 11.7603C11.14 11.76 11.76 11.14 11.7603 10.3755C11.7603 9.61073 11.1402 8.99095 10.3755 8.99072Z" fill="currentColor" />
+                          {/* Row lines in document */}
+                          <path d="M6.51807 9.34912C6.8181 9.34935 7.06104 9.59298 7.06104 9.89307C7.06096 10.1931 6.81806 10.4368 6.51807 10.437H4.10693C3.80688 10.4369 3.56306 10.1931 3.56299 9.89307C3.56299 9.59293 3.80683 9.34927 4.10693 9.34912H6.51807Z" fill="currentColor" />
+                          <path d="M7.48193 7.42041C7.78216 7.42041 8.02588 7.66413 8.02588 7.96436C8.02588 8.26458 7.78216 8.5083 7.48193 8.5083H4.10693C3.80683 8.50815 3.56299 8.26449 3.56299 7.96436C3.56299 7.66422 3.80683 7.42056 4.10693 7.42041H7.48193Z" fill="currentColor" />
+                        </g>
+                        <defs>
+                          <clipPath id="badge-clip">
+                            <rect width="14" height="14" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <span className="whitespace-nowrap">{badgeFound ? query.badgeDone : query.badge}</span>
+                    </span>
+                  </div>
 
                 </div>
 
@@ -792,23 +793,23 @@ export function AskHeroSection(): ReactNode {
                   <div
                     className="relative z-[1] overflow-hidden rounded-lg p-2.5 backdrop-blur-xs bg-white-100/90 md:rounded-xl md:p-3.5"
                     style={{
-                      boxShadow:  DROPDOWN_SHADOW,
-                      opacity:    showCard ? 1 : 0,
+                      boxShadow: DROPDOWN_SHADOW,
+                      opacity: showCard ? 1 : 0,
                       maxHeight: !showCard ? '0px'
-                                // Card 1 — typing phase grows with text, then 4 stagger steps
-                                : queryIndex === 0
-                                  ? (visibleItems < 1 ? typingMaxH
-                                  :  visibleItems < 2 ? '150px'
-                                  :  visibleItems < 3 ? '195px'
-                                  :  visibleItems < 4 ? '240px'
-                                  :                     '304px')
-                                // Card 2 — header (fixed h-8) → meeting card → task cards
-                                : queryIndex === 1
-                                  ? (visibleItems < 1 ? '65px'
-                                  :  visibleItems < 2 ? '185px'
-                                  :                     '304px')
-                                // Card 3 — typing phase grows with text, then email card
-                                : (visibleItems < 1 ? typingMaxH : '220px'),
+                        // Card 1 — typing phase grows with text, then 4 stagger steps
+                        : queryIndex === 0
+                          ? (visibleItems < 1 ? typingMaxH
+                            : visibleItems < 2 ? '150px'
+                              : visibleItems < 3 ? '195px'
+                                : visibleItems < 4 ? '240px'
+                                  : '304px')
+                          // Card 2 — header (fixed h-8) → meeting card → task cards
+                          : queryIndex === 1
+                            ? (visibleItems < 1 ? '65px'
+                              : visibleItems < 2 ? '185px'
+                                : '304px')
+                            // Card 3 — typing phase grows with text, then email card
+                            : (visibleItems < 1 ? typingMaxH : '220px'),
                       transition: showCard
                         ? 'opacity 0.3s ease, max-height 0.38s cubic-bezier(0.2,0,0,1)'
                         : 'opacity 0.2s ease, max-height 0.2s ease',
@@ -820,8 +821,8 @@ export function AskHeroSection(): ReactNode {
                     <div
                       className="absolute inset-x-0 bottom-0 flex h-20 items-end px-3.5 pb-3 md:h-24 md:px-5 md:pb-4 bg-gradient-to-b from-transparent via-white-100/80 to-[50%] to-white-100"
                       style={{
-                        opacity:    visibleItems >= 4 ? 1 : 0,
-                        transform:  visibleItems >= 4 ? 'none' : 'translateY(4px)',
+                        opacity: visibleItems >= 4 ? 1 : 0,
+                        transform: visibleItems >= 4 ? 'none' : 'translateY(4px)',
                         transition: 'opacity 0.28s ease, transform 0.28s ease',
                       }}
                     >
@@ -874,8 +875,8 @@ export function AskHeroSection(): ReactNode {
                 Start for free
               </Link>
 
-              {/* Mobile email form */}
-              <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
+              {/* Mobile demo request */}
+              {/* <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
                 <input
                   type="email"
                   name="email"
@@ -897,7 +898,12 @@ export function AskHeroSection(): ReactNode {
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
                   </svg>
                 </button>
-              </form>
+              </form> */}
+              <DemoRequestForm
+                source="ask-attio"
+                salesHref= ""
+                className="max-w-xs md:hidden"
+              />
             </div>
           </div>
         </div>

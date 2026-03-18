@@ -1,4 +1,4 @@
-import { PageHero } from "@/components/sections/PageHero";
+import { PartnersHeroSection } from "@/components/sections/PartnersHeroSection";
 import { PartnersSection } from "@/components/sections/PartnersSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { PARTNERS_TESTIMONIALS } from "@/data/testimonials";
@@ -12,12 +12,7 @@ import { KeepUpToDateSection } from "@/components/sections/KeepUpToDateSection";
 export default function PartnersPage(): React.ReactElement {
   return (
     <main>
-      <PageHero
-        badge="Partner programs"
-        heading="Partner with us to build the next generation of CRM." 
-        subheading="We work with the best developers, creators, and consultants to power the next era of companies."
-        paddingBottom="pb-24 lg:pb-28 xl:pb-32"
-      />
+      <PartnersHeroSection />
       <Divider/>
       <PartnersSection />
       <TestimonialsSection items={ PARTNERS_TESTIMONIALS }/>

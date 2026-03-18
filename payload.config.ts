@@ -4,6 +4,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { BlogPosts } from '@/collections/BlogPosts'
+import { DemoRequests } from '@/collections/DemoRequests'
 import { Media } from '@/collections/Media'
 import { Users } from '@/collections/Users'
 
@@ -24,7 +25,7 @@ export default buildConfig({
   },
 
   // Collections — blog + media + auth
-  collections: [BlogPosts, Media, Users],
+  collections: [BlogPosts, DemoRequests, Media, Users],
 
   editor: lexicalEditor(),
 

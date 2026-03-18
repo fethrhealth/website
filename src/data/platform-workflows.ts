@@ -104,7 +104,7 @@ export const AUTOMATION_WITH_AI: BentoItem[] = [
     description: "Transform complex customer data streams into insightful analysis and use them in any GTM process workflow.",
     imageSrc: '/assets/images/platform/workflows/automations/in-depth-summaries.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/workflows/automations/in-depth-summaries.webp',
+    imageSrcMobile: '/assets/images/platform/workflows/automations/in-depth-summaries-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
   {
@@ -114,7 +114,7 @@ export const AUTOMATION_WITH_AI: BentoItem[] = [
     description: "Use Attio’s research agent to automate tasks that require human judgment, like prospecting and lead qualification.",
     imageSrc: '/assets/images/platform/workflows/automations/research-at-scale.webp',
     imageWidth: 2416, imageHeight: 1008,
-    imageSrcMobile: '/assets/images/platform/workflows/automations/research-at-scale.webp',
+    imageSrcMobile: '/assets/images/platform/workflows/automations/research-at-scale-mobile.webp',
     imageMobileWidth: 1472, imageMobileHeight: 1008,
   },
 ]

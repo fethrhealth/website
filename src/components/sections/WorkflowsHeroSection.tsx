@@ -18,6 +18,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
+import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const EASE = [0.2, 0, 0, 1] as const
@@ -484,80 +485,80 @@ export function WorkflowsHeroSection() {
           {/* Main 12-col grid — gap-y handles stacking space on mobile/lg */}
           <div className="container relative grid w-full grid-cols-12 gap-x-6 gap-y-30 lg:gap-y-38">
 
-          {/* ── Left: text content ──────────────────────────────────── */}
-          <div className="col-span-full flex flex-col items-center lg:col-span-8 lg:col-start-[3] xl:col-span-4 xl:col-start-[2] xl:mt-[18px] xl:items-start">
+            {/* ── Left: text content ──────────────────────────────────── */}
+            <div className="col-span-full flex flex-col items-center lg:col-span-8 lg:col-start-[3] xl:col-span-4 xl:col-start-[2] xl:mt-[18px] xl:items-start">
 
-            {/* Badge — "New" pill + label + chevron */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.08, ease: EASE }}
-            >
-              <Link
-                href="/platform/workflows"
-                className="group inline-flex rounded-[13px] border border-subtle-stroke bg-primary-background font-medium text-[13px]/[1.4em] transition-[border-color,box-shadow] duration-300 ease-out hover:border-accent-stroke hover:ring-[3px] hover:ring-blue-300 active:ring-1"
+              {/* Badge — "New" pill + label + chevron */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.08, ease: EASE }}
               >
-                <div className="flex items-center gap-1.5 p-0.5 pr-2">
-                  <span className="rounded-[10px] bg-gradient-to-b from-black-600 to-black-100 py-[3px] pr-2 pl-2.5 align-middle text-white-400">New</span>
-                  <div className="flex items-center">
-                    Automations library
-                    <svg
-                      className="-rotate-90 transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-focus:translate-x-[3px]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 18 18"
-                      fill="none"
-                      aria-hidden
-                    >
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
-                    </svg>
+                <Link
+                  href="/platform/workflows"
+                  className="group inline-flex rounded-[13px] border border-subtle-stroke bg-primary-background font-medium text-[13px]/[1.4em] transition-[border-color,box-shadow] duration-300 ease-out hover:border-accent-stroke hover:ring-[3px] hover:ring-blue-300 active:ring-1"
+                >
+                  <div className="flex items-center gap-1.5 p-0.5 pr-2">
+                    <span className="rounded-[10px] bg-gradient-to-b from-black-600 to-black-100 py-[3px] pr-2 pl-2.5 align-middle text-white-400">New</span>
+                    <div className="flex items-center">
+                      Automations library
+                      <svg
+                        className="-rotate-90 transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-focus:translate-x-[3px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        aria-hidden
+                      >
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
+                      </svg>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
+                </Link>
+              </motion.div>
 
-            <motion.h2
-              className="mt-6 text-center text-heading-responsive-lg text-primary-foreground xl:text-left tracking-[-.015em] text-nowrap"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.14, ease: EASE }}
-            >
-              Automate. Iterate.
-              <br/>
-              Accelerate.
-            </motion.h2>
-
-            <motion.p
-              className="mx-auto mt-4 text-center text-secondary-foreground text-xl lg:max-w-lg xl:max-w-2xl xl:text-left"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.21, ease: EASE }}
-            >
-              Workflows turns your GTM strategies into dynamic engines for revenue growth.
-            </motion.p>
-
-            <motion.div
-              className="mt-6 flex w-full max-w-[345px] items-center justify-center gap-x-2.5 gap-y-2 max-md:flex-col max-md:items-center xl:justify-start"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.28, ease: EASE }}
-            >
-              {/* Desktop buttons */}
-              <Link
-                href="/signup"
-                className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+              <motion.h2
+                className="mt-6 text-center text-heading-responsive-lg text-primary-foreground xl:text-left tracking-[-.015em] text-nowrap"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.14, ease: EASE }}
               >
-                Start for free
-              </Link>
-              <Link
-                href="/contact"
-                className="button-outline border relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+                Automate. Iterate.
+                <br />
+                Accelerate.
+              </motion.h2>
+
+              <motion.p
+                className="mx-auto mt-4 text-center text-secondary-foreground text-xl lg:max-w-lg xl:max-w-2xl xl:text-left"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.21, ease: EASE }}
               >
-                Talk to sales
-              </Link>
-              {/* Mobile: full-width CTA + ghost */}
-              <Link
+                Workflows turns your GTM strategies into dynamic engines for revenue growth.
+              </motion.p>
+
+              <motion.div
+                className="mt-6 flex w-full max-w-[345px] items-center justify-center gap-x-2.5 gap-y-2 max-md:flex-col max-md:items-center xl:justify-start"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.28, ease: EASE }}
+              >
+                {/* Desktop buttons */}
+                <Link
+                  href="/signup"
+                  className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+                >
+                  Start for free
+                </Link>
+                <Link
+                  href="/contact"
+                  className="button-outline border relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+                >
+                  Talk to sales
+                </Link>
+                {/* Mobile: full-width CTA + ghost */}
+                {/* <Link
                 href="/signup"
                 className="button-primary relative inline-flex w-full cursor-pointer items-center justify-center text-nowrap rounded-xl px-3.5 text-base h-[46px] md:hidden"
               >
@@ -579,14 +580,20 @@ export function WorkflowsHeroSection() {
                 >
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
                 </svg>
-              </Link>
-            </motion.div>
+              </Link> */}
+                <div className='md:hidden w-full'>
+                  <DemoRequestForm
+                    source='workflows'
+                    salesHref=''
+                  />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* ── Right: workflow grid ─────────────────────────────────── */}
+            <WorkflowGrid statuses={statuses} />
+
           </div>
-
-          {/* ── Right: workflow grid ─────────────────────────────────── */}
-          <WorkflowGrid statuses={statuses} />
-
-        </div>
         </div>
       </div>
     </section>

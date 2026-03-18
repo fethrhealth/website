@@ -395,7 +395,7 @@ export function RedefineManifestoSection() {
       <DotIndicator active={[s1Active, s2Active, s3Active]} />
 
       {/* ── Manifesto content ────────────────────────────────────────────── */}
-      <div className="relative z-[1] w-full max-w-2xl px-6">
+      <div className="relative z-[1] w-full max-w-2xl lg:px-6">
 
         {/* ── Section 1 ─────────────────────────────────────────────────── */}
         <section className="min-h-[calc(62vh-var(--site-header-height))] pb-28">

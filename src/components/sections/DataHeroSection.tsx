@@ -816,12 +816,14 @@ export function DataHeroSection() {
           subheading="Attio gives you control and flexibility to build the perfect CRM that drives revenue forward."
           primaryCta={{ label: 'Start for free', href: '/signup' }}
           secondaryCta={{ label: 'Talk to sales', href: '/contact' }}
+          mobileFormSource='data'
+          mobileFormSalesHref= ''
           paddingBottom="pb-10 lg:pb-14"
         />
       </div>
 
       {/* ── 3. ER diagram (attio 118-column CSS grid) ── */}
-      <div className="relative z-10 overflow-x-none -mt-[47px]">
+      <div className="relative z-10 overflow-x-none -mt-[120px]">
         <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
           {/*
             CSS custom property --row-height drives both the grid row sizing and
