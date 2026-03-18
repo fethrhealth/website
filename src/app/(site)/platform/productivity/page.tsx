@@ -8,6 +8,7 @@ import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroIm
 import TrialSection from '@/components/sections/TrialSection'
 import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT, SAME_TEAM_SAME_PAGE, BENTO_INTELLIGENT_CALLS } from '@/data/platform-productivity'
 import { REPORTING_ENGINE } from '@/data/platform-reporting'
+import { Divide } from 'lucide-react'
 
 
 /**
@@ -88,7 +89,11 @@ export default function ProductivityPage(): React.ReactElement {
         subtext="From task management and templates to file sharing and more, Fethr's got your entire team covered."
         items={PRODUCTIVITY_FEATURES}
       />
-      <TrialSection />
+      <Divide/>
+      <TrialSection
+        source='productivity'
+        headingLayout='inline'
+      />
     </main>
   )
 }

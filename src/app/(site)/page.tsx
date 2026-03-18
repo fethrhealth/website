@@ -19,7 +19,12 @@ export default function HomePage(): React.ReactElement {
       <HomeHeroSection />
       <HomeBentoSection />
       <Divider/>
-      <TrialSection />
+      <TrialSection 
+        source='home'
+        salesHref= { null}
+        showPlansLink
+        showImageMobile
+      />
       <Divider/>
       <HomeAdaptiveSection
         index={2}

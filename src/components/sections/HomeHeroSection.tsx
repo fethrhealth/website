@@ -18,6 +18,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
 import { CompaniesSection } from '@/components/sections/CompaniesSection'
+import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -103,21 +104,10 @@ function HeroCTAs(): ReactNode {
       </Link>
 
       {/* Mobile email form */}
-      <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
-        <div className="flex flex-col gap-y-1.5">
-          <input
-            className="block w-full rounded-[10px] bg-primary-background p-[10px_13px] outline-hidden transition-all duration-300 ease-out text-fg-secondary placeholder:text-fg-accent border border-default-stroke hover:shadow-[0px_1px_4px_rgba(56,62,71,0.1)] focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300 placeholder:text-base"
-            placeholder="Your email address"
-            type="email"
-          />
-        </div>
-        <button
-          type="submit"
-          className="inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-11.5 gap-x-2 rounded-xl px-3.5 text-base button-primary"
-        >
-          Send me a demo
-        </button>
-      </form>
+      <DemoRequestForm
+        source='home'
+        salesHref= ''
+      />
 
       {/* Desktop outline */}
       <button
@@ -125,17 +115,6 @@ function HeroCTAs(): ReactNode {
         className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline max-md:hidden"
       >
         Talk to sales
-      </button>
-
-      {/* Mobile ghost */}
-      <button
-        type="button"
-        className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-ghost group self-center md:hidden"
-      >
-        <span>Talk to sales</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="relative transition-[translate] duration-400 ease-in-out group-hover:translate-x-0.25 group-hover:duration-150 group-active:translate-x-0.25 group-active:duration-50" aria-hidden>
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
-        </svg>
       </button>
     </div>
   )

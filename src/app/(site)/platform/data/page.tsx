@@ -45,7 +45,7 @@ export default function DataPage(): React.ReactElement {
       <Divider/>
       <PlatformNavSection currentHref="/platform/data" />
       <Divider/>
-      <TrialSection />
+      <TrialSection headingLayout='inline' source='data' />
     </main>
   )
 }

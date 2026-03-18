@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: PageProps): Promise<React
     <>
       {/* ── HEADER ────────────────────────────────────────────────────────── */}
       <div className="container">
-        <div className="border-x border-subtle-stroke">
+        <div className="md:border-x border-subtle-stroke">
           <header className="relative grid grid-cols-12 pb-16">
 
             {/* Col 1 — date (xl+ only, sits at the bottom of the h-28 row) */}
@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: PageProps): Promise<React
             </div>
 
             {/* Col 2–11 — breadcrumb + read time (desktop) / date (mobile) */}
-            <div className="col-[2/-2] flex h-28 items-end justify-between gap-8 pb-5">
+            <div className="col-span-full lg:col-[2/-2] flex h-28 items-end justify-between gap-8 pb-5">
               <nav aria-label="breadcrumbs" className="relative flex">
                 <ol className="flex overflow-hidden text-overline">
                   <li>
@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }: PageProps): Promise<React
             </svg>
 
             {/* Title + author — same col block, flex-col */}
-            <div className="col-[2/-2] flex flex-col gap-12 pt-15">
+            <div className="col-span-full lg:col-[2/-2] flex flex-col gap-12 pt-15">
 
               <h1 className="max-w-[28em] text-balance text-heading-responsive-lg">
                 {post.title}
@@ -180,31 +180,36 @@ export default async function BlogPostPage({ params }: PageProps): Promise<React
 
           </header>
         </div>
-        <Divider />
+        <div className='hidden lg:block w-full'>
+          <Divider />
+        </div>
       </div>
 
 
       {/* ── BODY ──────────────────────────────────────────────────────────── */}
-      <div className="container">
-        <div className="border-x border-subtle-stroke">
-          <div className="relative grid grid-cols-12 py-16 max-xl:py-12 max-lg:py-10">
+      <div className="container border-t border-subtle-stroke lg:border-none">
+        <div className="lg:border-x border-subtle-stroke">
+          <div className="relative grid grid-cols-12">
 
-            {/* Mobile ToC (inline, before content) */}
-            {toc.length > 0 && (
-              <div className="col-[2/-2] mb-8 xl:hidden">
-                <TableOfContents items={toc} inline />
-              </div>
-            )}
+            {/* Mobile ToC — component uses `contents` to participate in this grid */}
+            {toc.length > 0 && <TableOfContents items={toc} inline />}
 
             {/* ── Article content ───────────────────────────────────────── */}
-            <article className="col-[2/9] max-xl:col-[2/10] max-lg:col-[2/-2]">
+            <article className="col-span-full lg:col-[2/9] max-lg:pt-15 py-16">
               <LexicalRenderer content={post.content} />
             </article>
 
+            {/* Vertical divider between article and ToC */}
+            {toc.length > 0 && (
+              <svg width="1" height="100%" aria-hidden className="absolute col-[10] text-surface-subtle max-xl:hidden">
+                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeLinecap="round" />
+              </svg>
+            )}
+
             {/* ── Sticky ToC sidebar (desktop only) ─────────────────────── */}
             {toc.length > 0 && (
-              <aside className="col-[10/-2] row-[1/4] max-xl:hidden">
-                <div className="sticky top-[calc(var(--site-header-height,60px)+2rem)]">
+              <aside className="col-[10/-1] row-[1/4] max-xl:hidden">
+                <div className="sticky top-[var(--site-header-height)] px-9 pt-24">
                   <TableOfContents items={toc} />
                 </div>
               </aside>

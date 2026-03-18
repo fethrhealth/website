@@ -81,7 +81,10 @@ export default function ReportingPage(): React.ReactElement {
       <ImageGridSection
         items={REPORTING_EXAMPLES}
       />
-      <TrialSection />
+      <TrialSection
+        source="reporting"
+        headingLayout="inline"
+      />
     </main>
   );
 }

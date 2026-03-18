@@ -54,7 +54,9 @@ export default function AskAIPage(): React.ReactElement {
         role="Head of Sales & Partnerships · Lightdash"
       />
       <Divider/>
-      <TrialSection/>
+      <TrialSection
+        heading="Ask more from CRM. Ask Attio." headingSerif=""
+      />
     </main>
   )
 }

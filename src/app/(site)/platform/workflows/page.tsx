@@ -7,6 +7,7 @@ import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
 import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, AUTOMATE_YOUR_WAY, BETTER_SYSTEM_FEATURES, WORKFLOW_INTEGRATIONS } from '@/data/platform-workflows'
+import Divider from '@/components/ui/divider'
 
 /**
  * Workflows page — /platform/workflows
@@ -54,7 +55,8 @@ export default function WorkflowsPage(): React.ReactElement {
         ctaLabel='See templates library'
         ctaHref='/platform/workflows'
       />
-      <TrialSection />
+      <Divider/>
+      <TrialSection headingLayout='inline' source='workflows'/>
     </main>
   )
 }

@@ -68,60 +68,80 @@ export function TableOfContents({ items, inline = false }: Props) {
   if (items.length === 0) return null
 
   // ── Inline variant (mobile) ──────────────────────────────────────────────
+  // Uses `contents` so children participate directly in the parent 12-col grid.
   if (inline) {
     return (
-      <nav aria-label="Table of contents" className="mb-8 rounded-xl border border-subtle-stroke p-5">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-fg-caption">
-          On this page
-        </p>
-        <ol className="space-y-1.5">
-          {items.map((item) => (
-            <li key={item.id} className={item.level === 3 ? 'pl-3' : ''}>
-              <a
-                href={`#${item.id}`}
-                className={[
-                  'block text-sm transition-colors duration-150',
-                  activeId === item.id
-                    ? 'text-fg-primary'
-                    : 'text-fg-accent hover:text-fg-secondary',
-                ].join(' ')}
-              >
-                {item.text}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
+      <div className="contents xl:hidden">
+        <div className="col-span-full lg:col-[2/-2] pt-10 pb-15">
+          <nav aria-label="Table of contents">
+            <div className="text-overline leading-5">Table of Contents</div>
+            <ul className="mt-2 flex flex-col">
+              {items.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    const el = document.getElementById(item.id)
+                    el?.scrollIntoView({ behavior: 'smooth' })
+                  }}
+                  className={[
+                    '-ml-2 flex w-fit cursor-pointer items-center justify-start text-pretty rounded-md px-2 py-1.5',
+                    'text-start text-fg-caption text-sm',
+                    'transition-colors duration-400 ease-in-out',
+                    'hover:text-accent-foreground hover:duration-150',
+                    'active:text-fg-caption active:duration-50',
+                    'focus-visible:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:active:ring-2',
+                    item.level === 3 ? 'pl-5' : '',
+                  ].join(' ')}
+                >
+                  {item.text}
+                </button>
+              ))}
+            </ul>
+          </nav>
+        </div>
+
+        {/* Full-width horizontal rule below the ToC */}
+        <svg width="100%" height="1" aria-hidden className="text-subtle-stroke col-[1/-1]">
+          <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
+        </svg>
+      </div>
     )
   }
 
   // ── Sidebar variant (desktop) ────────────────────────────────────────────
   return (
     <nav aria-label="Table of contents">
-      <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-fg-caption">
-        On this page
-      </p>
+      <div className="flex h-8 items-center">
+        <h2 className="truncate text-overline [text-box-trim:trim-both]">Table of Contents</h2>
+      </div>
 
-      <ol className="relative space-y-0.5 border-l border-subtle-stroke pl-4">
+      <div className="mt-0.5 flex flex-col">
         {items.map((item) => {
           const isActive = activeId === item.id
           return (
-            <li key={item.id} className={item.level === 3 ? 'pl-3' : ''}>
-              <a
-                href={`#${item.id}`}
-                className={[
-                  'block py-0.5 text-sm transition-colors duration-150',
-                  isActive
-                    ? 'font-medium text-fg-primary'
-                    : 'text-fg-accent hover:text-fg-secondary',
-                ].join(' ')}
-              >
-                {item.text}
-              </a>
-            </li>
+            <button
+              key={item.id}
+              onClick={() => {
+                const el = document.getElementById(item.id)
+                el?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className={[
+                'relative -mx-2 flex w-full cursor-pointer items-center justify-start rounded-md px-2 py-1.5',
+                'text-start text-fg-caption text-xs',
+                'transition-colors duration-400 ease-in-out',
+                'active:text-fg-caption active:duration-50',
+                'focus-visible:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:active:ring-2',
+                item.level === 3 ? 'pl-5' : '',
+                isActive
+                  ? '!text-fg-primary pointer-events-none'
+                  : 'hover:text-fg-accent hover:duration-150',
+              ].join(' ')}
+            >
+              <p className="text-pretty">{item.text}</p>
+            </button>
           )
         })}
-      </ol>
+      </div>
     </nav>
   )
 }

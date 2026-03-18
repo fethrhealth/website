@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -238,20 +238,43 @@ function HexIllustration() {
   )
 }
 
+// ─── Props ────────────────────────────────────────────────────────────────────
+
+interface TrialSectionProps {
+  /** First line of the heading. Default: "Start with a 14-day". Pass '' to hide. */
+  heading?: string
+  /** Second line (serif span). Default: "free trial of Fethr.". Pass '' to hide. */
+  headingSerif?: string
+  /** Show the hex illustration on mobile. Desktop always shows it. Default: false. */
+  showImageMobile?: boolean
+  /** Show the "See our plans" outline link. Default: false. */
+  showPlansLink?: boolean
+  // ── DemoRequestForm forwarded props ──────────────────────────────────────
+  /** Label for the submit button. Default: "Send me a demo". */
+  submitLabel?: string
+  /** Href for the ghost "Talk to sales" link. Pass null to hide. Default: '' (hidden). */
+  salesHref?: string | null
+  /** Source identifier stored on the demo request record. Default: 'trial'. */
+  source?: string
+  /**
+   * Heading layout. Default: 'stacked' — two lines, serif is larger (text-heading-md-serif).
+   * 'inline' — continuous sentence, both at text-heading-responsive-md, serif is font-normal font-serif.
+   */
+  headingLayout?: 'stacked' | 'inline'
+}
+
 // ─── Main section ─────────────────────────────────────────────────────────────
 
-export default function TrialSection() {
-  const [email, setEmail] = useState('')
-
-  function handleMobileSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    // Redirect to sign-up with email pre-filled
-    const dest = email
-      ? `/sign-up?email=${encodeURIComponent(email)}`
-      : '/sign-up'
-    window.location.href = dest
-  }
-
+export default function TrialSection({
+  heading      = 'Start with a 14-day',
+  headingSerif = 'free trial of Fethr.',
+  showImageMobile = false,
+  showPlansLink   = false,
+  submitLabel,
+  salesHref     = '',
+  source        = 'trial',
+  headingLayout = 'stacked',
+}: TrialSectionProps) {
   return (
     <section className="trial-section" style={{ backgroundColor: 'var(--trial-bg)' }}>
       <div className="container">
@@ -268,12 +291,27 @@ export default function TrialSection() {
               <div className="lg:col-span-10 lg:col-start-2 lg:grid lg:grid-cols-2">
 
                 {/* ── Left panel: heading + CTAs ───────────────────────── */}
-                <div className="px-10 py-10 lg:flex lg:flex-col lg:items-start lg:justify-center lg:px-0">
+                <div className={cn('text-balance px-10 lg:py-10 lg:flex lg:flex-col lg:items-start lg:justify-center lg:px-0 max-w-[460px]', showImageMobile ? 'py-10' : 'py-20')}>
 
-                  <h2 className="text-center text-heading-responsive-md lg:text-left text-foreground">
-                    Start with a 14-day<br />
-                    <span className="text-heading-md-serif">free trial of Fethr.</span>
-                  </h2>
+                  {headingLayout === 'inline' ? (
+                    /* Inline: continuous sentence, both spans same size */
+                    <h2 className="text-balance text-heading-responsive-md text-foreground text-center lg:text-left">
+                      {heading && <span>{heading}</span>}
+                      {heading && headingSerif && ' '}
+                      {headingSerif && (
+                        <span className="font-normal font-serif">{headingSerif}</span>
+                      )}
+                    </h2>
+                  ) : (
+                    /* Stacked (default): two lines, serif is larger */
+                    <h2 className="text-center text-heading-responsive-md lg:text-left text-foreground">
+                      {heading}
+                      {heading && headingSerif && <br />}
+                      {headingSerif && (
+                        <span className="text-heading-md-serif">{headingSerif}</span>
+                      )}
+                    </h2>
+                  )}
 
                   {/* CTA row — stacks vertically on mobile */}
                   <div className="mt-6 flex w-full items-center justify-center gap-x-2.5 gap-y-2 max-md:flex-col lg:justify-start">
@@ -286,39 +324,21 @@ export default function TrialSection() {
                       Start for free
                     </Link>
 
-                    {/* Email form — mobile only */}
-                    <form
-                      className="flex w-full max-w-xs flex-col gap-2 md:hidden"
-                      onSubmit={handleMobileSubmit}
-                    >
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Your email address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        autoComplete="email"
-                        className={cn(
-                          'block w-full rounded-[10px] p-[10px_13px] outline-none',
-                          'border transition-all duration-300 ease-out',
-                          'bg-white text-[#232529] placeholder:text-[#a4adba]',
-                          'border-[#cad0d9]',
-                          'hover:border-[#6f7988] hover:shadow-[0px_1px_4px_rgba(56,62,71,0.1)]',
-                          'focus:border-[#266df0] focus:ring-[3px] focus:ring-[#266df0]/20',
-                        )}
-                      />
-                      <button type="submit" className={cn(BTN_BASE, 'button-primary w-full')}>
-                        Send me a demo
-                      </button>
-                    </form>
+                    <DemoRequestForm
+                      source={source}
+                      salesHref={salesHref}
+                      submitLabel={submitLabel}
+                    />
 
-                    {/* "See our plans" — always visible */}
-                    <Link
-                      href="/pricing"
-                      className={cn(BTN_BASE, 'button-outline')}
-                    >
-                      See our plans
-                    </Link>
+                    {/* "See our plans" — optional */}
+                    {showPlansLink && (
+                      <Link
+                        href="/pricing"
+                        className={cn(BTN_BASE, 'button-outline')}
+                      >
+                        See our plans
+                      </Link>
+                    )}
                   </div>
                 </div>
 
@@ -333,6 +353,7 @@ export default function TrialSection() {
                     'lg:aspect-auto lg:h-[338px] lg:border-x lg:border-t-0',
                     'lg:[background-position:right] lg:[background-size:10.3%_9.15%]',
                     'xl:[background-size:11.14%_9.15%]',
+                    !showImageMobile && 'max-lg:hidden',
                   )}
                   style={{ borderColor: 'var(--trial-border)' }}
                 >

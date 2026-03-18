@@ -51,7 +51,10 @@ export default function AIPage(): React.ReactElement {
       />
       <PlatformNavSection currentHref="/platform/ai" />
       <Divider />
-      <TrialSection />
+      <TrialSection 
+        source="ai"
+        headingLayout="inline"
+      />
     </main>
   )
 }

@@ -53,7 +53,10 @@ export default function SequencesPage(): React.ReactElement {
       />
       <Divider />
       <PlatformNavSection currentHref="/platform/sequences" />
-      <TrialSection />
+      <TrialSection
+        source="sequences"
+        headingLayout="inline"
+      />
     </main>
   )
 }
