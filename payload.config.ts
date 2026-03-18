@@ -5,6 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { BlogPosts } from '@/collections/BlogPosts'
 import { DemoRequests } from '@/collections/DemoRequests'
+import { StartupApplications } from '@/collections/StartupApplications'
 import { Media } from '@/collections/Media'
 import { Users } from '@/collections/Users'
 
@@ -25,7 +26,7 @@ export default buildConfig({
   },
 
   // Collections — blog + media + auth
-  collections: [BlogPosts, DemoRequests, Media, Users],
+  collections: [BlogPosts, DemoRequests, StartupApplications, Media, Users],
 
   editor: lexicalEditor(),
 

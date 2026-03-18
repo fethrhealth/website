@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
+type SubmitStatus = 'idle' | 'loading' | 'success' | 'error'
+
 // ─── Shared input / select classes ────────────────────────────────────────────
 
 const inputCls =
@@ -139,24 +141,45 @@ export function StartupApplicationSection({
     'Perks from tools startups love, including 3 months of Linear and 6 months of Notion for free',
   ],
   qualificationNote = 'To qualify, you must be affiliated with a venture firm or a Fethr startup partner.',
-  onSubmit,
 }: {
   heading?: string
   benefitsLabel?: string
   benefits?: string[]
   qualificationNote?: string
-  /** Called with form data on submit. Show a success/error state in your page. */
-  onSubmit?: (data: FormState) => void | Promise<void>
 }) {
-  const [form, setForm] = useState<FormState>(EMPTY_FORM)
+  const [form,   setForm]   = useState<FormState>(EMPTY_FORM)
+  const [status, setStatus] = useState<SubmitStatus>('idle')
+  const [error,  setError]  = useState<string>('')
 
   function set(field: keyof FormState) {
     return (v: string) => setForm((prev) => ({ ...prev, [field]: v }))
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    onSubmit?.(form)
+    setStatus('loading')
+    setError('')
+
+    try {
+      const res = await fetch('/api/startup-application', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(form),
+      })
+
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string }
+        setError(data.error ?? 'Something went wrong. Please try again.')
+        setStatus('error')
+        return
+      }
+
+      setStatus('success')
+      setForm(EMPTY_FORM)
+    } catch {
+      setError('Something went wrong. Please try again.')
+      setStatus('error')
+    }
   }
 
   return (
@@ -195,6 +218,24 @@ export function StartupApplicationSection({
               <div className="grid flex-1 grid-cols-5 gap-x-6 lg:self-start">
                 <div className="col-span-5">
                   <div className="rounded-[20px] bg-white-400 p-6 xl:p-10">
+
+                    {/* ── Success state ──────────────────────────────── */}
+                    {status === 'success' && (
+                      <div className="flex flex-col items-center gap-y-4 py-10 text-center">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+                            <path d="M5 13l4 4L19 7" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                        <h3 className="text-lg font-semibold text-primary-foreground">Application received!</h3>
+                        <p className="max-w-[28em] text-sm text-secondary-foreground">
+                          Thanks for applying to the Fethr startup program. We&apos;ll review your application and be in touch soon.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* ── Form ───────────────────────────────────────── */}
+                    {status !== 'success' && (
                     <form id="startup-application-form" onSubmit={handleSubmit}>
                       <div className="flex flex-col gap-y-5">
 
@@ -248,12 +289,20 @@ export function StartupApplicationSection({
 
                       </div>
 
+                      {/* Error message */}
+                      {status === 'error' && error && (
+                        <p className="mt-4 rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">
+                          {error}
+                        </p>
+                      )}
+
                       {/* Submit */}
                       <button
                         type="submit"
-                        className="button-primary border mt-7 h-[46px] w-full rounded-xl px-3.5 text-base"
+                        disabled={status === 'loading'}
+                        className="button-primary border mt-7 h-[46px] w-full rounded-xl px-3.5 text-base disabled:opacity-60"
                       >
-                        Apply
+                        {status === 'loading' ? 'Submitting…' : 'Apply'}
                       </button>
 
                       {/* reCAPTCHA note */}
@@ -266,6 +315,7 @@ export function StartupApplicationSection({
                       </p>
 
                     </form>
+                    )}
                   </div>
                 </div>
               </div>
