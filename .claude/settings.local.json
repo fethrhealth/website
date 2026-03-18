@@ -22,7 +22,10 @@
       "Bash(xxd:*)",
       "Bash(powershell:*)",
       "Bash(powershell.exe:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(xargs grep:*)",
+      "WebFetch(domain:magicui.design)",
+      "WebSearch"
     ]
   }
 }

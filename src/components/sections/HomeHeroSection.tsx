@@ -62,7 +62,7 @@ function AnnouncementBadge(): ReactNode {
       className="relative block border border-stroke-weak active:border-subtle-stroke transition-colors duration-300 ease-in-out"
       style={{ borderRadius: '13px' }}
     >
-      {/* Conic gradient decorative border */}
+      {/* Static conic gradient decorative border */}
       <div
         className="absolute -inset-px pointer-events-none"
         style={{ borderRadius: '13px' }}
@@ -1246,11 +1246,11 @@ function AIContent(): ReactNode {
   const [conn2, setConn2] = useState(false)
 
   useEffect(() => {
-    const t1 = setTimeout(() => setCard1(true),  200)
-    const t2 = setTimeout(() => setConn1(true),  850)
-    const t3 = setTimeout(() => setCard2(true),  1100)
-    const t4 = setTimeout(() => setConn2(true),  1750)
-    const t5 = setTimeout(() => setCard3(true),  2000)
+    const t1 = setTimeout(() => setCard1(true), 200)
+    const t2 = setTimeout(() => setConn1(true), 850)
+    const t3 = setTimeout(() => setCard2(true), 1100)
+    const t4 = setTimeout(() => setConn2(true), 1750)
+    const t5 = setTimeout(() => setCard3(true), 2000)
     return () => [t1, t2, t3, t4, t5].forEach(clearTimeout)
   }, [])
 
@@ -1951,7 +1951,7 @@ export function HomeHeroSection(): ReactNode {
           <div className="container">
             <div className="flex flex-col items-center relative mt-24 mb-18 max-xl:mt-20 max-lg:mt-20 max-lg:mb-16">
               <AnnouncementBadge />
-              <h1 className="mt-6 max-w-[14ch] text-center text-heading-md md:text-heading-lg lg:text-heading-xl">
+              <h1 className="mt-6 max-w-[14ch] font-display text-center text-heading-md md:text-heading-lg lg:text-heading-xl">
                 Customer relationship magic.
               </h1>
               <p className="mt-4 max-w-md text-pretty text-center text-lg text-accent-foreground md:text-xl">

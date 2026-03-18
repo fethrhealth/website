@@ -199,7 +199,7 @@ export function TabsSection({
   if (!active) return null
 
   return (
-    <section className="relative flex flex-1 flex-col bg-primary-background">
+    <section className="relative flex flex-1 flex-col bg-primary-background overflow-hidden">
       <div className="container flex flex-1 flex-col max-lg:contents">
         <div className="flex w-full flex-1 flex-col border-x border-subtle-stroke max-lg:border-none">
 

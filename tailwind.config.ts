@@ -314,6 +314,9 @@ const config: Config = {
           '0%':       { transform: 'scaleX(1) scaleY(1)',           opacity: '0.7' },
           '70%, 100%': { transform: 'scaleX(1.046) scaleY(1.148)', opacity: '0' },
         },
+        'border-beam': {
+          '100%': { 'offset-distance': '100%' },
+        },
       },
       animation: {
         'slide-down':       'slideDown 0.3s cubic-bezier(0.65, 0, 0.35, 1)',
@@ -323,6 +326,7 @@ const config: Config = {
         'scroll-up':        'scroll-up 18s linear infinite',
         'ring-pulse-inner': 'ring-pulse-inner 2.4s cubic-bezier(0, 0, 0.2, 1) infinite',
         'ring-pulse-outer': 'ring-pulse-outer 2.4s cubic-bezier(0, 0, 0.2, 1) 0.4s infinite',
+        'border-beam':      'border-beam calc(var(--duration)*1s) infinite linear',
       },
     },
   },

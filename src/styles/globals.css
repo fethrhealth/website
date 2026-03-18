@@ -913,3 +913,12 @@
     }
   }
 }
+
+.beam-pill::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent 0%, transparent 60%, #A3ECE9 75%, #709FF5 85%, transparent 100%);
+  animation: beam-rotate 3s linear infinite;
+  z-index: 0;
+}
