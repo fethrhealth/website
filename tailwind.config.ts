@@ -277,7 +277,9 @@ const config: Config = {
 
       // ─── BREAKPOINTS ───────────────────────────────────────
       screens: {
+        'xs': '375px', // standard phone (iPhone SE / base width)
         'lg': '992px',
+        'xl': '1200px', // attio switches to 5-col grid at 1200px (Tailwind default is 1280px)
       },
 
       // ─── TRANSICIONES ──────────────────────────────────────

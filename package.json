@@ -35,6 +35,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.5",
     "graphql": "^16.13.1",
+    "keen-slider": "^6.8.6",
     "lucide-react": "^0.576.0",
     "motion": "^12.38.0",
     "next": "15.4",

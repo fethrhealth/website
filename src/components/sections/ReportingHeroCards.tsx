@@ -24,9 +24,11 @@
  *   Card6   col-start-3  col-span-2   row-start-8  row-span-3
  */
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { useKeenSlider } from 'keen-slider/react'
+import 'keen-slider/keen-slider.min.css'
 
 // ─── Report list shown in the NAV card ────────────────────────────────────────
 
@@ -1305,12 +1307,413 @@ function NavCard({
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 
+// ─── MOBILE SLIDES ────────────────────────────────────────────────────────────
+// Each slide mirrors the desktop card content for one report state.
+// Add MobileSlide1 / MobileSlide2 when their content is ready.
+
+// Reusable mini chart primitives ─────────────────────────────────────────────
+
+function ChartGridLines({ count }: { count: number }) {
+  return (
+    <div className="flex h-full w-full flex-col justify-between pt-[17px]">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="border-[#EEEFF1] border-t opacity-80 last:border-[#D1D3D6]" />
+      ))}
+    </div>
+  )
+}
+
+function DashedLine({ top }: { top: string }) {
+  return (
+    <svg
+      className={`absolute left-0 w-full ${top}`}
+      height="2" width="100%" preserveAspectRatio="none"
+      fill="none"
+    >
+      <line opacity="0.8" x1="0" y1="1" x2="100%" y2="1" stroke="#17BDE9" strokeWidth="2"
+        strokeLinecap="round" strokeDasharray="1px 8px" strokeDashoffset="8px" />
+    </svg>
+  )
+}
+
+function YAxisLabels({ labels }: { labels: string[] }) {
+  return (
+    <div className="flex flex-col justify-between pt-3">
+      {labels.map((l, i) => (
+        <span key={i} className="inline-block min-w-[26px] pr-1 text-[#9FA1A7] text-[10px] leading-[13px] tracking-normal">{l}</span>
+      ))}
+    </div>
+  )
+}
+
+function XAxisLabels({ labels }: { labels: string[] }) {
+  return (
+    <div className="-mt-[8px] flex justify-between pt-1 pr-1 pb-[15px] pl-[33px] text-[#75777C] text-[10px] leading-[13px] tracking-normal">
+      {labels.map((l, i) => (
+        <span key={i} className="inline-block px-1 py-[3px]">{l}</span>
+      ))}
+    </div>
+  )
+}
+
+// ── Shared badge icons ────────────────────────────────────────────────────────
+
+function DealsIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+      <g clipPath="url(#deals-m)">
+        <path fillRule="evenodd" clipRule="evenodd" d="M0.768994 1.83044C0.476074 2.40533 0.476074 3.1579 0.476074 4.66304V6.81304C0.476074 8.31818 0.476074 9.07075 0.768994 9.64564C1.02665 10.1513 1.43779 10.5625 1.94347 10.8201C2.51836 11.113 3.27093 11.113 4.77607 11.113H6.92607C8.43121 11.113 9.18379 11.113 9.75867 10.8201C10.2644 10.5625 10.6755 10.1513 10.9332 9.64564C11.2261 9.07075 11.2261 8.31818 11.2261 6.81304V4.66304C11.2261 3.1579 11.2261 2.40533 10.9332 1.83044C10.6755 1.32475 10.2644 0.913617 9.75867 0.655957C9.18379 0.363037 8.43122 0.363037 6.92607 0.363037H4.77607C3.27093 0.363037 2.51836 0.363037 1.94347 0.655957C1.43779 0.913617 1.02665 1.32475 0.768994 1.83044ZM2.95643 6.39946L2.95642 5.07647V5.07646C2.95642 4.1502 2.95641 3.68708 3.13667 3.3333C3.29523 3.02211 3.54824 2.7691 3.85943 2.61054C4.21321 2.43028 4.67633 2.43028 5.60257 2.43028H6.09873C7.02497 2.43028 7.48809 2.43028 7.84186 2.61054C8.15305 2.7691 8.40606 3.0221 8.56462 3.33329C8.74488 3.68707 8.74488 4.15019 8.74488 5.07643V6.39951C8.74488 7.32575 8.74488 7.78887 8.56462 8.14265C8.40606 8.45384 8.15305 8.70684 7.84186 8.8654C7.48809 9.04566 7.02497 9.04566 6.09872 9.04566H5.6026C4.67636 9.04566 4.21323 9.04566 3.85946 8.86541C3.54827 8.70685 3.29526 8.45384 3.1367 8.14265C2.95644 7.78888 2.95644 7.32574 2.95643 6.39946ZM6.26451 3.50565C6.26451 3.2773 6.0794 3.09218 5.85105 3.09218C5.6227 3.09218 5.43759 3.2773 5.43759 3.50565V3.56521C5.18416 3.57489 4.93984 3.67497 4.75449 3.85149C4.55858 4.03806 4.44452 4.29555 4.44452 4.56855C4.44452 4.84155 4.55858 5.09904 4.75449 5.28561C4.94972 5.47154 5.21038 5.57267 5.47819 5.57267H6.22243C6.2836 5.57267 6.33844 5.596 6.37584 5.63161C6.41255 5.66657 6.42917 5.70956 6.42917 5.74986C6.42917 5.79016 6.41255 5.83315 6.37584 5.86811C6.33844 5.90372 6.2836 5.92705 6.22243 5.92705H5.03963C4.81129 5.92705 4.62617 6.11217 4.62617 6.34051C4.62617 6.56886 4.81129 6.75398 5.03963 6.75398H5.43759V6.81368C5.43759 7.04203 5.6227 7.22714 5.85105 7.22714C6.0794 7.22714 6.26451 7.04203 6.26451 6.81368V6.75314C6.51741 6.74313 6.76114 6.64309 6.94612 6.46692C7.14204 6.28035 7.2561 6.02286 7.2561 5.74986C7.2561 5.47686 7.14204 5.21937 6.94612 5.0328C6.7509 4.84687 6.49024 4.74574 6.22243 4.74574H5.47819C5.41702 4.74574 5.36217 4.72241 5.32478 4.6868C5.28807 4.65184 5.27144 4.60885 5.27144 4.56855C5.27144 4.52825 5.28807 4.48526 5.32478 4.4503C5.36217 4.41469 5.41702 4.39136 5.47819 4.39136H5.83585L5.85105 4.39163L5.86625 4.39136H6.64417C6.87252 4.39136 7.05763 4.20624 7.05763 3.9779C7.05763 3.74955 6.87252 3.56443 6.64417 3.56443H6.26451V3.50565ZM3.78355 7.88749C3.78355 7.65914 3.96866 7.47403 4.19701 7.47403H7.5047C7.73305 7.47403 7.91817 7.65914 7.91817 7.88749C7.91817 8.11584 7.73305 8.30095 7.5047 8.30095H4.19701C3.96866 8.30095 3.78355 8.11584 3.78355 7.88749Z" fill="#FD9038" />
+      </g>
+      <defs><clipPath id="deals-m"><rect width="10.75" height="10.75" fill="white" transform="translate(0.476074 0.362915)" /></clipPath></defs>
+    </svg>
+  )
+}
+
+// ── Slide 0: Product-led Growth ───────────────────────────────────────────────
+
+function MobileSlide0() {
+  return (
+    <div className="grid grid-cols-2 gap-x-3 gap-y-3 md:px-4 pb-8">
+
+      {/* ── Card: Cumulative Leads (full width) ── */}
+      <div className="flex flex-col px-[15px] col-span-2 h-[280px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Cumulative Leads</span>
+            <div className="flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
+              <DealsIcon />
+              <span className="text-accent-foreground text-xs">Deals</span>
+            </div>
+          </div>
+          <div className="flex gap-x-[14px]">
+            <LegendDot color="bg-blue-500" label="US" />
+            <LegendDot color="bg-blue-300" label="EMEA" />
+          </div>
+        </div>
+        {/* Chart */}
+        <div className="flex flex-col flex-1">
+          <div className="flex flex-1 gap-x-[3px]">
+            <YAxisLabels labels={['700', '500', '400', '300', '200', '0.0']} />
+            <div className="relative mb-[6.5px] flex-1">
+              <ChartGridLines count={6} />
+              <DashedLine top="top-[37%]" />
+              <div className="absolute inset-0">
+                <div className="h-full w-full">
+                  <svg className="h-full w-full" viewBox="0 0 285 165" fill="none" preserveAspectRatio="none">
+                    <path fill="#266DF0" d="m42 93.1-41 7v63.6h284V3l-40.6 6.8-40.5 8.1-40.6 4-40.6 33-40.6 20.5L42 93.1Z" opacity=".05" />
+                    <path stroke="#266DF0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="m1 100.3 41-7 40-17.7L122.7 55 163 22l40.5-3.6 40.6-8.6L285 3" />
+                    <path fill="#14AED6" d="M41.6 125 1 159v4.2h284V49.3l-40.6 27.5L203 83l-39.7 4-40.6 24.1-40.6 8-40.5 5.9Z" opacity=".05" />
+                    <path stroke="#14AED6" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="m1.6 159.3 40.5-34 40.4-6 40.4-8.6 40.4-23.4 40.5-4.3 40.4-6.2 40.4-27.5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <XAxisLabels labels={['Q2', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2']} />
+        </div>
+      </div>
+
+      {/* ── Card: Seat Counts (full → half on xs+) ── */}
+      <div className="flex flex-col px-[15px] col-span-2 xs:col-span-1 min-h-[240px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Seat Counts</span>
+          </div>
+          <div className="flex gap-x-[14px]">
+            <LegendDot color="bg-blue-500" label="1 to 5" />
+            <LegendDot color="bg-blue-300" label="6 to 10" />
+          </div>
+        </div>
+        {/* Chart */}
+        <div className="flex flex-col flex-1">
+          <div className="flex flex-1 gap-x-[3px]">
+            <YAxisLabels labels={['50.0', '40.0', '30.0', '20.0', '0.0']} />
+            <div className="relative mb-[6.5px] flex-1">
+              <ChartGridLines count={5} />
+              <DashedLine top="top-[23.5%]" />
+              <div className="absolute inset-0">
+                <div className="h-full w-full">
+                  <svg className="h-full w-full" viewBox="0 0 105 162" fill="none" preserveAspectRatio="none">
+                    <path fill="#94B9FF" d="M4 110.8c0-1.7 0-2.5.3-3.2.3-.5.8-1 1.3-1.3.7-.3 1.5-.3 3.2-.3h11.6c1.7 0 2.6 0 3.2.3.6.3 1 .8 1.3 1.3.4.7.4 1.5.4 3.2V123H4v-12.2Z" />
+                    <path fill="#266DF0" d="M4 124h21.3v38H4z" />
+                    <path fill="#94B9FF" d="M29.3 20.8c0-1.7 0-2.5.3-3.2.3-.5.7-1 1.3-1.3.6-.3 1.5-.3 3.1-.3h11.7c1.7 0 2.5 0 3.2.3.5.3 1 .8 1.3 1.3.3.7.3 1.5.3 3.2V60H29.2V20.8Z" />
+                    <path fill="#266DF0" d="M29.3 61h21.2v101H29.2z" />
+                    <path fill="#94B9FF" d="M54.5 44.8c0-1.7 0-2.5.3-3.2.3-.5.8-1 1.3-1.3.7-.3 1.5-.3 3.2-.3H71c1.6 0 2.5 0 3.1.3.6.3 1 .8 1.3 1.3.3.7.3 1.5.3 3.2V83H54.5V44.8Z" />
+                    <path fill="#266DF0" d="M54.5 84h21.3v78H54.5z" />
+                    <path fill="#94B9FF" d="M79.8 95.8c0-1.7 0-2.5.3-3.2.3-.5.7-1 1.3-1.3.6-.3 1.5-.3 3.1-.3h11.7c1.7 0 2.5 0 3.2.3.5.3 1 .8 1.3 1.3.3.7.3 1.5.3 3.2V118H79.7V95.8Z" />
+                    <path fill="#266DF0" d="M79.8 119H101v43H79.8z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <XAxisLabels labels={['Q1', 'Q2', 'Q3', 'Q4']} />
+        </div>
+      </div>
+
+      {/* ── Card: Active and Habit (half width, hidden below xs) ── */}
+      <div className="hidden xs:flex flex-col px-[15px] col-span-1 min-h-[240px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Active and Habit</span>
+          </div>
+          <div className="flex gap-x-[14px]">
+            <LegendDot color="bg-blue-500" label="Active" />
+            <LegendDot color="bg-blue-300" label="Habit" />
+          </div>
+        </div>
+        <div className="relative flex-1">
+          <Image
+            src="/assets/images/platform/reporting/hero/reporting-hero-product-growth-pie-chart.svg"
+            alt=""
+            fill
+            className="object-scale-down object-top"
+          />
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+// ── Slide 1: Revenue Operations ──────────────────────────────────────────────
+
+function WorkspacesIcon() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden>
+      <path fillRule="evenodd" clipRule="evenodd" d="M0.185547 4.38773C0.185547 2.88321 0.185547 2.13095 0.478346 1.5563C0.735899 1.05083 1.14686 0.639861 1.65234 0.382307C2.22699 0.0895081 2.97925 0.0895081 4.48377 0.0895081H6.63289C8.13741 0.0895081 8.88967 0.0895081 9.46432 0.382307C9.96979 0.639861 10.3808 1.05083 10.6383 1.5563C10.9311 2.13095 10.9311 2.88321 10.9311 4.38773V6.53685C10.9311 8.04137 10.9311 8.79363 10.6383 9.36828C10.3808 9.87375 9.96979 10.2847 9.46432 10.5423C8.88967 10.8351 8.13741 10.8351 6.63289 10.8351H4.48377C2.97925 10.8351 2.22699 10.8351 1.65234 10.5423C1.14686 10.2847 0.735899 9.87375 0.478346 9.36828C0.185547 8.79363 0.185547 8.04137 0.185547 6.53685V4.38773ZM2.4183 3.15997C2.4183 2.69754 2.79318 2.32266 3.25562 2.32266H4.27236C4.73479 2.32266 5.10967 2.69754 5.10967 3.15997V4.83461C5.10967 5.29704 4.73479 5.67192 4.27236 5.67192H3.25562C2.79318 5.67192 2.4183 5.29704 2.4183 4.83461V3.15997ZM6.84343 5.25302C6.38099 5.25302 6.00611 5.6279 6.00611 6.09033V7.76497C6.00611 8.2274 6.38099 8.60228 6.84343 8.60228H7.86017C8.32261 8.60228 8.69749 8.2274 8.69749 7.76497V6.09033C8.69749 5.6279 8.32261 5.25302 7.86017 5.25302H6.84343ZM6.00611 3.16021C6.00611 2.69777 6.38099 2.32289 6.84343 2.32289H7.86017C8.32261 2.32289 8.69749 2.69777 8.69749 3.16021V3.52026C8.69749 3.98269 8.32261 4.35757 7.86017 4.35757H6.84343C6.38099 4.35757 6.00611 3.98269 6.00611 3.52026V3.16021ZM3.25546 6.56824C2.79302 6.56824 2.41814 6.94312 2.41814 7.40556V7.7656C2.41814 8.22804 2.79302 8.60292 3.25546 8.60292H4.2722C4.73464 8.60292 5.10952 8.22804 5.10952 7.7656V7.40556C5.10952 6.94312 4.73464 6.56824 4.2722 6.56824H3.25546Z" fill="#14AED6" />
+    </svg>
+  )
+}
+
+function MobileSlide1() {
+  return (
+    <div className="grid grid-cols-2 gap-x-3 gap-y-3 md:px-4 pb-8">
+
+      {/* ── Card: Accounts by Plan (full width) ── */}
+      <div className="flex flex-col px-[15px] col-span-2 h-[280px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Accounts by Plan</span>
+            <div className="flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
+              <WorkspacesIcon />
+              <span className="text-accent-foreground text-xs">Workspaces</span>
+            </div>
+          </div>
+          <div className="flex gap-x-[14px]">
+            <LegendDot color="bg-blue-500" label="Pro" />
+            <LegendDot color="bg-green-500" label="Plus" />
+          </div>
+        </div>
+        <div className="flex flex-col flex-1">
+          <div className="flex flex-1 gap-x-[3px]">
+            <YAxisLabels labels={['250', '200', '150', '100', '0.0']} />
+            <div className="relative mb-[6.5px] flex-1">
+              <ChartGridLines count={5} />
+              <DashedLine top="top-[44%]" />
+              <div className="absolute inset-0">
+                <div className="h-full w-full">
+                  <svg className="h-full w-full" viewBox="0 0 284 165" fill="none" preserveAspectRatio="none">
+                    <path fill="#266DF0" d="M10 104.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v60.5H10v-60.5Z" />
+                    <path fill="#54D490" d="M20.1 93.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v71.5h-9.1V93.2Z" />
+                    <path fill="#266DF0" d="M37.2 100.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v64.5h-9.1v-64.5Z" />
+                    <path fill="#54D490" d="M47.3 84.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v80.5h-9.1V84.2Z" />
+                    <path fill="#266DF0" d="M64.4 96.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.7-.2 1.5 0 2.2 0 2.8.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v68.5h-9.1V96.2Z" />
+                    <path fill="#54D490" d="M74.5 73.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v91.5h-9.1V73.2Z" />
+                    <path fill="#266DF0" d="M91.6 89.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v75.5h-9.1V89.2Z" />
+                    <path fill="#54D490" d="M101.7 66.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v98.5h-9.1V66.2Z" />
+                    <path fill="#266DF0" d="M118.8 80.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v84.5h-9.1V80.2Z" />
+                    <path fill="#54D490" d="M128.9 53.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v111.5h-9.1V53.2Z" />
+                    <path fill="#266DF0" d="M146 76.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v88.5H146V76.2Z" />
+                    <path fill="#54D490" d="M156.1 43.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v121.5h-9.1V43.2Z" />
+                    <path fill="#266DF0" d="M173.2 72.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v92.5h-9.1V72.2Z" />
+                    <path fill="#54D490" d="M183.3 31.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v133.5h-9.1V31.2Z" />
+                    <path fill="#266DF0" d="M200.4 57.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v107.5h-9.1V57.2Z" />
+                    <path fill="#54D490" d="M210.5 17.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v147.5h-9.1V17.2Z" />
+                    <path fill="#266DF0" d="M227.6 44.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v120.5h-9.1V44.2Z" />
+                    <path fill="#54D490" d="M237.7 13.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v151.5h-9.1V13.2Z" />
+                    <path fill="#266DF0" d="M254.8 38.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v126.5h-9.1V38.2Z" />
+                    <path fill="#54D490" d="M264.9 9.2c0-1.4 0-2.1.2-2.7a3 3 0 0 1 1.6-1.6c.6-.2 1.3-.2 2.8-.2 1.4 0 2.1 0 2.7.2a3 3 0 0 1 1.6 1.6c.2.6.2 1.3.2 2.7v155.5h-9.1V9.2Z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <XAxisLabels labels={['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2']} />
+        </div>
+      </div>
+
+      {/* ── Card: Paid Accounts (full → half on xs+) ── */}
+      <div className="flex flex-col px-[15px] col-span-2 xs:col-span-1 h-[240px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4">
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Paid Accounts</span>
+        </div>
+        <div className="flex flex-col flex-1">
+          <div className="flex flex-1 gap-x-[3px]">
+            <YAxisLabels labels={['500', '400', '300', '200', '0.0']} />
+            <div className="relative mb-[6.5px] flex-1">
+              <ChartGridLines count={5} />
+              <DashedLine top="top-[23.5%]" />
+              <div className="absolute inset-0">
+                <div className="h-full w-full">
+                  <svg className="h-full w-full" viewBox="0 0 105 144" fill="none" preserveAspectRatio="none">
+                    <path fill="#266DF0" d="M1 80.5a1.9 1.9 0 0 1 3.8 0v63.2H1V80.5ZM5.8 80.5a1.9 1.9 0 0 1 3.7 0v63.2H5.7V80.5ZM10.5 79.5a1.9 1.9 0 0 1 3.8 0v64.2h-3.8V79.5ZM15.3 77.5a1.9 1.9 0 0 1 3.7 0v66.2h-3.8V77.5ZM20 77.5a1.9 1.9 0 0 1 3.8 0v66.2H20V77.5ZM24.8 75.5a1.9 1.9 0 0 1 3.7 0v68.2h-3.8V75.5ZM29.5 73.5a1.9 1.9 0 0 1 3.8 0v70.2h-3.8V73.5ZM34.3 70.5a1.9 1.9 0 0 1 3.7 0v73.2h-3.8V70.5ZM39 68.5a1.9 1.9 0 0 1 3.8 0v75.2H39V68.5ZM43.8 63.5a1.9 1.9 0 0 1 3.7 0v80.2h-3.8V63.5ZM48.5 59.5a1.9 1.9 0 0 1 3.8 0v84.2h-3.8V59.5ZM53.3 54.5a1.9 1.9 0 0 1 3.7 0v89.2h-3.8V54.5ZM58 50.5a1.9 1.9 0 0 1 3.8 0v93.2H58V50.5ZM62.8 47.5a1.9 1.9 0 0 1 3.7 0v96.2h-3.8V47.5ZM67.5 44.5a1.9 1.9 0 0 1 3.8 0v99.2h-3.8V44.5ZM72.3 39.5a1.9 1.9 0 0 1 3.7 0v104.2h-3.8V39.5ZM77 33.5a1.9 1.9 0 0 1 3.8 0v110.2H77V33.5ZM81.8 25.5a1.9 1.9 0 0 1 3.7 0v118.2h-3.8V25.5ZM86.5 18.5a1.9 1.9 0 0 1 3.8 0v125.2h-3.8V18.5ZM91.3 9.5a1.9 1.9 0 0 1 3.7 0v134.2h-3.8V9.5ZM96 6.5a1.9 1.9 0 0 1 3.8 0v137.2H96V6.5ZM100.8 3.5a1.9 1.9 0 1 1 3.7 0v140.2h-3.8V3.5Z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <XAxisLabels labels={['Q1', 'Q2', 'Q3', 'Q4']} />
+        </div>
+      </div>
+
+      {/* ── Card: Total ARR (half width, hidden below xs) ── */}
+      <div className="hidden xs:flex flex-col px-[15px] col-span-1 h-[240px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Total ARR</span>
+          </div>
+          <div className="flex gap-x-[14px]">
+            <LegendDot color="bg-blue-500" label="US" />
+            <LegendDot color="bg-green-500" label="EMEA" />
+          </div>
+        </div>
+        <div className="flex flex-col flex-1">
+          <div className="flex flex-1 gap-x-[3px]">
+            <YAxisLabels labels={['1.4m', '0.7m', '0.0m']} />
+            <div className="relative mb-[6.5px] flex-1">
+              <ChartGridLines count={3} />
+              <DashedLine top="top-[35%]" />
+              <div className="absolute inset-0">
+                <div className="h-full w-full">
+                  <svg className="h-full w-full" viewBox="0 0 105 124" fill="none" preserveAspectRatio="none">
+                    <path fill="#54D490" d="m15 104.1-15 5.6v14.4h105.1V23l-15-16.8-15 8.3L60 72.2H44.9L30 90.2l-15 14Z" opacity=".1" />
+                    <path stroke="#54D490" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="m0 110 15.2-5.6 15-14 15-18.2H60l15-59L90 6.3l15 16.8" />
+                    <path fill="#266DF0" d="m15.1 110.6-15.1 3v10h105V79l-15 4.5-15 4.9-15 6.8-15 5.8-15 4.8-14.9 4.8Z" opacity=".1" />
+                    <path stroke="#266DF0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="m0 113.7 15.1-3 14.9-4.8 15-4.9 15-5.8 15-6.8 15-5 15-3.4" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <XAxisLabels labels={['Q1', 'Q2', 'Q3', 'Q4']} />
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+// ── Slide 2: Sales Leads ─────────────────────────────────────────────────────
+
+function SalesIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+      <path d="M6.857 8.91379C5.99986 8.91379 3.94272 8.48522 2.57129 6.77094" stroke="#75777C" strokeLinejoin="round" />
+      <path d="M4.71387 9.77094C4.14244 9.77094 2.74244 9.5138 1.71387 8.48523" stroke="#75777C" strokeLinejoin="round" />
+      <path d="M3.72611 3.87933L0.935767 9.78462C0.639406 10.3634 1.23169 10.9946 1.82978 10.7374L7.6923 8.67036" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6.80197 5.05579C7.94081 6.36838 8.4537 7.90537 7.94755 8.48874C7.4414 9.07211 6.10788 8.48097 4.96905 7.16838C3.83021 5.85579 3.31732 4.3188 3.82347 3.73543C4.32962 3.15206 5.66314 3.7432 6.80197 5.05579Z" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6.77523 1.25149C7.38752 1.73641 7.53705 2.4673 7.47727 3.08235" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8.86183 3.93946C9.49134 3.57601 10.1208 3.21256 11.1424 3.52822" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10.1475 5.65347H10.2332" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.42822 1.20001H9.51394" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function MobileSlide2() {
+  return (
+    <div className="grid grid-cols-2 gap-x-3 gap-y-3 md:px-4 pb-8">
+
+      {/* ── Card: Pipeline Funnel (full width, image) ── */}
+      <div className="flex flex-col col-span-2 h-[280px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] pb-4 px-[15px]">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Pipeline Funnel</span>
+            <div className="flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
+              <SalesIcon />
+              <span className="text-accent-foreground text-xs">Sales</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 px-3 pb-2">
+          <div className="relative h-full">
+            <Image
+              src="/assets/images/platform/reporting/hero/reporting-hero-sales-funnel-chart-mobile.svg"
+              alt=""
+              fill
+              className="object-contain object-bottom"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Card: US Lead Locations (half width, hidden below xs) ── */}
+      <div className="hidden xs:flex flex-col overflow-hidden col-span-1 h-[240px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex flex-col gap-y-2.5 pt-[15px] border-subtle-stroke border-b px-[15px] pb-[15px]">
+          <div className="flex items-center justify-between gap-x-1 overflow-hidden">
+            <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">US Lead Locations</span>
+          </div>
+        </div>
+        <div className="relative flex-1">
+          <Image
+            src="/assets/images/platform/reporting/hero/reporting-hero-sales-map.svg"
+            alt=""
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+
+      {/* ── Card: ARR Contribution stat (full → half on xs+) ── */}
+      <div className="flex flex-col items-center justify-center gap-y-4 col-span-2 xs:col-span-1 h-[240px] w-full rounded-2xl border border-subtle-stroke bg-primary-background shadow-lg">
+        <div className="flex items-center">
+          <div className="m-[5px] h-[9px] w-[9px] rounded-[3px] bg-blue-500" />
+          <span className="py-0.5 text-tertiary-foreground text-xs">ARR Contribution</span>
+        </div>
+        <p className="font-semibold text-[26px] text-primary-foreground leading-[36px] -tracking-[0.52px]">
+          US $15.9k
+        </p>
+        <div className="flex items-center text-accent-foreground text-sm -tracking-[0.28px]">
+          <span>Sales</span>
+          <svg className="h-4 w-4 -rotate-90 text-disabled-foreground" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
+
 export function ReportingHeroCards() {
   const [active, setActive] = useState<Active>(0)
+
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    slides: { perView: 1 },
+    slideChanged(slider) {
+      setActive(slider.track.details.rel as Active)
+    },
+  })
+
+  // Tab nav slider — free-scroll, auto-sized slides
+  const [tabSliderRef] = useKeenSlider<HTMLDivElement>({
+    slides: { perView: 'auto' },
+    mode: 'free',
+  })
+
+  const handleSelect = (i: Active) => {
+    setActive(i)
+    instanceRef.current?.moveToIdx(i)
+  }
 
   return (
     <section>
       <div className="container lg:pb-16 xl:pb-24">
+
+        {/* ── Desktop grid (lg+) ──────────────────────────────── */}
         <div className={cn(
           'hidden lg:grid',
           'grid-cols-4 xl:grid-cols-5',
@@ -1328,18 +1731,18 @@ export function ReportingHeroCards() {
             <Card2 active={active} />
           </div>
 
-          {/* Card 5 — col 5, rows 1–5 */}
-          <div className="col-start-5 row-start-1 row-span-6">
+          {/* Card 5 — col 5, rows 1–5 (xl only) */}
+          <div className="xl:block col-start-4 xl:col-start-5 row-start-1 row-span-6">
             <Card5 active={active} />
           </div>
 
           {/* Nav card — col 3, rows 2–6 (xl: rows 3–7) */}
-          <div className="col-start-3 row-start-2 row-span-5 xl:row-start-3 xl:row-span-4 relative">
-            <NavCard active={active} onSelect={setActive} />
+          <div className="col-star-2 xl:col-start-3 row-start-2 row-span-5 xl:row-start-3 xl:row-span-4 relative">
+            <NavCard active={active} onSelect={handleSelect} />
           </div>
 
           {/* Card 4 — col 4, rows 2–7 */}
-          <div className="col-start-4 row-start-2 row-span-5">
+          <div className="col-start-3 xl:col-start-4 row-start-2 row-span-5">
             <Card4 active={active} />
           </div>
 
@@ -1348,20 +1751,79 @@ export function ReportingHeroCards() {
             <StatCard active={active} />
           </div>
 
-          {/* Card 7 — col 5, rows 6–10 */}
-          <div className="col-start-5 row-start-7 row-span-4">
+          {/* Card 7 — col 5, rows 6–10 (xl only) */}
+          <div className="xl:block col-start-4 xl:col-start-5 row-start-7 row-span-4">
             <Card7 active={active} />
           </div>
 
           {/* Card 6 — cols 3–4, rows 8–10 */}
-          <div className="col-start-3 col-span-2 row-start-7 row-span-3">
+          <div className="col-start-2 xl:col-start-3 col-span-2 row-start-7 row-span-3">
             <Card6 active={active} />
           </div>
 
         </div>
-      </div>
 
-      
+        {/* ── Mobile slider (below lg) ─────────────────────────── */}
+        <div className="mt-8 flex w-full flex-col lg:hidden">
+
+          {/* Tab navigation — scrollable pill tabs */}
+          <ul className="scrollbar-none flex w-full justify-start overflow-x-auto overflow-y-hidden sm:justify-center">
+            <div ref={tabSliderRef} className="keen-slider justify-start sm:justify-center">
+              {REPORTS.map((report, i) => (
+                <li
+                  key={i}
+                  className="keen-slider__slide px-1 py-1 first:pl-4 xs:first:pl-6 last:pr-4 xs:last:pr-6"
+                  style={{ maxWidth: 'fit-content', minWidth: 'fit-content' }}
+                >
+                  <button
+                    onClick={() => handleSelect(i as Active)}
+                    className={cn(
+                      'flex shrink-0 cursor-pointer flex-col gap-x-1 whitespace-nowrap rounded-xl border border-subtle-stroke px-4 py-2.5 text-left text-sm',
+                      'transition-[background-color,box-shadow] duration-200 ease-out',
+                      'focus-visible:outline-hidden focus-visible:ring-3 focus-visible:active:ring-2',
+                      active === i ? 'bg-surface' : 'bg-primary-background',
+                    )}
+                  >
+                    <div className="text-sm text-tertiary-foreground -tracking-[0.28px]">{report.name}</div>
+                    <div className="text-caption-foreground text-xs">{report.description}</div>
+                  </button>
+                </li>
+              ))}
+            </div>
+          </ul>
+
+          {/* Content slides */}
+          <div ref={sliderRef} className="keen-slider mt-6 mx-auto max-w-[448px] lg:max-w-none">
+            <div className="keen-slider__slide">
+              <MobileSlide0 />
+            </div>
+            <div className="keen-slider__slide">
+              <MobileSlide1 />
+            </div>
+            <div className="keen-slider__slide">
+              <MobileSlide2 />
+            </div>
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex justify-center gap-x-2 mt-4 pb-2">
+            {([0, 1, 2] as Active[]).map((i) => (
+              <button
+                key={i}
+                onClick={() => handleSelect(i)}
+                className={cn(
+                  'h-2 w-2 rounded-full transition-[background-color,box-shadow] duration-200 ease-out',
+                  'focus-visible:outline-hidden focus-visible:ring-3 focus-visible:active:ring-2',
+                  active === i ? 'bg-slate-300' : 'bg-slate-100',
+                )}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+
+        </div>
+
+      </div>
     </section>
   )
 }
