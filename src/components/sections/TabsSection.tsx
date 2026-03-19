@@ -293,13 +293,6 @@ export function TabsSection({
                         : 'text-caption-foreground hover:text-fg-accent',
                     ].join(' ')}
                   >
-                    <Image
-                      src={tab.icon}
-                      alt=""
-                      width={16}
-                      height={16}
-                      className="size-4 shrink-0 object-contain"
-                    />
                     <span>{tab.label}</span>
                   </button>
                 ))}
@@ -371,13 +364,6 @@ export function TabsSection({
                       : 'text-caption-foreground',
                   ].join(' ')}
                 >
-                  <Image
-                    src={tab.icon}
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="size-4 shrink-0 object-contain"
-                  />
                   <span>{tab.label}</span>
                 </button>
               ))}
@@ -395,7 +381,11 @@ export function TabsSection({
            * Mobile: left half hidden, right half full-width square.
           ───────────────────────────────────────────────────────────────── */}
           <div className="grid grid-cols-12 max-lg:contents">
-            <div className="relative col-[2/-2] flex w-full border border-subtle-stroke max-lg:border-x-0 max-lg:aspect-square">
+            {/*
+             * max-lg:overflow-hidden forces aspect-ratio to act as a hard size
+             * constraint on mobile (without it, flex content expands the box).
+             */}
+            <div className="relative col-[2/-2] flex w-full border border-subtle-stroke max-lg:border-x-0 max-lg:aspect-square max-lg:overflow-hidden">
 
               {/* Corner cross decorations — all breakpoints */}
               <CrossCorner position="tl" />
@@ -436,7 +426,11 @@ export function TabsSection({
                *     visuals={[<MeetingPrepVisual />, <PatientBriefVisual />, ...]}
                *   />
                */}
-              <div className="relative flex aspect-square w-1/2 items-center justify-center overflow-hidden bg-secondary-background max-lg:w-full">
+              {/*
+               * max-lg:min-h-0 — prevents flex's default min-height:auto from
+               * letting the visual slot expand the outer panel beyond aspect-ratio.
+               */}
+              <div className="relative flex aspect-square w-1/2 items-center justify-center overflow-hidden bg-secondary-background max-lg:w-full max-lg:min-h-0">
 
                 {/* Dot grid — dots visible at edges, fade toward center */}
                 <svg
@@ -453,10 +447,16 @@ export function TabsSection({
                   <rect width="100%" height="100%" fill="url(#tabs-dot-grid)" />
                 </svg>
 
-                {/* Animated visual — injected via `visuals` prop once ready */}
-                {activeVisual ?? (
-                  <div className="size-16 rounded-full bg-subtle-stroke opacity-50" aria-hidden="true" />
-                )}
+                {/*
+                 * Absolute wrapper on mobile: gives the visual a hard inset-0
+                 * bounding box so overflow-hidden clips reliably regardless of
+                 * the visual component's intrinsic height.
+                 */}
+                <div className="size-full max-lg:absolute max-lg:inset-0 flex items-center justify-center overflow-hidden">
+                  {activeVisual ?? (
+                    <div className="size-16 rounded-full bg-subtle-stroke opacity-50" aria-hidden="true" />
+                  )}
+                </div>
 
               </div>
 

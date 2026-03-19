@@ -373,7 +373,7 @@ export function Navbar() {
             {/* Desktop CTAs */}
             <div className="hidden lg:flex items-center gap-x-2.5">
               <Link
-                href="/login"
+                href="/"
                 className={cn(
                   'relative inline-flex cursor-pointer items-center justify-center',
                   'text-nowrap h-9 gap-x-1.5 rounded-[10px] px-3 text-sm',
@@ -384,7 +384,7 @@ export function Navbar() {
                 Sign in
               </Link>
               <Link
-                href="/signup"
+                href="/"
                 className={cn(
                   'relative inline-flex cursor-pointer items-center justify-center',
                   'text-nowrap h-9 gap-x-1.5 rounded-[10px] px-3 text-sm',
