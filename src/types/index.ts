@@ -34,6 +34,18 @@ export interface BlogPost {
   updatedAt: string
 }
 
+export type SocialPlatform = 'linkedin' | 'x' | 'youtube' | 'facebook' | 'instagram' | 'tiktok' | 'github'
+
+export interface SocialLinkEntry {
+  id: string
+  platform: SocialPlatform
+  href: string
+  order?: number
+  enabled?: boolean
+  createdAt: string
+  updatedAt: string
+}
+
 export interface LegalPage {
   id: string
   title: string

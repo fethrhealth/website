@@ -8,6 +8,7 @@ import { DemoRequests } from '@/collections/DemoRequests'
 import { SalesLeads } from '@/collections/SalesLeads'
 import { StartupApplications } from '@/collections/StartupApplications'
 import { LegalPages } from '@/collections/LegalPages'
+import { SocialLinks } from '@/collections/SocialLinks'
 import { Media } from '@/collections/Media'
 import { Users } from '@/collections/Users'
 
@@ -28,7 +29,7 @@ export default buildConfig({
   },
 
   // Collections — blog + media + auth
-  collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, LegalPages, Media, Users],
+  collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, LegalPages, SocialLinks, Media, Users],
 
   editor: lexicalEditor(),
 
