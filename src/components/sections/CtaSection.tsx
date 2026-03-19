@@ -25,6 +25,12 @@ const COLUMNS = 52;
 /** Number of columns in the mobile mosaic grid */
 const COLUMNS_MOBILE = 11;
 
+/** Number of columns in the md mosaic grid */
+const COLUMNS_MD = 15;
+
+/** Number of columns in the lg mosaic grid */
+const COLUMNS_LG = 38;
+
 /** Build a boolean row where every `step`-th column (starting at `offset`) has an avatar */
 function sparseRow(step: number, offset = 0): boolean[] {
   return Array.from({ length: COLUMNS }, (_, i) => (i + offset) % step === 0);
@@ -178,6 +184,48 @@ const GRID_STRUCTURE_MOBILE: RowBlock[][] = [
   [{ type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }],
 ];
 
+/**
+ * Md mosaic layout — 15 columns, 10 rows.
+ * Dense in the middle rows, sparse at top/bottom. Each row must sum to COLUMNS_MD (15).
+ */
+const GRID_STRUCTURE_MD: RowBlock[][] = [
+    [{ type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 7 }, { type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 2 }, { type: "empty", count: 4 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "empty", count: 1 }, { type: "avatar", count: 3 }, { type: "empty", count: 1 }, { type: "avatar", count: 4 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 12 }],
+    [{ type: "empty", count: 1 }, { type: "avatar", count: 12 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 8 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 12 }, { type: "empty", count: 1 }],
+    [{ type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 10 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 14 }, { type: "empty", count: 1 }],
+    [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 11 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 11 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 12 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }],
+    [{ type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 12 }],
+    [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 6 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+    [{ type: "avatar", count: 4 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 2 }, { type: "avatar", count: 2 }],
+    [{ type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 3 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 2 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }],
+  ];
+
+/**
+ * Lg mosaic layout — 38 columns, 10 rows.
+ * Rows 0-4: dense (many avatars). Rows 5-9: sparse (few avatars spread wide,
+ * masked by the left/right gradient that's active at lg+).
+ * Each row sums to COLUMNS_LG (38).
+ */
+const GRID_STRUCTURE_LG: RowBlock[][] = [
+  [{ type: "empty", count: 2 }, { type: "avatar", count: 13 }, { type: "empty", count: 1 }, { type: "avatar", count: 5 }, { type: "empty", count: 1 }, { type: "avatar", count: 12 }, { type: "empty", count: 3 }, { type: "avatar", count: 1 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 16 }, { type: "empty", count: 1 }, { type: "avatar", count: 10 }, { type: "empty", count: 1 }, { type: "avatar", count: 5 }, { type: "empty", count: 2 }, { type: "avatar", count: 2 }],
+  [{ type: "empty", count: 2 }, { type: "avatar", count: 4 }, { type: "empty", count: 1 }, { type: "avatar", count: 18 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 7 }, { type: "empty", count: 3 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 31 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 2 }, { type: "avatar", count: 1 }],
+  [{ type: "empty", count: 2 }, { type: "avatar", count: 12 }, { type: "empty", count: 1 }, { type: "avatar", count: 5 }, { type: "empty", count: 1 }, { type: "avatar", count: 5 }, { type: "empty", count: 1 }, { type: "avatar", count: 7 }, { type: "empty", count: 4 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 4 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 7 }, { type: "avatar", count: 1 }, { type: "empty", count: 4 }, { type: "avatar", count: 3 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 5 }, { type: "avatar", count: 2 }],
+  [{ type: "empty", count: 2 }, { type: "avatar", count: 3 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 24 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 3 }],
+  [{ type: "empty", count: 2 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 29 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 28 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }],
+  [{ type: "empty", count: 3 }, { type: "avatar", count: 1 }, { type: "empty", count: 34 }],
+];
+
 // ---------------------------------------------------------------------------
 // Grid cell types + builder
 // ---------------------------------------------------------------------------
@@ -236,23 +284,42 @@ function cellOpacity(rowIdx: number): number {
 
 const GRID_DATA: GridCell[][] = buildGrid(GRID_STRUCTURE, COLUMNS);
 const GRID_DATA_MOBILE: GridCell[][] = buildGrid(GRID_STRUCTURE_MOBILE, COLUMNS_MOBILE);
+const GRID_DATA_MD: GridCell[][] = buildGrid(GRID_STRUCTURE_MD, COLUMNS_MD);
+const GRID_DATA_LG: GridCell[][] = buildGrid(GRID_STRUCTURE_LG, COLUMNS_LG);
 
 // ---------------------------------------------------------------------------
-// useIsMobile hook
+// useBreakpoint hook
 // ---------------------------------------------------------------------------
 
-function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(false);
+type Breakpoint = "mobile" | "md" | "lg" | "xl";
+
+function useBreakpoint(): Breakpoint {
+  const [bp, setBp] = useState<Breakpoint>("xl");
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    const mqMobile = window.matchMedia("(max-width: 767px)");
+    const mqMd     = window.matchMedia("(max-width: 1023px)");
+    const mqLg     = window.matchMedia("(max-width: 1279px)");
+
+    const update = () => {
+      if (mqMobile.matches)      setBp("mobile");
+      else if (mqMd.matches)     setBp("md");
+      else if (mqLg.matches)     setBp("lg");
+      else                       setBp("xl");
+    };
+
+    update();
+    mqMobile.addEventListener("change", update);
+    mqMd.addEventListener("change", update);
+    mqLg.addEventListener("change", update);
+    return () => {
+      mqMobile.removeEventListener("change", update);
+      mqMd.removeEventListener("change", update);
+      mqLg.removeEventListener("change", update);
+    };
   }, []);
 
-  return isMobile;
+  return bp;
 }
 
 // ---------------------------------------------------------------------------
@@ -262,8 +329,12 @@ function useIsMobile(): boolean {
 export function CtaSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const isMobile = useIsMobile();
-  const gridData = isMobile ? GRID_DATA_MOBILE : GRID_DATA;
+  const bp = useBreakpoint();
+  const gridData =
+    bp === "mobile" ? GRID_DATA_MOBILE :
+    bp === "md"     ? GRID_DATA_MD     :
+    bp === "lg"     ? GRID_DATA_LG     :
+    GRID_DATA;
 
   return (
     <section className="border-b border-subtle-stroke" ref={sectionRef}>

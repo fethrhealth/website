@@ -211,7 +211,7 @@ export function DemoRequestForm({
       {/* Form — always rendered (dialog is portaled above everything) */}
       <form
         onSubmit={handleSubmit}
-        className={cn('flex w-full flex-col gap-2 md:hidden', className)}
+        className={cn('flex w-full flex-col gap-2 md:hidden max-w-[320px]', className)}
         noValidate
       >
         {/* Email input */}
