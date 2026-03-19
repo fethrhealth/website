@@ -33,7 +33,7 @@ export async function FooterWrapper() {
       }),
     ])
 
-    legalLinks = (legalResult.docs as Array<{ title: string; slug: string }>).map((p) => ({
+    legalLinks = (legalResult.docs as unknown as Array<{ title: string; slug: string }>).map((p) => ({
       label: p.title,
       href:  `/legal/${p.slug}`,
     }))
