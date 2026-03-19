@@ -5,14 +5,16 @@
  *
  * Hero for /platform/workflows.
  *
- * Layout
- *   Left  (xl: cols 1–6)  : Badge, h1, subheading, CTAs.
- *   Right (xl: cols 7–12) : WorkflowGrid — port of the exact Attio HTML grid.
+ * Animation sequence (top to bottom):
+ *  1. Card 0 (trigger) always visible.
+ *  2. Connector 0 draws + card 1 fades in → shows "Running" badge.
+ *  3. Card 1 → "Completed" + connector 1 draws + card 2 fades in → "Running".
+ *  4. Card 2 → "Completed" + connectors 2+3 draw + cards 3+4 fade in → "Running".
+ *  5. Cards 3+4 → "Completed".
+ *  6. Reset (cards 1-4 snap out) → repeat.
  *
- * WorkflowGrid
- *   5 cards on a fine-grained CSS grid (16 / 42 / 32 cols × 20-row grid).
- *   SVG connectors between cards (vertical, horizontal, L-shaped per breakpoint).
- *   Running → Completed animation cycles every STEP_MS ms per step.
+ * Badge bug fix: badges are rendered AFTER the inner content div in the DOM
+ * and given z-10, so they always appear above the white inner card.
  */
 
 import { useRef, useEffect, useState } from 'react'
@@ -21,100 +23,127 @@ import Link from 'next/link'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const EASE = [0.2, 0, 0, 1] as const
-const STEP_MS = 2500                           // ms per animation step
-const SEQ: number[][] = [[0], [1], [2], [3, 4]] // which card indices run per step
+const EASE    = [0.2, 0, 0, 1] as const
+const STEP    = 2000   // ms for card border animation (running → completed)
+const CONN_MS = 700    // ms for each connector line to draw
 
-// ─── Card status type ─────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 type CS = 'idle' | 'running' | 'completed'
 
+interface AnimState {
+  c: CS[]       // card statuses [0..4]
+  l: boolean[]  // connector drawn? [0..3]
+}
+
+// All cards always visible — only border animation state changes
+const IDLE: AnimState = {
+  c: ['idle', 'idle', 'idle', 'idle', 'idle'],
+  l: [false,  false,  false,  false],
+}
+
 // ─── Animation hook ───────────────────────────────────────────────────────────
-function useCardStatuses(active: boolean): CS[] {
-  const [s, set] = useState<CS[]>(['idle', 'idle', 'idle', 'idle', 'idle'])
+function useAnim(active: boolean): AnimState {
+  const [st, set] = useState<AnimState>(IDLE)
 
   useEffect(() => {
     if (!active) return
-    let step = 0
     let alive = true
-    let t: ReturnType<typeof setTimeout>
-
-    const tick = () => {
-      if (!alive) return
-      const group = SEQ[step % SEQ.length]!
-      set(prev => { const n = [...prev] as CS[]; group.forEach(i => { n[i] = 'running' }); return n })
-      t = setTimeout(() => {
-        if (!alive) return
-        set(prev => { const n = [...prev] as CS[]; group.forEach(i => { n[i] = 'completed' }); return n })
-        step++
-        if (step < SEQ.length) {
-          t = setTimeout(tick, 350)
-        } else {
-          t = setTimeout(() => {
-            if (!alive) return
-            set(['idle', 'idle', 'idle', 'idle', 'idle'])
-            step = 0
-            t = setTimeout(tick, 400)
-          }, 1500)
-        }
-      }, STEP_MS)
+    const ids: ReturnType<typeof setTimeout>[] = []
+    const at = (ms: number, fn: () => void) => {
+      ids.push(setTimeout(() => { if (alive) fn() }, ms))
     }
+    const C = CONN_MS
+    const D = 500  // initial delay
 
-    t = setTimeout(tick, 700)
-    return () => { alive = false; clearTimeout(t) }
+    at(D,                         () => set({ c: ['running',   'idle',      'idle',      'idle',      'idle'], l: [false, false, false, false] }))
+    at(D + STEP,                  () => set({ c: ['completed', 'idle',      'idle',      'idle',      'idle'], l: [true,  false, false, false] }))
+    at(D + STEP + C,              () => set({ c: ['completed', 'running',   'idle',      'idle',      'idle'], l: [true,  false, false, false] }))
+    at(D + STEP * 2 + C,          () => set({ c: ['completed', 'completed', 'idle',      'idle',      'idle'], l: [true,  true,  false, false] }))
+    at(D + STEP * 2 + C * 2,      () => set({ c: ['completed', 'completed', 'running',   'idle',      'idle'], l: [true,  true,  false, false] }))
+    at(D + STEP * 3 + C * 2,      () => set({ c: ['completed', 'completed', 'completed', 'idle',      'idle'], l: [true,  true,  true,  false] }))
+    at(D + STEP * 3 + C * 3,      () => set({ c: ['completed', 'completed', 'completed', 'running',   'idle'], l: [true,  true,  true,  false] }))
+    at(D + STEP * 4 + C * 3,      () => set({ c: ['completed', 'completed', 'completed', 'completed', 'idle'], l: [true,  true,  true,  false] }))
+
+    return () => { alive = false; ids.forEach(clearTimeout) }
   }, [active])
 
-  return s
+  return st
 }
 
-// ─── Shared status badges ────────────────────────────────────────────────────
+// ─── Running badge ─────────────────────────────────────────────────────────────
+// Mirrors attio @keyframes running:
+//   0%      → opacity 0, y 0   (inside card top-right)
+//   15%→85% → opacity 1, y -28 (floating above card)
+//   100%    → opacity 0, y 0   (slides back in)
 function RunningBadge({ on }: { on: boolean }) {
   return (
-    <div className={`absolute right-0 flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px transition-opacity duration-300 ${on ? 'opacity-100' : 'opacity-0'}`}>
+    <motion.div
+      className="absolute top-0 right-0 flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px"
+      initial={false}
+      animate={
+        on
+          ? { opacity: [0, 1, 1, 0], y: [0, -28, -28, 0] }
+          : { opacity: 0, y: 0 }
+      }
+      transition={
+        on
+          ? { duration: STEP / 1000, times: [0, 0.15, 0.85, 1], ease: 'easeInOut' }
+          : { duration: 0 }
+      }
+    >
       <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 12 12">
         <circle cx="6" cy="6" r="4.5" stroke="#D1D3D6" />
         <path stroke="#5C5E63" strokeLinecap="round" d="M6 10.5a4.5 4.5 0 0 0 0-9" />
       </svg>
       <span className="text-tertiary-foreground text-xs">Running</span>
-    </div>
+    </motion.div>
   )
 }
 
+// ─── Completed badge ───────────────────────────────────────────────────────────
+// Mirrors attio @keyframes completed:
+//   0%→85% → opacity 0, y 0   (hidden at card top-right)
+//   100%   → opacity 1, y -28  (floats above card, stays permanently)
 function CompletedBadge({ on }: { on: boolean }) {
   return (
-    <div className={`absolute right-0 flex items-center gap-x-1 rounded-lg border border-[#C7F4D3] bg-[#DDF9E4] px-[5px] py-px transition-opacity duration-300 ${on ? 'opacity-100' : 'opacity-0'}`}>
+    <motion.div
+      className="absolute top-0 right-0 flex items-center gap-x-1 rounded-lg border border-[#C7F4D3] bg-[#DDF9E4] px-[5px] py-px"
+      initial={false}
+      animate={on ? { opacity: 1, y: -28 } : { opacity: 0, y: 0 }}
+      transition={on ? { duration: 0.35, ease: 'easeOut' } : { duration: 0 }}
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 12 12">
         <path stroke="#0B935D" strokeLinecap="round" strokeLinejoin="round" d="M3 5.7 3.7 7c.5.7.7 1 1 1.2h.8c.3-.1.5-.5 1-1.2L9 3" />
       </svg>
       <span className="text-[#0B935D] text-xs">Completed</span>
-    </div>
+    </motion.div>
   )
 }
 
-// ─── Connection dot (blue → green on complete) ────────────────────────────────
+// ─── Connection dot ────────────────────────────────────────────────────────────
 function ConnDot({ cls, done }: { cls: string; done: boolean }) {
   return (
     <svg className={`absolute ${cls}`} xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 12 12">
       <circle cx="6" cy="6" r="4.8" fill="#fff" strokeWidth="1" className="stroke-blue-500" />
-      <circle cx="6" cy="6" r="4.8" fill="#fff" strokeWidth="1" className={`stroke-green-500 transition-opacity duration-300 ${done ? 'opacity-100' : 'opacity-0'}`} />
+      <circle
+        cx="6" cy="6" r="4.8" fill="#fff" strokeWidth="1"
+        className={`stroke-green-500 transition-opacity duration-300 ${done ? 'opacity-100' : 'opacity-0'}`}
+      />
     </svg>
   )
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
-/** Card 1 — HL7 admission trigger (blue) */
 const IconHL7 = (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 22 22">
     <rect width="20" height="20" x="1" y="1" fill="#E5EEFF" rx="6" />
-    <path stroke="#407FF2" strokeLinecap="round" strokeLinejoin="round"
-      d="M7 7h8M7 11h8M7 15h5" />
-    <path stroke="#407FF2" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.3"
-      d="M14 13v4l2-1 2 1v-4" />
+    <path stroke="#407FF2" strokeLinecap="round" strokeLinejoin="round" d="M7 7h8M7 11h8M7 15h5" />
+    <path stroke="#407FF2" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.3" d="M14 13v4l2-1 2 1v-4" />
     <rect width="20" height="20" x="1" y="1" stroke="#D6E5FF" rx="6" />
   </svg>
 )
 
-/** Card 2 — Condition / eligibility check (yellow) — same as Attio */
 const IconCondition = (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
     <rect width="19" height="19" x=".5" y=".5" fill="#FFF3CC" rx="5.5" />
@@ -124,7 +153,6 @@ const IconCondition = (
   </svg>
 )
 
-/** Card 3 — Slack (exact from Attio) */
 const IconSlack = (
   <svg className="rounded-[6px] border border-subtle-stroke" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
     <path fill="#f5bc00" d="M134.3 151.7c0 9.5 7.8 17.3 17.4 17.3H195c9.5 0 17.3-7.8 17.3-17.3 0-9.6-7.8-17.4-17.3-17.4h-43.3c-9.6 0-17.4 7.8-17.4 17.4zM134.3 177.7V195a17.4 17.4 0 0 0 34.7 0c0-9.5-7.8-17.3-17.3-17.3z" />
@@ -134,63 +162,168 @@ const IconSlack = (
   </svg>
 )
 
-/** Card 4 — Epic EHR routing (purple brand color matching Outreach) */
 const IconEHR = (
   <svg className="rounded-[6px] border border-subtle-stroke" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
     <rect width="20" height="20" fill="#EDE9FE" rx="5.5" />
-    <path stroke="#6D28D9" strokeLinecap="round" strokeLinejoin="round"
-      d="M5 7h10M5 10h6M5 13h4M13 11v5l2-1 2 1v-5" />
+    <path stroke="#6D28D9" strokeLinecap="round" strokeLinejoin="round" d="M5 7h10M5 10h6M5 13h4M13 11v5l2-1 2 1v-5" />
     <rect width="19" height="19" x=".5" y=".5" stroke="#DDD6FE" rx="5" />
   </svg>
 )
 
-/** Card 5 — Care queue / follow-up (same purple style) */
 const IconQueue = (
   <svg className="rounded-[6px] border border-subtle-stroke" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
     <rect width="20" height="20" fill="#EDE9FE" rx="5.5" />
-    <path stroke="#6D28D9" strokeLinecap="round" strokeLinejoin="round"
-      d="M5 7h10M5 10.5h7M5 14h5" />
+    <path stroke="#6D28D9" strokeLinecap="round" strokeLinejoin="round" d="M5 7h10M5 10.5h7M5 14h5" />
     <circle cx="14.5" cy="13.5" r="2.5" stroke="#6D28D9" strokeLinecap="round" />
     <path stroke="#6D28D9" strokeLinecap="round" d="m13.5 13.5.7.7 1.3-1.3" />
     <rect width="19" height="19" x=".5" y=".5" stroke="#DDD6FE" rx="5" />
   </svg>
 )
 
-// ─── Card component ───────────────────────────────────────────────────────────
+// ─── AnimLine — progressive draw via Framer Motion pathLength ─────────────────
+function AnimLine({ d, drawn }: { d: string; drawn: boolean }) {
+  return (
+    <>
+      <path d={d} stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" fill="none" />
+      <motion.path
+        d={d}
+        stroke="#0FC27B"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        fill="none"
+        initial={false}
+        animate={{ pathLength: drawn ? 1 : 0 }}
+        transition={{ duration: drawn ? CONN_MS / 1000 : 0, ease: 'linear' }}
+      />
+    </>
+  )
+}
+
+// ─── Connectors ───────────────────────────────────────────────────────────────
+
+function ConnV({ drawn, gridCls }: { drawn: boolean; gridCls: string }) {
+  return (
+    <div className={`absolute h-full w-full ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="-translate-x-1/2 -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="12" height="70" fill="none" viewBox="0 0 12 70">
+        <AnimLine d="m1 64 5 5 5-5M6 1v67" drawn={drawn} />
+      </svg>
+    </div>
+  )
+}
+
+function ConnH({ drawn, gridCls }: { drawn: boolean; gridCls: string }) {
+  return (
+    <div className={`absolute h-full w-full ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="translate-y-1" xmlns="http://www.w3.org/2000/svg" width="100%" height="12" fill="none" viewBox="0 0 62 12" preserveAspectRatio="none">
+        <AnimLine d="m56 11 5-5-5-5M1 6h59" drawn={drawn} />
+      </svg>
+    </div>
+  )
+}
+
+function ConnLRight({ drawn, gridCls, h }: { drawn: boolean; gridCls: string; h: string }) {
+  return (
+    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="-translate-x-1.5 -translate-y-4" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 192 131" preserveAspectRatio="none">
+        <AnimLine d="m1 125 5 5 5-5M191 1v44c0 11-9 20-20 20H26C15 65 6 74 6 85v44" drawn={drawn} />
+      </svg>
+    </div>
+  )
+}
+
+function ConnLLeft({
+  drawn, gridCls, h, label, labelStyle,
+}: {
+  drawn: boolean; gridCls: string; h: string; label: string; labelStyle?: React.CSSProperties
+}) {
+  return (
+    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="-translate-x-1.5 -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 199 130" preserveAspectRatio="none">
+        <AnimLine d="m1 124 5 5 5-5M198 1v43.5c0 11-9 20-20 20H26c-11 0-20 9-20 20V128" drawn={drawn} />
+      </svg>
+      <span
+        className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+4px)] -translate-y-[calc(50%+11px)] truncate rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px text-tertiary-foreground text-xs"
+        style={labelStyle}
+      >
+        {label}
+      </span>
+    </div>
+  )
+}
+
+function ConnLRightXL({ drawn, gridCls, h, label }: { drawn: boolean; gridCls: string; h: string; label: string }) {
+  return (
+    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="-translate-x-px -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 199 130" preserveAspectRatio="none">
+        <AnimLine d="m188 124 5 5 5-5M1 1v43.5c0 11 9 20 20 20h152c11 0 20 9 20 20V128" drawn={drawn} />
+      </svg>
+      <span className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+4px)] -translate-y-[calc(50%+11px)] truncate rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px text-tertiary-foreground text-xs">
+        {label}
+      </span>
+    </div>
+  )
+}
+
+function ConnLRightLabel({ drawn, gridCls, h, label }: { drawn: boolean; gridCls: string; h: string; label: string }) {
+  return (
+    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="-translate-x-px -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 192 131" preserveAspectRatio="none">
+        <AnimLine d="m181 125 5 5 5-5M1 1v44c0 11 9 20 20 20h145c11 0 20 9 20 20v44" drawn={drawn} />
+      </svg>
+      <span className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+4px)] -translate-y-[calc(50%+11px)] truncate rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px text-tertiary-foreground text-xs">
+        {label}
+      </span>
+    </div>
+  )
+}
+
+function ConnVMobile({ drawn, gridCls }: { drawn: boolean; gridCls: string }) {
+  return (
+    <div className={`absolute ${gridCls}`} style={{ zIndex: -1 }}>
+      <svg className="-translate-x-1/2 -translate-y-[11px] h-[101px] w-3" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 12 101" preserveAspectRatio="none">
+        <AnimLine d="M6 1v98M1 95l5 5 5-5" drawn={drawn} />
+      </svg>
+    </div>
+  )
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
 interface CardProps {
   s: CS
   icon: React.ReactNode
   title: string
   tag: string
   desc: string
-  /** Tailwind grid-placement classes (mobile + lg + xl) */
   grid: string
-  /** Connection dot position class string */
   dotCls: string
-  /** Optional outer rounding override (card 1 only) */
   outerRound?: string
-  /** Optional inner rounding override (card 1 only) */
   innerRound?: string
-  /** Visibility/display class (card 5 is hidden on mobile) */
   display?: string
-  /** Show the Trigger tab above (card 1 only) */
   trigger?: boolean
-  delay: number
 }
 
-function WCard({ s, icon, title, tag, desc, grid, dotCls, outerRound = '', innerRound = 'rounded-[11px]', display = 'flex', trigger = false, delay }: CardProps) {
+function WCard({
+  s, icon, title, tag, desc, grid, dotCls,
+  outerRound = '',
+  innerRound = 'rounded-[11px]',
+  display = 'flex',
+  trigger = false,
+}: CardProps) {
   const done = s === 'completed'
+  // Active = running or completed → sweeping conic-gradient border.
+  // Fill-mode forwards keeps the border fully green after the sweep ends.
+  const active = s !== 'idle'
   return (
-    <motion.div
-      className={`relative items-center justify-center rounded-xl bg-surface shadow-sm row-span-3 ${outerRound} ${grid} ${display}`}
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay, ease: EASE }}
+    <div
+      className={`relative ${display} items-center justify-center rounded-xl shadow-xs row-span-3 bg-surface ${active ? 'workflows-hero-card-anim' : ''} ${outerRound} ${grid}`}
+      style={active ? { '--wf-dur': `${STEP}ms` } as React.CSSProperties : undefined}
     >
+      {/* ── Badges — rendered BEFORE inner div (matches Attio DOM order), z-10 keeps them above */}
       <RunningBadge on={s === 'running'} />
       <CompletedBadge on={done} />
 
-      {/* Inner card (1px inset = border effect via bg-surface outer) */}
+      {/* ── Inner white card ────────────────────────────────────────────────── */}
       <div className={`relative h-[calc(100%-2px)] w-[calc(100%-2px)] ${innerRound} bg-primary-background p-[11px]`}>
         <div className="flex gap-x-1.5 border-b border-subtle-stroke pb-[11px]">
           {icon}
@@ -202,9 +335,11 @@ function WCard({ s, icon, title, tag, desc, grid, dotCls, outerRound = '', inner
 
       <ConnDot cls={dotCls} done={done} />
 
-      {/* Trigger tab — card 1 only */}
       {trigger && (
-        <div className="absolute left-0 flex items-center gap-x-1 rounded-t-[10px] border-x border-t border-weak-stroke bg-secondary-background px-[7.5px] py-[3.5px] text-accent-foreground text-xs" style={{ top: '-25px' }}>
+        <div
+          className="absolute left-0 flex items-center gap-x-1 rounded-t-[10px] border-x border-t border-weak-stroke bg-secondary-background px-[7.5px] py-[3.5px] text-accent-foreground text-xs"
+          style={{ top: '-25px' }}
+        >
           <svg className="animate-pulse" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 12 12">
             <circle cx="6" cy="6" r=".8" fill="#75777C" />
             <circle cx="6" cy="6" r="5" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
@@ -213,158 +348,21 @@ function WCard({ s, icon, title, tag, desc, grid, dotCls, outerRound = '', inner
           <span>Trigger</span>
         </div>
       )}
-    </motion.div>
-  )
-}
-
-// ─── Connector SVGs ───────────────────────────────────────────────────────────
-// Each connector is a grid-placed absolute div containing an SVG arrow/line.
-
-/** Vertical arrow (down) — 12×70 */
-function ConnV({ id, gridCls }: { id: string; gridCls: string }) {
-  return (
-    <div className={`absolute h-full w-full ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="-translate-x-1/2 -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="12" height="70" fill="none" viewBox="0 0 12 70">
-        <path stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m1 64 5 5 5-5M6 1v67" />
-        <path stroke="#0FC27B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m1 64 5 5 5-5M6 1v67" opacity="1" />
-        <path stroke={`url(#${id})`} strokeLinecap="round" strokeWidth="1.5" d="m1 64 5 5 5-5M6 1v67" />
-        <defs>
-          <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="-180" x2="-60" y1="-45" y2="-90">
-            <stop stopColor="#0FC27B" stopOpacity="0" />
-            <stop stopColor="#0FC27B" />
-            <stop offset="1" stopColor="#0FC27B" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  )
-}
-
-/** Horizontal arrow (right) — 100%×12 */
-function ConnH({ id, gridCls }: { id: string; gridCls: string }) {
-  return (
-    <div className={`absolute h-full w-full ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="translate-y-1" xmlns="http://www.w3.org/2000/svg" width="100%" height="12" fill="none" viewBox="0 0 62 12" preserveAspectRatio="none">
-        <path stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m56 11 5-5-5-5M1 6h59" />
-        <path stroke="#0FC27B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m56 11 5-5-5-5M1 6h59" opacity="1" />
-        <path stroke={`url(#${id})`} strokeLinecap="round" strokeWidth="1.5" d="m56 11 5-5-5-5M1 6h59" />
-        <defs>
-          <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="180" x2="90" y1="-25" y2="-50">
-            <stop stopColor="#0FC27B" stopOpacity="0" />
-            <stop stopColor="#0FC27B" />
-            <stop offset="1" stopColor="#0FC27B" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  )
-}
-
-/** L-shaped connector going right-then-down (tablet variant, viewBox 192×131) */
-function ConnLRight({ id, gridCls, h }: { id: string; gridCls: string; h: string }) {
-  return (
-    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="-translate-x-1.5 -translate-y-4" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 192 131" preserveAspectRatio="none">
-        <path stroke="#D1D3D6" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" d="m1 125 5 5 5-5M191 1v44c0 11-9 20-20 20H26C15 65 6 74 6 85v44" />
-        <path stroke="#0FC27B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m1 125 5 5 5-5M191 1v44c0 11-9 20-20 20H26C15 65 6 74 6 85v44" opacity="1" />
-        <path stroke={`url(#${id})`} strokeLinecap="round" strokeWidth="1.5" d="m1 125 5 5 5-5M191 1v44c0 11-9 20-20 20H26C15 65 6 74 6 85v44" />
-        <defs>
-          <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="-384" x2="-192" y1="-65.5" y2="-131">
-            <stop stopColor="#0FC27B" stopOpacity="0" />
-            <stop stopColor="#0FC27B" />
-            <stop offset="10" stopColor="#0FC27B" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  )
-}
-
-/** L-shaped connector going left-then-down (xl Enterprise path, viewBox 199×130) — with label */
-function ConnLLeft({ id, gridCls, h, label, labelStyle }: { id: string; gridCls: string; h: string; label: string; labelStyle?: React.CSSProperties }) {
-  return (
-    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="-translate-x-1.5 -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 199 130" preserveAspectRatio="none">
-        <path stroke="#D1D3D6" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" d="m1 124 5 5 5-5M198 1v43.5c0 11-9 20-20 20H26c-11 0-20 9-20 20V128" />
-        <path stroke="#0FC27B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m1 124 5 5 5-5M198 1v43.5c0 11-9 20-20 20H26c-11 0-20 9-20 20V128" opacity="1" />
-        <path stroke={`url(#${id})`} strokeLinecap="round" strokeWidth="1.5" d="m1 124 5 5 5-5M198 1v43.5c0 11-9 20-20 20H26c-11 0-20 9-20 20V128" />
-        <defs>
-          <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="-398" x2="-199" y1="-65" y2="-130">
-            <stop stopColor="#0FC27B" stopOpacity="0" />
-            <stop stopColor="#0FC27B" />
-            <stop offset="1" stopColor="#0FC27B" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <span
-        className="truncate rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px text-tertiary-foreground text-xs absolute left-1/2 top-1/2 -translate-x-[calc(50%+4px)] -translate-y-[calc(50%+11px)]"
-        style={labelStyle}
-      >
-        {label}
-      </span>
-    </div>
-  )
-}
-
-/** L-shaped connector going right-then-down (xl SMB path, viewBox 199×130) — with label */
-function ConnLRightXL({ gridCls, h, label }: { gridCls: string; h: string; label: string }) {
-  return (
-    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="-translate-x-px -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 199 130" preserveAspectRatio="none">
-        <path stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round" d="m188 124 5 5 5-5M1 1v43.5c0 11 9 20 20 20h152c11 0 20 9 20 20V128" />
-      </svg>
-      <span className="truncate rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px text-tertiary-foreground text-xs absolute left-1/2 top-1/2 -translate-x-[calc(50%+4px)] -translate-y-[calc(50%+11px)]">
-        {label}
-      </span>
-    </div>
-  )
-}
-
-/** L-shaped connector going right-then-down (lg SMB, viewBox 192×131) — with label */
-function ConnLRightLabel({ gridCls, h, label }: { gridCls: string; h: string; label: string }) {
-  return (
-    <div className={`absolute ${h} w-[calc(100%+7px)] ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="-translate-x-px -translate-y-[11px]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 192 131" preserveAspectRatio="none">
-        <path stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round" d="m181 125 5 5 5-5M1 1v44c0 11 9 20 20 20h145c11 0 20 9 20 20v44" />
-      </svg>
-      <span className="truncate rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-px text-tertiary-foreground text-xs absolute left-1/2 top-1/2 -translate-x-[calc(50%+4px)] -translate-y-[calc(50%+11px)]">
-        {label}
-      </span>
-    </div>
-  )
-}
-
-/** Mobile vertical connector (card 3→4) with label */
-function ConnVMobile({ gridCls }: { gridCls: string }) {
-  return (
-    <div className={`absolute ${gridCls}`} style={{ zIndex: -1 }}>
-      <svg className="-translate-x-1/2 -translate-y-[11px] h-[101px] w-3" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 12 101" preserveAspectRatio="none">
-        <path stroke="#D1D3D6" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" d="M6 1v98M1 95l5 5 5-5" />
-        <path stroke="#0FC27B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 1v98M1 95l5 5 5-5" opacity="1" />
-        <path stroke="url(#puls-3-mobile)" strokeLinecap="round" strokeWidth="1.5" d="M6 1v98M1 95l5 5 5-5" />
-        <defs>
-          <linearGradient id="puls-3-mobile" gradientUnits="userSpaceOnUse" x1="-120" x2="-60" y1="-25.25" y2="-50.5">
-            <stop stopColor="#0FC27B" stopOpacity="0" />
-            <stop stopColor="#0FC27B" />
-            <stop offset="1" stopColor="#0FC27B" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
     </div>
   )
 }
 
 // ─── Workflow grid ─────────────────────────────────────────────────────────────
-function WorkflowGrid({ statuses }: { statuses: CS[] }) {
-  const s = statuses  // alias
-
+function WorkflowGrid({ st }: { st: AnimState }) {
+  const { c, l } = st
   return (
-    <div
-      className="relative isolate grid grid-cols-[repeat(16,1fr)] grid-rows-[repeat(20,20px)] gap-y-2.5 lg:grid-cols-[repeat(42,1fr)] xl:grid-cols-[repeat(32,1fr)] col-span-full lg:col-span-10 lg:col-start-[2] xl:col-span-6 xl:col-start-[7]"
-    >
-      {/* ── Card 1: ADT Trigger ── */}
+    <div className="relative isolate grid grid-cols-[repeat(16,1fr)] grid-rows-[repeat(20,20px)] gap-y-2.5 lg:grid-cols-[repeat(42,1fr)] xl:grid-cols-[repeat(32,1fr)] col-span-full lg:col-span-10 lg:col-start-[2] xl:col-span-6 xl:col-start-[7]">
+
+      {/* ── Cards ──────────────────────────────────────────────────────────── */}
+
+      {/* Card 0 — Trigger */}
       <WCard
-        s={s[0]!}
+        s={c[0]!}
         icon={IconHL7}
         title="ADT^A01 — Patient admitted"
         tag="HL7"
@@ -374,48 +372,44 @@ function WorkflowGrid({ statuses }: { statuses: CS[] }) {
         innerRound="rounded-b-[11px] rounded-tl-none rounded-tr-[11px]"
         dotCls="top-auto bottom-0 translate-y-[5.5px] lg:top-1/2 lg:right-0 lg:translate-x-[5.5px] lg:-translate-y-[5.5px] xl:top-auto xl:bottom-0 xl:left-1/2 xl:-translate-x-1/2 xl:translate-y-[5.5px]"
         trigger
-        delay={0.3}
       />
 
-      {/* ── Card 2: Eligibility check ── */}
+      {/* Card 1 — Condition */}
       <WCard
-        s={s[1]!}
+        s={c[1]!}
         icon={IconCondition}
         title="Payer in network?"
         tag="Condition"
         desc="Continue if the patient's payer is in-network."
         grid="col-start-[2] col-end-[16] row-start-[6] lg:col-start-[24] lg:col-end-[40] lg:row-start-[1] xl:col-start-[10] xl:col-end-[24] xl:row-start-[6]"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
-        delay={0.4}
       />
 
-      {/* ── Card 3: Slack alert ── */}
+      {/* Card 2 — Slack */}
       <WCard
-        s={s[2]!}
+        s={c[2]!}
         icon={IconSlack}
         title="Alert care team via Slack"
         tag="Slack"
         desc="Send patient summary and action buttons to Slack."
         grid="col-start-[2] col-end-[16] row-start-[11] lg:col-start-[14] lg:col-end-[30] lg:row-start-[7] xl:col-start-[10] xl:col-end-[24] xl:row-start-[11]"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
-        delay={0.5}
       />
 
-      {/* ── Card 4: Epic EHR routing ── */}
+      {/* Card 3 — Epic EHR */}
       <WCard
-        s={s[3]!}
+        s={c[3]!}
         icon={IconEHR}
         title="Route to Epic EHR"
         tag="Epic"
         desc="Send HL7 message to Epic for downstream processing."
         grid="col-start-[2] col-end-[16] row-start-[17] lg:col-start-[4] lg:col-end-[20] lg:row-start-[14] xl:col-start-[1] xl:col-end-[15] xl:row-start-[18] row-span-3"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
-        delay={0.6}
       />
 
-      {/* ── Card 5: Care queue (hidden mobile) ── */}
+      {/* Card 4 — Care queue (OON branch — always static, no animation) */}
       <WCard
-        s={s[4]!}
+        s="idle"
         icon={IconQueue}
         title="Add to care queue"
         tag="Queue"
@@ -423,49 +417,53 @@ function WorkflowGrid({ statuses }: { statuses: CS[] }) {
         grid="col-start-[2] col-end-[16] lg:col-start-[24] lg:col-end-[40] lg:row-start-[14] xl:col-start-[19] xl:col-end-[33] xl:row-start-[18]"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
         display="hidden lg:flex"
-        delay={0.65}
       />
 
-      {/* ─── Connectors ─────────────────────────────────────────────────────── */}
+      {/* ── Connectors ─────────────────────────────────────────────────────── */}
 
-      {/* Vertical: card1→card2 (mobile + xl) */}
-      <ConnV id="puls-1" gridCls="col-start-[9] row-start-[4] block lg:hidden xl:col-start-[17] xl:block" />
+      {/* conn0: card0 → card1 | vertical (mobile + xl) */}
+      <ConnV drawn={l[0]!} gridCls="col-start-[9] row-start-[4] block lg:hidden xl:col-start-[17] xl:block" />
+      {/* conn0: card0 → card1 | horizontal (lg tablet) */}
+      <ConnH drawn={l[0]!} gridCls="col-start-[20] col-end-[24] row-span-1 row-start-[2] hidden lg:block xl:hidden" />
 
-      {/* Horizontal: card1→card2 (lg only) */}
-      <ConnH id="puls-1-tablet" gridCls="col-start-[20] col-end-[24] row-span-1 row-start-[2] hidden lg:block xl:hidden" />
+      {/* conn1: card1 → card2 | vertical (mobile + xl) */}
+      <ConnV drawn={l[1]!} gridCls="col-start-[9] row-start-[9] block lg:hidden xl:col-start-[17] xl:block" />
+      {/* conn1: card1 → card2 | L-right (lg tablet) */}
+      <ConnLRight drawn={l[1]!} gridCls="col-start-[22] col-end-[32] row-start-[4] row-end-[7] hidden lg:block xl:hidden" h="h-[calc(100%+25px)]" />
 
-      {/* Vertical: card2→card3 (mobile + xl) */}
-      <ConnV id="puls-2" gridCls="col-start-[9] row-start-[9] block lg:hidden xl:col-start-[17] xl:block" />
-
-      {/* L-right: card2→card3 (lg only) */}
-      <ConnLRight id="puls-2-tablet" gridCls="col-start-[22] col-end-[32] row-start-[4] row-end-[7] hidden lg:block xl:hidden" h="h-[calc(100%+25px)]" />
-
-      {/* L-right → left branch: card3→card5 (xl) — OON label */}
-      <ConnLRightXL gridCls="col-start-[17] col-end-[26] row-start-[14] row-end-[18] hidden xl:block" h="h-[calc(100%+20px)]" label="OON patient" />
-
-      {/* L-right → left branch: card3→card5 (lg) */}
-      <ConnLRightLabel gridCls="col-start-[22] col-end-[32] row-start-[10] row-end-[14] hidden lg:block xl:hidden" h="h-[calc(100%+20px)]" label="OON patient" />
-
-      {/* L-left branch: card3→card4 (xl) — In-network label (green) */}
+      {/* conn2: card2 → card3 "In-network" | L-left (xl) */}
       <ConnLLeft
-        id="puls-3"
+        drawn={l[2]!}
         gridCls="col-start-[8] col-end-[17] row-start-[14] row-end-[18] hidden xl:block"
         h="h-[calc(100%+20px)]"
         label="In-network"
         labelStyle={{ backgroundColor: 'rgb(221,249,228)', borderColor: 'rgb(199,244,211)', color: 'rgb(11,147,93)' }}
       />
-
-      {/* L-left branch: card3→card4 (lg) — In-network label (green) */}
+      {/* conn2: card2 → card3 "In-network" | L-left (lg tablet) */}
       <ConnLLeft
-        id="puls-3-tablet"
+        drawn={l[2]!}
         gridCls="col-start-[12] col-end-[22] row-start-[10] row-end-[14] hidden lg:block xl:hidden"
         h="h-[calc(100%+20px)]"
         label="In-network"
         labelStyle={{ backgroundColor: 'rgb(221,249,228)', borderColor: 'rgb(199,244,211)', color: 'rgb(11,147,93)' }}
       />
+      {/* conn2: card2 → card3 | vertical (mobile) */}
+      <ConnVMobile drawn={l[2]!} gridCls="col-start-[9] row-start-[14] block lg:hidden" />
 
-      {/* Vertical: card3→card4 (mobile only) */}
-      <ConnVMobile gridCls="col-start-[9] row-start-[14] block lg:hidden" />
+      {/* conn3: card2 → card4 "OON patient" | always static gray (no animation) */}
+      <ConnLRightXL
+        drawn={false}
+        gridCls="col-start-[17] col-end-[26] row-start-[14] row-end-[18] hidden xl:block"
+        h="h-[calc(100%+20px)]"
+        label="OON patient"
+      />
+      <ConnLRightLabel
+        drawn={false}
+        gridCls="col-start-[22] col-end-[32] row-start-[10] row-end-[14] hidden lg:block xl:hidden"
+        h="h-[calc(100%+20px)]"
+        label="OON patient"
+      />
+
     </div>
   )
 }
@@ -474,21 +472,17 @@ function WorkflowGrid({ statuses }: { statuses: CS[] }) {
 export function WorkflowsHeroSection() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
-  const statuses = useCardStatuses(isInView)
+  const st = useAnim(isInView)
 
   return (
     <section ref={ref}>
-      {/* Border separator (matches attio.com) */}
       <div className="border-t border-subtle-stroke">
-        {/* Padding container — top only, no min-h, no items-center */}
         <div className="relative pt-10 lg:pt-16 xl:pt-35">
-          {/* Main 12-col grid — gap-y handles stacking space on mobile/lg */}
           <div className="container relative grid w-full grid-cols-12 gap-x-6 gap-y-30 lg:gap-y-38">
 
             {/* ── Left: text content ──────────────────────────────────── */}
             <div className="col-span-full flex flex-col items-center lg:col-span-8 lg:col-start-[3] xl:col-span-4 xl:col-start-[2] xl:mt-[18px] xl:items-start">
 
-              {/* Badge — "New" pill + label + chevron */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -505,11 +499,7 @@ export function WorkflowsHeroSection() {
                       <svg
                         className="-rotate-90 transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-focus:translate-x-[3px]"
                         xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        aria-hidden
+                        width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden
                       >
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
                       </svg>
@@ -544,7 +534,6 @@ export function WorkflowsHeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.28, ease: EASE }}
               >
-                {/* Desktop buttons */}
                 <Link
                   href="/signup"
                   className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
@@ -557,41 +546,14 @@ export function WorkflowsHeroSection() {
                 >
                   Talk to sales
                 </Link>
-                {/* Mobile: full-width CTA + ghost */}
-                {/* <Link
-                href="/signup"
-                className="button-primary relative inline-flex w-full cursor-pointer items-center justify-center text-nowrap rounded-xl px-3.5 text-base h-[46px] md:hidden"
-              >
-                Start for free
-              </Link>
-              <Link
-                href="/contact"
-                className="button-ghost group relative inline-flex cursor-pointer items-center justify-center gap-x-1 self-center text-nowrap rounded-xl px-3.5 text-base h-[46px] md:hidden"
-              >
-                <span>Talk to sales</span>
-                <svg
-                  className="transition-transform duration-300 ease-out group-hover:translate-x-[3px]"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  aria-hidden
-                >
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
-                </svg>
-              </Link> */}
                 <div className='md:hidden w-full'>
-                  <DemoRequestForm
-                    source='workflows'
-                    salesHref=''
-                  />
+                  <DemoRequestForm source='workflows' salesHref='' />
                 </div>
               </motion.div>
             </div>
 
             {/* ── Right: workflow grid ─────────────────────────────────── */}
-            <WorkflowGrid statuses={statuses} />
+            <WorkflowGrid st={st} />
 
           </div>
         </div>

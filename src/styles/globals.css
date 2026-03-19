@@ -7,6 +7,33 @@
   initial-value: 0deg;
 }
 
+/* Workflows hero — animated card border (sweeping green conic-gradient) */
+@property --workflows-card-gradient-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes workflows-rotate {
+  0%   { --workflows-card-gradient-angle: 0deg   }
+  18%  { --workflows-card-gradient-angle: 76deg  }
+  27%  { --workflows-card-gradient-angle: 104deg }
+  63%  { --workflows-card-gradient-angle: 256deg }
+  72%  { --workflows-card-gradient-angle: 284deg }
+  to   { --workflows-card-gradient-angle: 360deg }
+}
+
+/* Applied to the outer card div while running/completed.
+   The 1-px gap left by the inner card (h-[calc(100%-2px)]) shows
+   the sweeping green border. animation-duration set via --wf-dur inline. */
+.workflows-hero-card-anim {
+  background-image: conic-gradient(#0fc27b var(--workflows-card-gradient-angle), transparent 0);
+  animation-name: workflows-rotate;
+  animation-fill-mode: forwards;
+  animation-duration: var(--wf-dur, 2500ms);
+  animation-timing-function: linear;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
