@@ -1539,13 +1539,13 @@ export function DataHeroSection() {
       </div>
 
       {/* ── 2. PageHero ── */}
-      <div className="relative z-10">
+      <div className="relative z-20">
         <PageHero
           badge="Data model"
           heading="The data model for go-to-market magic."
           subheading="Attio gives you control and flexibility to build the perfect CRM that drives revenue forward."
-          primaryCta={{ label: 'Start for free', href: '/signup' }}
-          secondaryCta={{ label: 'Talk to sales', href: '/contact' }}
+          primaryCta={{ label: 'Start for free', href: '/platform/data' }}
+          showSales
           mobileFormSource='data'
           showMobileSales
           paddingBottom="pb-10 lg:pb-14"

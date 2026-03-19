@@ -23,8 +23,8 @@ export default function ProductivityPage(): React.ReactElement {
           badge="Productivity"
           heading="Your collaboration station."
           subheading="Fethr propels go-to-market teams towards new levels of productivity and lets you seamlessly perform your daily work."
-          primaryCta={{ label: 'Start for free', href: '/signup' }}
-          secondaryCta={{ label: 'Talk to sales', href: '/contact' }}
+          primaryCta={{ label: 'Start for free', href: '/platform/productivity' }}
+          showSales
           mobileFormSource='productivity'
           showMobileSales
         />

@@ -7,7 +7,7 @@
  * Covers three variants in one component:
  *   • No buttons  → badge + heading + subheading
  *   • 1 button    → + primaryCta
- *   • 2 buttons   → + primaryCta + secondaryCta + mobile email form
+ *   • 2 buttons   → + primaryCta + showSales + mobile email form
  *
  * Spacing (paddingTop / paddingBottom) is configurable per page via
  * Tailwind class strings passed as props.
@@ -35,7 +35,7 @@
  *     heading="Customer relationship magic."
  *     subheading="Fethr is the AI CRM for clinical teams."
  *     primaryCta={{ label: "Start for free", href: "/signup" }}
- *     secondaryCta={{ label: "Talk to sales", href: "/contact" }}
+ *     showSales
  *     mobileCta="Send me a demo"
  *   />
  */
@@ -43,6 +43,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { DemoRequestForm } from "../ui/DemoRequestForm";
+import { TalkToSalesDialog } from "../ui/TalkToSalesDialog";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -81,10 +82,10 @@ export interface PageHeroProps {
   primaryCta?: HeroCta;
 
   /**
-   * Secondary outline button — desktop only.
+   * Show "Talk to sales" dialog button — desktop only.
    * Only rendered when primaryCta is also set.
    */
-  secondaryCta?: HeroCta;
+  showSales?: boolean;
 
   /**
    * Label for the submit button on the mobile email form.
@@ -134,7 +135,7 @@ export function PageHero({
   headingAs,
   subheading,
   primaryCta,
-  secondaryCta,
+  showSales           = false,
   mobileCta          = "Send me a demo",
   mobileFormSource,
   showMobileSales     = false,
@@ -224,14 +225,12 @@ export function PageHero({
                     </Link>
                   )}
 
-                  {/* Secondary outline button — desktop only */}
-                  {primaryCta && secondaryCta && (
-                    <Link
-                      href={secondaryCta.href}
+                  {/* Talk to sales dialog button — desktop only */}
+                  {primaryCta && showSales && (
+                    <TalkToSalesDialog
+                      source="page-hero"
                       className="button-outline border relative inline-flex cursor-pointer items-center justify-center rounded-[10px] px-3 text-sm h-9 max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
-                    >
-                      {secondaryCta.label}
-                    </Link>
+                    />
                   )}
 
                   {/* Mobile: email form — hidden on md+, only when primaryCta is set */}

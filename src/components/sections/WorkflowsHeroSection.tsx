@@ -21,6 +21,7 @@ import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
+import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const EASE    = [0.2, 0, 0, 1] as const
@@ -535,17 +536,15 @@ export function WorkflowsHeroSection() {
                 transition={{ duration: 0.4, delay: 0.28, ease: EASE }}
               >
                 <Link
-                  href="/signup"
+                  href="/platform/workflows"
                   className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                 >
                   Start for free
                 </Link>
-                <Link
-                  href="/contact"
+                <TalkToSalesDialog
+                  source="workflows-hero"
                   className="button-outline border relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
-                >
-                  Talk to sales
-                </Link>
+                />
                 <div className='md:hidden w-full'>
                   <DemoRequestForm source='workflows' />
                 </div>

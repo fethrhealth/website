@@ -16,6 +16,7 @@ import { AnimatePresence, motion, useAnimate } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
 import { DemoRequestForm } from '@/components/ui/DemoRequestForm'
+import { TalkToSalesDialog } from '@/components/ui/TalkToSalesDialog'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -334,19 +335,17 @@ export function AiHeroSection() {
 
         {/* Desktop: Start for free — hidden on mobile */}
         <Link
-          href="/signup"
+          href="/platform/ai"
           className="button-primary relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
         >
           Start for free
         </Link>
 
         {/* Desktop: Talk to sales — hidden on mobile */}
-        <button
-          type="button"
+        <TalkToSalesDialog
+          source="ai-hero"
           className="button-outline relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
-        >
-          Talk to sales
-        </button>
+        />
 
         {/* Mobile: email form + ghost CTA — hidden on md+ */}
         <DemoRequestForm

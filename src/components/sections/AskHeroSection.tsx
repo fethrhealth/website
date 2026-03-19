@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { HeroRainGrid } from '@/components/ui/HeroRainGrid'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
+import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
 
 // ─── Shadows ──────────────────────────────────────────────────────────────────
 
@@ -862,14 +863,12 @@ export function AskHeroSection(): ReactNode {
             </p>
             <div className="flex items-center gap-2.5">
               {/* Desktop buttons */}
-              <button
-                type="button"
+              <TalkToSalesDialog
+                source="ask-hero"
                 className="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border border-default-stroke bg-primary-background px-3 text-sm text-fg-primary transition-colors hover:bg-secondary-background max-md:hidden"
-              >
-                Talk to sales
-              </button>
+              />
               <Link
-                href="/get-started"
+                href="/plataform/ask"
                 className="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border border-transparent bg-fg-primary px-3 text-sm text-white-100 transition-colors hover:bg-fg-secondary max-md:hidden"
               >
                 Start for free

@@ -5,6 +5,7 @@ import { ImageGridSection } from "@/components/sections/ImageGridSection";
 import { PageHero } from "@/components/sections/PageHero";
 import { ReportingHeroCards } from "@/components/sections/ReportingHeroCards";
 import TrialSection from "@/components/sections/TrialSection";
+import Divider from "@/components/ui/divider";
 import {
   REPORTING_EXAMPLES,
   REPORTING_DATA_EXPLORATION,
@@ -23,8 +24,8 @@ export default function ReportingPage(): React.ReactElement {
           badge="Reporting"
           heading="Real-time reporting, total flexibility."
           subheading="Attio quickly transforms millions of your data points into insights for your entire GTM team."
-          primaryCta={{ label: "Start for free", href: "/signup" }}
-          secondaryCta={{ label: "Talk to sales", href: "/contact" }}
+          primaryCta={{ label: "Start for free", href: "/platform/reporting" }}
+          showSales
           showMobileSales
         />
         <ReportingHeroCards />
@@ -81,6 +82,7 @@ export default function ReportingPage(): React.ReactElement {
       <ImageGridSection
         items={REPORTING_EXAMPLES}
       />
+      <Divider/>
       <TrialSection
         source="reporting"
         headingLayout="inline"

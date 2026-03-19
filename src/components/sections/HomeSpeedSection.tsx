@@ -21,6 +21,7 @@ import { useState, FormEvent } from 'react'
 import Link from 'next/link'
 import { SectionLabel } from '@/components/ui/SectionLabel'
 import { cn } from '@/lib/utils'
+import { DemoRequestForm } from '../ui/DemoRequestForm'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -52,7 +53,7 @@ export function HomeSpeedSection({
   heading,
   description,
   ctaText = 'Start for free',
-  ctaHref = '/sign-up',
+  ctaHref = '/',
   children,
 }: HomeSpeedSectionProps) {
   const [email, setEmail] = useState('')
@@ -111,7 +112,7 @@ export function HomeSpeedSection({
                 </Link>
 
                 {/* Mobile: email input + submit button, hidden on md+ */}
-                <form
+                {/* <form
                   className="flex w-full max-w-xs flex-col gap-2 md:hidden"
                   onSubmit={handleSubmit}
                 >
@@ -145,7 +146,12 @@ export function HomeSpeedSection({
                   >
                     {ctaText}
                   </button>
-                </form>
+                </form> */}
+
+                <DemoRequestForm
+                  source='buildfast'
+                  showSales={false}
+                />
 
               </div>
 

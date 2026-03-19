@@ -44,7 +44,7 @@ export default function HomePage(): React.ReactElement {
         heading="Build fast."
         description="Forget months of setup. Attio syncs immediately with your email and calendar, building a powerful CRM right before your eyes."
         ctaText="Start for free"
-        ctaHref="/sign-up"
+        ctaHref="/"
       >
         <HomeSpeedVisual />
       </HomeSpeedSection>

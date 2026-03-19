@@ -21,6 +21,7 @@ import { motion, useMotionValue, animate } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
+import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -380,17 +381,15 @@ export function SequencesHeroSection() {
                   transition={{ duration: 1, delay: TEXT_DELAY + 0.4, ease: EASE }}
                 >
                   <Link
-                    href="/signup"
+                    href="/platform/sequences"
                     className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                   >
                     Start for free
                   </Link>
-                  <Link
-                    href="/contact"
+                  <TalkToSalesDialog
+                    source="sequences-hero"
                     className="button-outline border relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
-                  >
-                    Talk to sales
-                  </Link>
+                  />
                   {/* <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
                     <input
                       type="email"

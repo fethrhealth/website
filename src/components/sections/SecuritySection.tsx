@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { TalkToSalesDialog } from '@/components/ui/TalkToSalesDialog'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -138,23 +138,6 @@ function IsoIcon() {
   )
 }
 
-// ─── Arrow icon (mobile button) ───────────────────────────────────────────────
-
-function ArrowIcon() {
-  return (
-    <svg
-      width="14" height="14" viewBox="0 0 14 14" fill="none"
-      className="relative transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 group-hover:duration-150 group-active:translate-x-0.5 group-active:duration-50"
-      aria-hidden="true"
-    >
-      <path
-        stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1"
-        d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5"
-      />
-    </svg>
-  )
-}
-
 // ─── Main section ─────────────────────────────────────────────────────────────
 
 export default function SecuritySection() {
@@ -186,22 +169,17 @@ export default function SecuritySection() {
                   </div>
 
                   <div className="mt-6 flex w-full flex-col md:flex-row lg:mt-7">
-                    {/* Desktop button — no icon */}
-                    <Link
-                      href="/contact"
+                    {/* Desktop button */}
+                    <TalkToSalesDialog
+                      source="security"
                       className={cn(BTN_BASE, 'button-outline max-md:hidden')}
-                    >
-                      Talk to sales
-                    </Link>
+                    />
 
-                    {/* Mobile button — with arrow icon */}
-                    <Link
-                      href="/contact"
-                      className={cn(BTN_BASE, 'button-outline group self-center md:hidden')}
-                    >
-                      <span>Talk to sales</span>
-                      <ArrowIcon />
-                    </Link>
+                    {/* Mobile button */}
+                    <TalkToSalesDialog
+                      source="security"
+                      className={cn(BTN_BASE, 'button-outline self-center md:hidden')}
+                    />
                   </div>
                 </div>
 
