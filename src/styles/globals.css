@@ -1,3 +1,31 @@
+/* ─── Legal page prose ────────────────────────────────────────────────────────
+ * Wraps LexicalRenderer output on /legal/[slug] pages.
+ * Mirrors attio.com's legal content spacing exactly.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+.legal-prose > * + * { margin-top: 1.25rem; }
+
+.legal-prose h2:not(:first-child) {
+  margin-top: 3.75rem;   /* 60px — attio's not-first:mt-15 */
+  margin-bottom: 1.25rem;
+}
+.legal-prose h3:not(:first-child) {
+  margin-top: 2.5rem;    /* 40px */
+  margin-bottom: 0.5rem;
+}
+@media (min-width: 1024px) {
+  .legal-prose h2:not(:first-child) { margin-top: 5rem; } /* 80px — attio's lg:not-first:mt-20 */
+}
+
+.legal-prose a {
+  color: var(--color-fg-link, #266df0);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.legal-prose a:hover { opacity: 0.8; }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 /* Register CSS custom property.
    inherits: true → a single animation on a parent propagates to all children
    that use --ai-hero-box-gradient-angle (cards, background, etc.). */

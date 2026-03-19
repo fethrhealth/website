@@ -34,6 +34,18 @@ export interface BlogPost {
   updatedAt: string
 }
 
+export interface LegalPage {
+  id: string
+  title: string
+  slug: string
+  subtitle?: string
+  lastUpdated?: string
+  order?: number
+  content?: unknown // Payload lexical rich text
+  createdAt: string
+  updatedAt: string
+}
+
 export interface MediaItem {
   id: string
   url: string

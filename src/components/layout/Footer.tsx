@@ -12,6 +12,12 @@ interface FooterLink {
   disabled?: boolean   // page doesn't exist yet — renders as <span>, no navigation
 }
 
+/** Minimal shape passed from FooterWrapper for dynamic legal links */
+export interface FooterLegalLink {
+  label: string
+  href: string
+}
+
 interface FooterColumn {
   title: string
   links: FooterLink[]
@@ -48,14 +54,7 @@ const COLUMNS: FooterColumn[] = [
       { label: 'Developers',   href: '/platform/developers' },
     ],
   },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Terms & Conditions', href: '/legal/terms',    disabled: true },
-      { label: 'Privacy Policy',     href: '/legal/privacy',  disabled: true },
-      { label: 'Referral Policy',    href: '/legal/referral', disabled: true },
-    ],
-  },
+  // Legal column is populated dynamically from Payload CMS via FooterWrapper
 ]
 
 const SOCIAL_LINKS: SocialLink[] = [
@@ -155,7 +154,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export default function Footer() {
+export default function Footer({ legalLinks = [] }: { legalLinks?: FooterLegalLink[] }) {
   return (
     <footer className="relative flex min-h-[40svh] w-full flex-col justify-between bg-primary-background">
 
@@ -185,14 +184,14 @@ export default function Footer() {
           {/* Link columns — CSS multi-column masonry (matches Attio exactly) */}
           <div
             className={cn(
-              'col-[5/-1] columns-4 gap-0',
-              'max-xl:col-[4/-1] max-xl:columns-3',
-              'max-lg:col-[1/-1] max-lg:columns-2',
-              'max-sm:columns-1',
+              'col-[5/-1] grid grid-cols-4 gap-0',
+              'max-xl:col-[4/-1]',
+              'max-lg:col-[1/-1] max-lg:grid-cols-2',
+              'max-sm:grid-cols-1',
             )}
           >
             {COLUMNS.map((col) => (
-              <div key={col.title} className="break-inside-avoid pb-7">
+              <div key={col.title} className="pb-7">
                 <h2 className="py-1 text-sm text-fg-caption">{col.title}</h2>
                 <ul className="flex flex-col">
                   {col.links.map((link) => (
@@ -203,6 +202,20 @@ export default function Footer() {
                 </ul>
               </div>
             ))}
+
+            {/* Legal column — dynamically populated from Payload CMS */}
+            <div className="pb-7">
+              <h2 className="py-1 text-sm text-fg-caption">Legal</h2>
+              {legalLinks.length > 0 && (
+                <ul className="flex flex-col">
+                  {legalLinks.map((link) => (
+                    <li key={link.href}>
+                      <FooterLinkItem link={link} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
 
         </div>

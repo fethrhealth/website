@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import '@/styles/globals.css'
 import { Navbar } from '@/components/layout/Navbar'
-import { ClientFooter } from '@/components/layout/ClientFooter'
+import { FooterWrapper } from '@/components/layout/FooterWrapper'
 
 // Self-hosted fonts extracted from attio.com — pixel-perfect match.
 // Files live in public/fonts/ (keep out of git if font license requires it).
@@ -51,7 +51,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }):
       <body className="bg-background text-foreground antialiased">
         <Navbar />
         <main className="pt-[60px]">{children}</main>
-        <ClientFooter />
+        <FooterWrapper />
       </body>
     </html>
   )

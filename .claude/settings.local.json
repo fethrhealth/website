@@ -25,7 +25,8 @@
       "Bash(curl:*)",
       "Bash(xargs grep:*)",
       "WebFetch(domain:magicui.design)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npx payload:*)"
     ]
   }
 }
