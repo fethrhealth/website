@@ -2,6 +2,11 @@ import type { Metadata } from 'next'
 import type { BlogPost } from '@/types'
 import { BlogListingSection } from '@/components/sections/BlogListingSection'
 import { BlogArticlesSection } from '@/components/sections/BlogArticlesSection'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
+// Revalidate every 60 seconds (replaces fetch revalidate option)
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -9,16 +14,16 @@ export const metadata: Metadata = {
 }
 
 async function getPosts(): Promise<BlogPost[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
-  if (!baseUrl) return []
   try {
-    const res = await fetch(
-      `${baseUrl}/api/blog-posts?where[status][equals]=published&sort=-publishDate&depth=1&limit=100`,
-      { next: { revalidate: 60 } },
-    )
-    if (!res.ok) return []
-    const data = (await res.json()) as { docs: BlogPost[] }
-    return data.docs
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'blog-posts',
+      where: { status: { equals: 'published' } },
+      sort: '-publishDate',
+      depth: 1,
+      limit: 100,
+    })
+    return result.docs as unknown as BlogPost[]
   } catch {
     return []
   }

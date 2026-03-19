@@ -14,6 +14,11 @@ import type { BlogPost } from '@/types'
 import { LexicalRenderer, extractToc, estimateReadTime } from '@/lib/lexical'
 import { TableOfContents } from '@/components/blog/TableOfContents'
 import Divider from '@/components/ui/divider'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
+// Revalidate every 60 seconds (replaces fetch revalidate option)
+export const revalidate = 60
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
@@ -22,13 +27,23 @@ interface PageProps {
 }
 
 async function getPost(slug: string): Promise<BlogPost | null> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/blog-posts?where[slug][equals]=${slug}&where[status][equals]=published&depth=2`,
-    { next: { revalidate: 60 } },
-  )
-  if (!res.ok) return null
-  const data = (await res.json()) as { docs: BlogPost[] }
-  return data.docs[0] ?? null
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'blog-posts',
+      where: {
+        and: [
+          { slug: { equals: slug } },
+          { status: { equals: 'published' } },
+        ],
+      },
+      depth: 2,
+      limit: 1,
+    })
+    return (result.docs[0] ?? null) as unknown as BlogPost | null
+  } catch {
+    return null
+  }
 }
 
 // ─── Metadata ──────────────────────────────────────────────────────────────────
