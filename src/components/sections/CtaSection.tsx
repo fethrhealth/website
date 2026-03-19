@@ -11,8 +11,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { CTA_AVATARS, CTA_CONTENT, type CtaAvatar } from "@/data/cta-avatars";
+import { DemoRequestForm } from "../ui/DemoRequestForm";
 
 // ---------------------------------------------------------------------------
 // Grid layout constants
@@ -20,6 +21,9 @@ import { CTA_AVATARS, CTA_CONTENT, type CtaAvatar } from "@/data/cta-avatars";
 
 /** Number of columns in the mosaic grid */
 const COLUMNS = 52;
+
+/** Number of columns in the mobile mosaic grid */
+const COLUMNS_MOBILE = 11;
 
 /** Build a boolean row where every `step`-th column (starting at `offset`) has an avatar */
 function sparseRow(step: number, offset = 0): boolean[] {
@@ -150,6 +154,30 @@ const GRID_STRUCTURE: RowBlock[][] = [
   ],
 ];
 
+/**
+ * Mobile mosaic layout — 6 columns, 16 rows.
+ * Dense in the middle, sparse at top/bottom to create an organic oval shape.
+ * Each row must sum to COLUMNS_MOBILE (6).
+ */
+const GRID_STRUCTURE_MOBILE: RowBlock[][] = [
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 3 }, { type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 6 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 11 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 8 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 9 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 8 }, { type: "empty", count: 1 }],
+  [{ type: "avatar", count: 9 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 10 }, { type: "empty", count: 1 }],
+  [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 7 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 7 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 10 }, { type: "empty", count: 1 }],
+  [{ type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 5 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }],
+  [{ type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 4 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }],
+  [{ type: "avatar", count: 4 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 2 }, { type: "avatar", count: 1 }],
+  [{ type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 2 }, { type: "empty", count: 1 }, { type: "avatar", count: 1 }, { type: "empty", count: 1 }],
+];
+
 // ---------------------------------------------------------------------------
 // Grid cell types + builder
 // ---------------------------------------------------------------------------
@@ -169,15 +197,15 @@ function cellDelay(rowIdx: number, colIdx: number): number {
 /**
  * Pre-computed at module level so the grid is never rebuilt on re-render.
  * Avatars are cycled if there are fewer than the total number of slots.
+ * @param structure - Row block definitions (determines cell count per row)
+ * @param _columns  - Column count for documentation; enforced by structure itself
  */
-function buildGrid(): GridCell[][] {
-  if (CTA_AVATARS.length === 0) {
-    return [];
-  }
+function buildGrid(structure: RowBlock[][], _columns: number): GridCell[][] {
+  if (CTA_AVATARS.length === 0) return [];
 
   let avatarIndex = 0;
 
-  return GRID_STRUCTURE.map((row, ri) => {
+  return structure.map((row, ri) => {
     const cells: GridCell[] = [];
 
     row.forEach((block) => {
@@ -187,7 +215,6 @@ function buildGrid(): GridCell[][] {
         } else {
           const avatar = CTA_AVATARS[avatarIndex % CTA_AVATARS.length];
           avatarIndex++;
-
           cells.push({
             kind: "avatar",
             avatar: avatar as CtaAvatar,
@@ -204,12 +231,29 @@ function buildGrid(): GridCell[][] {
 function cellOpacity(rowIdx: number): number {
   const center = (GRID_STRUCTURE.length - 1) / 2;
   const distance = Math.abs(rowIdx - center);
-
-  // mientras más lejos del centro, menor opacidad base
   return 1 - distance * 0.15;
 }
 
-const GRID_DATA: GridCell[][] = buildGrid();
+const GRID_DATA: GridCell[][] = buildGrid(GRID_STRUCTURE, COLUMNS);
+const GRID_DATA_MOBILE: GridCell[][] = buildGrid(GRID_STRUCTURE_MOBILE, COLUMNS_MOBILE);
+
+// ---------------------------------------------------------------------------
+// useIsMobile hook
+// ---------------------------------------------------------------------------
+
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  return isMobile;
+}
 
 // ---------------------------------------------------------------------------
 // Component
@@ -218,6 +262,8 @@ const GRID_DATA: GridCell[][] = buildGrid();
 export function CtaSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isMobile = useIsMobile();
+  const gridData = isMobile ? GRID_DATA_MOBILE : GRID_DATA;
 
   return (
     <section className="border-b border-subtle-stroke" ref={sectionRef}>
@@ -261,7 +307,7 @@ export function CtaSection() {
           ----------------------------------------------------------------- */}
           <div className="relative flex w-full flex-col justify-center overflow-x-clip">
             <div className="w-full">
-              {GRID_DATA.map((row, ri) => (
+              {gridData.map((row, ri) => (
                 <div
                   key={ri}
                   className="flex justify-center gap-px pb-px last-of-type:pb-0"
@@ -271,21 +317,21 @@ export function CtaSection() {
                       /* Empty spacer cell — same size as avatar cell */
                       <div
                         key={ci}
-                        className="h-7 flex-[0_0_28px] lg:h-6 lg:flex-[0_0_24px]"
+                        className="h-7 aspect-square lg:h-6 lg:flex-[0_0_24px]"
                       />
                     ) : (
                       /* Avatar cell with fade-in animation */
                       <motion.div
-                      key={ci}
-                      className="relative h-7 flex-[0_0_28px] lg:h-6 lg:flex-[0_0_24px]"
-                      initial={{ opacity: 0 }}
-                      animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                      transition={{
-                        duration: 0.3,
-                        delay: cell.delay / 1000,
-                        ease: "easeOut",
-                      }}
-                    >
+                        key={ci}
+                        className="relative h-7 aspect-square lg:h-6 lg:flex-[0_0_24px]"
+                        initial={{ opacity: 0 }}
+                        animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: cell.delay / 1000,
+                          ease: "easeOut",
+                        }}
+                      >
                         {/*
                           Inner wrapper: rounded corners + subtle border overlay
                           after:z-1 is Tailwind v4 — using after:z-[1] for v3 compat
@@ -369,20 +415,10 @@ export function CtaSection() {
               </Link>
 
               {/* Mobile email form — shown only on mobile */}
-              <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your email address"
-                  className="block w-full rounded-[10px] border border-default-stroke bg-white-0 p-[10px_13px] text-base text-gray-700 placeholder:text-gray-400 outline-none transition-all duration-300 ease-out focus:border-blue-500 focus:ring-[3px] focus:ring-blue-300"
-                />
-                <button
-                  type="submit"
-                  className="button-primary h-[46px] rounded-xl px-3.5 text-base"
-                >
-                  {CTA_CONTENT.mobileCta}
-                </button>
-              </form>
+              <DemoRequestForm
+                source="home"
+                salesHref= ""
+              />
             </motion.div>
           </div>
         </div>
