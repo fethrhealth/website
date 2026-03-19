@@ -1547,7 +1547,7 @@ export function DataHeroSection() {
           primaryCta={{ label: 'Start for free', href: '/signup' }}
           secondaryCta={{ label: 'Talk to sales', href: '/contact' }}
           mobileFormSource='data'
-          mobileFormSalesHref=''
+          showMobileSales
           paddingBottom="pb-10 lg:pb-14"
         />
       </div>

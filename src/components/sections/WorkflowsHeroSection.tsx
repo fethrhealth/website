@@ -547,7 +547,7 @@ export function WorkflowsHeroSection() {
                   Talk to sales
                 </Link>
                 <div className='md:hidden w-full'>
-                  <DemoRequestForm source='workflows' salesHref='' />
+                  <DemoRequestForm source='workflows' />
                 </div>
               </motion.div>
             </div>

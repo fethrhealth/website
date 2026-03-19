@@ -351,7 +351,6 @@ export function AiHeroSection() {
         {/* Mobile: email form + ghost CTA — hidden on md+ */}
         <DemoRequestForm
           source="ai-hero"
-          salesHref= ""
           className="max-w-xs md:hidden"
         />
 

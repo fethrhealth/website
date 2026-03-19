@@ -99,10 +99,10 @@ export interface PageHeroProps {
   mobileFormSource?: string;
 
   /**
-   * Href for the ghost "Talk to sales" button in the mobile form.
-   * Pass null to hide it. Defaults to null (hidden).
+   * Show the ghost "Talk to sales" dialog button in the mobile form.
+   * Defaults to false (hidden).
    */
-  mobileFormSalesHref?: string | null;
+  showMobileSales?: boolean;
 
   /**
    * Tailwind padding-top class(es) for the outer grid wrapper.
@@ -137,7 +137,7 @@ export function PageHero({
   secondaryCta,
   mobileCta          = "Send me a demo",
   mobileFormSource,
-  mobileFormSalesHref = null,
+  showMobileSales     = false,
   paddingTop          = "pt-16 lg:pt-24 xl:pt-32",
   paddingBottom       = "",
 }: PageHeroProps) {
@@ -239,7 +239,7 @@ export function PageHero({
                     <DemoRequestForm
                       submitLabel={mobileCta}
                       source={mobileFormSource}
-                      salesHref={mobileFormSalesHref}
+                      showSales={showMobileSales}
                       className="max-w-xs md:hidden"
                     />
                   )}

@@ -21,7 +21,7 @@ export default function HomePage(): React.ReactElement {
       <Divider/>
       <TrialSection 
         source='home'
-        salesHref= { null}
+        showSales={false}
         showPlansLink
         showImageMobile
       />

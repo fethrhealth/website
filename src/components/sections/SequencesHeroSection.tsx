@@ -404,7 +404,6 @@ export function SequencesHeroSection() {
                   </form> */}
                   <DemoRequestForm
                     source='sequences'
-                    salesHref= ''
                     className='md:hidden'
                   />
                 </motion.div>

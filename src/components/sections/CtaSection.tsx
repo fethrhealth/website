@@ -488,7 +488,6 @@ export function CtaSection() {
               {/* Mobile email form — shown only on mobile */}
               <DemoRequestForm
                 source="home"
-                salesHref= ""
               />
             </motion.div>
           </div>

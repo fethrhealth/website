@@ -901,7 +901,6 @@ export function AskHeroSection(): ReactNode {
               </form> */}
               <DemoRequestForm
                 source="ask-attio"
-                salesHref= ""
                 className="max-w-xs md:hidden"
               />
             </div>

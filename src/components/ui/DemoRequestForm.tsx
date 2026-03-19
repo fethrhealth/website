@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
+import { TalkToSalesDialog } from './TalkToSalesDialog'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -15,11 +16,10 @@ interface DemoRequestFormProps {
   /** Label for the primary submit button. Default: "Send me a demo" */
   submitLabel?: string
   /**
-   * If provided, renders a ghost "Talk to sales" link button.
-   * Pass `null` to hide it entirely.
-   * Default: "/contact"
+   * Whether to show the ghost "Talk to sales" button that opens the dialog.
+   * Default: true
    */
-  salesHref?: string | null
+  showSales?: boolean
   /**
    * Identifies which page / section submitted the form.
    * Stored as `source` in the DemoRequests Payload collection.
@@ -164,7 +164,7 @@ function SuccessDialog({
 export function DemoRequestForm({
   className,
   submitLabel = 'Send me a demo',
-  salesHref   = '/contact',
+  showSales   = true,
   source,
 }: DemoRequestFormProps) {
   const [email,    setEmail]    = useState('')
@@ -256,25 +256,12 @@ export function DemoRequestForm({
           </span>
         </button>
 
-        {/* Ghost "Talk to sales" link */}
-        {salesHref != null && (
-          <a
-            href={salesHref}
-            className="button-ghost group relative inline-flex cursor-pointer items-center justify-center self-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-11.5 gap-x-2 rounded-xl px-3.5 text-base"
-          >
-            <span>Talk to sales</span>
-            <svg
-              width="14" height="14" viewBox="0 0 14 14" fill="none"
-              className="relative transition-[translate] duration-[400ms] ease-in-out group-hover:translate-x-0.5 group-hover:duration-150 group-active:translate-x-0.5 group-active:duration-50"
-              aria-hidden
-            >
-              <path
-                stroke="currentColor" strokeLinecap="round"
-                strokeLinejoin="round" strokeWidth="1.1"
-                d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5"
-              />
-            </svg>
-          </a>
+        {/* Ghost "Talk to sales" — opens dialog */}
+        {showSales && (
+          <TalkToSalesDialog
+            source={source}
+            className="button-ghost relative inline-flex cursor-pointer items-center justify-center self-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-11.5 gap-x-2 rounded-xl px-3.5 text-base"
+          />
         )}
       </form>
     </>

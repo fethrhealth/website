@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
+import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -252,8 +253,8 @@ interface TrialSectionProps {
   // ── DemoRequestForm forwarded props ──────────────────────────────────────
   /** Label for the submit button. Default: "Send me a demo". */
   submitLabel?: string
-  /** Href for the ghost "Talk to sales" link. Pass null to hide. Default: '' (hidden). mobile */
-  salesHref?: string | null
+  /** Show ghost "Talk to sales" dialog button in the mobile form. Default: false. */
+  showSales?: boolean
   /** Source identifier stored on the demo request record. Default: 'trial'. */
   source?: string
   /**
@@ -271,7 +272,7 @@ export default function TrialSection({
   showImageMobile = false,
   showPlansLink   = false,
   submitLabel,
-  salesHref     = '',
+  showSales     = true,
   source        = 'trial',
   headingLayout = 'stacked',
 }: TrialSectionProps) {
@@ -324,19 +325,17 @@ export default function TrialSection({
                       Start for free
                     </Link>
 
-                    {/* "Talk to sales" — desktop only, only when salesHref is set */}
-                    {salesHref && (
-                      <Link
-                        href={salesHref}
+                    {/* "Talk to sales" dialog — desktop only */}
+                    {showSales && (
+                      <TalkToSalesDialog
+                        source={source}
                         className={cn(BTN_BASE, 'button-outline max-md:hidden')}
-                      >
-                        Talk to sales
-                      </Link>
+                      />
                     )}
 
                     <DemoRequestForm
                       source={source}
-                      salesHref={salesHref}
+                      showSales={showSales}
                       submitLabel={submitLabel}
                     />
 

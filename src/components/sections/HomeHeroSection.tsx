@@ -19,6 +19,7 @@ import type { ReactNode } from 'react'
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
 import { CompaniesSection } from '@/components/sections/CompaniesSection'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
+import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -106,16 +107,13 @@ function HeroCTAs(): ReactNode {
       {/* Mobile email form */}
       <DemoRequestForm
         source='home'
-        salesHref= ''
       />
 
       {/* Desktop outline */}
-      <button
-        type="button"
+      <TalkToSalesDialog
+        source="home-hero"
         className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline max-md:hidden"
-      >
-        Talk to sales
-      </button>
+      />
     </div>
   )
 }

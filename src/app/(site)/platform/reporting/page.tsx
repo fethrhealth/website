@@ -25,7 +25,7 @@ export default function ReportingPage(): React.ReactElement {
           subheading="Attio quickly transforms millions of your data points into insights for your entire GTM team."
           primaryCta={{ label: "Start for free", href: "/signup" }}
           secondaryCta={{ label: "Talk to sales", href: "/contact" }}
-          mobileFormSalesHref= ""
+          showMobileSales
         />
         <ReportingHeroCards />
 
