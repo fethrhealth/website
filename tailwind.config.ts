@@ -4,6 +4,22 @@ const config: Config = {
   darkMode: 'class',
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
+    // ─── CONTAINER ─────────────────────────────────────────────────────────────
+    // Matches attio.com:
+    //   default  → w-full, padding 24px, centered
+    //   768px+   → max-w-[39rem]  (624px)
+    //   992px+   → max-w-[90rem]  (1440px)
+    container: {
+      center:  true,
+      padding: '1.5rem',      // calc(0.25rem * 6) = 24px
+      screens: {
+        sm:    '100%',        // 640px → stay full-width
+        md:    '39rem',       // 768px → max 624px
+        lg:    '90rem',       // 992px → max 1440px
+        xl:    '90rem',
+        '2xl': '90rem',
+      },
+    },
     extend: {
 
       // ─── FUENTES ───────────────────────────────────────────

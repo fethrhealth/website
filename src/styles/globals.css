@@ -38,6 +38,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Container — narrow screen padding override (< 375px uses 16px instead of 24px) */
+@media not all and (min-width: 375px) {
+  .container { padding-inline: 1rem; }
+}
+
 @layer base {
   :root {
     /* ── Spacing base (Tailwind v4 compat) — 1 unidad = 0.25rem = 4px ── */

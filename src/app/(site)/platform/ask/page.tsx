@@ -55,7 +55,7 @@ export default function AskAIPage(): React.ReactElement {
       />
       <Divider/>
       <TrialSection
-        heading="Ask more from CRM. Ask Attio." headingSerif=""
+        heading="Ask more from CRM. Ask Attio." headingSerif="" salesHref= "/"
       />
     </main>
   )

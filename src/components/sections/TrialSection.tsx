@@ -252,7 +252,7 @@ interface TrialSectionProps {
   // ── DemoRequestForm forwarded props ──────────────────────────────────────
   /** Label for the submit button. Default: "Send me a demo". */
   submitLabel?: string
-  /** Href for the ghost "Talk to sales" link. Pass null to hide. Default: '' (hidden). */
+  /** Href for the ghost "Talk to sales" link. Pass null to hide. Default: '' (hidden). mobile */
   salesHref?: string | null
   /** Source identifier stored on the demo request record. Default: 'trial'. */
   source?: string
@@ -291,7 +291,7 @@ export default function TrialSection({
               <div className="lg:col-span-10 lg:col-start-2 lg:grid lg:grid-cols-2">
 
                 {/* ── Left panel: heading + CTAs ───────────────────────── */}
-                <div className={cn('text-balance px-10 lg:py-10 lg:flex lg:flex-col lg:items-start lg:justify-center lg:px-0 max-w-[460px]', showImageMobile ? 'py-10' : 'py-20')}>
+                <div className={cn('text-balance px-10 lg:py-10 lg:flex lg:flex-col lg:items-start lg:justify-center lg:px-0 max-w-[460px] mx-auto lg:mx-0', showImageMobile ? 'py-10' : 'py-20')}>
 
                   {headingLayout === 'inline' ? (
                     /* Inline: continuous sentence, both spans same size */
@@ -323,6 +323,16 @@ export default function TrialSection({
                     >
                       Start for free
                     </Link>
+
+                    {/* "Talk to sales" — desktop only, only when salesHref is set */}
+                    {salesHref && (
+                      <Link
+                        href={salesHref}
+                        className={cn(BTN_BASE, 'button-outline max-md:hidden')}
+                      >
+                        Talk to sales
+                      </Link>
+                    )}
 
                     <DemoRequestForm
                       source={source}
