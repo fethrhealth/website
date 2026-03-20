@@ -35,10 +35,10 @@ export default buildConfig({
   editor: lexicalEditor(),
 
   // Vercel Blob storage — replaces local /public/media on production.
-  // Requires BLOB_READ_WRITE_TOKEN in environment variables.
+  // BLOB_READ_WRITE_TOKEN is injected automatically by Vercel when the
+  // Blob store is connected to the project (Storage → Connect Store).
   plugins: [
     vercelBlobStorage({
-      enabled: !!process.env.BLOB_READ_WRITE_TOKEN,
       collections: {
         media: true,
       },
