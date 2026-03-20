@@ -33,11 +33,11 @@ export default function DevelopersPage(): React.ReactElement {
         photo={<img src="/assets/images/platform/developers/reviews/will-stenzel.png" w-full="h-full object-cover" />}
       />
       <DevelopersSdkAppsSection/>
-      {/* <DevelopersCtaSection /> */}
-      <TrialSection
+      <DevelopersCtaSection />
+      {/* <TrialSection
       source='developers'
       showSales
-      />
+      /> */}
     </main>
   )
 }
