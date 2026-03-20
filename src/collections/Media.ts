@@ -6,8 +6,8 @@ import type { CollectionConfig } from 'payload'
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
-    // Store uploads in /public/media so Next.js can serve them statically
-    staticDir: 'public/media',
+    // staticDir removed — Vercel Blob handles storage (see payload.config.ts).
+    // Falls back to local /tmp on dev if BLOB_READ_WRITE_TOKEN is not set.
     imageSizes: [
       {
         name: 'thumbnail',

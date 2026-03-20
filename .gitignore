@@ -28,3 +28,6 @@ npm-debug.log*
 
 # Uploads
 public/media/
+
+.vercel
+.env*.local
