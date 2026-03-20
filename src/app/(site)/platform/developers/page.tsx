@@ -1,10 +1,12 @@
 import { DevelopersBuildYourWaySection } from '@/components/sections/DevelopersBuildYourWaySection'
+import { DevelopersCtaSection } from '@/components/sections/DevelopersCtaSection'
 import { DevelopersForDevsSection } from '@/components/sections/DevelopersForDevsSection'
 import { DevelopersHeroSection } from '@/components/sections/DevelopersHeroSection'
 import { DevelopersMcpSection } from '@/components/sections/DevelopersMcpSection'
 import { DevelopersRestApiSection } from '@/components/sections/DevelopersRestApiSection'
 import { DevelopersReviewSection } from '@/components/sections/DevelopersReviewSection'
 import { DevelopersSdkAppsSection } from '@/components/sections/DevelopersSdkAppsSection'
+import TrialSection from '@/components/sections/TrialSection'
 import Divider from '@/components/ui/divider'
 
 /**
@@ -31,6 +33,11 @@ export default function DevelopersPage(): React.ReactElement {
         photo={<img src="/assets/images/platform/developers/reviews/will-stenzel.png" w-full="h-full object-cover" />}
       />
       <DevelopersSdkAppsSection/>
+      {/* <DevelopersCtaSection /> */}
+      <TrialSection
+      source='developers'
+      showSales
+      />
     </main>
   )
 }
