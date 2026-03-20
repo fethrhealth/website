@@ -192,17 +192,34 @@ export function DevelopersReviewSection({ quote, name, role, photo }: Developers
       </div>
 
       {/* ── Mobile (< lg) ───────────────────────────────────────────────── */}
-      <div className="lg:hidden border-b border-subtle-stroke px-6 py-12">
-        <p className="text-quote-sm font-medium text-balance text-secondary-foreground">
-          &ldquo;{quote}&rdquo;
-        </p>
-        <div className="mt-6 flex flex-col gap-y-1">
-          <span className="font-mono text-xs uppercase text-accent-foreground">
-            {name}
-          </span>
-          <span className="font-mono text-xs uppercase text-accent-foreground">
-            {role}
-          </span>
+      <div className="container lg:hidden">
+        {/* Inner wrapper mirrors desktop: border-x gives the side lines */}
+        <div className="flex flex-col border-x border-b border-subtle-stroke">
+
+          {/* Photo — same element as desktop, shown at top on mobile */}
+          {photo && (
+            <div className="flex justify-center px-10">
+              <div className="w-full max-w-[260px] overflow-hidden">
+                {photo}
+              </div>
+            </div>
+          )}
+
+          {/* Quote + attribution */}
+          <div className="px-6 py-12">
+            <p className="text-quote-sm font-medium text-balance text-secondary-foreground">
+              &ldquo;{quote}&rdquo;
+            </p>
+            <div className="mt-6 flex flex-col gap-y-1">
+              <span className="font-mono text-xs uppercase text-accent-foreground">
+                {name}
+              </span>
+              <span className="font-mono text-xs uppercase text-accent-foreground">
+                {role}
+              </span>
+            </div>
+          </div>
+
         </div>
       </div>
 
