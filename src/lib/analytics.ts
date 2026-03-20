@@ -27,8 +27,6 @@ declare global {
     fbq?: (action: string, event: string, properties?: Record<string, unknown>) => void
     // LinkedIn Insight Tag
     lintrk?: (action: string, payload?: Record<string, unknown>) => void
-    // Microsoft Clarity
-    clarity?: (action: string, ...args: unknown[]) => void
   }
 }
 
@@ -90,6 +88,7 @@ interface UseAnalyticsReturn {
 export function useAnalytics(): UseAnalyticsReturn {
   const trackPageView = useCallback((path: string): void => {
     fireGA4('page_view', { page_path: path })
+    // TODO: add fireMeta('PageView') here once Meta Pixel page-view tracking is confirmed
     // LinkedIn does not have an explicit page_view call — the tag fires automatically
     // Clarity does not require manual page_view calls
   }, [])

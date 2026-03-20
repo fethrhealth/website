@@ -3,6 +3,8 @@ import localFont from 'next/font/local'
 import '@/styles/globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { FooterWrapper } from '@/components/layout/FooterWrapper'
+import { AnalyticsScripts } from '@/components/analytics/AnalyticsScripts'
+import { PageViewTracker } from '@/components/analytics/PageViewTracker'
 
 // Self-hosted fonts extracted from attio.com — pixel-perfect match.
 // Files live in public/fonts/ (keep out of git if font license requires it).
@@ -49,6 +51,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }):
   return (
     <html lang="en" className={`${inter.variable} ${interDisplay.variable} ${tiempos.variable}`}>
       <body className="bg-background text-foreground antialiased">
+        <AnalyticsScripts />
+        <PageViewTracker />
         <Navbar />
         <main className="pt-[60px]">{children}</main>
         <FooterWrapper />
