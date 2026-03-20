@@ -18,15 +18,17 @@ export default function DevelopersPage(): React.ReactElement {
       <DevelopersRestApiSection />
       <DevelopersReviewSection
         quote="We’re both drawn to tools that believe in the builder economy — platforms that give you Lego blocks instead of rigid software. The Attio SDK gives the authority and autonomy back to builders."
-        name="Will Stenzel"
+        name="Nick Janes"
         role="// Attio Developer"
+        photo={<img src="/assets/images/platform/developers/reviews/nick-janes.png" w-full="h-full object-cover" />}
       />
       <DevelopersBuildYourWaySection />
       <DevelopersForDevsSection />
       <DevelopersReviewSection
         quote="With the SDK, backend logic and frontend UI are seamlessly connected. It’s a joy to work with."
         name="Will Stenzel"
-        role="// Fethr Developer"
+        role="// Attio Developer"
+        photo={<img src="/assets/images/platform/developers/reviews/will-stenzel.png" w-full="h-full object-cover" />}
       />
       <DevelopersSdkAppsSection/>
     </main>

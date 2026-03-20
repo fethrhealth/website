@@ -285,7 +285,7 @@ const TABLE_USERS_SU: TableRowDef[] = [
 const TABLE_COMPANIES_SAAS: TableRowDef[] = [
   {
     name: 'Slack',
-    avatar: '/images/logos/slack.png',
+    avatar: '/assets/icons/home/flexibility/data-model-logo-slack.avif',
     avatarW: 256,
     avatarH: 256,
     avatarStyle: 'square',
@@ -297,7 +297,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
   },
   {
     name: 'Loom',
-    avatar: '/images/logos/loom.png',
+    avatar: '/assets/icons/home/flexibility/data-model-logo-loom.avif',
     avatarW: 225,
     avatarH: 225,
     avatarStyle: 'square',
@@ -309,7 +309,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
   },
   {
     name: 'DataDog',
-    avatar: '/images/logos/datadog.jpeg',
+    avatar: '/assets/icons/home/flexibility/data-model-logo-data-dog.avif',
     avatarW: 180,
     avatarH: 180,
     avatarStyle: 'square',
@@ -321,7 +321,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
   },
   {
     name: 'Vercel',
-    avatar: '/images/logos/vercel.jpeg',
+    avatar: '/assets/icons/home/flexibility/data-model-logo-vercel.avif',
     avatarW: 100,
     avatarH: 100,
     avatarStyle: 'square',
@@ -379,7 +379,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
     name: 'Passionfroot – $2.5M Seed',
     nameIcon: <DealCurrencyIcon />,
     cells: [
-      { type: 'record', label: 'Passionfroot', logo: '/images/logos/passionfroot.png', logoW: 256, logoH: 256 },
+      { type: 'record', label: 'Passionfroot', logo: '/assets/icons/home/flexibility/data-model-logo-passionfroot.avif', logoW: 256, logoH: 256 },
       { type: 'person', label: 'Daniel Chess' },
       { type: 'status', label: 'Seed', color: 'yellow' },
     ],
@@ -388,7 +388,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
     name: 'Bravado – $15M Series B',
     nameIcon: <DealCurrencyIcon />,
     cells: [
-      { type: 'record', label: 'Bravado', logo: '/images/logos/bravado.png', logoW: 217, logoH: 217 },
+      { type: 'record', label: 'Bravado', logo: '/assets/icons/home/flexibility/data-model-logo-bravado.avif', logoW: 217, logoH: 217 },
       { type: 'person', label: 'Hannah Worley' },
       { type: 'status', label: 'Series B', color: 'blue-soft' },
     ],
@@ -397,7 +397,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
     name: 'Modal – $12M Series A',
     nameIcon: <DealCurrencyIcon />,
     cells: [
-      { type: 'record', label: 'Modal', logo: '/images/logos/modal.png', logoW: 272, logoH: 272 },
+      { type: 'record', label: 'Modal', logo: '/assets/icons/home/flexibility/data-model-logo-modal.avif', logoW: 272, logoH: 272 },
       { type: 'person', label: 'Maria Levey' },
       { type: 'status', label: 'Series A', color: 'teal' },
     ],
@@ -406,7 +406,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
     name: 'Kloudle – $1M Pre-Seed',
     nameIcon: <DealCurrencyIcon />,
     cells: [
-      { type: 'record', label: 'Kloudle', logo: '/images/logos/kloudle.png', logoW: 736, logoH: 736 },
+      { type: 'record', label: 'Kloudle', logo: '/assets/icons/home/flexibility/data-model-logo-kloudle.avif', logoW: 736, logoH: 736 },
       { type: 'person', label: 'Scott Gray' },
       { type: 'status', label: 'Pre-Seed', color: 'orange' },
     ],

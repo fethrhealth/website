@@ -44,12 +44,9 @@ export function McpCardPanel({
       >
         <div className="col-[2/-2] flex flex-col gap-3 py-7">
           {/* Illustration + overline label */}
-          <div className="relative w-full flex-1 min-h-[160px]">
+          <div className="relative w-full flex-1">
             <p className="absolute top-0 left-0 text-overline">[{index}]</p>
-            {/* Illustration fills below the label, centered, clipped at edges */}
-            <div className="absolute inset-0 top-5 flex items-center justify-center overflow-hidden">
-              <Illustration />
-            </div>
+            <Illustration />
           </div>
           {/* Feature description */}
           <p className="text-balance text-accent-foreground text-sm max-md:text-sm">
