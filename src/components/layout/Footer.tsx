@@ -106,7 +106,7 @@ const COLUMNS: FooterColumn[] = [
   {
     title: 'Resources',
     links: [
-      { label: 'Help Center',  href: '/help',                 disabled: true },
+      // { label: 'Help Center',  href: '/help',                 disabled: true },
       { label: 'Developers',   href: '/platform/developers' },
     ],
   },

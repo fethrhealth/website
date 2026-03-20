@@ -660,7 +660,7 @@ function MobileCtaPanel({ panelRef }: { panelRef: React.RefObject<HTMLDivElement
     >
       <div className="relative flex flex-col items-center justify-center gap-4">
         <h2 className="text-center text-heading-responsive-sm max-lg:text-2xl">Ready to build?</h2>
-        <Link href="/docs">
+        <Link href="/platform/developers">
           <span className="group relative px-0.5 font-mono text-sm text-caption-foreground transition-colors duration-150 ease-in-out hover:text-secondary-foreground active:text-tertiary-foreground">
             <span>https://</span>
             <span className="text-secondary-foreground hover:text-inherit active:text-inherit">docs.fethr.health</span>
