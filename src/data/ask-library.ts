@@ -50,3 +50,41 @@ export const PROMPT_CARDS: PromptCard[] = [
     authorName:  'Attio',
   },
 ]
+
+export const PROMPT_CARDS_TWO: PromptCard[] = [
+  {
+    icon:        '/assets/icons/ask/prompt-library/meeting-prep.webp',
+    title:       'Meeting prep',
+    description: 'Get the full context on your next meeting so you can show up prepared.',
+    authorLogo:  '/assets/icons/ask/prompt-library/attio.webp',
+    authorName:  'Attio',
+  },
+  {
+    icon:        '/assets/icons/ask/prompt-library/shipped-feature-outreach.webp',
+    title:       'Shipped feature outreach',
+    description: 'Find customers who requested a specific feature and draft individualize email to them.',
+    authorLogo:  '/assets/icons/ask/prompt-library/attio.webp',
+    authorName:  'Attio',
+  },
+  {
+    icon:        '/assets/icons/ask/prompt-library/daily-brief.webp',
+    title:       'Daily brief',
+    description: 'Prepare for your day with a daily briefing of your meetings.',
+    authorLogo:  '/assets/icons/ask/prompt-library/attio.webp',
+    authorName:  'Attio',
+  },
+  {
+    icon:        '/assets/icons/ask/prompt-library/product-feedback.webp',
+    title:       'Product feedback',
+    description: 'Extract product feedback from a call recording.',
+    authorLogo:  '/assets/icons/ask/prompt-library/attio.webp',
+    authorName:  'Attio',
+  },
+  {
+    icon:        '/assets/icons/ask/prompt-library/objection-handling.webp',
+    title:       'Objection handling',
+    description: 'Prepare targeted responses to anticipated objections in your next call.',
+    authorLogo:  '/assets/icons/ask/prompt-library/attio.webp',
+    authorName:  'Attio',
+  },
+]
