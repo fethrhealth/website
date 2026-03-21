@@ -1,7 +1,9 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
+import { TAB_VISUAL_SUCCESS } from '@/data/ask-tabs'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -39,33 +41,21 @@ function IconRedirect() {
   )
 }
 
-function TaskCard({ title, due, dueMuted = false }: {
-  title:     string
-  due:       string
-  dueMuted?: boolean
-}) {
+// Stacked avatar — photo from /public/avatars/ask/ask-tab-success/
+function Avatar({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="rounded-xl bg-primary-background" style={{ boxShadow: CARD_SHADOW }}>
-      <div className="flex items-center gap-2 px-2.5 py-2">
-        <div className="size-4 shrink-0 rounded-full border border-black/10 bg-primary-background" />
-        <p className="flex-1 truncate font-medium text-sm leading-5 tracking-tight text-fg-primary">
-          {title}
-        </p>
-        <span className={`shrink-0 font-medium text-xs leading-4 ${dueMuted ? 'text-muted-foreground/50' : 'text-yellow-600'}`}>
-          {due}
-        </span>
-      </div>
+    <div className="relative size-[18px] shrink-0 rounded-full border-2 border-primary-background overflow-hidden">
+      <Image src={src} alt={alt} fill className="object-cover" />
     </div>
   )
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function TabVisualMarketing(): ReactNode {
+export function TabVisualSuccess(): ReactNode {
   const [showBubble,     setShowBubble]     = useState(false)
   const [showResponse,   setShowResponse]   = useState(false)
-  const [showCard1,      setShowCard1]      = useState(false)
-  const [showCard2,      setShowCard2]      = useState(false)
+  const [showCard,       setShowCard]       = useState(false)
   const [showSuggestion, setShowSuggestion] = useState(false)
 
   useEffect(() => {
@@ -82,11 +72,7 @@ export function TabVisualMarketing(): ReactNode {
 
       await sleep(110)
       if (cancelled) return
-      setShowCard1(true)
-
-      await sleep(90)
-      if (cancelled) return
-      setShowCard2(true)
+      setShowCard(true)
 
       await sleep(90)
       if (cancelled) return
@@ -106,7 +92,7 @@ export function TabVisualMarketing(): ReactNode {
           <div className="mb-4 flex justify-end">
             <div className="rounded-xl bg-surface px-3.5 py-2">
               <span className="max-w-[17em] text-pretty text-sm text-fg-primary">
-                any open requests with greenleaf?
+                {TAB_VISUAL_SUCCESS.bubble}
               </span>
             </div>
           </div>
@@ -116,31 +102,59 @@ export function TabVisualMarketing(): ReactNode {
         <BlurIn visible={showResponse}>
           <div className="mb-4 px-0.5">
             <p className="font-medium text-sm leading-5 text-fg-primary">
-              Here are 2 open tasks to look into:
+              {TAB_VISUAL_SUCCESS.responseLine1}<br />
+              {TAB_VISUAL_SUCCESS.responseLine2}
             </p>
           </div>
         </BlurIn>
 
-        {/* ── Task cards ──────────────────────────────────────────────────── */}
-        <div className="mb-6 flex flex-col gap-3">
-          <BlurIn visible={showCard1}>
-            <TaskCard title="Share 1-pager with the team" due="Today" />
-          </BlurIn>
-          <BlurIn visible={showCard2}>
-            <TaskCard title="Create case study with Sarah" due="Tomorrow" dueMuted />
-          </BlurIn>
-        </div>
+        {/* ── Draft email card ────────────────────────────────────────────── */}
+        <BlurIn visible={showCard}>
+          <div className="mb-6">
+            <div className="flex flex-col rounded-xl bg-primary-background" style={{ boxShadow: CARD_SHADOW }}>
+              <div className="flex flex-col gap-0.5 px-3 pb-2 pt-2.5">
+
+                {/* Header row: label + subject + avatars */}
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex min-w-0 flex-col gap-0.5">
+                    <span className="font-medium text-xs text-muted-foreground">{TAB_VISUAL_SUCCESS.draftLabel}</span>
+                    <span className="font-medium text-sm leading-5 text-fg-primary">
+                      {TAB_VISUAL_SUCCESS.draftSubject}
+                    </span>
+                  </div>
+
+                  {/* Stacked avatars */}
+                  <div className="flex shrink-0 items-center -space-x-1 pt-0.5">
+                    <Avatar src="/avatars/ask/ask-tab-success/avatar-1.avif" alt="Avatar 1" />
+                    <Avatar src="/avatars/ask/ask-tab-success/avatar-2.avif" alt="Avatar 2" />
+                    <Avatar src="/avatars/ask/ask-tab-success/avatar-3.avif" alt="Avatar 3" />
+                    {/* +2 overflow pill */}
+                    <div className="relative flex size-[18px] shrink-0 items-center justify-center rounded-full border-2 border-primary-background bg-muted">
+                      <span className="text-[8px] font-medium leading-none text-muted-foreground">{TAB_VISUAL_SUCCESS.avatarOverflow}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preview line */}
+                <p className="truncate text-xs text-muted-foreground/70">
+                  {TAB_VISUAL_SUCCESS.draftPreview}
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </BlurIn>
 
         {/* ── Suggested action ────────────────────────────────────────────── */}
         <BlurIn visible={showSuggestion}>
           <div className="flex flex-col gap-1.5">
-            <span className="font-medium text-xs text-accent-foreground">Suggested action</span>
+            <span className="font-medium text-xs text-accent-foreground">{TAB_VISUAL_SUCCESS.suggestionLabel}</span>
             <div className="flex items-center gap-0.5 rounded-lg">
               <div className="flex size-8 items-center justify-center">
                 <IconRedirect />
               </div>
               <span className="font-medium text-sm text-fg-primary">
-                Draft follow-up email to Greenleaf
+                {TAB_VISUAL_SUCCESS.suggestionText}
               </span>
             </div>
           </div>

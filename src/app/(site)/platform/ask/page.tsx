@@ -4,13 +4,14 @@ import { HomeContextSection } from '@/components/sections/HomeContextSection'
 import { PromptLibrarySection } from '@/components/sections/PromptLibrarySection'
 import { ReviewSection } from '@/components/sections/ReviewSection'
 import { TabsSection } from '@/components/sections/TabsSection'
-import { TabVisualMarketing } from '@/components/sections/TabVisualMarketing'
-import { TabVisualSuccess }   from '@/components/sections/TabVisualSuccess'
-import { TabVisualSales }     from '@/components/sections/TabVisualSales'
-import { TabVisualFounders }  from '@/components/sections/TabVisualFounders'
-import { TabVisualVC }        from '@/components/sections/TabVisualVC'
+import { TabVisualMarketing } from '@/components/illustrations/TabVisualMarketing'
+import { TabVisualSuccess }   from '@/components/illustrations/TabVisualSuccess'
+import { TabVisualSales }     from '@/components/illustrations/TabVisualSales'
+import { TabVisualFounders }  from '@/components/illustrations/TabVisualFounders'
+import { TabVisualVC }        from '@/components/illustrations/TabVisualVC'
 import { AskChatDemoSection } from '@/components/sections/AskChatDemoSection'
-import { CONTEXT_FEATURES, PROMPT_CARDS, ASK_TABS } from '@/data/platform-ask'
+import { CONTEXT_FEATURES, PROMPT_CARDS } from '@/data/platform-ask'
+import { ASK_TABS, ASK_TABS_HEADING } from '@/data/ask-tabs'
 import Divider from "@/components/ui/divider";
 
 /**
@@ -23,7 +24,7 @@ export default function AskAIPage(): React.ReactElement {
       <AskHeroSection />
       <Divider />
       <TabsSection
-        heading="Simply powerful customer intelligence."
+        heading={ASK_TABS_HEADING}
         tabs={ ASK_TABS }
         visuals={[
           <TabVisualMarketing key="marketing" />,

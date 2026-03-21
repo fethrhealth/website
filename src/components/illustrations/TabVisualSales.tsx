@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
+import { TAB_VISUAL_SALES } from '@/data/ask-tabs'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -63,7 +64,7 @@ function AcceptPill() {
       style={{ boxShadow: CARD_SHADOW }}
     >
       <IconCheck />
-      <span className="font-medium text-xs text-fg-primary">Accept</span>
+      <span className="font-medium text-xs text-fg-primary">{TAB_VISUAL_SALES.acceptLabel}</span>
     </div>
   )
 }
@@ -128,7 +129,7 @@ export function TabVisualSales(): ReactNode {
           <div className="mb-4 flex justify-end">
             <div className="rounded-xl bg-surface px-3.5 py-2">
               <span className="max-w-[17em] text-pretty text-sm text-fg-primary">
-                update this deal pls
+                {TAB_VISUAL_SALES.bubble}
               </span>
             </div>
           </div>
@@ -143,7 +144,7 @@ export function TabVisualSales(): ReactNode {
                   <IconCube />
                 </div>
                 <span className="font-medium text-sm text-fg-primary underline decoration-border">
-                  Basepoint // Greenleaf
+                  {TAB_VISUAL_SALES.dealName}
                 </span>
               </div>
             </div>
@@ -151,15 +152,15 @@ export function TabVisualSales(): ReactNode {
 
           <div className="mt-2 flex flex-col gap-2">
             <BlurIn visible={showCard1}>
-              <UpdateCard label="Update Deal Stage">
+              <UpdateCard label={TAB_VISUAL_SALES.card1Label}>
                 <div className="size-1.5 shrink-0 rounded-full bg-yellow-500" />
-                <span className="font-medium text-sm text-fg-primary">Negotiation</span>
+                <span className="font-medium text-sm text-fg-primary">{TAB_VISUAL_SALES.card1Value}</span>
               </UpdateCard>
             </BlurIn>
             <BlurIn visible={showCard2}>
-              <UpdateCard label="Update Next Step">
+              <UpdateCard label={TAB_VISUAL_SALES.card2Label}>
                 <span className="truncate font-medium text-sm text-fg-primary">
-                  Joshua to send documentation on…
+                  {TAB_VISUAL_SALES.card2Value}
                 </span>
               </UpdateCard>
             </BlurIn>
@@ -175,13 +176,13 @@ export function TabVisualSales(): ReactNode {
                 <div className="relative size-[18px] overflow-hidden rounded-full border border-border">
                   <Image
                     src="/avatars/ask/ask-tab-sales/person.avif"
-                    alt="Drew Houston"
+                    alt={TAB_VISUAL_SALES.personAlt}
                     fill
                     className="object-cover"
                   />
                 </div>
                 <span className="font-medium text-sm text-fg-primary underline decoration-border">
-                  Drew Houston
+                  {TAB_VISUAL_SALES.personName}
                 </span>
               </div>
             </div>
@@ -189,8 +190,8 @@ export function TabVisualSales(): ReactNode {
 
           <div className="mt-2">
             <BlurIn visible={showCard3}>
-              <UpdateCard label="Updated Role">
-                <span className="font-medium text-sm text-fg-primary">Head of IT</span>
+              <UpdateCard label={TAB_VISUAL_SALES.card3Label}>
+                <span className="font-medium text-sm text-fg-primary">{TAB_VISUAL_SALES.card3Value}</span>
               </UpdateCard>
             </BlurIn>
           </div>
@@ -205,13 +206,13 @@ export function TabVisualSales(): ReactNode {
                 <div className="relative size-4 overflow-hidden rounded-[5px] border border-border">
                   <Image
                     src="/avatars/ask/ask-tab-sales/company.avif"
-                    alt="Greenleaf"
+                    alt={TAB_VISUAL_SALES.companyAlt}
                     fill
                     className="object-cover"
                   />
                 </div>
                 <span className="font-medium text-sm text-fg-primary underline decoration-border">
-                  Greenleaf
+                  {TAB_VISUAL_SALES.companyName}
                 </span>
               </div>
             </div>
@@ -219,8 +220,8 @@ export function TabVisualSales(): ReactNode {
 
           <div className="mt-2">
             <BlurIn visible={showCard4}>
-              <UpdateCard label="Funding Raised">
-                <span className="font-medium text-sm text-fg-primary">$12.5M</span>
+              <UpdateCard label={TAB_VISUAL_SALES.card4Label}>
+                <span className="font-medium text-sm text-fg-primary">{TAB_VISUAL_SALES.card4Value}</span>
               </UpdateCard>
             </BlurIn>
           </div>

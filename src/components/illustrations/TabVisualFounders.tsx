@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
+import { TAB_VISUAL_FOUNDERS } from '@/data/ask-tabs'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -161,7 +162,7 @@ export function TabVisualFounders(): ReactNode {
           <div className="mb-4 flex justify-end">
             <div className="rounded-xl bg-surface px-3.5 py-2">
               <span className="max-w-[17em] text-pretty text-sm text-fg-primary">
-                tell me what users want most
+                {TAB_VISUAL_FOUNDERS.bubble}
               </span>
             </div>
           </div>
@@ -171,7 +172,7 @@ export function TabVisualFounders(): ReactNode {
         <BlurIn visible={showResponse}>
           <div className="mb-4 px-0.5">
             <p className="font-medium text-sm leading-5 text-fg-primary">
-              Three features are often mentioned:
+              {TAB_VISUAL_FOUNDERS.responseText}
             </p>
           </div>
         </BlurIn>
@@ -188,7 +189,7 @@ export function TabVisualFounders(): ReactNode {
                   <IconVideo />
                 </div>
                 <span className="font-medium text-sm text-fg-primary underline decoration-border">
-                  Customer feedback
+                  {TAB_VISUAL_FOUNDERS.cardTitle}
                 </span>
               </div>
               {/* "Play all" pill */}
@@ -197,7 +198,7 @@ export function TabVisualFounders(): ReactNode {
                 style={{ boxShadow: CARD_SHADOW }}
               >
                 <IconPlay className="size-3 text-fg-primary" />
-                <span>Play all</span>
+                <span>{TAB_VISUAL_FOUNDERS.playAll}</span>
               </div>
             </div>
 
@@ -207,19 +208,19 @@ export function TabVisualFounders(): ReactNode {
             {/* Feature rows */}
             <div className="flex flex-col gap-3 px-3 pb-3 pt-2">
               <FeatureRow
-                name="Agents"
+                name={TAB_VISUAL_FOUNDERS.feature1}
                 avatars={[AV1, AV2]}
                 barLeft={25}
                 barWidth={25}
               />
               <FeatureRow
-                name="Mobile app"
+                name={TAB_VISUAL_FOUNDERS.feature2}
                 avatars={[AV1, AV2, AV3]}
                 barLeft={0}
                 barWidth={50}
               />
               <FeatureRow
-                name="Advanced reporting"
+                name={TAB_VISUAL_FOUNDERS.feature3}
                 avatars={[AV2]}
                 barLeft={0}
                 barWidth={38}
@@ -231,13 +232,13 @@ export function TabVisualFounders(): ReactNode {
         {/* ── Suggested action ────────────────────────────────────────────── */}
         <BlurIn visible={showSuggestion}>
           <div className="flex flex-col gap-1.5">
-            <span className="font-medium text-xs text-accent-foreground">Suggested action</span>
+            <span className="font-medium text-xs text-accent-foreground">{TAB_VISUAL_FOUNDERS.suggestionLabel}</span>
             <div className="flex items-center gap-0.5 rounded-lg">
               <div className="flex size-8 items-center justify-center">
                 <IconRedirect />
               </div>
               <span className="font-medium text-sm text-fg-primary">
-                Draft summary of feedback to share with product
+                {TAB_VISUAL_FOUNDERS.suggestionText}
               </span>
             </div>
           </div>

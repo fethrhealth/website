@@ -82,42 +82,8 @@ export interface TabItem {
   description: string
 }
 
-/**
- * Tabs for the TabsSection on the Ask AI page.
- * 5 healthcare-focused AI workflow tabs.
- */
-export const ASK_TABS: TabItem[] = [
-  {
-    label:       'Marketing',
-    icon:        '/assets/icons/ask/tabs/meeting-prep.webp',
-    heading:     'Turn every customer touchpoint into competitive advantage.',
-    description: 'Analyze conversion, validate messaging, and gather content for campaigns.',
-  },
-  {
-    label:       'Success',
-    icon:        '/assets/icons/ask/tabs/patient-brief.webp',
-    heading:     'Retain and expand more accounts when review is effortless.',
-    description: 'Hand off accounts, check customer health, and run business reviews.',
-  },
-  {
-    label:       'Sales',
-    icon:        '/assets/icons/ask/tabs/care-gaps.webp',
-    heading:     'Win faster when every call is perfectly prepped.',
-    description: 'Prepare for meetings, update deals, and review pipeline.',
-  },
-  {
-    label:       'Founders',
-    icon:        '/assets/icons/ask/tabs/outreach.webp',
-    heading:     'Build product and revenue wins with real customer insights.',
-    description: "Run customer discovery, track deals, and gather product feedback.",
-  },
-  {
-    label:       'Venture Capital',
-    icon:        '/assets/icons/ask/tabs/daily-brief.webp',
-    heading:     'Turn portfolio intelligence into perfectly timed investment edge.',
-    description: 'Research founders, leverage networks, and manage deal flow.',
-  },
-]
+// ASK_TABS moved to ask-tabs.ts — re-exported here for back-compat.
+export { ASK_TABS } from '@/data/ask-tabs'
 
 // ─── Universal Context ─────────────────────────────────────────────────────────
 

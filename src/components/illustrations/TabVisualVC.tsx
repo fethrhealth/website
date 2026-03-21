@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
+import { TAB_VISUAL_VC } from '@/data/ask-tabs'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -91,7 +92,7 @@ export function TabVisualVC(): ReactNode {
           <div className="mb-4 flex justify-end">
             <div className="rounded-xl bg-surface px-3.5 py-2">
               <span className="max-w-[17em] text-pretty text-sm text-fg-primary">
-                what do you know about the founders of Greenleaf?
+                {TAB_VISUAL_VC.bubble}
               </span>
             </div>
           </div>
@@ -103,20 +104,20 @@ export function TabVisualVC(): ReactNode {
             <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-primary-background px-2 py-1.5">
               <IconGlobe />
               <span className="text-sm text-accent-foreground">
-                Searched web:{' '}
-                <span className="text-caption-foreground">6 results</span>
+                {TAB_VISUAL_VC.searchedWeb}{' '}
+                <span className="text-caption-foreground">{TAB_VISUAL_VC.searchResults}</span>
               </span>
               {/* Stacked favicons */}
               <div className="flex items-center -space-x-1">
-                <FaviconSquare color="#000000" label="X"    zIndex={1} />
-                <FaviconSquare color="#f5c518" label="Vox"  zIndex={2} />
-                <FaviconSquare color="#cc0000" label="CNET" zIndex={3} />
+                <FaviconSquare color="#000000" label={TAB_VISUAL_VC.favicon1Alt} zIndex={1} />
+                <FaviconSquare color="#f5c518" label={TAB_VISUAL_VC.favicon2Alt} zIndex={2} />
+                <FaviconSquare color="#cc0000" label={TAB_VISUAL_VC.favicon3Alt} zIndex={3} />
                 {/* +3 overflow counter */}
                 <div
                   className="relative z-10 flex size-4 items-center justify-center rounded-sm border border-primary-background bg-muted"
-                  aria-label="+3 more"
+                  aria-label={TAB_VISUAL_VC.faviconOverflow}
                 >
-                  <span className="font-semibold text-[9px] leading-none text-muted-foreground">3</span>
+                  <span className="font-semibold text-[9px] leading-none text-muted-foreground">{TAB_VISUAL_VC.faviconOverflowLabel}</span>
                   <div className="absolute inset-0 rounded-[3px] border border-black/10" />
                 </div>
               </div>
@@ -128,7 +129,7 @@ export function TabVisualVC(): ReactNode {
         <BlurIn visible={showPara1}>
           <div className="mb-3 px-0.5">
             <p className="font-medium text-sm leading-5 text-fg-primary">
-              Here&apos;s what you should know:
+              {TAB_VISUAL_VC.para1}
             </p>
           </div>
         </BlurIn>
@@ -136,10 +137,7 @@ export function TabVisualVC(): ReactNode {
         <BlurIn visible={showPara2}>
           <div className="mb-3 px-0.5">
             <p className="font-medium text-sm leading-5 text-fg-primary">
-              Greenleaf was founded by Alex Kowalski and Sarah Johnson, who met
-              while working at Stripe. Alex was one of the early engineers who
-              helped build Stripe&apos;s money movement platform, while Sarah led
-              product and partnerships for startups.
+              {TAB_VISUAL_VC.para2}
             </p>
           </div>
         </BlurIn>
@@ -147,9 +145,7 @@ export function TabVisualVC(): ReactNode {
         <BlurIn visible={showPara3}>
           <div className="px-0.5">
             <p className="font-medium text-sm leading-5 text-fg-primary">
-              The two realized there was a gap in the market for
-              developer-friendly sustainability tools, and launched Greenleaf to
-              help companies track and reduce their carbon footprint at scale.
+              {TAB_VISUAL_VC.para3}
             </p>
           </div>
         </BlurIn>
