@@ -87,42 +87,5 @@ export { ASK_TABS } from '@/data/ask-tabs'
 
 // ─── Universal Context ─────────────────────────────────────────────────────────
 
-/**
- * Data for HomeContextSection — "Universal Context" block on the homepage.
- * 5 feature cards shown in a horizontal row (desktop) or stacked (mobile).
- *
- * Icons go in: /public/assets/icons/context/
- */
-export const CONTEXT_FEATURES: [
-  ContextFeature,
-  ContextFeature,
-  ContextFeature,
-  ContextFeature,
-  ContextFeature,
-] = [
-  {
-    icon:   '/assets/icons/ask/universal-context/semantic-search.webp',
-    title:  'Semantic search',
-    accent: 'delivers instant retrieval even as your patient data scales.',
-  },
-  {
-    icon:   '/assets/icons/ask/universal-context/grounded-in-your-context.webp',
-    title:  'Grounded in patient context',
-    accent: 'like call recordings, care notes, and product usage.',
-  },
-  {
-    icon:   '/assets/icons/ask/universal-context/understand-patterns.webp',
-    title:  'Understand patterns',
-    accent: 'across patient signals, not just individual interactions.',
-  },
-  {
-    icon:   '/assets/icons/ask/universal-context/granola-notes.webp',
-    title:  'EHR notes. Slack threads.',
-    accent: 'Your favorite tools, connected and searchable.',
-  },
-  {
-    icon:   '/assets/icons/ask/universal-context/say-hello.webp',
-    title:  'Say hello.',
-    accent: 'Hola. Olá. Bonjour. Works in any language your patients speak.',
-  },
-]
+// CONTEXT_FEATURES moved to ask-context.ts — re-exported here for back-compat.
+export { CONTEXT_FEATURES } from '@/data/ask-context'

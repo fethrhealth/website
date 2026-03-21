@@ -15,8 +15,10 @@ export interface ContextFeature {
 interface HomeContextSectionProps {
   /** Small eyebrow above the heading — default "Powered by" */
   eyebrow?: string
-  /** Main heading — e.g. "Universal Context" */
+  /** Main heading — e.g. "Universal" */
   heading: string
+  /** Word that follows the heading and receives the ™ superscript — default "Context" */
+  contextWord?: string
   /** Whether to show the ™ superscript after the heading */
   trademark?: boolean
   /** Exactly 5 feature cards */
@@ -95,9 +97,10 @@ function FeatureCard({ feature }: { feature: ContextFeature }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function HomeContextSection({
-  eyebrow  = 'Powered by',
+  eyebrow      = 'Powered by',
   heading,
-  trademark = true,
+  contextWord  = 'Context',
+  trademark    = true,
   features,
 }: HomeContextSectionProps) {
   return (
@@ -121,7 +124,7 @@ export function HomeContextSection({
                 {heading}{' '}
                 {trademark && (
                   <span className="relative whitespace-nowrap">
-                    Context
+                    {contextWord}
                     <span className="absolute inline-block origin-bottom-left -translate-y-3/5 scale-[0.28] pl-[0.15em] font-bold tracking-tight">
                       TM
                     </span>

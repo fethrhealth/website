@@ -10,8 +10,15 @@ import { TabVisualSales }     from '@/components/illustrations/TabVisualSales'
 import { TabVisualFounders }  from '@/components/illustrations/TabVisualFounders'
 import { TabVisualVC }        from '@/components/illustrations/TabVisualVC'
 import { AskChatDemoSection } from '@/components/sections/AskChatDemoSection'
-import { CONTEXT_FEATURES, PROMPT_CARDS } from '@/data/platform-ask'
+import { PROMPT_CARDS } from '@/data/platform-ask'
 import { ASK_TABS, ASK_TABS_HEADING } from '@/data/ask-tabs'
+import {
+  ASK_CONTEXT_EYEBROW,
+  ASK_CONTEXT_HEADING,
+  ASK_CONTEXT_HEADING_SUFFIX,
+  ASK_CONTEXT_TRADEMARK,
+  ASK_CONTEXT_FEATURES,
+} from '@/data/ask-context'
 import Divider from "@/components/ui/divider";
 
 /**
@@ -36,10 +43,11 @@ export default function AskAIPage(): React.ReactElement {
       />
       <Divider/>
       <HomeContextSection
-        eyebrow="Powered by"
-        heading="Universal"
-        trademark
-        features={ CONTEXT_FEATURES }
+        eyebrow={ASK_CONTEXT_EYEBROW}
+        heading={ASK_CONTEXT_HEADING}
+        contextWord={ASK_CONTEXT_HEADING_SUFFIX}
+        trademark={ASK_CONTEXT_TRADEMARK}
+        features={ASK_CONTEXT_FEATURES}
       />
       <Divider/>
       <AskChatDemoSection />
