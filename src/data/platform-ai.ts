@@ -1,32 +1,5 @@
 import { EnrichmentItem } from "@/components/sections/EnrichmentSection";
 import { IconGridItem } from "@/components/sections/FeatureGridSection";
-import { ScrollAccordionItem } from "@/components/sections/ScrollAccordionSection";
-
-// ─── Scroll accordion (data sources) ──────────────────────────────────────────
-
-export const AUTONOMOUS_WORK: ScrollAccordionItem[] = [
-    {
-      title: 'Add AI to any workflow.',
-      description: 'Classify records, summarize data, generate text, complete custom prompts. Intelligence as simple workflow steps.',
-      image: '/assets/images/platform/ai/autonomous-work/ai-workflow.webp',
-      imageWidth: 2264,
-      imageHeight: 2080,
-    },
-    {
-      title: 'Automate web research.',
-      description: 'Determine ICP fit, find decision-makers, track funding events, spot churn risks. Research runs in your workflows.',
-      image: '/assets/images/platform/ai/autonomous-work/automate-web-research.webp',
-      imageWidth: 2264,
-      imageHeight: 2080,
-    },
-    {
-      title: 'Design your own.',
-      description: 'Set conditions, define behaviors, choose actions. Create agents that handle your unique GTM workflows.',
-      image: '/assets/images/platform/ai/autonomous-work/design-your-own.webp',
-      imageWidth: 2264,
-      imageHeight: 2080,
-    },
-  ]
 
 export const SMARTER_CALLS: EnrichmentItem[] = [
     {

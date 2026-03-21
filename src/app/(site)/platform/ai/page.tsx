@@ -7,8 +7,9 @@ import { PlatformNavSection } from "@/components/sections/PlatformNavSection";
 import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSection";
 import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
-import { ITEMS, SMARTER_CALLS, AUTONOMOUS_WORK } from "@/data/platform-ai"
+import { ITEMS, SMARTER_CALLS } from "@/data/platform-ai"
 import { AI_GRID_HEADING, AI_GRID_SUBHEADING, AI_GRID_ITEMS, AI_GRID_QUOTE } from "@/data/ai-grid-section"
+import { AI_ACCORDION_HEADING, AI_ACCORDION_SUBHEADING, AI_ACCORDION_ITEMS } from "@/data/ai-accordion"
 
 export const metadata: Metadata = {
   title: 'Embedded Intelligence',
@@ -37,9 +38,9 @@ export default function AIPage(): React.ReactElement {
       />
       <Divider/>
       <ScrollAccordionSection
-        heading='Autonomous work in action.'
-        subheading='Automate research, enrich records, run custom workflows.'
-        items={ AUTONOMOUS_WORK }
+        heading={AI_ACCORDION_HEADING}
+        subheading={AI_ACCORDION_SUBHEADING}
+        items={AI_ACCORDION_ITEMS}
       />
       <EnrichmentSection
         heading="Smarter calls, from kickoff to close."
