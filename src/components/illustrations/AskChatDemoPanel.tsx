@@ -4,10 +4,24 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ReactNode } from 'react'
+import {
+  ASK_CHAT_DEMO_QUERY,
+  ASK_CHAT_DEMO_GREETING,
+  ASK_CHAT_DEMO_PLACEHOLDER,
+  ASK_CHAT_DEMO_NAV,
+  ASK_CHAT_DEMO_CHIPS,
+  ASK_CHAT_DEMO_MEETINGS_LABEL,
+  ASK_CHAT_DEMO_MEETINGS,
+  ASK_CHAT_DEMO_INTRO_CARD,
+  ASK_CHAT_DEMO_B1,
+  ASK_CHAT_DEMO_B3,
+  ASK_CHAT_DEMO_B4,
+  ASK_CHAT_DEMO_B5,
+  type Seg,
+} from '@/data/ask-chat-demo'
 
 // ─── Animation constants ───────────────────────────────────────────────────────
 
-const QUERY = 'How do I win my deal with Greenleaf?'
 /** Steps: 1=B1 typing, 2=card, 3=B3 typing, 4=B4 typing, 5=B5 typing, 6=buttons */
 const TOTAL_STEPS = 6
 type Phase = 'idle' | 'typing' | 'sent' | 'thinking' | 'responding' | 'done'
@@ -16,40 +30,6 @@ type Phase = 'idle' | 'typing' | 'sent' | 'thinking' | 'responding' | 'done'
 
 const T  = 'font-medium text-[#232529] text-[7px] leading-[10px] lg:text-[14px] lg:leading-5'
 const TB = 'font-semibold text-[#232529] text-[7px] leading-[10px] lg:text-[14px] lg:leading-5'
-
-// ─── Segment type & block data ────────────────────────────────────────────────
-
-/** Text segment: t = text content, b = bold */
-type Seg = { t: string; b?: true }
-
-/** Each Seg[] is one paragraph/line; each block is an array of those. */
-const B1: Seg[][] = [
-  [{ t: "Based on your recent activity and the upcoming meeting, here\u2019s a focused strategy to help you close the deal." }],
-  [{ t: "Strategy to win Greenleaf", b: true }],
-  [{ t: "Deal context:", b: true }],
-]
-
-const B3: Seg[][] = [
-  [{ t: "Key opportunity signals:", b: true }],
-  [{ t: "1.\u00a0" }, { t: "Large startup deal",      b: true }, { t: " \u2014 $120K ACV \u2014 top 10% of your pipeline" }],
-  [{ t: "2.\u00a0" }, { t: "Active migration intent",  b: true }, { t: " \u2014 Moving from Salesforce, researching CRMs now" }],
-  [{ t: "3.\u00a0" }, { t: "Strong ICP fit",           b: true }, { t: " \u2014 Series B, 80-person sales team" }],
-  [{ t: "4.\u00a0" }, { t: "Recent engagement",        b: true }, { t: " \u2014 Annie Zhang opened your deck 3x in 48h" }],
-]
-
-const B4: Seg[][] = [
-  [{ t: "Critical next steps:", b: true }],
-  [{ t: "1.\u00a0" }, { t: "Lead with Greenleaf-specific ROI", b: true }],
-  [{ t: "    a.\u00a0Reference their current Salesforce pain points" }],
-  [{ t: "    b.\u00a0Quantify migration savings" }],
-  [{ t: "    c.\u00a0Show similar startup success metrics" }],
-  [{ t: "2.\u00a0" }, { t: "Address timeline urgency",  b: true }, { t: " \u2014 propose 2-week pilot to align with their Q1 planning" }],
-  [{ t: "3.\u00a0" }, { t: "Mobilize your champion",    b: true }, { t: " \u2014 Dylan has final budget authority; get 1:1 time before the group call" }],
-]
-
-const B5: Seg[][] = [
-  [{ t: "Would you like me to prepare an agenda with talking points for today\u2019s call?" }],
-]
 
 // ─── ThinkingDots ─────────────────────────────────────────────────────────────
 
@@ -86,12 +66,12 @@ function GreenleafIntroCard(): ReactNode {
             </div>
           </div>
           <div className="flex min-w-0 flex-1 flex-col pt-[5px] pr-[6px] pb-[4px] pl-[4px] lg:pt-[10px] lg:pr-[12px] lg:pb-[8px] lg:pl-[8px]">
-            <span className="truncate font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">Greenleaf Intro</span>
-            <span className="truncate font-medium text-[rgba(0,0,0,0.55)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">Dec 12, 10:40 – 11:32 AM</span>
+            <span className="truncate font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_INTRO_CARD.title}</span>
+            <span className="truncate font-medium text-[rgba(0,0,0,0.55)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_INTRO_CARD.date}</span>
           </div>
           <div className="flex shrink-0 items-start pt-[6px] pr-[8px] pl-[6px] lg:pt-[12px] lg:pr-[16px] lg:pl-[12px]">
             <div className="flex">
-              {['/avatars/ask/ask-tab-success/avatar-1.avif', '/avatars/ask/ask-tab-success/avatar-2.avif'].map((src, i) => (
+              {ASK_CHAT_DEMO_INTRO_CARD.avatars.map((src, i) => (
                 <div key={i} className={`rounded-full border border-white ${i > 0 ? '-ml-[2px] lg:-ml-[4px]' : ''}`}>
                   <Image src={src} alt="" width={16} height={16} loading="lazy" className="rounded-full object-cover ring-1 ring-[rgba(0,0,0,0.05)] size-[8px] lg:size-[16px]" />
                 </div>
@@ -103,28 +83,28 @@ function GreenleafIntroCard(): ReactNode {
         <div className="flex items-center pr-[5px] pb-[5px] pl-[4px] lg:pr-[10px] lg:pb-[10px] lg:pl-[8px]">
           <div className="flex flex-1 items-center gap-[3px] lg:gap-[6px]">
             <div className="flex items-center gap-[2px] lg:gap-[4px]">
-              {/* Notes: 3 */}
+              {/* Notes */}
               <div className="flex items-center bg-[#F8F9FA] ring-1 ring-[#EEEFF1] h-[10px] min-w-[10px] gap-[2px] rounded-[3px] px-[2px] lg:h-[20px] lg:min-w-[20px] lg:gap-[4px] lg:rounded-[6px] lg:px-[4px]">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="shrink-0 size-[6px] lg:size-[12px]"><path d="M5.98132 0.819336C6.43313 0.819336 6.79699 0.819791 7.0907 0.84375C7.38921 0.868139 7.65181 0.919422 7.89441 1.04297C8.27988 1.23938 8.59351 1.55301 8.78992 1.93848C8.91344 2.18106 8.96475 2.4437 8.98914 2.74219C9.01309 3.03589 9.01355 3.39979 9.01355 3.85156V5.98242C9.01355 6.4342 9.01311 6.79812 8.98914 7.0918C8.96473 7.39017 8.91345 7.653 8.78992 7.89551C8.59349 8.28075 8.27971 8.59469 7.89441 8.79102C7.65191 8.91443 7.38907 8.96586 7.0907 8.99023C6.797 9.01419 6.43309 9.01465 5.98132 9.01465H5.27234C5.04637 9.01444 4.86242 8.83045 4.86218 8.60449C4.86218 8.37834 5.04623 8.19454 5.27234 8.19434H5.98132C6.44668 8.19434 6.77164 8.19444 7.02429 8.17383C7.2718 8.1536 7.41451 8.11538 7.52234 8.06055C7.75346 7.94279 7.94159 7.75449 8.05945 7.52344C8.11437 7.41562 8.15246 7.27298 8.17273 7.02539C8.19337 6.77276 8.19324 6.4478 8.19324 5.98242V3.85156C8.19324 3.3862 8.19334 3.06124 8.17273 2.80859C8.15248 2.56087 8.11436 2.41841 8.05945 2.31055C7.9416 2.07926 7.75362 1.89128 7.52234 1.77344C7.41447 1.71851 7.27207 1.6804 7.02429 1.66016C6.77163 1.63954 6.44672 1.63965 5.98132 1.63965H3.85046C3.38506 1.63965 3.06013 1.63951 2.80749 1.66016C2.55988 1.68042 2.41728 1.71851 2.30945 1.77344C2.07838 1.8913 1.8901 2.07942 1.77234 2.31055C1.71752 2.41837 1.67928 2.5611 1.65906 2.80859C1.63845 3.06123 1.63855 3.38623 1.63855 3.85156V4.58887C1.63821 4.81486 1.45447 4.99805 1.22839 4.99805C1.00249 4.99784 0.818575 4.81474 0.818237 4.58887V3.85156C0.818237 3.39982 0.818702 3.03588 0.842651 2.74219C0.867028 2.44383 0.91846 2.18097 1.04187 1.93848C1.2382 1.55316 1.55212 1.23939 1.93738 1.04297C2.1799 0.919432 2.4427 0.868157 2.74109 0.84375C3.03478 0.819771 3.39866 0.819336 3.85046 0.819336H5.98132ZM1.69226 5.87402L3.14148 6.16406C3.30335 6.19663 3.42928 6.32347 3.46179 6.48535L3.75183 7.93359C3.7962 8.15545 3.65238 8.3716 3.43054 8.41602C3.2088 8.46022 2.99352 8.31644 2.9491 8.09473L2.80945 7.39551L1.32214 8.88379C1.16219 9.04346 0.902979 9.04348 0.743042 8.88379C0.583055 8.72378 0.583042 8.46371 0.743042 8.30371L2.22937 6.81738L1.5321 6.67773C1.31026 6.63335 1.1665 6.41716 1.21082 6.19531C1.25542 5.97379 1.47062 5.82982 1.69226 5.87402Z" fill="#505154" /></svg>
-                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">3</span>
+                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_INTRO_CARD.notes}</span>
               </div>
-              {/* Attachment: 2 */}
+              {/* Attachments */}
               <div className="flex items-center bg-[#F8F9FA] ring-1 ring-[#EEEFF1] h-[10px] min-w-[10px] gap-[2px] rounded-[3px] px-[2px] lg:h-[20px] lg:min-w-[20px] lg:gap-[4px] lg:rounded-[6px] lg:px-[4px]">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="shrink-0 size-[6px] lg:size-[12px]"><path d="M3.97656 0.492676C5.22107 0.492735 6.23047 1.50206 6.23047 2.74658V6.43408C6.23041 7.22599 5.5878 7.86762 4.7959 7.86768C4.00399 7.86762 3.36236 7.22599 3.3623 6.43408V3.13818C3.3623 2.91197 3.5453 2.72814 3.77148 2.72803C3.99772 2.72809 4.18164 2.91194 4.18164 3.13818V6.43408C4.1817 6.77342 4.45656 7.04828 4.7959 7.04834C5.13524 7.04828 5.4101 6.77342 5.41016 6.43408V2.74658C5.41016 1.95463 4.7685 1.31305 3.97656 1.31299C3.18457 1.31299 2.54297 1.95459 2.54297 2.74658V6.43408C2.54303 7.67855 3.55143 8.68793 4.7959 8.68799C6.04037 8.68793 7.04975 7.67856 7.0498 6.43408V2.13232C7.0498 1.90611 7.2328 1.72229 7.45898 1.72217C7.68522 1.72223 7.86914 1.90608 7.86914 2.13232V6.43408C7.86908 8.13112 6.49294 9.50727 4.7959 9.50732C3.09886 9.50727 1.72272 8.13112 1.72266 6.43408V2.74658C1.72266 1.50202 2.732 0.492676 3.97656 0.492676Z" fill="#505154" /></svg>
-                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">2</span>
+                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_INTRO_CARD.attachments}</span>
               </div>
             </div>
             <div className="shrink-0 bg-[#EEEFF1] h-[6px] w-px lg:h-[12px]" />
             <div className="flex items-center gap-[2px] lg:gap-[4px]">
-              {/* Files: 2 */}
+              {/* Files */}
               <div className="flex items-center bg-[#F8F9FA] ring-1 ring-[#EEEFF1] h-[10px] min-w-[10px] gap-[2px] rounded-[3px] px-[2px] lg:h-[20px] lg:min-w-[20px] lg:gap-[4px] lg:rounded-[6px] lg:px-[4px]">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="shrink-0 size-[6px] lg:size-[12px]"><path d="M5.84961 0.491943C5.96496 0.493429 6.07213 0.499113 6.17676 0.52417C6.30218 0.55424 6.42223 0.604276 6.53223 0.671631C6.66591 0.753546 6.77538 0.866924 6.90332 0.994873L8.1836 2.27515C8.31148 2.40303 8.42495 2.51262 8.50684 2.64624C8.57412 2.75612 8.62422 2.87643 8.6543 3.00171C8.67999 3.10904 8.68427 3.21888 8.68555 3.33765C8.68589 3.34443 8.6875 3.35128 8.6875 3.35815V6.47534C8.6875 6.92727 8.68806 7.29098 8.66406 7.58472C8.63967 7.88326 8.58844 8.14581 8.46485 8.38843C8.26844 8.77386 7.95477 9.08753 7.56934 9.28394C7.32672 9.40753 7.06416 9.45876 6.76563 9.48315C6.47189 9.50714 6.10818 9.50659 5.65625 9.50659H4.34473C3.89281 9.50659 3.5291 9.50713 3.23535 9.48315C2.93685 9.45877 2.67423 9.40747 2.43164 9.28394C2.04621 9.08755 1.73255 8.77384 1.53613 8.38843C1.41253 8.1458 1.36132 7.88327 1.33692 7.58472C1.31292 7.29098 1.3125 6.92728 1.3125 6.47534V3.52319C1.3125 3.07146 1.31294 2.70743 1.33692 2.41382C1.36131 2.11556 1.41267 1.85353 1.53613 1.61108C1.73239 1.22573 2.04543 0.912069 2.43067 0.715576C2.67302 0.591981 2.93518 0.540931 3.2334 0.516357C3.52701 0.492204 3.89103 0.492214 4.34277 0.491943H5.84961ZM4.34375 1.31128C3.87837 1.31156 3.55336 1.31199 3.30078 1.33276C3.0532 1.35316 2.91053 1.39107 2.80274 1.44604C2.57176 1.56395 2.3843 1.75206 2.2666 1.98315C2.21168 2.09102 2.17356 2.23345 2.15332 2.4812C2.13272 2.73371 2.13281 3.05809 2.13281 3.52319V6.47534C2.13282 6.94082 2.13268 7.26565 2.15332 7.51831C2.17359 7.76608 2.21165 7.9085 2.2666 8.01636C2.38445 8.24757 2.57248 8.43565 2.80371 8.55347C2.91158 8.60838 3.05402 8.6465 3.30176 8.66675C3.55444 8.68738 3.87921 8.68726 4.34473 8.68726H5.65625C6.12174 8.68726 6.44655 8.68739 6.69922 8.66675C6.947 8.64649 7.0894 8.60842 7.19727 8.55347C7.42852 8.43563 7.61654 8.24761 7.73438 8.01636C7.78933 7.90849 7.82739 7.76609 7.84766 7.51831C7.8683 7.26565 7.86817 6.94083 7.86817 6.47534V3.76831H7.13086C6.90834 3.76831 6.71569 3.76845 6.5586 3.75562C6.39697 3.74236 6.23575 3.71326 6.08106 3.63452C5.85005 3.51674 5.66175 3.3284 5.54395 3.09741C5.465 2.94243 5.43511 2.78082 5.42188 2.6189C5.40905 2.46179 5.40918 2.27013 5.40918 2.04761V1.3103L4.34375 1.31128Z" fill="#505154" /></svg>
-                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">2</span>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="shrink-0 size-[6px] lg:size-[12px]"><path d="M5.84961 0.491943C5.96496 0.493429 6.07213 0.499113 6.17676 0.52417C6.30218 0.55424 6.42223 0.604276 6.53223 0.671631C6.66591 0.753546 6.77538 0.866924 6.90332 0.994873L8.1836 2.27515C8.31148 2.40303 8.42495 2.51262 8.50684 2.64624C8.57412 2.75612 8.62422 2.87643 8.6543 3.00171C8.67999 3.10904 8.68427 3.21888 8.68555 3.33765C8.68589 3.34443 8.6875 3.35128 8.6875 3.35815V6.47534C8.6875 6.92727 8.68806 7.29098 8.66406 7.58472C8.63967 7.88326 8.58844 8.14581 8.46485 8.38843C8.26844 8.77386 7.95477 9.08753 7.56934 9.28394C7.32672 9.40753 7.06416 9.45876 6.76563 9.48315C6.47189 9.50714 6.10818 9.50659 5.65625 9.50659H4.34473C3.89281 9.50659 3.5291 9.50713 3.23535 9.48315C2.93685 9.45877 2.67423 9.40747 2.43164 9.28394C2.04621 9.08755 1.73255 8.77384 1.53613 8.38843C1.41253 8.1458 1.36132 7.88327 1.33692 7.58472C1.31292 7.29098 1.3125 6.92728 1.3125 6.47534V3.52319C1.3125 3.07146 1.31294 2.70743 1.33692 2.41382C1.36131 2.11556 1.41267 1.85353 1.53613 1.61108C1.73239 1.22573 2.04543 0.912069 2.43067 0.715576C2.67302 0.591981 2.93518 0.540931 3.2334 0.516357C3.52701 0.492204 3.89103 0.492214 4.34277 0.491943H5.84961ZM4.34375 1.31128C3.87837 1.31156 3.55336 1.31199 3.30078 1.33276C3.0532 1.35316 2.91053 1.39107 2.80274 1.44604C2.5336 1.56395 2.3843 1.75206 2.2666 1.98315C2.21168 2.09102 2.17356 2.23345 2.15332 2.4812C2.13272 2.73371 2.13281 3.05809 2.13281 3.52319V6.47534C2.13282 6.94082 2.13268 7.26565 2.15332 7.51831C2.17359 7.76608 2.21165 7.9085 2.2666 8.01636C2.38445 8.24757 2.57248 8.43565 2.80371 8.55347C2.91158 8.60838 3.05402 8.6465 3.30176 8.66675C3.55444 8.68738 3.87921 8.68726 4.34473 8.68726H5.65625C6.12174 8.68726 6.44655 8.68739 6.69922 8.66675C6.947 8.64649 7.0894 8.60842 7.19727 8.55347C7.42852 8.43563 7.61654 8.24761 7.73438 8.01636C7.78933 7.90849 7.82739 7.76609 7.84766 7.51831C7.8683 7.26565 7.86817 6.94083 7.86817 6.47534V3.76831H7.13086C6.90834 3.76831 6.71569 3.76845 6.5586 3.75562C6.39697 3.74236 6.23575 3.71326 6.08106 3.63452C5.85005 3.51674 5.66175 3.3284 5.54395 3.09741C5.465 2.94243 5.43511 2.78082 5.42188 2.6189C5.40905 2.46179 5.40918 2.27013 5.40918 2.04761V1.3103L4.34375 1.31128Z" fill="#505154" /></svg>
+                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_INTRO_CARD.files}</span>
               </div>
             </div>
             <div className="shrink-0 bg-[#EEEFF1] h-[6px] w-px lg:h-[12px]" />
             <div className="flex items-center gap-[2px] lg:gap-[4px]">
-              {/* Recorded: 48m */}
+              {/* Recorded */}
               <div className="flex items-center bg-[#F8F9FA] ring-1 ring-[#EEEFF1] h-[10px] min-w-[10px] gap-[2px] rounded-[3px] px-[2px] lg:h-[20px] lg:min-w-[20px] lg:gap-[4px] lg:rounded-[6px] lg:px-[4px]">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="shrink-0 size-[6px] lg:size-[12px]">
                   <path d="M4.91309 1.2256C5.27653 1.2256 5.51933 1.22378 5.72852 1.26564C6.53874 1.42805 7.17252 2.06187 7.33496 2.87208C7.3484 2.93916 7.35541 3.01018 7.36133 3.08693L7.96191 2.84669C8.10501 2.78945 8.23827 2.73572 8.35059 2.70216C8.46402 2.66831 8.61099 2.63783 8.77051 2.67091C8.95535 2.70939 9.12099 2.81 9.23926 2.95509C9.38849 3.22726 9.40503 3.33243 9.41309 3.42091C9.42368 3.53768 9.42285 3.68171 9.42285 3.83595V5.99708C9.42285 6.15102 9.42363 6.29451 9.41309 6.41114C9.40238 6.52908 9.37618 6.67664 9.28613 6.81251C9.16685 6.99234 8.98178 7.11816 8.77051 7.16212C8.61095 7.19524 8.46404 7.16375 8.35059 7.12989C8.23833 7.09633 8.10488 7.04255 7.96191 6.98536L7.36035 6.74513C7.3546 6.81785 7.34854 6.8853 7.33594 6.94923C7.17499 7.76408 6.5375 8.40157 5.72266 8.56251C5.51625 8.60323 5.27737 8.6006 4.91895 8.6006H3.85059C3.39871 8.6006 3.03493 8.60114 2.74121 8.57716C2.44276 8.55276 2.18006 8.50149 1.9375 8.37794C1.55215 8.18153 1.23835 7.86782 1.04199 7.48243C0.918467 7.23985 0.867161 6.97721 0.842773 6.67872C0.8188 6.385 0.818359 6.02121 0.818359 5.56935V4.25782C0.818359 3.80595 0.818791 3.44217 0.842773 3.14845C0.867174 2.84997 0.918428 2.58731 1.04199 2.34474C1.23839 1.95934 1.5521 1.64562 1.9375 1.44923C2.18008 1.32566 2.44273 1.27441 2.74121 1.25001C3.03493 1.22603 3.3987 1.2256 3.85059 1.2256H4.91309Z" fill="url(#rec-grad)" />
@@ -134,7 +114,7 @@ function GreenleafIntroCard(): ReactNode {
                     </linearGradient>
                   </defs>
                 </svg>
-                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">Recorded<span className="text-[#898A8D]"> 48m</span></span>
+                <span className="font-medium text-[#505154] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_INTRO_CARD.recordedLabel}<span className="text-[#898A8D]">{ASK_CHAT_DEMO_INTRO_CARD.duration}</span></span>
               </div>
             </div>
           </div>
@@ -267,7 +247,7 @@ export function ChatDemoPanel(): ReactNode {
   useEffect(() => {
     if (phase !== 'typing') return
     const clear = (): void => { if (timerRef.current) clearTimeout(timerRef.current) }
-    if (charIndex < QUERY.length) {
+    if (charIndex < ASK_CHAT_DEMO_QUERY.length) {
       timerRef.current = setTimeout(() => setChar(c => c + 1), 45)
     } else {
       timerRef.current = setTimeout(() => setPhase('sent'), 600)
@@ -294,7 +274,7 @@ export function ChatDemoPanel(): ReactNode {
 
   const isChat    = phase === 'sent' || phase === 'thinking' || phase === 'responding' || phase === 'done'
   const isHome    = phase === 'idle' || phase === 'typing'
-  const inputText = phase === 'typing' ? QUERY.slice(0, charIndex) : ''
+  const inputText = phase === 'typing' ? ASK_CHAT_DEMO_QUERY.slice(0, charIndex) : ''
 
   const scrollToBottom = (): void => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
@@ -302,12 +282,12 @@ export function ChatDemoPanel(): ReactNode {
 
   return (
     <>
-      {/* ── Header bar — "Home" state ────────────────────────────────────────────── */}
+      {/* ── Header bar ──────────────────────────────────────────────────────────── */}
       <div className="flex w-full items-center border-[#EEEFF1] h-[20px] border-b-[0.5px] lg:h-[40px] lg:border-b shrink-0">
         <div className="flex h-full w-full items-center">
           <div className="flex w-full items-center justify-between gap-[4px] px-[6px] lg:gap-[8px] lg:px-[12px]">
 
-            {/* Left: Home breadcrumb with house icon */}
+            {/* Left: Home breadcrumb */}
             <div className="flex min-h-px min-w-px flex-1 flex-col items-start">
               <div className="flex h-[11px] w-full items-center lg:h-[22px]">
                 <div className="flex shrink-0 items-center gap-[2px] rounded-[3px] px-[2px] py-[0.5px] lg:gap-[4px] lg:rounded-[6px] lg:px-[4px] lg:py-px">
@@ -315,7 +295,7 @@ export function ChatDemoPanel(): ReactNode {
                     <path d="M5.41699 1.14917C6.33787 0.395804 7.66213 0.395804 8.58301 1.14917L11.8994 3.86304C12.5957 4.43275 12.9999 5.28467 13 6.18433V9.99976C13 11.6566 11.6569 12.9998 10 12.9998H4C2.34315 12.9998 1 11.6566 1 9.99976V6.18433C1.0001 5.28467 1.40429 4.43275 2.10059 3.86304L5.41699 1.14917ZM7.9502 1.92261C7.39768 1.47063 6.60232 1.47063 6.0498 1.92261L2.7334 4.63647C2.26924 5.01626 2.0001 5.5846 2 6.18433V9.99976C2 11.1043 2.89543 11.9998 4 11.9998H10C11.1046 11.9998 12 11.1043 12 9.99976V6.18433C11.9999 5.5846 11.7308 5.01626 11.2666 4.63647L7.9502 1.92261ZM9.5 8.99976C9.77607 8.99976 9.99989 9.22371 10 9.49976C10 9.7759 9.77614 9.99976 9.5 9.99976H4.5C4.22386 9.99976 4 9.7759 4 9.49976C4.00011 9.22371 4.22393 8.99976 4.5 8.99976H9.5Z" fill="currentColor" />
                   </svg>
                   <div className="flex shrink-0 items-center justify-center px-[1px] lg:px-[2px]">
-                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">Home</span>
+                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_NAV.home}</span>
                   </div>
                 </div>
               </div>
@@ -328,7 +308,7 @@ export function ChatDemoPanel(): ReactNode {
                   <path d="M7 1.75V12.25M1.75 7H12.25" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <div className="flex shrink-0 items-center justify-center px-[0.5px] lg:px-px">
-                  <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">New</span>
+                  <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_NAV.newThread}</span>
                 </div>
               </div>
             </div>
@@ -341,7 +321,7 @@ export function ChatDemoPanel(): ReactNode {
       <div className="flex-1 overflow-y-auto scrollbar-none">
         <div className={`mx-auto flex h-full w-full max-w-[360px] flex-col lg:max-w-[720px] px-3 lg:px-6 transition-transform duration-500${isChat ? '' : ' -translate-y-48 lg:-translate-y-96'}`}>
 
-          {/* AI response scroll area — sits above the greeting, masked at top */}
+          {/* AI response scroll area */}
           <div ref={scrollRef} className="scrollbar-none flex shrink-0 grow-0 basis-48 flex-col gap-2 overflow-y-auto px-px lg:basis-96 lg:gap-4[mask-image:linear-gradient(to_bottom,transparent,black_24px,black_100%)]">
 
             {/* User bubble */}
@@ -349,7 +329,7 @@ export function ChatDemoPanel(): ReactNode {
               {isChat && (
                 <motion.div key="user-bubble" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="flex justify-end">
                   <div className="flex bg-gray-100 rounded-sm px-1 py-0.5 lg:rounded-lg lg:px-2 lg:py-1 mt-3 lg:mt-6">
-                    <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] text-[rgba(0,0,0,0.55)]">{QUERY}</span>
+                    <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[14px] lg:leading-5 lg:tracking-[-0.28px] text-[rgba(0,0,0,0.55)]">{ASK_CHAT_DEMO_QUERY}</span>
                   </div>
                 </motion.div>
               )}
@@ -364,44 +344,44 @@ export function ChatDemoPanel(): ReactNode {
               )}
             </AnimatePresence>
 
-            {/* Block 1: intro + strategy headings — typing effect */}
+            {/* Block 1: intro + strategy headings */}
             <TypedContent
               show={step >= 1}
-              def={B1}
+              def={ASK_CHAT_DEMO_B1}
               onTick={scrollToBottom}
               onDone={() => { timerRef.current = setTimeout(() => setStep(2), 300) }}
             />
 
-            {/* Block 2: meeting card — enters whole */}
+            {/* Block 2: meeting card */}
             <RBlock show={step >= 2}>
               <GreenleafIntroCard />
             </RBlock>
 
-            {/* Block 3: key opportunity signals — typing effect */}
+            {/* Block 3: key opportunity signals */}
             <TypedContent
               show={step >= 3}
-              def={B3}
+              def={ASK_CHAT_DEMO_B3}
               onTick={scrollToBottom}
               onDone={() => { timerRef.current = setTimeout(() => setStep(4), 300) }}
             />
 
-            {/* Block 4: critical next steps — typing effect */}
+            {/* Block 4: critical next steps */}
             <TypedContent
               show={step >= 4}
-              def={B4}
+              def={ASK_CHAT_DEMO_B4}
               onTick={scrollToBottom}
               onDone={() => { timerRef.current = setTimeout(() => setStep(5), 300) }}
             />
 
-            {/* Block 5: closing question — typing effect, then buttons */}
+            {/* Block 5: closing question */}
             <TypedContent
               show={step >= 5}
-              def={B5}
+              def={ASK_CHAT_DEMO_B5}
               onTick={scrollToBottom}
               onDone={() => { timerRef.current = setTimeout(() => setStep(6), 300) }}
             />
 
-            {/* Block 5 buttons — appear after typing finishes */}
+            {/* Block 5 buttons */}
             <RBlock show={step >= 6}>
               <div className="flex items-center gap-[2px] lg:gap-[4px]">
                   {/* copy */}
@@ -437,13 +417,12 @@ export function ChatDemoPanel(): ReactNode {
           <AnimatePresence>
             {isHome && (
               <motion.div key="greeting" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} className="flex items-center mt-6 mb-[12px] px-[4px] lg:mt-12 lg:mb-[24px] lg:px-[8px]">
-                <span className="font-semibold text-[#242629] text-[10px] leading-[12px] tracking-[-0.1px] lg:text-[20px] lg:leading-[24px] lg:tracking-[-0.2px]">Good morning, Alex</span>
+                <span className="font-semibold text-[#242629] text-[10px] leading-[12px] tracking-[-0.1px] lg:text-[20px] lg:leading-[24px] lg:tracking-[-0.2px]">{ASK_CHAT_DEMO_GREETING}</span>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* ── Input box — exact Attio structure ──────────────────────────────────── */}
-          {/* Outer: flex-col box split into text-area (top) + action-bar (bottom)   */}
+          {/* ── Input box ──────────────────────────────────────────────────────────── */}
           <div className={`flex w-full flex-col bg-white h-[58px] rounded-[7px] border-[0.5px] shadow-[0px_6px_15px_0px_rgba(0,0,0,0.04)] lg:h-[116px] lg:rounded-[14px] lg:border lg:shadow-[0px_12px_30px_0px_rgba(0,0,0,0.04)] transition-colors duration-200 mt-[6px] lg:mt-[12px] ${phase === 'typing' && charIndex > 0 ? 'border-[rgba(38,109,240,0.32)]' : 'border-[#E5E7EB]'}`}>
 
             {/* Top: typed text with cursor, or placeholder */}
@@ -455,7 +434,7 @@ export function ChatDemoPanel(): ReactNode {
                   </span>
                 ) : (
                   <span className="overflow-hidden text-ellipsis font-medium text-[rgba(0,0,0,0.3)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">
-                    Ask anything...
+                    {ASK_CHAT_DEMO_PLACEHOLDER}
                   </span>
                 )}
               </div>
@@ -468,11 +447,11 @@ export function ChatDemoPanel(): ReactNode {
                 {/* "Auto" text badge */}
                 <div className="flex items-center justify-center h-[14px] min-w-[14px] gap-[2px] rounded-[4px] px-[3.5px] lg:h-[28px] lg:min-w-[28px] lg:gap-[4px] lg:rounded-[8px] lg:px-[7px]">
                   <div className="flex shrink-0 items-center justify-center px-[0.5px] lg:px-px">
-                    <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">Auto</span>
+                    <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_NAV.auto}</span>
                   </div>
                 </div>
 
-                {/* Slash + send — grouped together as in Attio */}
+                {/* Slash + send */}
                 <div className="flex shrink-0 items-center gap-[2px] lg:gap-[4px]">
                   <div className="flex shrink-0 items-center justify-center overflow-clip size-[14px] min-w-[14px] rounded-[4px] lg:size-[28px] lg:min-w-[28px] lg:rounded-[8px]">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="size-[7px] lg:size-[14px]" aria-hidden>
@@ -480,7 +459,7 @@ export function ChatDemoPanel(): ReactNode {
                     </svg>
                   </div>
 
-                  {/* Send button — blue square with arrow-up */}
+                  {/* Send button */}
                   <div className="flex shrink-0 items-center justify-center overflow-clip bg-[#266DF0] text-white size-[14px] min-w-[14px] rounded-[4px] border-[0.5px] border-[rgba(0,0,0,0.1)] shadow-[0px_1px_2px_-1px_rgba(15,107,233,0.12),0px_1.5px_3px_-1px_rgba(15,107,233,0.08)] lg:size-[28px] lg:min-w-[28px] lg:rounded-[8px] lg:border lg:shadow-[0px_2px_4px_-2px_rgba(15,107,233,0.12),0px_3px_6px_-2px_rgba(15,107,233,0.08)]">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="size-[7px] lg:size-[14px]" aria-hidden>
                       <path d="M6.72461 2.08154C6.91862 1.9537 7.18277 1.97532 7.35352 2.146L10.8535 5.646C11.0487 5.84114 11.0484 6.15774 10.8535 6.35303C10.6583 6.54829 10.3417 6.54829 10.1465 6.35303L7.5 3.70654V11.4995C7.5 11.7756 7.27601 11.9994 7 11.9995C6.72386 11.9995 6.5 11.7757 6.5 11.4995V3.70654L3.85352 6.35303C3.65825 6.54829 3.34175 6.54829 3.14648 6.35303C2.95129 6.15776 2.95125 5.84123 3.14648 5.646L6.64648 2.146L6.72461 2.08154Z" fill="white" />
@@ -492,12 +471,12 @@ export function ChatDemoPanel(): ReactNode {
             </div>
           </div>
 
-          {/* ── Suggestion chips — exact Attio structure ────────────────────────────── */}
+          {/* ── Suggestion chips ────────────────────────────────────────────────────── */}
           <AnimatePresence>
             {isHome && (
               <motion.div key="chips" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }} className="flex items-center justify-center gap-[5px] lg:gap-[10px] pt-2">
 
-            {/* Prep for next meeting — calendar icon, blue palette */}
+            {/* Chip 1 — calendar icon, blue palette */}
             <div className="flex shrink-0 items-center justify-center h-[14px] min-w-[14px] gap-[2px] rounded-[4px] border-[0.5px] border-[rgba(0,0,0,0.05)] pr-[3.5px] pl-[3px] lg:h-[28px] lg:min-w-[28px] lg:gap-[4px] lg:rounded-[8px] lg:border lg:pr-[7px] lg:pl-[6px]">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 size-[8px] lg:size-[16px]" aria-hidden>
                 <g clipPath="url(#chip-calendar)">
@@ -510,11 +489,11 @@ export function ChatDemoPanel(): ReactNode {
                 </defs>
               </svg>
               <div className="flex shrink-0 items-center justify-center px-[0.5px] lg:px-px">
-                <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">Prep for next meeting</span>
+                <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_CHIPS[0]}</span>
               </div>
             </div>
 
-            {/* Recap last call — microphone icon, pink palette */}
+            {/* Chip 2 — microphone icon, pink palette */}
             <div className="flex shrink-0 items-center justify-center h-[14px] min-w-[14px] gap-[2px] rounded-[4px] border-[0.5px] border-[rgba(0,0,0,0.05)] pr-[3.5px] pl-[3px] lg:h-[28px] lg:min-w-[28px] lg:gap-[4px] lg:rounded-[8px] lg:border lg:pr-[7px] lg:pl-[6px]">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 size-[8px] lg:size-[16px]" aria-hidden>
                 <g clipPath="url(#chip-microphone)">
@@ -527,7 +506,7 @@ export function ChatDemoPanel(): ReactNode {
                 </defs>
               </svg>
               <div className="flex shrink-0 items-center justify-center px-[0.5px] lg:px-px">
-                <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">Recap last call</span>
+                <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_CHIPS[1]}</span>
               </div>
             </div>
 
@@ -540,11 +519,11 @@ export function ChatDemoPanel(): ReactNode {
             {isHome && (
               <motion.div key="meetings" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.3, delay: 0.05 }} className="flex w-full flex-col mt-[8px] lg:mt-[16px]">
 
-            {/* Header: "Meetings" label + date + prev/next chevrons */}
+            {/* Header */}
             <div className="flex items-center justify-between mb-[6px] lg:mb-[12px]">
-              <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px] ml-1 lg:ml-2">Meetings</span>
+              <span className="font-medium text-[rgba(0,0,0,0.55)] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px] ml-1 lg:ml-2">{ASK_CHAT_DEMO_MEETINGS_LABEL}</span>
               <div className="flex items-center gap-[2px] lg:gap-[4px]">
-                <span className="font-medium text-[rgba(0,0,0,0.55)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">Today, Mar 13</span>
+                <span className="font-medium text-[rgba(0,0,0,0.55)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.date}</span>
                 <div className="flex items-center">
                   <div className="flex shrink-0 items-center justify-center h-[10px] min-w-[10px] rounded-[3px] px-[2px] lg:h-[20px] lg:min-w-[20px] lg:rounded-[6px] lg:px-[4px]">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="size-[7px] lg:size-[14px]" aria-hidden>
@@ -563,100 +542,88 @@ export function ChatDemoPanel(): ReactNode {
             {/* Meeting list */}
             <div className="flex flex-col">
 
-              {/* Past: Basepoint x Stripe — orange dot, line-through */}
+              {/* Past 1 */}
               <div className="rounded-[5px] p-[1px] lg:rounded-[10px] lg:p-[2px]">
                 <div className="flex items-center justify-between gap-[6px] rounded-[5px] py-[3px] pr-[5px] pl-[3px] lg:gap-[12px] lg:rounded-[10px] lg:py-[6px] lg:pr-[10px] lg:pl-[6px]">
                   <div className="flex items-center gap-[2px] lg:gap-[4px]">
                     <div className="flex shrink-0 items-center justify-center size-[10px] min-w-[10px] rounded-[3px] lg:size-[20px] lg:min-w-[20px] lg:rounded-[6px]">
-                      <div className="rounded-full size-[4px] lg:size-[8px]" style={{ backgroundColor: '#F5A300' }} />
+                      <div className="rounded-full size-[4px] lg:size-[8px]" style={{ backgroundColor: ASK_CHAT_DEMO_MEETINGS.past1.color }} />
                     </div>
-                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px] line-through opacity-30">Basepoint x Stripe</span>
+                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px] line-through opacity-30">{ASK_CHAT_DEMO_MEETINGS.past1.title}</span>
                   </div>
-                  <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">10:00 - 11:00 AM</span>
+                  <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.past1.time}</span>
                 </div>
               </div>
 
-              {/* Past: Ashley & Martin — gray dot, line-through */}
+              {/* Past 2 */}
               <div className="rounded-[5px] p-[1px] lg:rounded-[10px] lg:p-[2px]">
                 <div className="flex items-center justify-between gap-[6px] rounded-[5px] py-[3px] pr-[5px] pl-[3px] lg:gap-[12px] lg:rounded-[10px] lg:py-[6px] lg:pr-[10px] lg:pl-[6px]">
                   <div className="flex items-center gap-[2px] lg:gap-[4px]">
                     <div className="flex shrink-0 items-center justify-center size-[10px] min-w-[10px] rounded-[3px] lg:size-[20px] lg:min-w-[20px] lg:rounded-[6px]">
-                      <div className="rounded-full size-[4px] lg:size-[8px]" style={{ backgroundColor: '#CDCED2' }} />
+                      <div className="rounded-full size-[4px] lg:size-[8px]" style={{ backgroundColor: ASK_CHAT_DEMO_MEETINGS.past2.color }} />
                     </div>
-                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px] line-through opacity-30">Ashley &amp; Martin</span>
+                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px] line-through opacity-30">{ASK_CHAT_DEMO_MEETINGS.past2.title}</span>
                   </div>
-                  <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">10:20 - 10:40 AM</span>
+                  <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.past2.time}</span>
                 </div>
               </div>
 
-              {/* Active: Greenleaf // Basepoint — white card with shadow + full details */}
+              {/* Active meeting */}
               <div className="p-[1px] lg:p-[2px] rounded-[7px] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.10)] lg:rounded-[14px]">
 
                 {/* Title row */}
                 <div className="flex items-center justify-between gap-[6px] rounded-[5px] py-[3px] pr-[5px] pl-[3px] lg:gap-[12px] lg:rounded-[10px] lg:py-[6px] lg:pr-[10px] lg:pl-[6px]">
                   <div className="flex items-center gap-[2px] lg:gap-[4px]">
                     <div className="flex shrink-0 items-center justify-center size-[10px] min-w-[10px] rounded-[3px] lg:size-[20px] lg:min-w-[20px] lg:rounded-[6px]">
-                      <div className="rounded-full size-[4px] lg:size-[8px]" style={{ backgroundColor: '#00D17E' }} />
+                      <div className="rounded-full size-[4px] lg:size-[8px]" style={{ backgroundColor: ASK_CHAT_DEMO_MEETINGS.active.color }} />
                     </div>
-                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">Greenleaf // Basepoint</span>
+                    <span className="font-medium text-[#242629] text-[7px] leading-[10px] tracking-[-0.07px] lg:text-[14px] lg:leading-[20px] lg:tracking-[-0.14px]">{ASK_CHAT_DEMO_MEETINGS.active.title}</span>
                   </div>
-                  <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">2:30 - 3:00 PM</span>
+                  <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.active.time}</span>
                 </div>
 
                 {/* Details body */}
                 <div className="px-[5px] pb-[3px] lg:px-[10px] lg:pb-[6px]">
                   <div className="flex flex-col gap-[4px] lg:gap-[8px]">
-                    <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">Details</span>
+                    <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.active.detailsLabel}</span>
 
-                    {/* Description with notes icon */}
+                    {/* Description */}
                     <div className="flex items-start gap-[4px] text-[#505155] lg:gap-[8px]">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 mt-[1px] size-[6px] lg:mt-[2px] lg:size-[12px]" aria-hidden>
                         <path d="M9 1.5C9.69178 1.5 10.2407 1.50003 10.6826 1.53613C11.1304 1.57272 11.5127 1.64901 11.8623 1.82715C12.4265 2.11472 12.8853 2.57347 13.1729 3.1377C13.351 3.48732 13.4273 3.86958 13.4639 4.31738C13.5 4.75934 13.5 5.30822 13.5 6V8C13.5 8.69178 13.5 9.24066 13.4639 9.68262C13.4273 10.1304 13.351 10.5127 13.1729 10.8623C12.8853 11.4265 12.4265 11.8853 11.8623 12.1729C11.5127 12.351 11.1304 12.4273 10.6826 12.4639C10.2407 12.5 9.69178 12.5 9 12.5H5C4.30822 12.5 3.75934 12.5 3.31738 12.4639C2.86958 12.4273 2.48732 12.351 2.1377 12.1729C1.57347 11.8853 1.11472 11.4265 0.827148 10.8623C0.649006 10.5127 0.57272 10.1304 0.536133 9.68262C0.500028 9.24066 0.5 8.69178 0.5 8V6C0.5 5.30822 0.500028 4.75934 0.536133 4.31738C0.57272 3.86958 0.649006 3.48732 0.827148 3.1377C1.11472 2.57347 1.57347 2.11472 2.1377 1.82715C2.48732 1.64901 2.86958 1.57272 3.31738 1.53613C3.75934 1.50003 4.30822 1.5 5 1.5H9ZM5 2.5C4.29168 2.5 3.79023 2.50022 3.39844 2.53223C3.01264 2.56377 2.77691 2.62345 2.5918 2.71777C2.21554 2.90951 1.90951 3.21554 1.71777 3.5918C1.62345 3.77691 1.56377 4.01264 1.53223 4.39844C1.50022 4.79023 1.5 5.29168 1.5 6V8C1.5 8.70832 1.50022 9.20977 1.53223 9.60156C1.56377 9.98736 1.62345 10.2231 1.71777 10.4082C1.90951 10.7845 2.21554 11.0905 2.5918 11.2822C2.77691 11.3765 3.01264 11.4362 3.39844 11.4678C3.79023 11.4998 4.29168 11.5 5 11.5H9C9.70832 11.5 10.2098 11.4998 10.6016 11.4678C10.9874 11.4362 10.7231 11.3765 11.4082 11.2822C11.7845 11.0905 12.0905 10.7845 12.2822 10.4082C12.3765 10.2231 12.4362 9.98736 12.4678 9.60156C12.4998 9.20977 12.5 8.70832 12.5 8V6C12.5 5.29168 12.4998 4.79023 12.4678 4.39844C12.4362 4.01264 12.3765 3.77691 12.2822 3.5918C12.0905 3.21554 11.7845 2.90951 11.4082 2.71777C11.2231 2.62345 10.9874 2.56377 10.6016 2.53223C10.2098 2.50022 9.70832 2.5 9 2.5H5ZM4.82031 3.5C5.10596 3.5 5.35068 3.49928 5.55078 3.51562C5.75655 3.53246 5.959 3.57 6.15332 3.66895C6.44497 3.81755 6.68245 4.05503 6.83105 4.34668C6.93 4.541 6.96754 4.74345 6.98438 4.94922C7.00072 5.14932 7 5.39404 7 5.67969V8.32031C7 8.60596 7.00072 8.85068 6.98438 9.05078C6.96754 9.25655 6.93 9.459 6.83105 9.65332C6.68245 9.94497 6.44497 10.1825 6.15332 10.3311C5.959 10.43 5.75655 10.4675 5.55078 10.4844C5.35068 10.5007 5.10596 10.5 4.82031 10.5H4.67969C4.39404 10.5 4.14932 10.5007 3.94922 10.4844C3.74345 10.4675 3.541 10.43 3.34668 10.3311C3.05503 10.1825 2.81755 9.94497 2.66895 9.65332C2.57 9.459 2.53246 9.25655 2.51562 9.05078C2.49928 8.85068 2.5 8.60596 2.5 8.32031V5.67969C2.5 5.39404 2.49928 5.14932 2.51562 4.94922C2.53246 4.74345 2.57 4.541 2.66895 4.34668C2.81755 4.05503 3.05503 3.81755 3.34668 3.66895C3.541 3.57 3.74345 3.53246 3.94922 3.51562C4.14932 3.49928 4.39404 3.5 4.67969 3.5H4.82031ZM4.67969 4.5C4.3777 4.5 4.18118 4.50046 4.03125 4.5127C3.88792 4.52441 3.83098 4.54428 3.80078 4.55957C3.69729 4.6123 3.6123 4.69729 3.55957 4.80078C3.54428 4.83098 3.52441 4.88792 3.5127 5.03125C3.50046 5.18118 3.5 5.3777 3.5 5.67969V8.32031C3.5 8.6223 3.50046 8.81882 3.5127 8.96875C3.52441 9.11208 3.54428 9.16901 3.55957 9.19922C3.6123 9.30271 3.69729 9.3877 3.80078 9.44043C3.83098 9.45572 3.88792 9.47559 4.03125 9.4873C4.18118 9.49954 4.3777 9.5 4.67969 9.5H4.82031C5.1223 9.5 5.31882 9.49954 5.46875 9.4873C5.61208 9.47559 5.66902 9.45572 5.69922 9.44043C5.80271 9.3877 5.8877 9.30271 5.94043 9.19922C5.95572 9.16901 5.97559 9.11208 5.9873 8.96875C5.99954 8.81882 6 8.6223 6 8.32031V5.67969C6 5.3777 5.99954 5.18118 5.9873 5.03125C5.97559 4.88792 5.95572 4.83098 5.94043 4.80078C5.8877 4.69729 5.80271 4.6123 5.69922 4.55957C5.66902 4.54428 5.61208 4.52441 5.46875 4.5127C5.31882 4.50046 5.1223 4.5 4.82031 4.5H4.67969ZM11 7.5C11.2761 7.5 11.5 7.72386 11.5 8C11.5 8.27614 11.2761 8.5 11 8.5H8.5C8.22386 8.5 8 8.27614 8 8C8 7.72386 8.22386 7.5 8.5 7.5H11ZM11 5.5C11.2761 5.5 11.5 5.72386 11.5 6C11.5 6.27614 11.2761 6.5 11 6.5H8.5C8.22386 6.5 8 6.27614 8 6C8 5.72386 8.22386 5.5 8.5 5.5H11Z" fill="currentColor" />
                       </svg>
-                      <p className="font-medium text-[#505155] text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">Demo call with Greenleaf team to help them get the most out of their PRO trial.</p>
+                      <p className="font-medium text-[#505155] text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.active.description}</p>
                     </div>
 
-                    {/* Link with link icon */}
+                    {/* Link */}
                     <div className="flex items-center gap-[4px] text-[#505155] lg:gap-[8px]">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 size-[6px] lg:size-[12px]" aria-hidden>
                         <path d="M3.38306 5.9104C4.75706 4.53659 6.99219 4.61514 8.26978 6.04517L8.39087 6.18774L8.44556 6.27271C8.55146 6.47973 8.50139 6.73993 8.31274 6.89087C8.12421 7.0417 7.85964 7.03348 7.68091 6.88501L7.60962 6.81274L7.43579 6.61841C6.52607 5.70494 5.02475 5.68296 4.09009 6.61743L2.85376 7.85376C1.94445 8.76307 1.94445 10.2374 2.85376 11.1467C3.76308 12.0558 5.23749 12.056 6.14673 11.1467L7.14673 10.1467C7.34199 9.95147 7.6585 9.95147 7.85376 10.1467C8.04881 10.342 8.04895 10.6586 7.85376 10.8538L6.85376 11.8538C5.554 13.1535 3.44658 13.1534 2.14673 11.8538C0.846897 10.5539 0.846897 8.44656 2.14673 7.14673L3.38306 5.9104ZM7.14673 2.14673C8.44656 0.846898 10.5539 0.846897 11.8538 2.14673C13.1534 3.44658 13.1535 5.554 11.8538 6.85376L10.6174 8.09009C9.2435 9.46382 7.00834 9.38513 5.73071 7.95532L5.60962 7.81274L5.55493 7.72778C5.44885 7.52071 5.499 7.26062 5.68774 7.10962C5.87636 6.95875 6.14085 6.96683 6.31958 7.11548L6.39087 7.18774L6.5647 7.38208C7.47444 8.29534 8.97581 8.31745 9.9104 7.38306L11.1467 6.14673C12.056 5.23749 12.0558 3.76308 11.1467 2.85376C10.2374 1.94445 8.76307 1.94445 7.85376 2.85376L6.85376 3.85376C6.65857 4.04895 6.34201 4.04881 6.14673 3.85376C5.95147 3.6585 5.95147 3.34199 6.14673 3.14673L7.14673 2.14673Z" fill="currentColor" />
                       </svg>
-                      <p className="font-medium text-[#505155] underline text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">https://meet.google.com/psn-zfzb-yaw</p>
+                      <p className="font-medium text-[#505155] underline text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.active.link}</p>
                     </div>
                   </div>
 
                   {/* Participants */}
                   <div className="mt-[8px] flex flex-col gap-[4px] lg:mt-[16px] lg:gap-[8px]">
                     <div className="flex items-center gap-[4px] lg:gap-[8px]">
-                      <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">Participants</span>
-                      <span className="font-medium text-[rgba(0,0,0,0.55)] rounded-[2.5px] border-[0.5px] border-black/5 bg-[#F8F9FA] px-[1.5px] text-[5.5px] leading-[8px] lg:rounded-[5px] lg:border lg:px-[3px] lg:text-[11px] lg:leading-[16px]">8</span>
+                      <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.active.participantsLabel}</span>
+                      <span className="font-medium text-[rgba(0,0,0,0.55)] rounded-[2.5px] border-[0.5px] border-black/5 bg-[#F8F9FA] px-[1.5px] text-[5.5px] leading-[8px] lg:rounded-[5px] lg:border lg:px-[3px] lg:text-[11px] lg:leading-[16px]">{ASK_CHAT_DEMO_MEETINGS.active.participantsCount}</span>
                     </div>
-                    {/* Dylan Parker */}
-                    <div className="flex items-center gap-[4px] lg:gap-[8px]">
-                      <Image
-                        src="/avatars/ask/ask-tab-success/avatar-1.avif"
-                        alt="Dylan Parker"
-                        width={16}
-                        height={16}
-                        loading="lazy"
-                        className="shrink-0 rounded-full size-[8px] lg:size-[16px]"
-                      />
-                      <span className="font-medium text-[#505155] text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">Dylan Parker</span>
-                      <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">CEO of Basepoint</span>
-                    </div>
-                    {/* Annie Zhang */}
-                    <div className="flex items-center gap-[4px] lg:gap-[8px]">
-                      <Image
-                        src="/avatars/ask/ask-tab-success/avatar-2.avif"
-                        alt="Annie Zhang"
-                        width={16}
-                        height={16}
-                        loading="lazy"
-                        className="shrink-0 rounded-full size-[8px] lg:size-[16px]"
-                      />
-                      <span className="font-medium text-[#505155] text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">Annie Zhang</span>
-                      <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">Product Manager at Greenleaf</span>
-                    </div>
+                    {ASK_CHAT_DEMO_MEETINGS.active.participants.map((p) => (
+                      <div key={p.name} className="flex items-center gap-[4px] lg:gap-[8px]">
+                        <Image
+                          src={p.src}
+                          alt={p.name}
+                          width={16}
+                          height={16}
+                          loading="lazy"
+                          className="shrink-0 rounded-full size-[8px] lg:size-[16px]"
+                        />
+                        <span className="font-medium text-[#505155] text-[6.5px] leading-[8px] lg:text-[13px] lg:leading-[16px]">{p.name}</span>
+                        <span className="font-medium text-[rgba(0,0,0,0.4)] text-[6px] leading-[8px] lg:text-[12px] lg:leading-[16px]">{p.role}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 

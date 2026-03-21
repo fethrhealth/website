@@ -15,6 +15,7 @@ import { RealInfoCardVisual }               from '@/components/illustrations/Ask
 import { PermissionsCardVisual }            from '@/components/illustrations/AskPermissionsVisual'
 import { IntelligentSuggestionsCardVisual } from '@/components/illustrations/AskSuggestionsVisual'
 import { ChatDemoPanel }                    from '@/components/illustrations/AskChatDemoPanel'
+import { ASK_CHAT_DEMO_HEADING, ASK_CHAT_DEMO_CARDS } from '@/data/ask-chat-demo'
 
 // ─── Card data ────────────────────────────────────────────────────────────────
 
@@ -26,24 +27,9 @@ interface CardData {
 }
 
 const CARDS: CardData[] = [
-  {
-    icon:   '/assets/icons/ask/intelligence-built/real-information.webp',
-    title:  'Real information, not AI invention.',
-    body:   'Every answer is sourced from your actual CRM records and customer knowledge.',
-    visual: <RealInfoCardVisual />,
-  },
-  {
-    icon:   '/assets/icons/ask/intelligence-built/your-permissions.webp',
-    title:  'Your permissions, enforced.',
-    body:   "Ask Fethr follows your existing permissions, so everyone sees only what they're supposed to.",
-    visual: <PermissionsCardVisual />,
-  },
-  {
-    icon:   '/assets/icons/ask/intelligence-built/intelligent-suggestions.webp',
-    title:  'Intelligent suggestions. Human decisions.',
-    body:   "You're always in command and empowered to approve, modify, or reject any suggestion.",
-    visual: <IntelligentSuggestionsCardVisual />,
-  },
+  { ...ASK_CHAT_DEMO_CARDS[0], visual: <RealInfoCardVisual /> },
+  { ...ASK_CHAT_DEMO_CARDS[1], visual: <PermissionsCardVisual /> },
+  { ...ASK_CHAT_DEMO_CARDS[2], visual: <IntelligentSuggestionsCardVisual /> },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -69,7 +55,7 @@ export function AskChatDemoSection(): ReactNode {
 
             <header className="col-[2/-2] grid grid-cols-12 justify-items-center pb-20 pt-40 max-xl:pb-16 max-xl:pt-30 max-lg:pb-15 max-lg:pt-25">
               <div className="col-[2/-2] max-w-[20em] text-pretty text-center text-heading-responsive-sm mix-blend-multiply dark:mix-blend-screen">
-                <h2>Intelligence built for how you work and what you do.</h2>
+                <h2>{ASK_CHAT_DEMO_HEADING}</h2>
               </div>
             </header>
 

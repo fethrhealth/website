@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { ReactNode } from 'react'
+import { ASK_CHAT_DEMO_SUGGESTIONS } from '@/data/ask-chat-demo'
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -24,7 +25,7 @@ function AcceptButton(): ReactNode {
           fill="currentColor"
         />
       </svg>
-      <span className="font-medium text-xs">Accept</span>
+      <span className="font-medium text-xs">{ASK_CHAT_DEMO_SUGGESTIONS.acceptLabel}</span>
     </div>
   )
 }
@@ -55,8 +56,8 @@ export function IntelligentSuggestionsCardVisual(): ReactNode {
         <div className="flex items-center gap-1.5 px-1">
           <div className="relative size-4.5 border border-transparent bg-primary-background rounded-full">
             <Image
-              src="/assets/icons/ask/intelligence-built/drew-houston.avif"
-              alt="Drew Houston"
+              src={ASK_CHAT_DEMO_SUGGESTIONS.drew.src}
+              alt={ASK_CHAT_DEMO_SUGGESTIONS.drew.alt}
               width={16}
               height={16}
               loading="lazy"
@@ -65,12 +66,12 @@ export function IntelligentSuggestionsCardVisual(): ReactNode {
             <div className="absolute inset-0 size-full border border-black-0/10 rounded-full" />
           </div>
           <span className="font-medium text-sm text-primary-foreground underline decoration-caption-foreground">
-            Drew Houston
+            {ASK_CHAT_DEMO_SUGGESTIONS.drew.name}
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          <SuggestionCard label="Update Role">
-            <span className="text-secondary-foreground text-sm">Head of IT</span>
+          <SuggestionCard label={ASK_CHAT_DEMO_SUGGESTIONS.drew.card1Label}>
+            <span className="text-secondary-foreground text-sm">{ASK_CHAT_DEMO_SUGGESTIONS.drew.card1Value}</span>
           </SuggestionCard>
         </div>
       </div>
@@ -80,8 +81,8 @@ export function IntelligentSuggestionsCardVisual(): ReactNode {
         <div className="flex items-center gap-1.5 px-1">
           <div className="relative size-4.5 border border-transparent bg-primary-background rounded-sm">
             <Image
-              src="/assets/icons/ask/intelligence-built/greenleaf.avif"
-              alt="Greenleaf"
+              src={ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.src}
+              alt={ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.alt}
               width={16}
               height={16}
               loading="lazy"
@@ -90,17 +91,17 @@ export function IntelligentSuggestionsCardVisual(): ReactNode {
             <div className="absolute inset-0 size-full border border-black-0/10 rounded-sm" />
           </div>
           <span className="font-medium text-sm text-primary-foreground underline decoration-caption-foreground">
-            Greenleaf
+            {ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.name}
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          <SuggestionCard label="Funding raised">
+          <SuggestionCard label={ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.card1Label}>
             <span className="inline-flex rounded-md border border-[oklch(0.91_0.05_295)] bg-[oklch(0.96_0.03_295)] px-1.5 py-0.5 font-medium text-[13px] text-[oklch(0.42_0.18_295)] leading-tight">
-              $100M - $250M
+              {ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.card1Badge}
             </span>
           </SuggestionCard>
-          <SuggestionCard label="Update Next step">
-            <span className="text-secondary-foreground text-sm">Schedule a demo</span>
+          <SuggestionCard label={ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.card2Label}>
+            <span className="text-secondary-foreground text-sm">{ASK_CHAT_DEMO_SUGGESTIONS.greenleaf.card2Value}</span>
           </SuggestionCard>
         </div>
       </div>
