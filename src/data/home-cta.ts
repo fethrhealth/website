@@ -237,10 +237,7 @@ export const CTA_CONTENT = {
     label: "Start for free",
     href: "/signup",
   },
-  secondaryCta: {
-    label: "Talk to sales",
-    href: "/contact",
-  },
+
   /** Label on the submit button of the mobile email form */
   mobileCta: "Send me a demo",
 } as const;

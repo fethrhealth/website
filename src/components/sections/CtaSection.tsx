@@ -14,6 +14,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { CTA_AVATARS, CTA_CONTENT, type CtaAvatar } from "@/data/home-cta";
 import { DemoRequestForm } from "../ui/DemoRequestForm";
+import { TalkToSalesDialog } from "../ui/TalkToSalesDialog";
 
 // ---------------------------------------------------------------------------
 // Grid layout constants
@@ -478,12 +479,10 @@ export function CtaSection() {
                 {CTA_CONTENT.primaryCta.label}
               </Link>
 
-              <Link
-                href={CTA_CONTENT.secondaryCta.href}
-                className="button-outline relative inline-flex cursor-pointer items-center justify-center rounded-[10px] px-3 text-sm h-9 max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
-              >
-                {CTA_CONTENT.secondaryCta.label}
-              </Link>
+              <TalkToSalesDialog
+                source="home-cta"
+                className="button-outline border relative inline-flex cursor-pointer items-center justify-center rounded-[10px] px-3 text-sm h-9 max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
+              />
 
               {/* Mobile email form — shown only on mobile */}
               <DemoRequestForm

@@ -248,7 +248,7 @@ const TABLE_USERS_SU: TableRowDef[] = [
       { type: 'status', label: 'Member', color: 'yellow' },
       { type: 'status', label: 'Light', color: 'blue-soft' },
     ],
-    addCell: { type: 'record', label: 'Raycast', logo: '/images/logos/raycast.png', logoW: 1024, logoH: 1024 },
+    addCell: { type: 'record', label: 'Raycast', logo: '/assets/icons/home/flexibility/data-model-logo-raycast.avif', logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Jenna Roberts',
@@ -257,7 +257,7 @@ const TABLE_USERS_SU: TableRowDef[] = [
       { type: 'status', label: 'Admin', color: 'orange' },
       { type: 'status', label: 'Light', color: 'blue-soft' },
     ],
-    addCell: { type: 'record', label: 'Stripe', logo: '/images/logos/stripe.png', logoW: 225, logoH: 225 },
+    addCell: { type: 'record', label: 'Stripe', logo: '/assets/icons/home/flexibility/data-model-logo-stripe.avif', logoW: 225, logoH: 225 },
   },
   {
     name: 'David Chen',
@@ -266,7 +266,7 @@ const TABLE_USERS_SU: TableRowDef[] = [
       { type: 'status', label: 'Admin', color: 'orange' },
       { type: 'status', label: 'Power User', color: 'purple' },
     ],
-    addCell: { type: 'record', label: 'Anthropic', logo: '/images/logos/anthropic.png', logoW: 180, logoH: 180 },
+    addCell: { type: 'record', label: 'Anthropic', logo: '/assets/icons/home/flexibility/data-model-logo-anthropic.avif', logoW: 180, logoH: 180 },
   },
   {
     name: 'Marc Lopez',
@@ -275,7 +275,7 @@ const TABLE_USERS_SU: TableRowDef[] = [
       { type: 'status', label: 'Member', color: 'yellow' },
       { type: 'status', label: 'Inactive', color: 'teal' },
     ],
-    addCell: { type: 'record', label: 'Linear', logo: '/images/logos/linear.png', logoW: 48, logoH: 48 },
+    addCell: { type: 'record', label: 'Linear', logo: '/assets/icons/home/flexibility/data-model-logo-linear.avif', logoW: 48, logoH: 48 },
   },
 ]
 
