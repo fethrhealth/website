@@ -17,27 +17,17 @@ import { cn } from '@/lib/utils'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
 import { DemoRequestForm } from '@/components/ui/DemoRequestForm'
 import { TalkToSalesDialog } from '@/components/ui/TalkToSalesDialog'
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const PROMPTS = [
-  'Automatically qualify leads',
-  'Find expansion opportunities',
-  'Mitigate potential churn risks',
-]
-
-// TODO: replace with your copy — one placeholder per prompt (shown below the divider)
-const PLACEHOLDERS = [
-  'Does this company match our ICP?',
-  'Did any customers raise funding last quarter?',
-  'Did any customers appoint new VPs this month?',
-]
-
-const RESPONSES = [
-  'Company qualified as an ICP lead.',
-  '19 new expansion opportunities found.',
-  '4 workspaces identified as churn risks.',
-]
+import {
+  AI_HERO_EYEBROW,
+  AI_HERO_HEADING,
+  AI_HERO_SUBHEADING,
+  AI_HERO_CTA_PRIMARY,
+  AI_HERO_CTA_PRIMARY_HREF,
+  AI_HERO_AI_HERO_PROMPTS,
+  AI_HERO_AI_HERO_PLACEHOLDERS,
+  AI_HERO_AI_HERO_RESPONSES,
+  AI_HERO_WIDGET_BADGE,
+} from '@/data/ai-hero'
 
 // ─── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -169,7 +159,7 @@ function PromptText({ index }: { index: number }) {
   return (
     <div className="grid items-center overflow-hidden *:col-start-1 *:row-start-1">
       {/* Invisible spacers reserve max width */}
-      {PROMPTS.map(p => (
+      {AI_HERO_PROMPTS.map(p => (
         <div key={p} className="invisible whitespace-pre font-medium text-[16px] text-primary-foreground tracking-[-0.32px]">
           {p}
         </div>
@@ -177,8 +167,8 @@ function PromptText({ index }: { index: number }) {
 
       {/* Active prompt — keyed so AnimatePresence triggers exit/enter on swap */}
       <AnimatePresence initial={false}>
-        <div key={PROMPTS[index]} className="flex">
-          {PROMPTS[index]!.split('').map((char, i) => (
+        <div key={AI_HERO_PROMPTS[index]} className="flex">
+          {AI_HERO_PROMPTS[index]!.split('').map((char, i) => (
             <motion.span
               key={i}
               className="inline-block whitespace-pre font-medium text-[16px] text-primary-foreground tracking-[-0.32px]"
@@ -275,7 +265,7 @@ function PlaceholderText({ index }: { index: number }) {
   return (
     <div className="grid items-center overflow-hidden *:col-start-1 *:row-start-1">
       {/* Invisible spacers to reserve max width across all placeholder texts */}
-      {PLACEHOLDERS.map(p => (
+      {AI_HERO_PLACEHOLDERS.map(p => (
         <div
           key={p}
           aria-hidden
@@ -288,13 +278,13 @@ function PlaceholderText({ index }: { index: number }) {
       {/* Active placeholder — fades in/out on prompt change */}
       <AnimatePresence initial={false} mode="wait">
         <motion.div
-          key={PLACEHOLDERS[index]}
+          key={AI_HERO_PLACEHOLDERS[index]}
           initial={{ filter: 'blur(4px)', opacity: 0 }}
           animate={{ filter: 'blur(0px)', opacity: 1, transition: { duration: 0.3, ease: [0.33, 1, 0.68, 1] } }}
           exit={{   filter: 'blur(4px)', opacity: 0, transition: { duration: 0.2, ease: [0.32, 0, 0.67, 0] } }}
           className="origin-left truncate font-medium text-[#9FA1A7] text-[14px] leading-[19px]"
         >
-          {PLACEHOLDERS[index]}
+          {AI_HERO_PLACEHOLDERS[index]}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -317,28 +307,28 @@ export function AiHeroSection() {
 
   // Called by ResponseCard when typewriter finishes — advance to next prompt
   const handleEnd = useCallback((current: number) => {
-    setIndex((current + 1) % RESPONSES.length)
+    setIndex((current + 1) % AI_HERO_RESPONSES.length)
   }, [])
 
   const headerContent = (
     <>
       <div className="inline-block w-fit rounded-[13px] border border-weak-stroke bg-primary-background px-3 py-1.5 font-medium text-[13px]/[1.4em] text-secondary-foreground mb-6">
-        <h1>Embedded intelligence</h1>
+        <h1>{AI_HERO_EYEBROW}</h1>
       </div>
       <h2 className="max-w-[15em] text-balance text-heading-responsive-lg max-lg:text-center">
-        The AI CRM for go-to-market.
+        {AI_HERO_HEADING}
       </h2>
       <p className="mt-4 max-w-xl text-balance text-lg text-secondary-foreground lg:text-xl max-lg:text-center">
-        Beautifully intelligent. Designed to help your GTM team do their best work.
+        {AI_HERO_SUBHEADING}
       </p>
       <div className="flex w-full items-center justify-center lg:justify-start gap-x-2.5 gap-y-2 mt-6 max-lg:justify-center max-md:flex-col max-md:items-center">
 
         {/* Desktop: Start for free — hidden on mobile */}
         <Link
-          href="/platform/ai"
+          href={AI_HERO_CTA_PRIMARY_HREF}
           className="button-primary relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
         >
-          Start for free
+          {AI_HERO_CTA_PRIMARY}
         </Link>
 
         {/* Desktop: Talk to sales — hidden on mobile */}
@@ -452,7 +442,7 @@ export function AiHeroSection() {
                   <AnimatePresence>
                     {index !== null && (
                       <motion.div
-                        key={RESPONSES[index]}
+                        key={AI_HERO_RESPONSES[index]}
                         initial={{ filter: 'blur(4px)', opacity: 0, y: -40 }}
                         animate={{
                           filter: 'blur(0px)',
@@ -486,7 +476,7 @@ export function AiHeroSection() {
                       >
                         <ResponseCard
                           icon={getIcon(index)}
-                          text={RESPONSES[index]!}
+                          text={AI_HERO_RESPONSES[index]!}
                           onEnd={() => handleEnd(index)}
                         />
                       </motion.div>
@@ -509,7 +499,7 @@ export function AiHeroSection() {
                         {index !== null && <PromptText index={index} />}
                       </div>
                       <span className="rounded-[9px] border border-[#EEEFF1] bg-[#F4F5F6] px-1.5 pt-px pb-0.5 font-medium text-[#5C5E63] text-[14px] leading-[18px] hidden md:block shrink-0">
-                        AI
+                        {AI_HERO_WIDGET_BADGE}
                       </span>
                     </div>
 
