@@ -30,7 +30,7 @@ export const AI_GRID_ITEMS: NumberedGridItem[] = [
     image:       '/assets/images/platform/ai/ask-attio/context-on-demand.webp',
     imageWidth:  800,
     imageHeight: 480,
-    title:       'Context on demand.',
+    title:       'Context on demand. hola',
     description: 'Company structure, tech stack, product details, past conversations. One question replaces endless searching.',
   },
   {
