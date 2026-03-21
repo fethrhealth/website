@@ -20,6 +20,7 @@
 
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { DashedH, DashedV, SolidH, SolidV, BentoArrowIcon } from '@/components/icons/HomeBentoIcons'
 import { AutomationStackVisual } from '@/components/sections/AutomationStackVisual'
 import { AutomationWorkflowCanvas } from '@/components/sections/AutomationWorkflowCanvas'
 import { BentoCubeVisual } from '@/components/sections/BentoCubeVisual'
@@ -32,52 +33,6 @@ import { BentoReportingListVisual } from '@/components/sections/BentoReportingLi
 import { DeployAIWorkflowCanvas } from './DeployAIWorkflowCanvas'
 import { BentoReportingChartVisual } from './BentoReportingChartVisual'
 import { BentoDataFlowVisual } from './BentoDataFlowVisual'
-
-// ─── SVG helpers ───────────────────────────────────────────────────────────────
-
-function DashedH({ className = '' }: { className?: string }): ReactNode {
-  return (
-    <svg width="100%" height="1" className={className} aria-hidden>
-      <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function DashedV({ className = '' }: { className?: string }): ReactNode {
-  return (
-    <svg width="1" height="100%" className={className} aria-hidden>
-      <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function SolidH({ className = '' }: { className?: string }): ReactNode {
-  return (
-    <svg width="100%" height="1" className={className} aria-hidden>
-      <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function SolidV({ className = '' }: { className?: string }): ReactNode {
-  return (
-    <svg width="1" height="100%" className={className} aria-hidden>
-      <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function ArrowIcon(): ReactNode {
-  return (
-    <svg
-      width="14" height="14" viewBox="0 0 14 14" fill="none"
-      className="transition-[translate] duration-400 ease-in-out group-hover:translate-x-0.25 group-hover:duration-150 group-active:translate-x-0.25 group-active:duration-50"
-      aria-hidden
-    >
-      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5" />
-    </svg>
-  )
-}
 
 // ─── contentA — dot pattern placeholder ───────────────────────────────────────
 
@@ -244,7 +199,7 @@ function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; con
             className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-10 gap-x-2 rounded-xl px-3.25 pr-2.5 text-base button-ghost group mt-auto -ml-3.5"
           >
             <span>{item.linkLabel}</span>
-            <ArrowIcon />
+            <BentoArrowIcon />
           </Link>
         </div>
 
