@@ -10,7 +10,8 @@ import { TabVisualSales }     from '@/components/illustrations/TabVisualSales'
 import { TabVisualFounders }  from '@/components/illustrations/TabVisualFounders'
 import { TabVisualVC }        from '@/components/illustrations/TabVisualVC'
 import { AskChatDemoSection } from '@/components/sections/AskChatDemoSection'
-import { ASK_LIBRARY_HEADING, ASK_LIBRARY_SUBHEADING, PROMPT_CARDS } from '@/data/ask-library'
+import { ASK_LIBRARY_HEADING, ASK_LIBRARY_SUBHEADING, PROMPT_CARDS, PROMPT_CARDS_TWO } from '@/data/ask-library'
+import { ASK_REVIEW_QUOTE, ASK_REVIEW_AUTHOR, ASK_REVIEW_ROLE } from '@/data/ask-review'
 import { ASK_TABS, ASK_TABS_HEADING } from '@/data/ask-tabs'
 import {
   ASK_CONTEXT_EYEBROW,
@@ -56,13 +57,13 @@ export default function AskAIPage(): React.ReactElement {
         heading={ASK_LIBRARY_HEADING}
         subheading={ASK_LIBRARY_SUBHEADING}
         row1={PROMPT_CARDS}
-        row2={[...PROMPT_CARDS].reverse()}
+        row2={[...PROMPT_CARDS_TWO].reverse()}
       />
       <Divider/>
       <ReviewSection
-        quote='"Before every meeting, Ask Fethr centralizes, summarizes, and surfaces everything I need to know to give a great first impression or close the deal."'
-        author="Ian Ahuja"
-        role="Head of Sales & Partnerships · Lightdash"
+        quote={ASK_REVIEW_QUOTE}
+        author={ASK_REVIEW_AUTHOR}
+        role={ASK_REVIEW_ROLE}
       />
       <Divider/>
       <TrialSection
