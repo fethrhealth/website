@@ -12,6 +12,7 @@ import { TabVisualVC }        from '@/components/illustrations/TabVisualVC'
 import { AskChatDemoSection } from '@/components/sections/AskChatDemoSection'
 import { ASK_LIBRARY_HEADING, ASK_LIBRARY_SUBHEADING, PROMPT_CARDS, PROMPT_CARDS_TWO } from '@/data/ask-library'
 import { ASK_REVIEW_QUOTE, ASK_REVIEW_AUTHOR, ASK_REVIEW_ROLE } from '@/data/ask-review'
+import { ASK_CTA_HEADING, ASK_CTA_HEADING_SERIF } from '@/data/ask-cta'
 import { ASK_TABS, ASK_TABS_HEADING } from '@/data/ask-tabs'
 import {
   ASK_CONTEXT_EYEBROW,
@@ -67,7 +68,8 @@ export default function AskAIPage(): React.ReactElement {
       />
       <Divider/>
       <TrialSection
-        heading="Ask more from CRM. Ask Attio." headingSerif=""
+        heading={ASK_CTA_HEADING}
+        headingSerif={ASK_CTA_HEADING_SERIF}
       />
     </main>
   )
