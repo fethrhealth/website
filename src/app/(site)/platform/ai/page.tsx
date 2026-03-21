@@ -7,8 +7,8 @@ import { PlatformNavSection } from "@/components/sections/PlatformNavSection";
 import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSection";
 import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
-import { ITEMS } from "@/data/platform-ai"
 import { AI_CALLS_HEADING, AI_CALLS_SUBHEADING, AI_CALLS_ITEMS } from "@/data/ai-calls"
+import { AI_CRM_HEADING, AI_CRM_SUBHEADING, AI_CRM_ITEMS } from "@/data/ai-crm"
 import { AI_GRID_HEADING, AI_GRID_SUBHEADING, AI_GRID_ITEMS, AI_GRID_QUOTE } from "@/data/ai-grid-section"
 import { AI_ACCORDION_HEADING, AI_ACCORDION_SUBHEADING, AI_ACCORDION_ITEMS } from "@/data/ai-accordion"
 
@@ -50,12 +50,12 @@ export default function AIPage(): React.ReactElement {
       />
       <Divider/>
       <FeatureGridSection
-        heading="CRM, meet MCP."
-        subheading="Connect to Attio in AI tools and get work done anywhere, anytime."
+        heading={AI_CRM_HEADING}
+        subheading={AI_CRM_SUBHEADING}
         cols={3}
         background="hatching"
         rules="solid"
-        items={ITEMS}
+        items={AI_CRM_ITEMS}
         divider
       />
       <PlatformNavSection currentHref="/platform/ai" />
