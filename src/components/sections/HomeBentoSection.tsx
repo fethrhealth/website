@@ -21,6 +21,12 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { DashedH, DashedV, SolidH, SolidV, BentoArrowIcon } from '@/components/icons/HomeBentoIcons'
+import {
+  BENTO_SECTION_NUMBER, BENTO_SECTION_LABEL, BENTO_SECTION_COUNTER,
+  BENTO_HEADING, BENTO_SUBHEADING,
+  BENTO_ITEMS,
+} from '@/data/home-bento'
+import type { BentoItem } from '@/data/home-bento'
 import { BentoIllustrationPipeline } from '@/components/illustrations/BentoIllustrationPipeline'
 import { BentoIllustrationStack } from '@/components/illustrations/BentoIllustrationStack'
 import { BentoIllustrationCube } from '@/components/illustrations/BentoIllustrationCube'
@@ -109,53 +115,6 @@ function GraphPaperCell({ visual }: { visual?: ReactNode }): ReactNode {
   )
 }
 
-// ─── Bento item data ───────────────────────────────────────────────────────────
-
-interface BentoItem {
-  readonly title: string
-  readonly description: string
-  readonly linkLabel: string
-  readonly linkHref: string
-  /** Unique SVG pattern id — prevents duplicate IDs in the DOM */
-  readonly patternId: string
-  readonly isLast: boolean
-}
-
-const BENTO_ITEMS: readonly BentoItem[] = [
-  {
-    title: 'Automate everything',
-    description: "You're in control. Automate even the most complex business processes with our powerful, intelligent automation engine.",
-    linkLabel: 'Explore automations',
-    linkHref: '/platform/automations',
-    patternId: 'bento-dot-a',
-    isLast: false,
-  },
-  {
-    title: 'Deploy AI',
-    description: 'Search and create with Ask Fethr, connect your stack with MCP, or put agents to work on complex tasks like prospecting and lead scoring.',
-    linkLabel: 'Explore AI',
-    linkHref: '/platform/ask',
-    patternId: 'bento-dot-b',
-    isLast: false,
-  },
-  {
-    title: 'Connect any type of data',
-    description: 'Sync product data, billing data, and everything in between, for a real-time single source of truth for your business.',
-    linkLabel: 'Explore data',
-    linkHref: '/platform/data',
-    patternId: 'bento-dot-c',
-    isLast: false,
-  },
-  {
-    title: 'Powerful reporting',
-    description: "Create real-time, detailed reports that scale with your data. Visualize, customize, and get deep insights in seconds — not hours.",
-    linkLabel: 'Explore reporting',
-    linkHref: '/platform/reporting',
-    patternId: 'bento-dot-d',
-    isLast: true,
-  },
-]
-
 // ─── Bento row ─────────────────────────────────────────────────────────────────
 
 function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; contentA?: ReactNode; contentB?: ReactNode; contentC?: ReactNode }): ReactNode {
@@ -234,10 +193,10 @@ export function HomeBentoSection(): ReactNode {
           <div className="hidden lg:block pt-[60px]">
             <div className="flex items-center justify-between px-5 text-overline font-display">
               <h2 className="flex gap-x-[6px]">
-                <span>[01]</span>
-                <span className="text-black-800">Powerful platform</span>
+                <span>{BENTO_SECTION_NUMBER}</span>
+                <span className="text-black-800">{BENTO_SECTION_LABEL}</span>
               </h2>
-              <span>/ item 1 ⋮ 4</span>
+              <span>{BENTO_SECTION_COUNTER}</span>
             </div>
             <DashedH className="text-subtle-stroke mt-5 h-px w-full" />
           </div>
@@ -247,11 +206,11 @@ export function HomeBentoSection(): ReactNode {
             <div className="col-span-10 col-start-2 max-w-[28em] text-balance pt-20 pb-16 text-heading-sm lg:pt-[120px] overflow-hidden">
               <h3 className="inline">
                 <span className="font-semibold text-[#1c1d1f]">
-                  GTM&nbsp;at&nbsp;full&nbsp;throttle.&nbsp;
+                  {BENTO_HEADING}
                 </span>
               </h3>
               <p className="sm:inline font-medium text-black-800">
-                Execute your revenue strategy with precision. Design powerful workflows, deploy AI, integrate your data and build detailed reports — all in one platform.
+                {BENTO_SUBHEADING}
               </p>
             </div>
           </div>
