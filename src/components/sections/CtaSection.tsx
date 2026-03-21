@@ -5,14 +5,14 @@
  * Pixel-perfect adaptation of attio.com's CTA section.
  *
  * Avatar photos: /public/avatars/avatar-01.jpg … avatar-N.jpg
- * Content / data: src/data/cta-avatars.ts
+ * Content / data: src/data/home-cta.ts
  */
 
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { CTA_AVATARS, CTA_CONTENT, type CtaAvatar } from "@/data/cta-avatars";
+import { CTA_AVATARS, CTA_CONTENT, type CtaAvatar } from "@/data/home-cta";
 import { DemoRequestForm } from "../ui/DemoRequestForm";
 
 // ---------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { TalkToSalesDialog } from '@/components/ui/TalkToSalesDialog'
+import { SECURITY_HEADING, SECURITY_SUBHEADING, SECURITY_CERTS } from '@/data/home-security'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -161,10 +162,10 @@ export default function SecuritySection() {
 
                   <div className="text-2xl leading-[2.375rem] tracking-[-0.01em]">
                     <h3 className="inline font-semibold text-foreground">
-                      Scale with security.{' '}
+                      {SECURITY_HEADING}{' '}
                     </h3>
                     <p className="inline font-medium text-[#8f99a8]">
-                      Fethr is audited and certified by industry-leading third party standards.
+                      {SECURITY_SUBHEADING}
                     </p>
                   </div>
 
@@ -183,38 +184,21 @@ export default function SecuritySection() {
                   </div>
                 </div>
 
-                {/* ── Right panel: three certification cells ─────────────── */}
+                {/* ── Right panel: certification cells ──────────────────── */}
                 <div className="flex lg:col-span-6">
-
-                  {/* GDPR */}
-                  <div className="relative flex flex-1 flex-col items-center justify-center gap-5 py-10">
-                    <VSolid className="absolute left-0 max-lg:hidden" />
-                    <GdprIcon />
-                    <span className="flex items-center gap-1 text-base text-[#8f99a8] leading-5 tracking-[0px]">
-                      <CheckBadge />
-                      GDPR
-                    </span>
-                  </div>
-
-                  {/* CCPA */}
-                  <div className="relative flex flex-1 flex-col items-center justify-center gap-5 py-10">
-                    <VSolid className="absolute left-0" />
-                    <CcpaIcon />
-                    <span className="flex items-center gap-1 text-base text-[#8f99a8] leading-5 tracking-[0px]">
-                      <CheckBadge />
-                      CCPA
-                    </span>
-                  </div>
-
-                  {/* ISO 27001 */}
-                  <div className="relative flex flex-1 flex-col items-center justify-center gap-5 py-10">
-                    <VSolid className="absolute left-0" />
-                    <IsoIcon />
-                    <span className="flex items-center gap-1 text-base text-[#8f99a8] leading-5 tracking-[0px]">
-                      <CheckBadge />
-                      ISO
-                    </span>
-                  </div>
+                  {SECURITY_CERTS.map(({ label }, i) => {
+                    const Icon = i === 0 ? GdprIcon : i === 1 ? CcpaIcon : IsoIcon
+                    return (
+                      <div key={label} className="relative flex flex-1 flex-col items-center justify-center gap-5 py-10">
+                        <VSolid className={cn('absolute left-0', i === 0 && 'max-lg:hidden')} />
+                        <Icon />
+                        <span className="flex items-center gap-1 text-base text-[#8f99a8] leading-5 tracking-[0px]">
+                          <CheckBadge />
+                          {label}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>

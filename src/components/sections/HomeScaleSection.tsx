@@ -24,7 +24,7 @@ interface HomeScaleSectionProps {
   /** Description paragraph — rendered inline after heading */
   description: string
   /** 4 stat items rendered in a 2×2 grid on desktop */
-  stats: [ScaleStatItem, ScaleStatItem, ScaleStatItem, ScaleStatItem]
+  stats: readonly [ScaleStatItem, ScaleStatItem, ScaleStatItem, ScaleStatItem]
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────

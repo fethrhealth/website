@@ -10,6 +10,21 @@ import { HomeSpeedVisual } from '@/components/sections/HomeSpeedVisual'
 import { HomeBentoSection } from '@/components/sections/HomeBentoSection'
 import { HomeHeroSection } from '@/components/sections/HomeHeroSection'
 import { HomeAdaptiveSection } from '@/components/sections/HomeAdaptiveSection'
+import {
+  ADAPTIVE_SECTION_LABEL, ADAPTIVE_SECTION_TAG,
+  ADAPTIVE_HEADING, ADAPTIVE_DESCRIPTION,
+  ADAPTIVE_CTA_TEXT, ADAPTIVE_CTA_HREF,
+} from '@/data/home-adaptive'
+import {
+  SPEED_SECTION_LABEL, SPEED_SECTION_TAG,
+  SPEED_HEADING, SPEED_DESCRIPTION,
+  SPEED_CTA_TEXT, SPEED_CTA_HREF,
+} from '@/data/home-speed'
+import {
+  SCALE_SECTION_LABEL, SCALE_SECTION_TAG,
+  SCALE_HEADING, SCALE_DESCRIPTION,
+  SCALE_STATS,
+} from '@/data/home-scale'
 
 export const metadata: Metadata = {
   title: 'The CRM for modern healthcare teams',
@@ -24,50 +39,44 @@ export default function HomePage(): React.ReactElement {
     <main>
       <HomeHeroSection />
       <HomeBentoSection />
-      <Divider/>
-      <TrialSection 
+      <Divider />
+      <TrialSection
         source='home'
         showSales={false}
         showPlansLink
         showImageMobile
       />
-      <Divider/>
+      <Divider />
       <HomeAdaptiveSection
         index={2}
-        sectionLabel="Adaptive model"
-        sectionTag="/ data ↔ business"
-        heading="A seismic shift in CRM flexibility."
-        description="Attio’s powerful data model adapts to how your business works, not the other way around. Your business model — perfectly reflected in your CRM."
-        ctaText="Explore the data model"
-        ctaHref="/platform/data"
-      >
-      </HomeAdaptiveSection>
+        sectionLabel={ADAPTIVE_SECTION_LABEL}
+        sectionTag={ADAPTIVE_SECTION_TAG}
+        heading={ADAPTIVE_HEADING}
+        description={ADAPTIVE_DESCRIPTION}
+        ctaText={ADAPTIVE_CTA_TEXT}
+        ctaHref={ADAPTIVE_CTA_HREF}
+      />
       <TestimonialsSection />
       <HomeSpeedSection
         index={3}
-        sectionLabel="data enrichment"
-        sectionTag="/ speed 1:1"
-        heading="Build fast."
-        description="Forget months of setup. Attio syncs immediately with your email and calendar, building a powerful CRM right before your eyes."
-        ctaText="Start for free"
-        ctaHref="/"
+        sectionLabel={SPEED_SECTION_LABEL}
+        sectionTag={SPEED_SECTION_TAG}
+        heading={SPEED_HEADING}
+        description={SPEED_DESCRIPTION}
+        ctaText={SPEED_CTA_TEXT}
+        ctaHref={SPEED_CTA_HREF}
       >
         <HomeSpeedVisual />
       </HomeSpeedSection>
       <HomeScaleSection
         index={4}
-        sectionLabel="Built for scale"
-        sectionTag="/ growth + security"
-        heading="The platform built for high-growth health teams."
-        description="Fethr handles millions of patient touchpoints with zero latency and enterprise-grade reliability."
-        stats={[
-          { value: '200,000,000', label: 'Patient records' },
-          { value: '132', suffix: '+', label: 'Health systems' },
-          { value: '7,000', suffix: '+', label: 'Clinics' },
-          { value: '99.9%', label: 'Uptime' },
-        ]}
+        sectionLabel={SCALE_SECTION_LABEL}
+        sectionTag={SCALE_SECTION_TAG}
+        heading={SCALE_HEADING}
+        description={SCALE_DESCRIPTION}
+        stats={SCALE_STATS}
       />
-      <Divider/>
+      <Divider />
       <SecuritySection />
       <Divider />
       <CtaSection />
