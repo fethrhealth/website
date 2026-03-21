@@ -7,7 +7,8 @@ import { PlatformNavSection } from "@/components/sections/PlatformNavSection";
 import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSection";
 import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
-import { ITEMS, SMARTER_CALLS, AUTONOMOUS_WORK, ASK_ATTIO_ITEMS, ASK_ATTIO_QUOTE } from "@/data/platform-ai"
+import { ITEMS, SMARTER_CALLS, AUTONOMOUS_WORK } from "@/data/platform-ai"
+import { AI_GRID_HEADING, AI_GRID_SUBHEADING, AI_GRID_ITEMS, AI_GRID_QUOTE } from "@/data/ai-grid-section"
 
 export const metadata: Metadata = {
   title: 'Embedded Intelligence',
@@ -25,14 +26,14 @@ export default function AIPage(): React.ReactElement {
       <CompaniesSection/>
       <Divider/>
       <FeatureGridSection
-        heading='Ask Attio.'
-        subheading='Search, update, and create with AI.'
+        heading={AI_GRID_HEADING}
+        subheading={AI_GRID_SUBHEADING}
         cols={2}
         background='dots'
         rules='dashed'
         guideLines
-        items={ASK_ATTIO_ITEMS}
-        quote={ASK_ATTIO_QUOTE}
+        items={AI_GRID_ITEMS}
+        quote={AI_GRID_QUOTE}
       />
       <Divider/>
       <ScrollAccordionSection
