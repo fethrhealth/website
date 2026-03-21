@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { AiHeroSection } from "@/components/sections/AiHeroSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
 import { EnrichmentSection } from "@/components/sections/EnrichmentSection";
@@ -7,6 +8,11 @@ import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSec
 import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
 import { ITEMS, SMARTER_CALLS, AUTONOMOUS_WORK, ASK_ATTIO_ITEMS, ASK_ATTIO_QUOTE } from "@/data/platform-ai"
+
+export const metadata: Metadata = {
+  title: 'Embedded Intelligence',
+  description: 'AI built into every layer of your CRM. Enrich records, surface insights, and let Fethr Health think alongside your team.',
+}
 
 /**
  * AI page — /platform/ai

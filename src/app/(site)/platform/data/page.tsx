@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { DataContextSection } from '@/components/sections/DataContextSection'
 import { DataHeroSection } from '@/components/sections/DataHeroSection'
 import { EnrichmentSection } from '@/components/sections/EnrichmentSection'
@@ -9,6 +10,11 @@ import TrialSection from '@/components/sections/TrialSection'
 import Divider from '@/components/ui/divider'
 import { DATA_PAGE_TABS } from '@/data/feature-tabs'
 import { DATA_ENRICHMENT_ITEMS, DATA_GRID_ITEMS, DATA_GRID_QUOTE, DATA_SOURCES_ITEMS } from '@/data/platform-data'
+
+export const metadata: Metadata = {
+  title: 'Data',
+  description: 'Your healthcare data, structured and enriched. Keep every record accurate, complete, and ready to act on.',
+}
 
 /**
  * Data page — /platform/data

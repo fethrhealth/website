@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { DevelopersBuildYourWaySection } from '@/components/sections/DevelopersBuildYourWaySection'
 import { DevelopersCtaSection } from '@/components/sections/DevelopersCtaSection'
 import { DevelopersForDevsSection } from '@/components/sections/DevelopersForDevsSection'
@@ -6,8 +7,11 @@ import { DevelopersMcpSection } from '@/components/sections/DevelopersMcpSection
 import { DevelopersRestApiSection } from '@/components/sections/DevelopersRestApiSection'
 import { DevelopersReviewSection } from '@/components/sections/DevelopersReviewSection'
 import { DevelopersSdkAppsSection } from '@/components/sections/DevelopersSdkAppsSection'
-import TrialSection from '@/components/sections/TrialSection'
-import Divider from '@/components/ui/divider'
+
+export const metadata: Metadata = {
+  title: 'Developers',
+  description: 'Build on Fethr Health with a powerful REST API, MCP server, and SDK. Integrate, automate, and extend your CRM your way.',
+}
 
 /**
  * Developers page — /platform/developers

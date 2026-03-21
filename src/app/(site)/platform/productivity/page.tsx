@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { AccordionImageSection } from '@/components/sections/AccordionImageSection'
 import { BentoGridSection } from '@/components/sections/BentoGridSection'
 import { CompaniesSection } from '@/components/sections/CompaniesSection'
@@ -10,6 +11,11 @@ import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMA
 import { REPORTING_ENGINE } from '@/data/platform-reporting'
 import { Divide } from 'lucide-react'
 
+
+export const metadata: Metadata = {
+  title: 'Productivity',
+  description: 'Do more with less friction. Fethr Health keeps your team in flow with tools designed for speed and collaboration.',
+}
 
 /**
  * Productivity page — /platform/productivity

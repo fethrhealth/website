@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { AccordionImageSection } from "@/components/sections/AccordionImageSection";
 import { BentoGridSection } from "@/components/sections/BentoGridSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
@@ -11,6 +12,11 @@ import {
   REPORTING_DATA_EXPLORATION,
   REPORTING_ENGINE,
 } from "@/data/platform-reporting";
+
+export const metadata: Metadata = {
+  title: 'Reporting',
+  description: 'Understand your pipeline at a glance. Build reports and dashboards that give every team member the context they need.',
+}
 
 /**
  * Reporting page — /platform/reporting

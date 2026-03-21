@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import TrialSection from '@/components/sections/TrialSection'
 import SecuritySection from '@/components/sections/SecuritySection'
@@ -9,6 +10,11 @@ import { HomeSpeedVisual } from '@/components/sections/HomeSpeedVisual'
 import { HomeBentoSection } from '@/components/sections/HomeBentoSection'
 import { HomeHeroSection } from '@/components/sections/HomeHeroSection'
 import { HomeAdaptiveSection } from '@/components/sections/HomeAdaptiveSection'
+
+export const metadata: Metadata = {
+  title: 'The CRM for modern healthcare teams',
+  description: 'Fethr Health gives healthcare teams a CRM built for their world — fast, flexible, and deeply integrated with the tools they already use.',
+}
 
 /**
  * Home page — pixel-perfect clone of attio.com adapted for Fethr Health.

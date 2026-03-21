@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { SequencesHeroSection } from "@/components/sections/SequencesHeroSection";
 import { FeatureGridSection } from "@/components/sections/FeatureGridSection";
 import { FeaturePreviewSection } from "@/components/sections/FeaturePreviewSection";
@@ -8,6 +9,11 @@ import TrialSection from "@/components/sections/TrialSection";
 import { ZeroTouchSection } from "@/components/sections/ZeroTouchSection";
 import Divider from "@/components/ui/divider";
 import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-sequences"
+
+export const metadata: Metadata = {
+  title: 'Sequences',
+  description: 'Send the right message at the right time. Build personalized outreach sequences that feel human and scale effortlessly.',
+}
 
 /**
  * Sequences page — /platform/sequences

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { AccordionImageSection } from '@/components/sections/AccordionImageSection'
 import { BentoGridSection } from '@/components/sections/BentoGridSection'
 import { CompaniesSection } from '@/components/sections/CompaniesSection'
@@ -8,6 +9,11 @@ import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsS
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
 import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, AUTOMATE_YOUR_WAY, BETTER_SYSTEM_FEATURES, WORKFLOW_INTEGRATIONS } from '@/data/platform-workflows'
 import Divider from '@/components/ui/divider'
+
+export const metadata: Metadata = {
+  title: 'Workflows',
+  description: 'Automate the repetitive work. Build powerful workflows that keep your healthcare team moving without the manual effort.',
+}
 
 /**
  * Workflows page — /platform/workflows

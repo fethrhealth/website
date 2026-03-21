@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { FaqSection } from "@/components/sections/FaqSection"
 import { PageHero } from "@/components/sections/PageHero"
 import { REFER_FAQ } from "@/data/faq"
@@ -6,6 +7,11 @@ import { CompaniesSection } from "@/components/sections/CompaniesSection"
 import { ReferralProcessSection } from "@/components/sections/ReferralProcessSection"
 import { AccordionImageSection } from "@/components/sections/AccordionImageSection"
 import { TIER_1_REWARDS } from "@/data/rewards"
+
+export const metadata: Metadata = {
+  title: 'Refer',
+  description: 'Share Fethr Health with your network. Gift teams a discount and earn exclusive rewards through our referral program.',
+}
 
 export default function ReferPage(): React.ReactElement {
   return (
