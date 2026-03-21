@@ -9,6 +9,7 @@ import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
 import { AI_CALLS_HEADING, AI_CALLS_SUBHEADING, AI_CALLS_ITEMS } from "@/data/ai-calls"
 import { AI_CRM_HEADING, AI_CRM_SUBHEADING, AI_CRM_ITEMS } from "@/data/ai-crm"
+import { AI_NAV_CURRENT_HREF } from "@/data/ai-nav-section"
 import { AI_GRID_HEADING, AI_GRID_SUBHEADING, AI_GRID_ITEMS, AI_GRID_QUOTE } from "@/data/ai-grid-section"
 import { AI_ACCORDION_HEADING, AI_ACCORDION_SUBHEADING, AI_ACCORDION_ITEMS } from "@/data/ai-accordion"
 
@@ -58,7 +59,7 @@ export default function AIPage(): React.ReactElement {
         items={AI_CRM_ITEMS}
         divider
       />
-      <PlatformNavSection currentHref="/platform/ai" />
+      <PlatformNavSection currentHref={AI_NAV_CURRENT_HREF} />
       <Divider />
       <TrialSection 
         source="ai"
