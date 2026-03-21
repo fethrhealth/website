@@ -10,7 +10,7 @@ import { TabVisualSales }     from '@/components/illustrations/TabVisualSales'
 import { TabVisualFounders }  from '@/components/illustrations/TabVisualFounders'
 import { TabVisualVC }        from '@/components/illustrations/TabVisualVC'
 import { AskChatDemoSection } from '@/components/sections/AskChatDemoSection'
-import { PROMPT_CARDS } from '@/data/platform-ask'
+import { ASK_LIBRARY_HEADING, ASK_LIBRARY_SUBHEADING, PROMPT_CARDS } from '@/data/ask-library'
 import { ASK_TABS, ASK_TABS_HEADING } from '@/data/ask-tabs'
 import {
   ASK_CONTEXT_EYEBROW,
@@ -53,8 +53,10 @@ export default function AskAIPage(): React.ReactElement {
       <AskChatDemoSection />
       <Divider/>
       <PromptLibrarySection
-        row1={ PROMPT_CARDS }
-        row2={ [...PROMPT_CARDS].reverse() }
+        heading={ASK_LIBRARY_HEADING}
+        subheading={ASK_LIBRARY_SUBHEADING}
+        row1={PROMPT_CARDS}
+        row2={[...PROMPT_CARDS].reverse()}
       />
       <Divider/>
       <ReviewSection
