@@ -14,6 +14,25 @@ import {
   IconSend, IconPlay, IconRedirect, IconClock,
   IconTaskAdd, IconVideo, IconVideoSm,
 } from '@/components/icons/AskHeroIcons'
+import {
+  ASK_HERO_QUERIES,
+  ASK_HERO_INPUT_PLACEHOLDER,
+  ASK_HERO_AVATAR_1,
+  ASK_HERO_AVATAR_2,
+  ASK_HERO_AVATAR_3,
+  ASK_HERO_CARD1_TITLE,
+  ASK_HERO_CARD1_PLAY_ALL,
+  ASK_HERO_FEATURE_ROW_1,
+  ASK_HERO_FEATURE_ROW_2,
+  ASK_HERO_FEATURE_ROW_3,
+  ASK_HERO_BRIEF_GREETING,
+  ASK_HERO_BRIEF_MEETINGS_LABEL,
+  ASK_HERO_BRIEF_TASKS_LABEL,
+  ASK_HERO_BRIEF_MEETING,
+  ASK_HERO_BRIEF_TASK_1,
+  ASK_HERO_BRIEF_TASK_2,
+  ASK_HERO_EMAIL,
+} from '@/data/ask-hero'
 
 // ─── Shadows ──────────────────────────────────────────────────────────────────
 
@@ -220,7 +239,7 @@ function ResultFeatureRequests({ typedText, isTyping, visibleItems }: ResultProp
               <IconVideo className="size-3.5 text-[#3b82f6]" />
             </div>
             <span className="font-medium text-[13px] text-fg-primary leading-[18px] tracking-[-0.14px] underline decoration-[rgba(0,0,0,0.1)] md:text-[14px] md:leading-[20px]">
-              Customer feedback
+              {ASK_HERO_CARD1_TITLE}
             </span>
           </div>
           <button
@@ -231,7 +250,7 @@ function ResultFeatureRequests({ typedText, isTyping, visibleItems }: ResultProp
           >
             <IconPlay className="size-3 text-fg-primary" />
             <span className="px-px font-medium text-[11px] text-fg-primary leading-[14px] md:text-[12px] md:leading-[16px]">
-              Play all
+              {ASK_HERO_CARD1_PLAY_ALL}
             </span>
           </button>
         </div>
@@ -239,9 +258,9 @@ function ResultFeatureRequests({ typedText, isTyping, visibleItems }: ResultProp
         <div className="h-px bg-[rgba(0,0,0,0.05)]" />
 
         <div className="flex flex-col gap-3 px-3 pt-2 pb-3">
-          <FeatureRow label="EHR integration"    barLeft={40}  barWidth="25%" avatarSrcs={['/assets/icons/ask/hero/avatar-1.jpg', '/assets/icons/ask/hero/avatar-2.jpg']}                                                 visible={visibleItems >= 2} />
-          <FeatureRow label="Mobile companion"   barLeft={140} barWidth="25%" avatarSrcs={['/assets/icons/ask/hero/avatar-1.jpg', '/assets/icons/ask/hero/avatar-2.jpg', '/assets/icons/ask/hero/avatar-3.jpg']} visible={visibleItems >= 3} />
-          <FeatureRow label="Billing automation" barLeft={230} barWidth="30%" avatarSrcs={['/assets/icons/ask/hero/avatar-3.jpg']}                                                                                         visible={visibleItems >= 4} />
+          <FeatureRow {...ASK_HERO_FEATURE_ROW_1} visible={visibleItems >= 2} />
+          <FeatureRow {...ASK_HERO_FEATURE_ROW_2} visible={visibleItems >= 3} />
+          <FeatureRow {...ASK_HERO_FEATURE_ROW_3} visible={visibleItems >= 4} />
         </div>
       </div>
     </div>
@@ -257,7 +276,7 @@ function ResultDailyBrief({ typedText, isTyping, visibleItems }: ResultProps) {
       {/* ── Header — greeting + typed response ── */}
       <div className="flex h-8 flex-col md:h-10">
         <span className="font-medium text-[12px] text-fg-primary leading-[16px] tracking-[-0.07px] md:text-[14px] md:leading-[20px]">
-          Good morning, Alex!
+          {ASK_HERO_BRIEF_GREETING}
         </span>
         <p className="font-medium text-[12px] text-fg-primary leading-[16px] tracking-[-0.07px] md:text-[14px] md:leading-[20px]">
           {typedText}
@@ -268,7 +287,7 @@ function ResultDailyBrief({ typedText, isTyping, visibleItems }: ResultProps) {
       {/* ── Section 1 — Upcoming meetings ── */}
       <FadeItem visible={visibleItems >= 1} className="flex w-full flex-col gap-3 md:gap-3.5">
         <p className="font-medium text-[12px] text-accent-foreground leading-[16px] md:text-[13px] md:leading-[18px]">
-          Upcoming meetings:
+          {ASK_HERO_BRIEF_MEETINGS_LABEL}
         </p>
 
         {/* Meeting card */}
@@ -286,23 +305,23 @@ function ResultDailyBrief({ typedText, isTyping, visibleItems }: ResultProps) {
               <div className="flex items-start justify-between">
                 <div className="flex flex-col">
                   <span className="font-medium text-[13px] text-fg-primary leading-[18px] tracking-[-0.14px] md:text-[14px] md:leading-[20px]">
-                    Greenleaf Onboarding
+                    {ASK_HERO_BRIEF_MEETING.title}
                   </span>
                   <div className="flex items-center gap-0.5 text-[11px] leading-[14px] md:text-[12px] md:leading-[16px]">
-                    <span className="text-accent-foreground">Dec 12, 10:40 – 11:40 AM</span>
+                    <span className="text-accent-foreground">{ASK_HERO_BRIEF_MEETING.dateTime}</span>
                     <span className="text-muted-foreground">·</span>
                     <div className="flex items-center gap-1">
                       <IconVideoSm className="size-3 text-accent-foreground" />
-                      <span className="text-accent-foreground">22 min</span>
+                      <span className="text-accent-foreground">{ASK_HERO_BRIEF_MEETING.duration}</span>
                     </div>
                   </div>
                 </div>
                 {/* Avatars */}
                 <div className="flex -space-x-1 pt-0.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img alt="" src="/assets/icons/ask/hero/avatar-1.jpg" className="size-4 rounded-full border border-white-100 object-cover" />
+                  <img alt="" src={ASK_HERO_AVATAR_1} className="size-4 rounded-full border border-white-100 object-cover" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img alt="" src="/assets/icons/ask/hero/avatar-2.jpg" className="size-4 rounded-full border border-white-100 object-cover" />
+                  <img alt="" src={ASK_HERO_AVATAR_2} className="size-4 rounded-full border border-white-100 object-cover" />
                 </div>
               </div>
             </div>
@@ -315,7 +334,7 @@ function ResultDailyBrief({ typedText, isTyping, visibleItems }: ResultProps) {
             <div className="flex items-center gap-1">
               <IconClock className="size-3 text-accent-foreground" />
               <span className="font-medium text-[11px] text-accent-foreground leading-[14px] md:text-[12px] md:leading-[16px]">
-                Starts in 6 mins
+                {ASK_HERO_BRIEF_MEETING.status}
               </span>
             </div>
             <button
@@ -326,7 +345,7 @@ function ResultDailyBrief({ typedText, isTyping, visibleItems }: ResultProps) {
             >
               <IconVideoSm className="size-3 text-fg-primary" />
               <span className="px-px font-medium text-[11px] text-fg-primary leading-[14px] md:text-[12px] md:leading-[16px]">
-                Join meeting
+                {ASK_HERO_BRIEF_MEETING.cta}
               </span>
             </button>
           </div>
@@ -336,28 +355,12 @@ function ResultDailyBrief({ typedText, isTyping, visibleItems }: ResultProps) {
       {/* ── Section 2 — Suggested follow-up tasks ── */}
       <FadeItem visible={visibleItems >= 2} className="flex w-full flex-col gap-3 md:gap-3.5">
         <p className="font-medium text-[12px] text-accent-foreground leading-[16px] md:text-[13px] md:leading-[18px]">
-          Suggested follow-up tasks:
+          {ASK_HERO_BRIEF_TASKS_LABEL}
         </p>
         <div className="flex flex-col gap-3">
-          <TaskCard
-            text={"Proposal Review: Send proposal\nto Sarah Johnson"}
-            avatar1="/assets/icons/ask/hero/avatar-1.jpg"
-            avatar2="/assets/icons/ask/hero/avatar-3.jpg"
-            assignee="You"
-            assigneeExtra="+3"
-            contact="Sarah Johnson"
-            due="Today"
-          />
+          <TaskCard {...ASK_HERO_BRIEF_TASK_1} />
           <FadeItem visible={visibleItems >= 3}>
-            <TaskCard
-              text={"Contract Signed: Follow up\nwith Greenleaf team"}
-              avatar1="/assets/icons/ask/hero/avatar-2.jpg"
-              avatar2="/assets/icons/ask/hero/avatar-3.jpg"
-              assignee="You"
-              assigneeExtra="+1"
-              contact="Greenleaf Team"
-              due="Tomorrow"
-            />
+            <TaskCard {...ASK_HERO_BRIEF_TASK_2} />
           </FadeItem>
         </div>
       </FadeItem>
@@ -395,13 +398,13 @@ function ResultEmailDraft({ typedText, isTyping, visibleItems }: ResultProps) {
           {/* Left — email header info */}
           <div className="flex flex-1 flex-col gap-0.5">
             <span className="font-medium text-[11px] text-muted-foreground leading-[14px] md:text-[12px] md:leading-[16px]">
-              Draft email
+              {ASK_HERO_EMAIL.label}
             </span>
             <span className="font-medium text-[13px] text-fg-primary leading-[18px] tracking-[-0.14px] md:text-[14px] md:leading-[20px]">
-              RE: Follow-Up on Initial Discussion
+              {ASK_HERO_EMAIL.subject}
             </span>
             <span className="truncate font-medium text-[11px] text-accent-foreground leading-[14px] md:text-[12px] md:leading-[16px]">
-              Hi everyone, thanks for the productive check-in...
+              {ASK_HERO_EMAIL.preview}
             </span>
           </div>
 
@@ -409,13 +412,13 @@ function ResultEmailDraft({ typedText, isTyping, visibleItems }: ResultProps) {
           <div className="flex items-start pt-0.5 pr-1">
             <div className="flex -space-x-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="" src="/assets/icons/ask/hero/avatar-1.jpg" className="size-4 rounded-full border border-white-100 object-cover" />
+              <img alt="" src={ASK_HERO_AVATAR_1} className="size-4 rounded-full border border-white-100 object-cover" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="" src="/assets/icons/ask/hero/avatar-2.jpg" className="size-4 rounded-full border border-white-100 object-cover" />
+              <img alt="" src={ASK_HERO_AVATAR_2} className="size-4 rounded-full border border-white-100 object-cover" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="" src="/assets/icons/ask/hero/avatar-3.jpg" className="size-4 rounded-full border border-white-100 object-cover" />
+              <img alt="" src={ASK_HERO_AVATAR_3} className="size-4 rounded-full border border-white-100 object-cover" />
               <div className="flex size-4 items-center justify-center rounded-full border border-[#e6e7ea] bg-[#f8f9fa]">
-                <span className="font-medium text-[9px] text-accent-foreground leading-[12px] md:text-[10px] md:leading-[14px]">2</span>
+                <span className="font-medium text-[9px] text-accent-foreground leading-[12px] md:text-[10px] md:leading-[14px]">{ASK_HERO_EMAIL.overflow}</span>
               </div>
             </div>
           </div>
@@ -427,38 +430,7 @@ function ResultEmailDraft({ typedText, isTyping, visibleItems }: ResultProps) {
 }
 
 // ─── Demo queries ──────────────────────────────────────────────────────────────
-
-interface DemoQuery {
-  text: string          // text typed in the input
-  badge: string         // label while searching  — e.g. "Searching calls"
-  badgeDone: string     // label after found      — e.g. "Searched calls: 1 result"
-  responseText: string  // text typed above the inner card
-  suggestion: string    // bottom chip
-}
-
-const QUERIES: DemoQuery[] = [
-  {
-    text: 'Recap feature requests',
-    badge: 'Searching calls',
-    badgeDone: 'Searched calls: 1 result',
-    responseText: 'There were three feature requests mentioned in your latest customer feedback call with Acme Health:',
-    suggestion: 'Draft summary of feature requests to share with product',
-  },
-  {
-    text: 'Prepare me for my day',
-    badge: 'Thinking',
-    badgeDone: 'Thought for 3s',
-    responseText: "Here's your daily brief for Thursday, March 13:",
-    suggestion: 'Set a reminder for my Acme Health QBR at 11:30 AM',
-  },
-  {
-    text: 'Draft a follow-up email',
-    badge: 'Searching records',
-    badgeDone: 'Searched records: 4 results',
-    responseText: "Based on your latest call with Richard, I've summarized the main points and drafted a follow-up email:",
-    suggestion: 'Send this draft to sarah@acmehealth.com',
-  },
-]
+// Data lives in @/data/ask-hero — imported above.
 
 // ─── Send button state ────────────────────────────────────────────────────────
 
@@ -499,7 +471,7 @@ export function AskHeroIllustration(): ReactNode {
       let qi = 0
 
       while (!cancelled) {
-        const q = QUERIES[qi]!
+        const q = ASK_HERO_QUERIES[qi]!
 
         // ── Reset ──
         setQueryIndex(qi)
@@ -575,7 +547,7 @@ export function AskHeroIllustration(): ReactNode {
         setShowCard(false)
         await sleep(420)
 
-        qi = (qi + 1) % QUERIES.length
+        qi = (qi + 1) % ASK_HERO_QUERIES.length
       }
     }
 
@@ -583,7 +555,7 @@ export function AskHeroIllustration(): ReactNode {
     return () => { cancelled = true }
   }, [])
 
-  const query = QUERIES[queryIndex]!
+  const query = ASK_HERO_QUERIES[queryIndex]!
 
   // ── Dynamic max-height during response typing ─────────────────────────────────
   // Cards 1 & 3 have free-flowing response text (no fixed-height header).
@@ -630,7 +602,7 @@ export function AskHeroIllustration(): ReactNode {
               </span>
             ) : (
               <span className="text-accent-foreground">
-                Ask anything<span>...</span>
+                {ASK_HERO_INPUT_PLACEHOLDER}
               </span>
             )}
           </span>
