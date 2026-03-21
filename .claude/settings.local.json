@@ -27,7 +27,8 @@
       "WebFetch(domain:magicui.design)",
       "WebSearch",
       "Bash(npx payload:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(rm:*)"
     ]
   }
 }
