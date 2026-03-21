@@ -7,7 +7,8 @@ import { PlatformNavSection } from "@/components/sections/PlatformNavSection";
 import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSection";
 import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
-import { ITEMS, SMARTER_CALLS } from "@/data/platform-ai"
+import { ITEMS } from "@/data/platform-ai"
+import { AI_CALLS_HEADING, AI_CALLS_SUBHEADING, AI_CALLS_ITEMS } from "@/data/ai-calls"
 import { AI_GRID_HEADING, AI_GRID_SUBHEADING, AI_GRID_ITEMS, AI_GRID_QUOTE } from "@/data/ai-grid-section"
 import { AI_ACCORDION_HEADING, AI_ACCORDION_SUBHEADING, AI_ACCORDION_ITEMS } from "@/data/ai-accordion"
 
@@ -43,9 +44,9 @@ export default function AIPage(): React.ReactElement {
         items={AI_ACCORDION_ITEMS}
       />
       <EnrichmentSection
-        heading="Smarter calls, from kickoff to close."
-        subheading="Every conversation captured, summarized, and synced to your CRM — instantly."
-        items={ SMARTER_CALLS }
+        heading={AI_CALLS_HEADING}
+        subheading={AI_CALLS_SUBHEADING}
+        items={AI_CALLS_ITEMS}
       />
       <Divider/>
       <FeatureGridSection
