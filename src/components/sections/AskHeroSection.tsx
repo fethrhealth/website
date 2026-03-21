@@ -6,6 +6,13 @@ import { HeroRainGrid } from '@/components/ui/HeroRainGrid'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
 import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
 import { AskHeroIllustration } from '@/components/illustrations/AskHeroIllustration'
+import {
+  ASK_HERO_HEADING,
+  ASK_HERO_SUBHEADING,
+  ASK_HERO_CTA_TAGLINE,
+  ASK_HERO_CTA_PRIMARY,
+  ASK_HERO_CTA_PRIMARY_HREF,
+} from '@/data/ask-hero'
 
 export function AskHeroSection(): ReactNode {
   return (
@@ -30,10 +37,10 @@ export function AskHeroSection(): ReactNode {
             <div className="pointer-events-auto">
               <header className="flex w-full flex-col items-center pt-30 pb-15 max-xl:pt-25 max-lg:pt-20">
                 <h1 className="max-w-[15em] text-balance text-center text-heading-responsive-lg">
-                  Ask Fethr.
+                  {ASK_HERO_HEADING}
                 </h1>
                 <p className="mt-4 max-w-xl text-balance text-center text-lg text-fg-tertiary lg:text-xl">
-                  Search, update, and create with AI.
+                  {ASK_HERO_SUBHEADING}
                 </p>
               </header>
             </div>
@@ -59,7 +66,7 @@ export function AskHeroSection(): ReactNode {
         <div className="grid w-full grid-cols-12">
           <div className="col-[2/-2] flex flex-col items-center justify-between gap-6 py-12 max-md:py-10 lg:flex-row lg:gap-0">
             <p className="max-w-md text-balance text-center text-lg text-fg-tertiary lg:text-left">
-              Engineered for performance. Unified by design. Powered by Universal Context.
+              {ASK_HERO_CTA_TAGLINE}
             </p>
             <div className="flex items-center gap-2.5">
               {/* Desktop buttons */}
@@ -68,10 +75,10 @@ export function AskHeroSection(): ReactNode {
                 className="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border border-default-stroke bg-primary-background px-3 text-sm text-fg-primary transition-colors hover:bg-secondary-background max-md:hidden"
               />
               <Link
-                href="/plataform/ask"
+                href={ASK_HERO_CTA_PRIMARY_HREF}
                 className="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] border border-transparent bg-fg-primary px-3 text-sm text-white-100 transition-colors hover:bg-fg-secondary max-md:hidden"
               >
-                Start for free
+                {ASK_HERO_CTA_PRIMARY}
               </Link>
 
               <DemoRequestForm
