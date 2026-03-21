@@ -26,6 +26,11 @@ import {
   FiWorld, FiDollar, FiStar, FiUser, FiBank, FiGrid, FiCoin,
 } from '@/components/icons/DataHeroIcons'
 import { PageHero } from './PageHero'
+import {
+  DATA_HERO_BADGE, DATA_HERO_HEADING, DATA_HERO_SUBHEADING,
+  DATA_HERO_CTA_LABEL, DATA_HERO_CTA_HREF, DATA_HERO_FORM_SOURCE,
+  DATA_HERO_TABS, DATA_HERO_DESKTOP_LABELS, DATA_HERO_MOBILE_CARDS,
+} from '@/data/data-hero'
 
 const EASE_OUT = [0.2, 0, 0, 1] as const
 
@@ -125,44 +130,7 @@ const TAB_SLOT_GRID: Partial<Record<string, FiveGridOverrides>> = {
 // Tab-specific labels — only text changes between tabs
 // ─────────────────────────────────────────────────────────────────────────────
 
-interface SlotLabels {
-  name: string
-  fieldLabels: string[]
-  moreCount: number
-}
-
-type FiveLabels = [SlotLabels, SlotLabels, SlotLabels, SlotLabels, SlotLabels]
-
-const TAB_LABELS: Record<string, FiveLabels> = {
-  marketplaces: [
-    { name: 'Person', fieldLabels: ['Person name', 'Email address', 'Location'], moreCount: 16 },
-    { name: 'Seller', fieldLabels: ['Seller ID', 'Stage', 'Estimated ARR'], moreCount: 11 },
-    { name: 'Buyer', fieldLabels: ['Buyer ID', 'Buyer type'], moreCount: 10 },
-    { name: 'Company', fieldLabels: ['Company name', 'Industry'], moreCount: 7 },
-    { name: 'Transaction', fieldLabels: ['Transaction ID', 'Transaction date'], moreCount: 5 },
-  ],
-  plg: [
-    { name: 'Company', fieldLabels: ['Person name', 'Email address', 'Last active'], moreCount: 14 },
-    { name: 'Person', fieldLabels: ['Workspace ID', 'Plan', 'MRR'], moreCount: 9 },
-    { name: 'Workspace', fieldLabels: ['Member ID', 'Role'], moreCount: 8 },
-    { name: 'User', fieldLabels: ['Company name', 'Domain'], moreCount: 6 },
-    { name: 'Event', fieldLabels: ['Event name', 'Timestamp'], moreCount: 4 },
-  ],
-  pls: [
-    { name: 'Company', fieldLabels: ['Company name', 'Industry', 'Domain'], moreCount: 12 },
-    { name: 'Workspace', fieldLabels: ['Billing email address', 'Subscription state', 'Seat count'], moreCount: 11 },
-    { name: 'Deal', fieldLabels: ['Deal ID', 'Deal stage'], moreCount: 10 },
-    { name: 'Person', fieldLabels: ['Person name', 'Email address'], moreCount: 13 },
-    { name: 'User', fieldLabels: ['User ID', 'Email address'], moreCount: 15 },
-  ],
-  sales: [
-    { name: 'Partnership', fieldLabels: ['Partnership name', 'Partnership type', 'Location'], moreCount: 12 },
-    { name: 'Invoices', fieldLabels: ['Billing address', 'Phone number', 'Point of contact'], moreCount: 12 },
-    { name: 'Company', fieldLabels: ['Company name', 'Industry'], moreCount: 10 },
-    { name: 'Deal', fieldLabels: ['Deal ID', 'Deal type'], moreCount: 8 },
-    { name: 'Person', fieldLabels: ['Person name', 'Email address'], moreCount: 12 },
-  ],
-}
+// Desktop slot labels live in @/data/data-hero — imported as DATA_HERO_DESKTOP_LABELS
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Connector building blocks — named constants for every connector shape.
@@ -914,7 +882,12 @@ const MOBILE_TAB_CONNECTORS: Record<string, React.ReactNode[]> = {
 // Mobile ER grid — 40-column grid, one card set per tab (lg:hidden)
 // Connectors are intentionally omitted — added separately by the team.
 // ─────────────────────────────────────────────────────────────────────────────
-1
+// ─── Mobile card full definition ─────────────────────────────────────────────
+// Text fields (entityName, badge, fieldLabels, moreCount) come from
+// DATA_HERO_MOBILE_CARDS in @/data/data-hero.
+// Layout fields (entityIcon, fieldIcons, gridClass) stay here — they control
+// which SVG icons are shown and where each card sits in the 40-column grid.
+
 interface MobileCardDef {
   entityIcon: React.ReactNode
   entityName: string
@@ -926,187 +899,53 @@ interface MobileCardDef {
   moreCount: number
 }
 
-const MOBILE_CARDS: Record<string, MobileCardDef[]> = {
+/** Layout-only portion of each mobile card (icons + grid position). */
+type MobileCardLayout = {
+  entityIcon: React.ReactNode
+  fieldIcons: [React.ReactNode, React.ReactNode, React.ReactNode]
+  gridClass: string
+}
+
+const MOBILE_CARD_LAYOUTS: Record<string, MobileCardLayout[]> = {
   marketplaces: [
-    {
-      entityIcon: <PersonEntityIcon size={15} />,
-      entityName: 'Person',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[12] row-span-4',
-      fieldIcons: [<FiText key={0} />, <FiEmail key={1} />, <FiLocation key={2} />],
-      fieldLabels: ['Person name', 'Email address', 'Location'],
-      moreCount: 16,
-    },
-    {
-      entityIcon: <BuyerEntityIcon size={15} />,
-      entityName: 'Buyer',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] row-span-4 row-start-6',
-      fieldIcons: [<FiId key={0} />, <FiTag key={1} />, <FiCalendar key={2} />],
-      fieldLabels: ['Buyer ID', 'Buyer type', 'Last transaction date'],
-      moreCount: 10,
-    },
-    {
-      entityIcon: <SellerEntityIcon size={15} />,
-      entityName: 'Seller',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-6',
-      fieldIcons: [<FiId key={0} />, <FiPipeline key={1} />, <FiCurrency key={2} />],
-      fieldLabels: ['Seller ID', 'Stage', 'Estimated ARR'],
-      moreCount: 11,
-    },
-    {
-      entityIcon: <CompanyEntityIcon size={15} />,
-      entityName: 'Company',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] row-span-4 row-start-[11]',
-      fieldIcons: [<FiCard key={0} />, <FiTag key={1} />, <FiWorld key={2} />],
-      fieldLabels: ['Company name', 'Industry', 'Domain'],
-      moreCount: 7,
-    },
-    {
-      entityIcon: <TransactionEntityIcon size={15} />,
-      entityName: 'Transaction',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-[11]',
-      fieldIcons: [<FiId key={0} />, <FiDate key={1} />, <FiDollar key={2} />],
-      fieldLabels: ['Transaction ID', 'Transaction date', 'Purchased plan'],
-      moreCount: 5,
-    },
+    { entityIcon: <PersonEntityIcon size={15} />,      fieldIcons: [<FiText key={0} />,     <FiEmail key={1} />,    <FiLocation key={2} />], gridClass: 'col-[span_18/span_18] col-start-[12] row-span-4'             },
+    { entityIcon: <BuyerEntityIcon size={15} />,       fieldIcons: [<FiId key={0} />,        <FiTag key={1} />,      <FiCalendar key={2} />], gridClass: 'col-[span_18/span_18] row-span-4 row-start-6'               },
+    { entityIcon: <SellerEntityIcon size={15} />,      fieldIcons: [<FiId key={0} />,        <FiPipeline key={1} />, <FiCurrency key={2} />], gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-6' },
+    { entityIcon: <CompanyEntityIcon size={15} />,     fieldIcons: [<FiCard key={0} />,      <FiTag key={1} />,      <FiWorld key={2} />],    gridClass: 'col-[span_18/span_18] row-span-4 row-start-[11]'            },
+    { entityIcon: <TransactionEntityIcon size={15} />, fieldIcons: [<FiId key={0} />,        <FiDate key={1} />,     <FiDollar key={2} />],   gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-[11]' },
   ],
   plg: [
-    {
-      entityIcon: <PersonEntityIcon size={15} />,
-      entityName: 'Person',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] row-span-4',
-      fieldIcons: [<FiId key={0} />, <FiEmail key={1} />, <FiEmail key={2} />],
-      fieldLabels: ['Record name', 'Email address', 'Location'],
-      moreCount: 14,
-    },
-    {
-      entityIcon: <CompanyEntityIcon size={15} />,
-      entityName: 'Company',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-3',
-      fieldIcons: [<FiTag key={0} />, <FiStar key={1} />, <FiUser key={2} />],
-      fieldLabels: ['Company name', 'Industry', 'Domain'],
-      moreCount: 7,
-    },
-    {
-      entityIcon: <WorkspaceEntityIcon size={15} />,
-      entityName: 'Workspace',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-[9]',
-      fieldIcons: [<FiBank key={0} />, <FiCalendar key={1} />, <FiBuilding key={2} />],
-      fieldLabels: ['Billing email address', 'Subscription state', 'Seat count'],
-      moreCount: 11,
-    },
-    {
-      entityIcon: <UserEntityIcon size={15} />,
-      entityName: 'User',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] row-span-4 row-start-[11]',
-      fieldIcons: [<FiCard key={0} />, <FiGrid key={1} />, <FiCalendar key={2} />],
-      fieldLabels: ['User ID', 'Workspace', 'Renewal date'],
-      moreCount: 15,
-    },
+    { entityIcon: <PersonEntityIcon size={15} />,    fieldIcons: [<FiId key={0} />,   <FiEmail key={1} />,    <FiEmail key={2} />],    gridClass: 'col-[span_18/span_18] row-span-4'                            },
+    { entityIcon: <CompanyEntityIcon size={15} />,   fieldIcons: [<FiTag key={0} />,  <FiStar key={1} />,     <FiUser key={2} />],     gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-3' },
+    { entityIcon: <WorkspaceEntityIcon size={15} />, fieldIcons: [<FiBank key={0} />, <FiCalendar key={1} />, <FiBuilding key={2} />], gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-[9]' },
+    { entityIcon: <UserEntityIcon size={15} />,      fieldIcons: [<FiCard key={0} />, <FiGrid key={1} />,     <FiCalendar key={2} />], gridClass: 'col-[span_18/span_18] row-span-4 row-start-[11]'             },
   ],
   pls: [
-    {
-      entityIcon: <WorkspaceEntityIcon size={15} />,
-      entityName: 'Workspace',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4',
-      fieldIcons: [<FiBank key={0} />, <FiCalendar key={1} />, <FiBuilding key={2} />],
-      fieldLabels: ['Billing email address', 'Subscription state', 'Seat count'],
-      moreCount: 11,
-    },
-    {
-      entityIcon: <CompanyEntityIcon size={15} />,
-      entityName: 'Company',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] row-span-4 row-start-3',
-      fieldIcons: [<FiCard key={0} />, <FiTag key={1} />, <FiGlobe key={2} />],
-      fieldLabels: ['Company name', 'Industry', 'Domain'],
-      moreCount: 12,
-    },
-    {
-      entityIcon: <UserEntityIcon size={15} />,
-      entityName: 'User',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-6',
-      fieldIcons: [<FiText key={0} />, <FiEmail key={1} />, <FiGlobe key={2} />],
-      fieldLabels: ['Record name', 'Email address', 'Platform'],
-      moreCount: 15,
-    },
-    {
-      entityIcon: <DealEntityIcon size={15} />,
-      entityName: 'Deal',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] row-span-4 row-start-[9]',
-      fieldIcons: [<FiId key={0} />, <FiPipeline key={1} />, <FiDollar key={2} />],
-      fieldLabels: ['Deal ID', 'Deal stage', 'Deal Value'],
-      moreCount: 8,
-    },
-    {
-      entityIcon: <PersonEntityIcon size={15} />,
-      entityName: 'Person',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-[11]',
-      fieldIcons: [<FiText key={0} />, <FiEmail key={1} />, <FiLocation key={2} />],
-      fieldLabels: ['Record name', 'Email address', 'Location'],
-      moreCount: 12,
-    },
+    { entityIcon: <WorkspaceEntityIcon size={15} />, fieldIcons: [<FiBank key={0} />,  <FiCalendar key={1} />, <FiBuilding key={2} />], gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4'              },
+    { entityIcon: <CompanyEntityIcon size={15} />,   fieldIcons: [<FiCard key={0} />,  <FiTag key={1} />,      <FiGlobe key={2} />],    gridClass: 'col-[span_18/span_18] row-span-4 row-start-3'                },
+    { entityIcon: <UserEntityIcon size={15} />,      fieldIcons: [<FiText key={0} />,  <FiEmail key={1} />,    <FiGlobe key={2} />],    gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-6' },
+    { entityIcon: <DealEntityIcon size={15} />,      fieldIcons: [<FiId key={0} />,    <FiPipeline key={1} />, <FiDollar key={2} />],   gridClass: 'col-[span_18/span_18] row-span-4 row-start-[9]'              },
+    { entityIcon: <PersonEntityIcon size={15} />,    fieldIcons: [<FiText key={0} />,  <FiEmail key={1} />,    <FiLocation key={2} />], gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-[11]' },
   ],
   sales: [
-    {
-      entityIcon: <PartnershipEntityIcon size={15} />,
-      entityName: 'Partnership',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] row-span-4',
-      fieldIcons: [<FiId key={0} />, <FiEmail key={1} />, <FiLocation key={2} />],
-      fieldLabels: ['Record name', 'Email address', 'Location'],
-      moreCount: 12,
-    },
-    {
-      entityIcon: <InvoicesEntityIcon size={15} />,
-      entityName: 'Invoices',
-      badge: 'Custom',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4',
-      fieldIcons: [<FiBuilding key={0} />, <FiPhone key={1} />, <FiContact key={2} />],
-      fieldLabels: ['Billing address', 'Phone number', 'Point of contact'],
-      moreCount: 12,
-    },
-    {
-      entityIcon: <CompanyEntityIcon size={15} />,
-      entityName: 'Company',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] row-span-4 row-start-6',
-      fieldIcons: [<FiCard key={0} />, <FiTag key={1} />, <FiWorld key={2}/>],
-      fieldLabels: ['Company name', 'Industry', 'Domain'],
-      moreCount: 10,
-    },
-    {
-      entityIcon: <PersonEntityIcon size={15} />,
-      entityName: 'Person',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-6',
-      fieldIcons: [<FiText key={0} />, <FiEmail key={1} />, <FiLocation key={2} />],
-      fieldLabels: ['Record name', 'Email address', "Location"],
-      moreCount: 12,
-    },
-    {
-      entityIcon: <DealEntityIcon size={15} />,
-      entityName: 'Deal',
-      badge: 'Standard',
-      gridClass: 'col-[span_18/span_18] col-start-[12] row-span-4 row-start-11',
-      fieldIcons: [<FiId key={0} />, <FiTag key={1} />, <FiCoin key={2} />],
-      fieldLabels: ['Record name', 'Deal type', 'Potential value'],
-      moreCount: 16,
-    },
+    { entityIcon: <PartnershipEntityIcon size={15} />, fieldIcons: [<FiId key={0} />,      <FiEmail key={1} />,   <FiLocation key={2} />], gridClass: 'col-[span_18/span_18] row-span-4'                               },
+    { entityIcon: <InvoicesEntityIcon size={15} />,    fieldIcons: [<FiBuilding key={0} />, <FiPhone key={1} />,   <FiContact key={2} />],  gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4'               },
+    { entityIcon: <CompanyEntityIcon size={15} />,     fieldIcons: [<FiCard key={0} />,     <FiTag key={1} />,     <FiWorld key={2} />],    gridClass: 'col-[span_18/span_18] row-span-4 row-start-6'                  },
+    { entityIcon: <PersonEntityIcon size={15} />,      fieldIcons: [<FiText key={0} />,     <FiEmail key={1} />,   <FiLocation key={2} />], gridClass: 'col-[span_18/span_18] col-start-[23] row-span-4 row-start-6'  },
+    { entityIcon: <DealEntityIcon size={15} />,        fieldIcons: [<FiId key={0} />,       <FiTag key={1} />,     <FiCoin key={2} />],     gridClass: 'col-[span_18/span_18] col-start-[12] row-span-4 row-start-11' },
   ],
 }
+
+/** Merged mobile cards — layout from above + text from @/data/data-hero */
+const MOBILE_CARDS: Record<string, MobileCardDef[]> = Object.fromEntries(
+  Object.keys(MOBILE_CARD_LAYOUTS).map(tab => [
+    tab,
+    MOBILE_CARD_LAYOUTS[tab]!.map((layout, i) => ({
+      ...layout,
+      ...DATA_HERO_MOBILE_CARDS[tab]![i]!,
+    })),
+  ])
+) as Record<string, MobileCardDef[]>
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GridConnectors — renders the active tab's connector set
@@ -1117,11 +956,7 @@ function GridConnectors({ connectors }: { connectors: React.ReactNode[] }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Tab icons
-// ─────────────────────────────────────────────────────────────────────────────
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Tab definitions
+// Tab definitions — labels/images come from @/data/data-hero; icons stay here
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface TabDef {
@@ -1131,12 +966,15 @@ interface TabDef {
   Icon: () => React.ReactElement
 }
 
-const TABS: TabDef[] = [
-  { id: 'marketplaces', label: 'Marketplaces', src: '/assets/images/platform/data/hero/marketplaces-screen.avif', Icon: IconMarketplaces },
-  { id: 'plg', label: 'Product-led growth', src: '/assets/images/platform/data/hero/product-sales-screen.avif', Icon: IconPlg },
-  { id: 'pls', label: 'Product-led sales', src: '/assets/images/platform/data/hero/product-sales-screen.avif', Icon: IconPls },
-  { id: 'sales', label: 'Sales', src: '/assets/images/platform/data/hero/sales-screen.avif', Icon: IconSales },
-]
+/** Maps tab id → its SVG icon component (structural — not client-editable). */
+const TAB_ICON_MAP: Record<string, () => React.ReactElement> = {
+  marketplaces: IconMarketplaces,
+  plg:          IconPlg,
+  pls:          IconPls,
+  sales:        IconSales,
+}
+
+const TABS: TabDef[] = DATA_HERO_TABS.map(t => ({ ...t, Icon: TAB_ICON_MAP[t.id]! }))
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Main component
@@ -1164,7 +1002,7 @@ export function DataHeroSection() {
     btn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' })
   }, [activeTab])
 
-  const labels = TAB_LABELS[activeTab] ?? TAB_LABELS['marketplaces']!
+  const labels = DATA_HERO_DESKTOP_LABELS[activeTab] ?? DATA_HERO_DESKTOP_LABELS['marketplaces']!
   const connectors = TAB_CONNECTORS[activeTab] ?? TAB_CONNECTORS['marketplaces']!
   const slotGridOverrides = TAB_SLOT_GRID[activeTab] ?? null
 
@@ -1213,12 +1051,12 @@ export function DataHeroSection() {
       {/* ── 2. PageHero ── */}
       <div className="relative z-20">
         <PageHero
-          badge="Data model"
-          heading="The data model for go-to-market magic."
-          subheading="Attio gives you control and flexibility to build the perfect CRM that drives revenue forward."
-          primaryCta={{ label: 'Start for free', href: '/platform/data' }}
+          badge={DATA_HERO_BADGE}
+          heading={DATA_HERO_HEADING}
+          subheading={DATA_HERO_SUBHEADING}
+          primaryCta={{ label: DATA_HERO_CTA_LABEL, href: DATA_HERO_CTA_HREF }}
           showSales
-          mobileFormSource='data'
+          mobileFormSource={DATA_HERO_FORM_SOURCE}
           showMobileSales
           paddingBottom="pb-10 lg:pb-14"
         />
