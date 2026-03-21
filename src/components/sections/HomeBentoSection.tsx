@@ -21,18 +21,18 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { DashedH, DashedV, SolidH, SolidV, BentoArrowIcon } from '@/components/icons/HomeBentoIcons'
-import { AutomationStackVisual } from '@/components/sections/AutomationStackVisual'
-import { AutomationWorkflowCanvas } from '@/components/sections/AutomationWorkflowCanvas'
-import { BentoCubeVisual } from '@/components/sections/BentoCubeVisual'
-import { BentoAtomVisual } from '@/components/sections/BentoAtomVisual'
-import { BentoNetworkVisual } from '@/components/sections/BentoNetworkVisual'
-import { BentoReportingVisual } from '@/components/sections/BentoReportingVisual'
-import { BentoRecordVisual } from '@/components/sections/BentoRecordVisual'
-import { BentoConnectDataVisual } from '@/components/sections/BentoConnectDataVisual'
-import { BentoReportingListVisual } from '@/components/sections/BentoReportingListVisual'
-import { DeployAIWorkflowCanvas } from './DeployAIWorkflowCanvas'
-import { BentoReportingChartVisual } from './BentoReportingChartVisual'
-import { BentoDataFlowVisual } from './BentoDataFlowVisual'
+import { BentoIllustrationPipeline } from '@/components/illustrations/BentoIllustrationPipeline'
+import { BentoIllustrationStack } from '@/components/illustrations/BentoIllustrationStack'
+import { BentoIllustrationCube } from '@/components/illustrations/BentoIllustrationCube'
+import { BentoIllustrationAIWorkflow } from '@/components/illustrations/BentoIllustrationAIWorkflow'
+import { BentoIllustrationRecord } from '@/components/illustrations/BentoIllustrationRecord'
+import { BentoIllustrationAtom } from '@/components/illustrations/BentoIllustrationAtom'
+import { BentoIllustrationDataFlow } from '@/components/illustrations/BentoIllustrationDataFlow'
+import { BentoIllustrationConnectData } from '@/components/illustrations/BentoIllustrationConnectData'
+import { BentoIllustrationNetwork } from '@/components/illustrations/BentoIllustrationNetwork'
+import { BentoIllustrationReportingChart } from '@/components/illustrations/BentoIllustrationReportingChart'
+import { BentoIllustrationReportingList } from '@/components/illustrations/BentoIllustrationReportingList'
+import { BentoIllustrationReporting } from '@/components/illustrations/BentoIllustrationReporting'
 
 // ─── contentA — dot pattern placeholder ───────────────────────────────────────
 
@@ -302,24 +302,24 @@ export function HomeBentoSection(): ReactNode {
                   key={item.title}
                   item={item}
                   contentA={
-                    i === 0 ? <AutomationWorkflowCanvas /> :
-                      i === 1 ? <DeployAIWorkflowCanvas /> :
-                        i === 2 ? <BentoDataFlowVisual /> :
-                          i === 3 ? <BentoReportingChartVisual /> :
+                    i === 0 ? <BentoIllustrationPipeline /> :
+                      i === 1 ? <BentoIllustrationAIWorkflow /> :
+                        i === 2 ? <BentoIllustrationDataFlow /> :
+                          i === 3 ? <BentoIllustrationReportingChart /> :
                             undefined
                   }
                   contentB={
-                    i === 0 ? <AutomationStackVisual /> :
-                      i === 1 ? <BentoRecordVisual /> :
-                        i === 2 ? <BentoConnectDataVisual /> :
-                          i === 3 ? <BentoReportingListVisual /> :
+                    i === 0 ? <BentoIllustrationStack /> :
+                      i === 1 ? <BentoIllustrationRecord /> :
+                        i === 2 ? <BentoIllustrationConnectData /> :
+                          i === 3 ? <BentoIllustrationReportingList /> :
                             undefined
                   }
                   contentC={
-                    i === 0 ? <BentoCubeVisual /> :
-                      i === 1 ? <BentoAtomVisual /> :
-                        i === 2 ? <BentoNetworkVisual /> :
-                          <BentoReportingVisual />
+                    i === 0 ? <BentoIllustrationCube /> :
+                      i === 1 ? <BentoIllustrationAtom /> :
+                        i === 2 ? <BentoIllustrationNetwork /> :
+                          <BentoIllustrationReporting />
                   }
                 />
               ))}
