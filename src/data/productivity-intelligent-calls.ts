@@ -41,8 +41,8 @@ export const BENTO_INTELLIGENT_CALLS: BentoItem[] = [
   },
   {
     columns:          6,
-    title:            'Personalize your insights.',
-    description:      'From discovery calls to product feedback, build personalized templates to capture the insights you need, how you need it.',
+    title:            'Review your way.',
+    description:      'Jump to key moments, focus on specific speakers, and find what you need fast.',
     imageSrc:         '/assets/images/platform/productivity/intelligent-calls/review-your-way.webp',
     imageWidth:       2416,
     imageHeight:      1008,
@@ -52,7 +52,7 @@ export const BENTO_INTELLIGENT_CALLS: BentoItem[] = [
   },
   {
     columns:     4,
-    title:       'Everything in one place.',
+    title:       'Works where you do.',
     description: 'Your customer calls live where they should — in your CRM, not scattered across tools.',
     imageSrc:    '/assets/images/platform/productivity/intelligent-calls/works-where-you-do.webp',
     imageWidth:  1472,
