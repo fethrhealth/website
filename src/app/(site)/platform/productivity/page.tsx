@@ -7,7 +7,8 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES } from '@/data/platform-productivity'
+import { BENTO_EMAIL_RELEVANT, EMAIL_RELEVANT, EMAIL_RELEVANT_HEADING_PRIMARY, EMAIL_RELEVANT_HEADING_MUTED, EMAIL_RELEVANT_SUBTEXT } from '@/data/productivity-relevant'
 import { SAME_TEAM_SAME_PAGE, SAME_TEAM_HEADING_PRIMARY, SAME_TEAM_HEADING_MUTED, SAME_TEAM_SUBHEADING } from '@/data/productivity-same-team'
 import { BENTO_INTELLIGENT_CALLS, INTELLIGENT_CALLS_HEADING_PRIMARY, INTELLIGENT_CALLS_HEADING_MUTED, INTELLIGENT_CALLS_SUBTEXT } from '@/data/productivity-intelligent-calls'
 import { PRODUCTIVITY_HERO_BADGE, PRODUCTIVITY_HERO_HEADING, PRODUCTIVITY_HERO_SUBHEADING, PRODUCTIVITY_HERO_CTA_LABEL, PRODUCTIVITY_HERO_CTA_HREF, PRODUCTIVITY_HERO_FORM_SOURCE } from '@/data/productivity-hero'
@@ -62,9 +63,9 @@ export default function ProductivityPage(): React.ReactElement {
       <BentoGridSection
         headingMutedFirst={false}
         headerLayout='split'
-        headingPrimary="Make every email\n"
-        headingMuted="relevant."
-        subtext="Use your business, customer and product data to craft emails that resonate with your prospects."
+        headingPrimary={EMAIL_RELEVANT_HEADING_PRIMARY}
+        headingMuted={EMAIL_RELEVANT_HEADING_MUTED}
+        subtext={EMAIL_RELEVANT_SUBTEXT}
         items={BENTO_EMAIL_RELEVANT}
       />
       <FeatureCardsSection items={EMAIL_RELEVANT} />
