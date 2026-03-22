@@ -12,6 +12,7 @@ import { DATA_DECISIONS } from '@/data/data-decisions'
 import { DATA_GRID_HEADING, DATA_GRID_SUBHEADING, DATA_GRID_ITEMS, DATA_GRID_QUOTE } from '@/data/data-grid-section'
 import { DATA_ENRICHMENT_HEADING, DATA_ENRICHMENT_SUBHEADING, DATA_ENRICHMENT_ITEMS } from '@/data/data-enrichment'
 import { DATA_ACCORDION_HEADING, DATA_ACCORDION_SUBHEADING, DATA_ACCORDION_ITEMS } from '@/data/data-accordion'
+import { DATA_NAV_CURRENT_HREF } from '@/data/data-nav-section'
 
 export const metadata: Metadata = {
   title: 'Data',
@@ -51,7 +52,7 @@ export default function DataPage(): React.ReactElement {
       />
       <FeatureTabsSection {...DATA_DECISIONS} />
       <Divider/>
-      <PlatformNavSection currentHref="/platform/data" />
+      <PlatformNavSection currentHref={DATA_NAV_CURRENT_HREF} />
       <Divider/>
       <TrialSection headingLayout='inline' source='data' />
     </main>
