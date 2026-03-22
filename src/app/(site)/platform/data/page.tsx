@@ -10,7 +10,8 @@ import TrialSection from '@/components/sections/TrialSection'
 import Divider from '@/components/ui/divider'
 import { DATA_PAGE_TABS } from '@/data/feature-tabs'
 import { DATA_GRID_HEADING, DATA_GRID_SUBHEADING, DATA_GRID_ITEMS, DATA_GRID_QUOTE } from '@/data/data-grid-section'
-import { DATA_ENRICHMENT_ITEMS, DATA_SOURCES_ITEMS } from '@/data/platform-data'
+import { DATA_ENRICHMENT_HEADING, DATA_ENRICHMENT_SUBHEADING, DATA_ENRICHMENT_ITEMS } from '@/data/data-enrichment'
+import { DATA_SOURCES_ITEMS } from '@/data/platform-data'
 
 export const metadata: Metadata = {
   title: 'Data',
@@ -38,8 +39,8 @@ export default function DataPage(): React.ReactElement {
       <Divider/>
       <DataContextSection />
       <EnrichmentSection
-        heading="Automatic enrichment, automatic advantage."
-        subheading="Get the context you need for every prospect, automatically drawn from 100s of sources and pre-analyzed by AI."
+        heading={DATA_ENRICHMENT_HEADING}
+        subheading={DATA_ENRICHMENT_SUBHEADING}
         items={DATA_ENRICHMENT_ITEMS}
       />
       <Divider/>
