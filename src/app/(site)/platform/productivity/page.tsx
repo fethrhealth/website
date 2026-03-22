@@ -7,7 +7,8 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT, SAME_TEAM_SAME_PAGE, BENTO_INTELLIGENT_CALLS } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT, SAME_TEAM_SAME_PAGE } from '@/data/platform-productivity'
+import { BENTO_INTELLIGENT_CALLS, INTELLIGENT_CALLS_HEADING_PRIMARY, INTELLIGENT_CALLS_HEADING_MUTED, INTELLIGENT_CALLS_SUBTEXT } from '@/data/productivity-intelligent-calls'
 import { PRODUCTIVITY_HERO_BADGE, PRODUCTIVITY_HERO_HEADING, PRODUCTIVITY_HERO_SUBHEADING, PRODUCTIVITY_HERO_CTA_LABEL, PRODUCTIVITY_HERO_CTA_HREF, PRODUCTIVITY_HERO_FORM_SOURCE } from '@/data/productivity-hero'
 import { REPORTING_ENGINE } from '@/data/platform-reporting'
 import { Divide } from 'lucide-react'
@@ -43,9 +44,9 @@ export default function ProductivityPage(): React.ReactElement {
       <BentoGridSection
         headingMutedFirst={false}
         headerLayout='split'
-        headingPrimary="Your calls,\n"
-        headingMuted="made intellingent."
-        subtext="Focus on your conversations while AI surfaces insights in real-time."
+        headingPrimary={INTELLIGENT_CALLS_HEADING_PRIMARY}
+        headingMuted={INTELLIGENT_CALLS_HEADING_MUTED}
+        subtext={INTELLIGENT_CALLS_SUBTEXT}
         items={BENTO_INTELLIGENT_CALLS}
       />
       <AccordionImageSection
