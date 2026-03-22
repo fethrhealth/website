@@ -55,7 +55,7 @@ export default function DataPage(): React.ReactElement {
       <Divider/>
       <PlatformNavSection currentHref={DATA_NAV_CURRENT_HREF} />
       <Divider/>
-      <TrialSection headingLayout={DATA_CTA_HEADING_LAYOUT} source={DATA_CTA_SOURCE} />
+      <TrialSection headingLayout={DATA_CTA_HEADING_LAYOUT} source= 'inline' />
     </main>
   )
 }
