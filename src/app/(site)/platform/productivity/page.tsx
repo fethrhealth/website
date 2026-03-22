@@ -7,7 +7,8 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES } from '@/data/platform-productivity'
+import { STAY_IN_THE_FLOW, FLOW_HEADING_PRIMARY, FLOW_HEADING_MUTED, FLOW_SUBHEADING } from '@/data/productivity-flow'
 import { COLLABORATE_WITH_COMMENTS, COMMENTS_HEADING_PRIMARY, COMMENTS_HEADING_MUTED, COMMENTS_SUBTEXT } from '@/data/productivity-comments'
 import { NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, SPEED_HEADING_PRIMARY, SPEED_HEADING_MUTED, SPEED_SUBHEADING } from '@/data/productivity-speed'
 import { BENTO_EMAIL_RELEVANT, EMAIL_RELEVANT, EMAIL_RELEVANT_HEADING_PRIMARY, EMAIL_RELEVANT_HEADING_MUTED, EMAIL_RELEVANT_SUBTEXT } from '@/data/productivity-relevant'
@@ -90,10 +91,10 @@ export default function ProductivityPage(): React.ReactElement {
       />
       <AccordionImageSection
         headerLayout="centered"
-        headingPrimary="Stay in the"
-        headingMuted=" flow"
+        headingPrimary={FLOW_HEADING_PRIMARY}
+        headingMuted={FLOW_HEADING_MUTED}
         imagePosition='left'
-        subheading="Attio\'s browser extension allows you to prospect, have context and keep your CRM up-to-date at all times."
+        subheading={FLOW_SUBHEADING}
         items={STAY_IN_THE_FLOW}
       />
       <FeatureCardsSection
