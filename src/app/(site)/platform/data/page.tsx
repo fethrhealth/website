@@ -9,7 +9,8 @@ import { ScrollAccordionSection } from '@/components/sections/ScrollAccordionSec
 import TrialSection from '@/components/sections/TrialSection'
 import Divider from '@/components/ui/divider'
 import { DATA_PAGE_TABS } from '@/data/feature-tabs'
-import { DATA_ENRICHMENT_ITEMS, DATA_GRID_ITEMS, DATA_GRID_QUOTE, DATA_SOURCES_ITEMS } from '@/data/platform-data'
+import { DATA_GRID_HEADING, DATA_GRID_SUBHEADING, DATA_GRID_ITEMS, DATA_GRID_QUOTE } from '@/data/data-grid-section'
+import { DATA_ENRICHMENT_ITEMS, DATA_SOURCES_ITEMS } from '@/data/platform-data'
 
 export const metadata: Metadata = {
   title: 'Data',
@@ -25,8 +26,8 @@ export default function DataPage(): React.ReactElement {
       <DataHeroSection />
       <Divider />
       <FeatureGridSection
-        heading='Blazingly fast, amazingly flexible.'
-        subheading='Create the exact data model your business needs with custom objects.'
+        heading={DATA_GRID_HEADING}
+        subheading={DATA_GRID_SUBHEADING}
         cols={2}
         background='dots'
         rules='dashed'
