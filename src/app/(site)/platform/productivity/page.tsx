@@ -7,7 +7,8 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT, SAME_TEAM_SAME_PAGE } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT } from '@/data/platform-productivity'
+import { SAME_TEAM_SAME_PAGE, SAME_TEAM_HEADING_PRIMARY, SAME_TEAM_HEADING_MUTED, SAME_TEAM_SUBHEADING } from '@/data/productivity-same-team'
 import { BENTO_INTELLIGENT_CALLS, INTELLIGENT_CALLS_HEADING_PRIMARY, INTELLIGENT_CALLS_HEADING_MUTED, INTELLIGENT_CALLS_SUBTEXT } from '@/data/productivity-intelligent-calls'
 import { PRODUCTIVITY_HERO_BADGE, PRODUCTIVITY_HERO_HEADING, PRODUCTIVITY_HERO_SUBHEADING, PRODUCTIVITY_HERO_CTA_LABEL, PRODUCTIVITY_HERO_CTA_HREF, PRODUCTIVITY_HERO_FORM_SOURCE } from '@/data/productivity-hero'
 import { REPORTING_ENGINE } from '@/data/platform-reporting'
@@ -51,11 +52,11 @@ export default function ProductivityPage(): React.ReactElement {
       />
       <AccordionImageSection
         headerLayout="centered"
-        headingPrimary=" Same page."
-        headingMuted="Same team."
+        headingPrimary={SAME_TEAM_HEADING_PRIMARY}
+        headingMuted={SAME_TEAM_HEADING_MUTED}
         headingMutedFirst
         imagePosition='left'
-        subheading="Attio’s next-level notes allow you and your teammates to collaborate in real-time."
+        subheading={SAME_TEAM_SUBHEADING}
         items={SAME_TEAM_SAME_PAGE}
       />
       <BentoGridSection
@@ -72,7 +73,7 @@ export default function ProductivityPage(): React.ReactElement {
         headingPrimary=" for speed"
         headingMuted="The need"
         headingMutedFirst
-        subheading="Search through records, notes, and tasks and take actions at the speed of lightning with Attio’s command palette."
+        subheading="Search through records, notes, and tasks and take actions at the speed of lightning with Attio's command palette."
         items={NEED_FOR_SPEED}
       />
       <FeatureCardsSection items={NEED_FOR_SPEED_FEATURES} />
@@ -89,7 +90,7 @@ export default function ProductivityPage(): React.ReactElement {
         headingPrimary="Stay in the"
         headingMuted=" flow"
         imagePosition='left'
-        subheading="Attio\’s browser extension allows you to prospect, have context and keep your CRM up-to-date at all times."
+        subheading="Attio\'s browser extension allows you to prospect, have context and keep your CRM up-to-date at all times."
         items={STAY_IN_THE_FLOW}
       />
       <FeatureCardsSection
