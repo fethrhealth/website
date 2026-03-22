@@ -7,7 +7,7 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES, PRODUCTIVITY_FEATURES_HEADING, PRODUCTIVITY_FEATURES_SUBTEXT } from '@/data/productivity-features'
 import { STAY_IN_THE_FLOW, FLOW_HEADING_PRIMARY, FLOW_HEADING_MUTED, FLOW_SUBHEADING } from '@/data/productivity-flow'
 import { COLLABORATE_WITH_COMMENTS, COMMENTS_HEADING_PRIMARY, COMMENTS_HEADING_MUTED, COMMENTS_SUBTEXT } from '@/data/productivity-comments'
 import { NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, SPEED_HEADING_PRIMARY, SPEED_HEADING_MUTED, SPEED_SUBHEADING } from '@/data/productivity-speed'
@@ -98,8 +98,8 @@ export default function ProductivityPage(): React.ReactElement {
         items={STAY_IN_THE_FLOW}
       />
       <FeatureCardsSection
-        heading="And that's not all..."
-        subtext="From task management and templates to file sharing and more, Fethr's got your entire team covered."
+        heading={PRODUCTIVITY_FEATURES_HEADING}
+        subtext={PRODUCTIVITY_FEATURES_SUBTEXT}
         items={PRODUCTIVITY_FEATURES}
       />
       <Divide/>
