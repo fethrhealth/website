@@ -13,7 +13,7 @@ import { DATA_GRID_HEADING, DATA_GRID_SUBHEADING, DATA_GRID_ITEMS, DATA_GRID_QUO
 import { DATA_ENRICHMENT_HEADING, DATA_ENRICHMENT_SUBHEADING, DATA_ENRICHMENT_ITEMS } from '@/data/data-enrichment'
 import { DATA_ACCORDION_HEADING, DATA_ACCORDION_SUBHEADING, DATA_ACCORDION_ITEMS } from '@/data/data-accordion'
 import { DATA_NAV_CURRENT_HREF } from '@/data/data-nav-section'
-import { DATA_CTA_SOURCE, DATA_CTA_HEADING_LAYOUT } from '@/data/data-cta'
+import { DATA_CTA_SOURCE } from '@/data/data-cta'
 
 export const metadata: Metadata = {
   title: 'Data',
@@ -55,7 +55,7 @@ export default function DataPage(): React.ReactElement {
       <Divider/>
       <PlatformNavSection currentHref={DATA_NAV_CURRENT_HREF} />
       <Divider/>
-      <TrialSection headingLayout={DATA_CTA_HEADING_LAYOUT} source= 'inline' />
+      <TrialSection headingLayout= 'inline' source= {DATA_CTA_SOURCE} />
     </main>
   )
 }
