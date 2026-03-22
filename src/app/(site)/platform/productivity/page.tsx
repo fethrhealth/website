@@ -7,7 +7,8 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW } from '@/data/platform-productivity'
+import { COLLABORATE_WITH_COMMENTS, COMMENTS_HEADING_PRIMARY, COMMENTS_HEADING_MUTED, COMMENTS_SUBTEXT } from '@/data/productivity-comments'
 import { NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, SPEED_HEADING_PRIMARY, SPEED_HEADING_MUTED, SPEED_SUBHEADING } from '@/data/productivity-speed'
 import { BENTO_EMAIL_RELEVANT, EMAIL_RELEVANT, EMAIL_RELEVANT_HEADING_PRIMARY, EMAIL_RELEVANT_HEADING_MUTED, EMAIL_RELEVANT_SUBTEXT } from '@/data/productivity-relevant'
 import { SAME_TEAM_SAME_PAGE, SAME_TEAM_HEADING_PRIMARY, SAME_TEAM_HEADING_MUTED, SAME_TEAM_SUBHEADING } from '@/data/productivity-same-team'
@@ -82,9 +83,9 @@ export default function ProductivityPage(): React.ReactElement {
       <BentoGridSection
         headingMutedFirst={false}
         headerLayout='split'
-        headingPrimary=" Collaborate with \n"
-        headingMuted="comments."
-        subtext="Access, visualize and explore all your data as quickly as you can think."
+        headingPrimary={COMMENTS_HEADING_PRIMARY}
+        headingMuted={COMMENTS_HEADING_MUTED}
+        subtext={COMMENTS_SUBTEXT}
         items={COLLABORATE_WITH_COMMENTS}
       />
       <AccordionImageSection
