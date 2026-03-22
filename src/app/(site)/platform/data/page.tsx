@@ -8,7 +8,7 @@ import { PlatformNavSection } from '@/components/sections/PlatformNavSection'
 import { ScrollAccordionSection } from '@/components/sections/ScrollAccordionSection'
 import TrialSection from '@/components/sections/TrialSection'
 import Divider from '@/components/ui/divider'
-import { DATA_PAGE_TABS } from '@/data/feature-tabs'
+import { DATA_DECISIONS } from '@/data/data-decisions'
 import { DATA_GRID_HEADING, DATA_GRID_SUBHEADING, DATA_GRID_ITEMS, DATA_GRID_QUOTE } from '@/data/data-grid-section'
 import { DATA_ENRICHMENT_HEADING, DATA_ENRICHMENT_SUBHEADING, DATA_ENRICHMENT_ITEMS } from '@/data/data-enrichment'
 import { DATA_ACCORDION_HEADING, DATA_ACCORDION_SUBHEADING, DATA_ACCORDION_ITEMS } from '@/data/data-accordion'
@@ -49,7 +49,7 @@ export default function DataPage(): React.ReactElement {
         subheading={DATA_ACCORDION_SUBHEADING}
         items={DATA_ACCORDION_ITEMS}
       />
-      <FeatureTabsSection {...DATA_PAGE_TABS} />
+      <FeatureTabsSection {...DATA_DECISIONS} />
       <Divider/>
       <PlatformNavSection currentHref="/platform/data" />
       <Divider/>

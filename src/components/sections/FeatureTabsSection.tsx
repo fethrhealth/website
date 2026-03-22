@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import type { FeatureTabsContent } from '@/data/feature-tabs'
+import type { FeatureTabsContent } from '@/data/data-decisions'
 
 // ─── Dashed SVG helpers ───────────────────────────────────────────────────────
 
