@@ -11,7 +11,7 @@ import Divider from '@/components/ui/divider'
 import { DATA_PAGE_TABS } from '@/data/feature-tabs'
 import { DATA_GRID_HEADING, DATA_GRID_SUBHEADING, DATA_GRID_ITEMS, DATA_GRID_QUOTE } from '@/data/data-grid-section'
 import { DATA_ENRICHMENT_HEADING, DATA_ENRICHMENT_SUBHEADING, DATA_ENRICHMENT_ITEMS } from '@/data/data-enrichment'
-import { DATA_SOURCES_ITEMS } from '@/data/platform-data'
+import { DATA_ACCORDION_HEADING, DATA_ACCORDION_SUBHEADING, DATA_ACCORDION_ITEMS } from '@/data/data-accordion'
 
 export const metadata: Metadata = {
   title: 'Data',
@@ -45,9 +45,9 @@ export default function DataPage(): React.ReactElement {
       />
       <Divider/>
       <ScrollAccordionSection
-        heading='Unify your data sources.'
-        subheading='Draw on all your business, customer and product data to supercharge your GTM team’s efforts.'
-        items={ DATA_SOURCES_ITEMS }
+        heading={DATA_ACCORDION_HEADING}
+        subheading={DATA_ACCORDION_SUBHEADING}
+        items={DATA_ACCORDION_ITEMS}
       />
       <FeatureTabsSection {...DATA_PAGE_TABS} />
       <Divider/>
