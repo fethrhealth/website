@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { PartnersHeroSection } from "@/components/sections/PartnersHeroSection";
 import { PartnersSection } from "@/components/sections/PartnersSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { PARTNERS_TESTIMONIALS } from "@/data/testimonials";
+import { PARTNERS_TESTIMONIALS } from "@/data/home-testimonials";
 import Divider from "@/components/ui/divider";
 import { KeepUpToDateSection } from "@/components/sections/KeepUpToDateSection";
 
