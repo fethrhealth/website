@@ -3,6 +3,10 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import {
+  PRODUCTIVITY_HERO_IMAGES,
+  PRODUCTIVITY_HERO_MOBILE_SLIDES,
+} from '@/data/productivity-hero'
 
 /**
  * ProductivityHeroImages
@@ -40,8 +44,6 @@ const cardCls = cn(
 )
 
 const LINE_GRADIENT = 'opacity-30 bg-[linear-gradient(270deg,#FFF_0%,#CAD0D9_4.04%,#CAD0D9_95.87%,#FFF_100%)]'
-
-const SLIDE_COUNT = 2
 
 export function ProductivityHeroImages() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -100,10 +102,10 @@ export function ProductivityHeroImages() {
             'xl:col-start-1 xl:col-span-2 xl:row-start-2 xl:row-span-4',
           )}>
             <Image
-              src="/assets/images/platform/productivity/hero/productivity-hero-note.avif"
+              src={PRODUCTIVITY_HERO_IMAGES.note.src}
               alt=""
-              width={1524}
-              height={708}
+              width={PRODUCTIVITY_HERO_IMAGES.note.width}
+              height={PRODUCTIVITY_HERO_IMAGES.note.height}
               className="h-full w-full rounded-[inherit] object-cover object-left-top"
               sizes="400px"
             />
@@ -116,10 +118,10 @@ export function ProductivityHeroImages() {
             'xl:col-start-6 xl:col-span-2 xl:row-start-2 xl:row-span-5',
           )}>
             <Image
-              src="/assets/images/platform/productivity/hero/productivity-hero-email.avif"
+              src={PRODUCTIVITY_HERO_IMAGES.email.src}
               alt=""
-              width={1524}
-              height={908}
+              width={PRODUCTIVITY_HERO_IMAGES.email.width}
+              height={PRODUCTIVITY_HERO_IMAGES.email.height}
               className="h-full w-full rounded-[inherit] object-cover object-left-top"
               sizes="(max-width: 1200px) 470px, 400px"
             />
@@ -135,10 +137,10 @@ export function ProductivityHeroImages() {
           )}>
             <div className="flex-1 rounded-[11px] bg-primary-background shadow-[0px_3px_3px_0px_rgba(0,0,0,0.04)]">
               <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-screen.avif"
+                src={PRODUCTIVITY_HERO_IMAGES.screen.src}
                 alt=""
-                width={2256}
-                height={2032}
+                width={PRODUCTIVITY_HERO_IMAGES.screen.width}
+                height={PRODUCTIVITY_HERO_IMAGES.screen.height}
                 className="h-full w-full rounded-[inherit] bg-primary-background object-cover"
                 sizes="(max-width: 1200px) 50vw, 558px"
               />
@@ -152,7 +154,7 @@ export function ProductivityHeroImages() {
             'xl:col-start-1 xl:col-span-2 xl:row-start-6 xl:row-span-5',
           )}>
             <Image
-              src="/assets/images/platform/productivity/hero/productivity-hero-list.avif"
+              src={PRODUCTIVITY_HERO_IMAGES.list.src}
               alt=""
               fill
               className="rounded-[inherit] object-cover object-left-top"
@@ -167,7 +169,7 @@ export function ProductivityHeroImages() {
             'xl:col-start-6 xl:col-span-2 xl:row-start-7 xl:row-span-4',
           )}>
             <Image
-              src="/assets/images/platform/productivity/hero/productivity-hero-comment.avif"
+              src={PRODUCTIVITY_HERO_IMAGES.comment.src}
               alt=""
               fill
               className="rounded-[inherit] object-cover object-left-top"
@@ -189,59 +191,28 @@ export function ProductivityHeroImages() {
           className="flex snap-x snap-mandatory gap-y-3 overflow-x-auto [&::-webkit-scrollbar]:hidden"
         >
 
-          {/* Slide 1 */}
-          <div className="flex w-full shrink-0 snap-start flex-col gap-y-3 px-4 pb-6 ">
-            <div className={cn(cardCls, 'overflow-hidden')}>
-              <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-note-mobile.avif"
-                alt=""
-                width={1524}
-                height={708}
-                className="w-full rounded-[inherit] object-cover object-left-top"
-                sizes="400px"
-              />
+          {PRODUCTIVITY_HERO_MOBILE_SLIDES.map((slide, slideIdx) => (
+            <div key={slideIdx} className="flex w-full shrink-0 snap-start flex-col gap-y-3 px-4 pb-6">
+              {slide.map((img, imgIdx) => (
+                <div key={imgIdx} className={cn(cardCls, 'overflow-hidden')}>
+                  <Image
+                    src={img.src}
+                    alt=""
+                    width={img.width}
+                    height={img.height}
+                    className="w-full rounded-[inherit] object-cover object-left-top"
+                    sizes="400px"
+                  />
+                </div>
+              ))}
             </div>
-            <div className={cn(cardCls, 'overflow-hidden')}>
-              <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-list-mobile.avif"
-                alt=""
-                width={1524}
-                height={908}
-                className="w-full rounded-[inherit] object-cover object-left-top"
-                sizes="400px"
-              />
-            </div>
-          </div>
-
-          {/* Slide 2 */}
-          <div className="flex w-full shrink-0 snap-start flex-col gap-y-3 px-4 pb-6 ">
-            <div className={cn(cardCls, 'overflow-hidden')}>
-              <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-email-mobile.avif"
-                alt=""
-                width={1524}
-                height={908}
-                className="w-full rounded-[inherit] object-cover object-left-top"
-                sizes="400px"
-              />
-            </div>
-            <div className={cn(cardCls, 'overflow-hidden')}>
-              <Image
-                src="/assets/images/platform/productivity/hero/productivity-hero-comment-mobile.avif"
-                alt=""
-                width={1524}
-                height={708}
-                className="w-full rounded-[inherit] object-cover object-left-top"
-                sizes="400px"
-              />
-            </div>
-          </div>
+          ))}
 
         </div>
 
         {/* Slide dots */}
         <div className="mt-3 flex justify-center gap-x-2">
-          {Array.from({ length: SLIDE_COUNT }, (_, i) => (
+          {Array.from({ length: PRODUCTIVITY_HERO_MOBILE_SLIDES.length }, (_, i) => (
             <button
               key={i}
               onClick={() => scrollToSlide(i)}

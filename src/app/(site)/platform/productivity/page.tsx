@@ -8,6 +8,7 @@ import { ProductivityFloatingCursors } from '@/components/sections/ProductivityF
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
 import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, EMAIL_RELEVANT, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, BENTO_EMAIL_RELEVANT, SAME_TEAM_SAME_PAGE, BENTO_INTELLIGENT_CALLS } from '@/data/platform-productivity'
+import { PRODUCTIVITY_HERO_BADGE, PRODUCTIVITY_HERO_HEADING, PRODUCTIVITY_HERO_SUBHEADING, PRODUCTIVITY_HERO_CTA_LABEL, PRODUCTIVITY_HERO_CTA_HREF, PRODUCTIVITY_HERO_FORM_SOURCE } from '@/data/productivity-hero'
 import { REPORTING_ENGINE } from '@/data/platform-reporting'
 import { Divide } from 'lucide-react'
 
@@ -26,12 +27,12 @@ export default function ProductivityPage(): React.ReactElement {
       <div className="container">
         <div className='relative'>
         <PageHero
-          badge="Productivity"
-          heading="Your collaboration station."
-          subheading="Fethr propels go-to-market teams towards new levels of productivity and lets you seamlessly perform your daily work."
-          primaryCta={{ label: 'Start for free', href: '/platform/productivity' }}
+          badge={PRODUCTIVITY_HERO_BADGE}
+          heading={PRODUCTIVITY_HERO_HEADING}
+          subheading={PRODUCTIVITY_HERO_SUBHEADING}
+          primaryCta={{ label: PRODUCTIVITY_HERO_CTA_LABEL, href: PRODUCTIVITY_HERO_CTA_HREF }}
           showSales
-          mobileFormSource='productivity'
+          mobileFormSource={PRODUCTIVITY_HERO_FORM_SOURCE}
           showMobileSales
         />
         <ProductivityFloatingCursors />
