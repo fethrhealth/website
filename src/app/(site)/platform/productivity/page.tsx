@@ -7,7 +7,8 @@ import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
-import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS, NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES } from '@/data/platform-productivity'
+import { PRODUCTIVITY_FEATURES, STAY_IN_THE_FLOW, COLLABORATE_WITH_COMMENTS } from '@/data/platform-productivity'
+import { NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, SPEED_HEADING_PRIMARY, SPEED_HEADING_MUTED, SPEED_SUBHEADING } from '@/data/productivity-speed'
 import { BENTO_EMAIL_RELEVANT, EMAIL_RELEVANT, EMAIL_RELEVANT_HEADING_PRIMARY, EMAIL_RELEVANT_HEADING_MUTED, EMAIL_RELEVANT_SUBTEXT } from '@/data/productivity-relevant'
 import { SAME_TEAM_SAME_PAGE, SAME_TEAM_HEADING_PRIMARY, SAME_TEAM_HEADING_MUTED, SAME_TEAM_SUBHEADING } from '@/data/productivity-same-team'
 import { BENTO_INTELLIGENT_CALLS, INTELLIGENT_CALLS_HEADING_PRIMARY, INTELLIGENT_CALLS_HEADING_MUTED, INTELLIGENT_CALLS_SUBTEXT } from '@/data/productivity-intelligent-calls'
@@ -71,10 +72,10 @@ export default function ProductivityPage(): React.ReactElement {
       <FeatureCardsSection items={EMAIL_RELEVANT} />
       <AccordionImageSection
         headerLayout="centered"
-        headingPrimary=" for speed"
-        headingMuted="The need"
+        headingPrimary={SPEED_HEADING_PRIMARY}
+        headingMuted={SPEED_HEADING_MUTED}
         headingMutedFirst
-        subheading="Search through records, notes, and tasks and take actions at the speed of lightning with Attio's command palette."
+        subheading={SPEED_SUBHEADING}
         items={NEED_FOR_SPEED}
       />
       <FeatureCardsSection items={NEED_FOR_SPEED_FEATURES} />
