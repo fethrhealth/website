@@ -8,6 +8,7 @@ import { ProductivityFloatingCursors } from '@/components/sections/ProductivityF
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
 import { PRODUCTIVITY_FEATURES, PRODUCTIVITY_FEATURES_HEADING, PRODUCTIVITY_FEATURES_SUBTEXT } from '@/data/productivity-features'
+import { PRODUCTIVITY_CTA_SOURCE } from '@/data/productivity-cta'
 import { STAY_IN_THE_FLOW, FLOW_HEADING_PRIMARY, FLOW_HEADING_MUTED, FLOW_SUBHEADING } from '@/data/productivity-flow'
 import { COLLABORATE_WITH_COMMENTS, COMMENTS_HEADING_PRIMARY, COMMENTS_HEADING_MUTED, COMMENTS_SUBTEXT } from '@/data/productivity-comments'
 import { NEED_FOR_SPEED, NEED_FOR_SPEED_FEATURES, SPEED_HEADING_PRIMARY, SPEED_HEADING_MUTED, SPEED_SUBHEADING } from '@/data/productivity-speed'
@@ -104,7 +105,7 @@ export default function ProductivityPage(): React.ReactElement {
       />
       <Divide/>
       <TrialSection
-        source='productivity'
+        source={PRODUCTIVITY_CTA_SOURCE}
         headingLayout='inline'
       />
     </main>
