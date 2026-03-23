@@ -13,6 +13,15 @@
 "use client"
 
 import { motion } from "framer-motion"
+import {
+  ZERO_TOUCH_PANELS,
+  ZERO_TOUCH_ENROLLED_LABEL,
+  ZERO_TOUCH_ENROLLED_DETAIL,
+  PROVIDER_BADGES,
+  ZERO_TOUCH_CONTACTS,
+  type ProviderBadge,
+  type ZeroTouchContact,
+} from '@/data/sequences-zero-touch'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -84,9 +93,9 @@ function SignalEnrollmentAnimation() {
         <div className="relative w-full rounded-xl border border-[#e4e7ec] bg-white-0 px-3 py-2.5 shadow-[0_0_2px_rgba(28,40,64,0.12),0_1px_3px_rgba(24,41,75,0.04)]">
           <div className="mb-0.5 flex items-center gap-2">
             <span className="size-2 shrink-0 rounded-full bg-[#0fc27b]" />
-            <p className="text-[11px] font-semibold text-[#232529]">Enrolled in onboarding</p>
+            <p className="text-[11px] font-semibold text-[#232529]">{ZERO_TOUCH_ENROLLED_LABEL}</p>
           </div>
-          <p className="pl-4 text-[10px] text-[#9fa1a7]">3 emails · 7-day cadence</p>
+          <p className="pl-4 text-[10px] text-[#9fa1a7]">{ZERO_TOUCH_ENROLLED_DETAIL}</p>
         </div>
 
       </div>
@@ -186,19 +195,6 @@ function CursorBadge({ color, label, uid }: { color: string; label: string; uid:
 
 // ─── Panel 2: Rotating circles with provider badges ───────────────────────────
 
-interface ProviderBadge {
-  label: string
-  team: string
-  color: string
-  /** Degrees from top, clockwise */
-  angle: number
-}
-
-const PROVIDER_BADGES: ProviderBadge[] = [
-  { label: "John", team: "Support", color: "#0DA669", angle: 30 },
-  { label: "Ethan", team: "Product", color: "#F97316", angle: 120 },
-  { label: "Roza", team: "Sales", color: "#9162F9", angle: 250 },
-]
 
 const OUTER_R = 107.5
 
@@ -296,24 +292,10 @@ function RotatingCirclesAnimation() {
 
 // ─── Panel 3: Infinite-scroll contact list ────────────────────────────────────
 
-interface Contact {
-  name: string
-  avatar: string
-  enrolledAgo: string
-  nextEmail: string
-}
-
-const CONTACTS: Contact[] = [
-  { name: "Bridget Moore", avatar: "/assets/images/platform/sequences/zero-touch/bridget.avif", enrolledAgo: "3 days ago", nextEmail: "2 days" },
-  { name: "Cody Fisher", avatar: "/assets/images/platform/sequences/zero-touch/cody.avif", enrolledAgo: "2 days ago", nextEmail: "3 days" },
-  { name: "Esther Howard", avatar: "/assets/images/platform/sequences/zero-touch/esther.avif", enrolledAgo: "yesterday", nextEmail: "1 day" },
-  { name: "Jessica Miles", avatar: "/assets/images/platform/sequences/zero-touch/jessica.avif", enrolledAgo: "6 hours ago", nextEmail: "2 days" },
-  { name: "Steve Martin", avatar: "/assets/images/platform/sequences/zero-touch/steve.avif", enrolledAgo: "1 hour ago", nextEmail: "2 days" },
-]
 
 function InfiniteScrollContacts() {
   // Duplicate list so the CSS translateY(-50%) loop is seamless
-  const items: Contact[] = [...CONTACTS, ...CONTACTS]
+  const items: ZeroTouchContact[] = [...ZERO_TOUCH_CONTACTS, ...ZERO_TOUCH_CONTACTS]
 
   return (
     <div className="absolute inset-0">
@@ -374,24 +356,9 @@ const DOT_IDS = ["zt-dot-1", "zt-dot-2", "zt-dot-3"] as const
 
 export function ZeroTouchSection({ heading, subheading }: ZeroTouchSectionProps) {
   const panels = [
-    {
-      id: DOT_IDS[0],
-      animation: <SignalEnrollmentAnimation />,
-      title: "Signal based enrollment.",
-      description: "Pick the cues—appointment booked, form filled, intake submitted—to enroll the patient.",
-    },
-    {
-      id: DOT_IDS[1],
-      animation: <RotatingCirclesAnimation />,
-      title: "One sequence, any sender.",
-      description: "Set up a single email sequence and auto-assign the right care provider.",
-    },
-    {
-      id: DOT_IDS[2],
-      animation: <InfiniteScrollContacts />,
-      title: "Automate scheduled sending.",
-      description: "Skip the manual syncs. Reclaim hours every week for what matters most.",
-    },
+    { id: DOT_IDS[0], animation: <SignalEnrollmentAnimation />, ...ZERO_TOUCH_PANELS[0] },
+    { id: DOT_IDS[1], animation: <RotatingCirclesAnimation />,  ...ZERO_TOUCH_PANELS[1] },
+    { id: DOT_IDS[2], animation: <InfiniteScrollContacts />,    ...ZERO_TOUCH_PANELS[2] },
   ]
 
   return (

@@ -11,6 +11,7 @@ import Divider from "@/components/ui/divider";
 import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-sequences"
 import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSIDE_IMAGE_SRC, SEQUENCES_INSIDE_IMAGE_ALT, SEQUENCES_INSIDE_IMAGE_WIDTH, SEQUENCES_INSIDE_IMAGE_HEIGHT } from "@/data/sequences-inside"
 import { SEQUENCES_QUOTE, SEQUENCES_QUOTE_AUTHOR, SEQUENCES_QUOTE_ROLE } from "@/data/sequences-quote"
+import { ZERO_TOUCH_HEADING, ZERO_TOUCH_SUBHEADING } from "@/data/sequences-zero-touch"
 
 export const metadata: Metadata = {
   title: 'Sequences',
@@ -41,8 +42,8 @@ export default function SequencesPage(): React.ReactElement {
       />
       <Divider />
       <ZeroTouchSection
-        heading="Zero-touch follow-ups."
-        subheading="Fethr keeps patients moving forward while your team focuses on care."
+        heading={ZERO_TOUCH_HEADING}
+        subheading={ZERO_TOUCH_SUBHEADING}
       />
       <Divider />
       <ScrollAccordionSection
