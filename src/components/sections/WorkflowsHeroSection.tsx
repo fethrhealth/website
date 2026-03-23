@@ -22,6 +22,21 @@ import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
 import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
+import {
+  WORKFLOWS_HERO_BADGE_LABEL,
+  WORKFLOWS_HERO_BADGE_TEXT,
+  WORKFLOWS_HERO_BADGE_HREF,
+  WORKFLOWS_HERO_HEADING_1,
+  WORKFLOWS_HERO_HEADING_2,
+  WORKFLOWS_HERO_SUBHEADING,
+  WORKFLOWS_HERO_CTA_LABEL,
+  WORKFLOWS_HERO_CTA_HREF,
+  WORKFLOWS_HERO_SALES_SOURCE,
+  WORKFLOWS_HERO_FORM_SOURCE,
+  WORKFLOW_CARDS,
+  WORKFLOW_CONN_IN_NETWORK,
+  WORKFLOW_CONN_OON,
+} from '@/data/workflows-hero'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const EASE    = [0.2, 0, 0, 1] as const
@@ -365,9 +380,9 @@ function WorkflowGrid({ st }: { st: AnimState }) {
       <WCard
         s={c[0]!}
         icon={IconHL7}
-        title="ADT^A01 — Patient admitted"
-        tag="HL7"
-        desc="Trigger when a patient admission event is received."
+        title={WORKFLOW_CARDS[0]!.title}
+        tag={WORKFLOW_CARDS[0]!.tag}
+        desc={WORKFLOW_CARDS[0]!.desc}
         grid="col-start-[2] col-end-[16] row-start-[1] lg:col-start-[4] lg:col-end-[20] lg:row-start-[1] xl:col-start-[10] xl:col-end-[24]"
         outerRound="rounded-b-xl rounded-tl-none rounded-tr-xl"
         innerRound="rounded-b-[11px] rounded-tl-none rounded-tr-[11px]"
@@ -379,9 +394,9 @@ function WorkflowGrid({ st }: { st: AnimState }) {
       <WCard
         s={c[1]!}
         icon={IconCondition}
-        title="Payer in network?"
-        tag="Condition"
-        desc="Continue if the patient's payer is in-network."
+        title={WORKFLOW_CARDS[1]!.title}
+        tag={WORKFLOW_CARDS[1]!.tag}
+        desc={WORKFLOW_CARDS[1]!.desc}
         grid="col-start-[2] col-end-[16] row-start-[6] lg:col-start-[24] lg:col-end-[40] lg:row-start-[1] xl:col-start-[10] xl:col-end-[24] xl:row-start-[6]"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
       />
@@ -390,9 +405,9 @@ function WorkflowGrid({ st }: { st: AnimState }) {
       <WCard
         s={c[2]!}
         icon={IconSlack}
-        title="Alert care team via Slack"
-        tag="Slack"
-        desc="Send patient summary and action buttons to Slack."
+        title={WORKFLOW_CARDS[2]!.title}
+        tag={WORKFLOW_CARDS[2]!.tag}
+        desc={WORKFLOW_CARDS[2]!.desc}
         grid="col-start-[2] col-end-[16] row-start-[11] lg:col-start-[14] lg:col-end-[30] lg:row-start-[7] xl:col-start-[10] xl:col-end-[24] xl:row-start-[11]"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
       />
@@ -401,9 +416,9 @@ function WorkflowGrid({ st }: { st: AnimState }) {
       <WCard
         s={c[3]!}
         icon={IconEHR}
-        title="Route to Epic EHR"
-        tag="Epic"
-        desc="Send HL7 message to Epic for downstream processing."
+        title={WORKFLOW_CARDS[3]!.title}
+        tag={WORKFLOW_CARDS[3]!.tag}
+        desc={WORKFLOW_CARDS[3]!.desc}
         grid="col-start-[2] col-end-[16] row-start-[17] lg:col-start-[4] lg:col-end-[20] lg:row-start-[14] xl:col-start-[1] xl:col-end-[15] xl:row-start-[18] row-span-3"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
       />
@@ -412,9 +427,9 @@ function WorkflowGrid({ st }: { st: AnimState }) {
       <WCard
         s="idle"
         icon={IconQueue}
-        title="Add to care queue"
-        tag="Queue"
-        desc="Enqueue patient for priority care follow-up."
+        title={WORKFLOW_CARDS[4]!.title}
+        tag={WORKFLOW_CARDS[4]!.tag}
+        desc={WORKFLOW_CARDS[4]!.desc}
         grid="col-start-[2] col-end-[16] lg:col-start-[24] lg:col-end-[40] lg:row-start-[14] xl:col-start-[19] xl:col-end-[33] xl:row-start-[18]"
         dotCls="bottom-0 left-1/2 -translate-x-1/2 translate-y-[5.5px]"
         display="hidden lg:flex"
@@ -437,7 +452,7 @@ function WorkflowGrid({ st }: { st: AnimState }) {
         drawn={l[2]!}
         gridCls="col-start-[8] col-end-[17] row-start-[14] row-end-[18] hidden xl:block"
         h="h-[calc(100%+20px)]"
-        label="In-network"
+        label={WORKFLOW_CONN_IN_NETWORK}
         labelStyle={{ backgroundColor: 'rgb(221,249,228)', borderColor: 'rgb(199,244,211)', color: 'rgb(11,147,93)' }}
       />
       {/* conn2: card2 → card3 "In-network" | L-left (lg tablet) */}
@@ -445,7 +460,7 @@ function WorkflowGrid({ st }: { st: AnimState }) {
         drawn={l[2]!}
         gridCls="col-start-[12] col-end-[22] row-start-[10] row-end-[14] hidden lg:block xl:hidden"
         h="h-[calc(100%+20px)]"
-        label="In-network"
+        label={WORKFLOW_CONN_IN_NETWORK}
         labelStyle={{ backgroundColor: 'rgb(221,249,228)', borderColor: 'rgb(199,244,211)', color: 'rgb(11,147,93)' }}
       />
       {/* conn2: card2 → card3 | vertical (mobile) */}
@@ -456,13 +471,13 @@ function WorkflowGrid({ st }: { st: AnimState }) {
         drawn={false}
         gridCls="col-start-[17] col-end-[26] row-start-[14] row-end-[18] hidden xl:block"
         h="h-[calc(100%+20px)]"
-        label="OON patient"
+        label={WORKFLOW_CONN_OON}
       />
       <ConnLRightLabel
         drawn={false}
         gridCls="col-start-[22] col-end-[32] row-start-[10] row-end-[14] hidden lg:block xl:hidden"
         h="h-[calc(100%+20px)]"
-        label="OON patient"
+        label={WORKFLOW_CONN_OON}
       />
 
     </div>
@@ -490,13 +505,13 @@ export function WorkflowsHeroSection() {
                 transition={{ duration: 0.4, delay: 0.08, ease: EASE }}
               >
                 <Link
-                  href="/platform/workflows"
+                  href={WORKFLOWS_HERO_BADGE_HREF}
                   className="group inline-flex rounded-[13px] border border-subtle-stroke bg-primary-background font-medium text-[13px]/[1.4em] transition-[border-color,box-shadow] duration-300 ease-out hover:border-accent-stroke hover:ring-[3px] hover:ring-blue-300 active:ring-1"
                 >
                   <div className="flex items-center gap-1.5 p-0.5 pr-2">
-                    <span className="rounded-[10px] bg-gradient-to-b from-black-600 to-black-100 py-[3px] pr-2 pl-2.5 align-middle text-white-400">New</span>
+                    <span className="rounded-[10px] bg-gradient-to-b from-black-600 to-black-100 py-[3px] pr-2 pl-2.5 align-middle text-white-400">{WORKFLOWS_HERO_BADGE_LABEL}</span>
                     <div className="flex items-center">
-                      Automations library
+                      {WORKFLOWS_HERO_BADGE_TEXT}
                       <svg
                         className="-rotate-90 transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-focus:translate-x-[3px]"
                         xmlns="http://www.w3.org/2000/svg"
@@ -515,9 +530,9 @@ export function WorkflowsHeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.14, ease: EASE }}
               >
-                Automate. Iterate.
+                {WORKFLOWS_HERO_HEADING_1}
                 <br />
-                Accelerate.
+                {WORKFLOWS_HERO_HEADING_2}
               </motion.h2>
 
               <motion.p
@@ -526,7 +541,7 @@ export function WorkflowsHeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.21, ease: EASE }}
               >
-                Workflows turns your GTM strategies into dynamic engines for revenue growth.
+                {WORKFLOWS_HERO_SUBHEADING}
               </motion.p>
 
               <motion.div
@@ -536,17 +551,17 @@ export function WorkflowsHeroSection() {
                 transition={{ duration: 0.4, delay: 0.28, ease: EASE }}
               >
                 <Link
-                  href="/platform/workflows"
+                  href={WORKFLOWS_HERO_CTA_HREF}
                   className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                 >
-                  Start for free
+                  {WORKFLOWS_HERO_CTA_LABEL}
                 </Link>
                 <TalkToSalesDialog
-                  source="workflows-hero"
+                  source={WORKFLOWS_HERO_SALES_SOURCE}
                   className="button-outline border relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                 />
                 <div className='md:hidden w-full'>
-                  <DemoRequestForm source='workflows' />
+                  <DemoRequestForm source={WORKFLOWS_HERO_FORM_SOURCE} />
                 </div>
               </motion.div>
             </div>
