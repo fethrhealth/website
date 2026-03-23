@@ -13,6 +13,7 @@ import { HANDWRITTEN_WARMTH_ITEMS, HANDWRITTEN_HEADING, HANDWRITTEN_SUBHEADING }
 import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSIDE_IMAGE_SRC, SEQUENCES_INSIDE_IMAGE_ALT, SEQUENCES_INSIDE_IMAGE_WIDTH, SEQUENCES_INSIDE_IMAGE_HEIGHT } from "@/data/sequences-inside"
 import { SEQUENCES_QUOTE, SEQUENCES_QUOTE_AUTHOR, SEQUENCES_QUOTE_ROLE } from "@/data/sequences-quote"
 import { ZERO_TOUCH_HEADING, ZERO_TOUCH_SUBHEADING } from "@/data/sequences-zero-touch"
+import { SEQUENCES_NAV_CURRENT_HREF } from "@/data/sequences-nav-section"
 
 export const metadata: Metadata = {
   title: 'Sequences',
@@ -63,7 +64,7 @@ export default function SequencesPage(): React.ReactElement {
         items={INTERACTION_ITEMS}
       />
       <Divider />
-      <PlatformNavSection currentHref="/platform/sequences" />
+      <PlatformNavSection currentHref={SEQUENCES_NAV_CURRENT_HREF} />
       <TrialSection
         source="sequences"
         headingLayout="inline"
