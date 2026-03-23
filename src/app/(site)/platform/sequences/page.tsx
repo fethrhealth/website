@@ -8,7 +8,8 @@ import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSec
 import TrialSection from "@/components/sections/TrialSection";
 import { ZeroTouchSection } from "@/components/sections/ZeroTouchSection";
 import Divider from "@/components/ui/divider";
-import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-sequences"
+import { INTERACTION_ITEMS } from "@/data/platform-sequences"
+import { HANDWRITTEN_WARMTH_ITEMS, HANDWRITTEN_HEADING, HANDWRITTEN_SUBHEADING } from "@/data/sequences-handwritten"
 import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSIDE_IMAGE_SRC, SEQUENCES_INSIDE_IMAGE_ALT, SEQUENCES_INSIDE_IMAGE_WIDTH, SEQUENCES_INSIDE_IMAGE_HEIGHT } from "@/data/sequences-inside"
 import { SEQUENCES_QUOTE, SEQUENCES_QUOTE_AUTHOR, SEQUENCES_QUOTE_ROLE } from "@/data/sequences-quote"
 import { ZERO_TOUCH_HEADING, ZERO_TOUCH_SUBHEADING } from "@/data/sequences-zero-touch"
@@ -47,8 +48,8 @@ export default function SequencesPage(): React.ReactElement {
       />
       <Divider />
       <ScrollAccordionSection
-        heading='Handwritten warmth.'
-        subheading='Every touch feels 1-to-1, even when juggling 100 accounts.'
+        heading={HANDWRITTEN_HEADING}
+        subheading={HANDWRITTEN_SUBHEADING}
         items={HANDWRITTEN_WARMTH_ITEMS}
       />
       <Divider />
