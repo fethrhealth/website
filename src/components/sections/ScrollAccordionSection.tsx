@@ -15,7 +15,7 @@
 
 import Image from 'next/image'
 import { useRef, useState, useCallback } from 'react'
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useMotionValueEvent, animate } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import Divider from '../ui/divider'
 
@@ -77,6 +77,9 @@ export function ScrollAccordionSection({
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [barProgress, setBarProgress] = useState(0) // 0–100
+  // Holds the in-progress framer-motion scroll animation so we can cancel it
+  // before starting a new one (prevents browser smooth-scroll race conditions).
+  const scrollAnimRef = useRef<ReturnType<typeof animate> | null>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -93,17 +96,36 @@ export function ScrollAccordionSection({
 
   /**
    * Scroll to the position where item `index` becomes active.
-   * The container is n×100svh; scrollYProgress = index/n puts us at the
-   * exact start of that item's scroll range.
+   *
+   * Uses framer-motion's `animate()` instead of `window.scrollTo({ behavior:'smooth' })`
+   * so the animation is cancellable — calling scrollToItem() a second time while
+   * the first is still running stops the first immediately and starts fresh.
+   * This prevents the race condition where the browser blends two smooth-scrolls
+   * and lands at the wrong scroll position.
+   *
+   * Container absolute offset is computed via offsetTop traversal (not
+   * getBoundingClientRect) so it is stable regardless of current scroll state.
    */
   const scrollToItem = useCallback((index: number) => {
     if (!containerRef.current) return
-    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY
-    const containerHeight = containerRef.current.offsetHeight   // n × 100svh
-    const viewportHeight = window.innerHeight
-    window.scrollTo({
-      top: containerTop + (index / n) * (containerHeight - viewportHeight),
-      behavior: 'smooth',
+
+    // Stop any animation already in flight
+    scrollAnimRef.current?.stop()
+
+    // Compute stable absolute offset from document top
+    let containerTop = 0
+    let node: HTMLElement | null = containerRef.current
+    while (node) {
+      containerTop += node.offsetTop
+      node = node.offsetParent as HTMLElement | null
+    }
+
+    const targetY = containerTop + (index / n) * (containerRef.current.offsetHeight - window.innerHeight)
+
+    scrollAnimRef.current = animate(window.scrollY, targetY, {
+      duration: 0.75,
+      ease: [0.25, 0.1, 0.25, 1],
+      onUpdate: (v) => window.scrollTo(0, v),
     })
   }, [n])
 

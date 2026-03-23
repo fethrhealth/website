@@ -99,7 +99,7 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Blog',             href: '/blog' },
       { label: 'Manifesto',        href: '/redefine' },
-      { label: 'Become a Partner', href: '/partners',  disabled: true },
+      { label: 'Become a Partner', href: '/partners',  disabled: false },
       { label: 'Startup Program',  href: '/startups' },
     ],
   },

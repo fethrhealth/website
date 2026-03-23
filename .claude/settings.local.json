@@ -28,7 +28,8 @@
       "WebSearch",
       "Bash(npx payload:*)",
       "Bash(git:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(sed:*)"
     ]
   }
 }
