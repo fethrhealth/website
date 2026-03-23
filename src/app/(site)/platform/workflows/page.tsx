@@ -7,7 +7,8 @@ import { ImageGridSection } from '@/components/sections/ImageGridSection'
 import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
-import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI } from '@/data/platform-workflows'
+import { WORKFLOW_EXAMPLES, LEAD_UPDATES } from '@/data/platform-workflows'
+import { AUTOMATION_WITH_AI, EMAIL_HEADING_PRIMARY, EMAIL_HEADING_MUTED, EMAIL_SUBTEXT } from '@/data/workflows-email'
 import { WORKFLOW_INTEGRATIONS, AUTOMATIONS_HEADING_MUTED, AUTOMATIONS_HEADING_PRIMARY, AUTOMATIONS_SUBTEXT } from '@/data/workflows-automations'
 import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING, BETTER_SYSTEM_FEATURES } from '@/data/workflows-automate'
 import Divider from '@/components/ui/divider'
@@ -41,12 +42,12 @@ export default function WorkflowsPage(): React.ReactElement {
         items={WORKFLOW_INTEGRATIONS}
       />
       <BentoGridSection
-        headingMutedFirst = {false}
+        headingMutedFirst={false}
         headerLayout='split'
-        headingPrimary="Make every email\n"
-        headingMuted="relevant."
-        subtext="Use your business, customer and product data to craft emails that resonate with your prospects."
-        items= { AUTOMATION_WITH_AI }
+        headingPrimary={EMAIL_HEADING_PRIMARY}
+        headingMuted={EMAIL_HEADING_MUTED}
+        subtext={EMAIL_SUBTEXT}
+        items={AUTOMATION_WITH_AI}
       />
       <AccordionImageSection
       headerLayout="split"
