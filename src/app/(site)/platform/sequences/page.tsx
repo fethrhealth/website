@@ -8,7 +8,7 @@ import { ScrollAccordionSection } from "@/components/sections/ScrollAccordionSec
 import TrialSection from "@/components/sections/TrialSection";
 import { ZeroTouchSection } from "@/components/sections/ZeroTouchSection";
 import Divider from "@/components/ui/divider";
-import { INTERACTION_ITEMS } from "@/data/platform-sequences"
+import { INTERACTION_ITEMS, INTERACTIONS_HEADING, INTERACTIONS_SUBHEADING } from "@/data/sequences-interactions"
 import { HANDWRITTEN_WARMTH_ITEMS, HANDWRITTEN_HEADING, HANDWRITTEN_SUBHEADING } from "@/data/sequences-handwritten"
 import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSIDE_IMAGE_SRC, SEQUENCES_INSIDE_IMAGE_ALT, SEQUENCES_INSIDE_IMAGE_WIDTH, SEQUENCES_INSIDE_IMAGE_HEIGHT } from "@/data/sequences-inside"
 import { SEQUENCES_QUOTE, SEQUENCES_QUOTE_AUTHOR, SEQUENCES_QUOTE_ROLE } from "@/data/sequences-quote"
@@ -54,8 +54,8 @@ export default function SequencesPage(): React.ReactElement {
       />
       <Divider />
       <FeatureGridSection
-        heading='Every interaction in Attio.'
-        subheading='Track enrollment, replies, meetings, and status for every contact.'
+        heading={INTERACTIONS_HEADING}
+        subheading={INTERACTIONS_SUBHEADING}
         cols={2}
         background='dots'
         rules='dashed'
