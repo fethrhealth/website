@@ -220,7 +220,7 @@ export const WORKSPACE_NAME = 'Fethr Health'
 export const AI_CHAT_TITLE       = 'Fethr AI'
 export const AI_CHAT_LIVE_LABEL  = 'Live'
 export const AI_CHAT_PROMPT      = 'How can I assist you?'
-export const AI_CHAT_MESSAGE     = 'How do I connect Epic with Cerner?'
+export const AI_CHAT_MESSAGE     = 'I want to send orders from Epic to Cerner'
 
 export const AI_CHAT_SUGGESTIONS = [
   'Create a sample HL7 message',

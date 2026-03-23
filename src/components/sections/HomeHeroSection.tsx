@@ -1086,11 +1086,14 @@ function AIContent(): ReactNode {
   const [conn2, setConn2] = useState(false)
 
   useEffect(() => {
-    const t1 = setTimeout(() => setCard1(true), 200)
-    const t2 = setTimeout(() => setConn1(true), 850)
-    const t3 = setTimeout(() => setCard2(true), 1100)
-    const t4 = setTimeout(() => setConn2(true), 1750)
-    const t5 = setTimeout(() => setCard3(true), 2000)
+    // AIChatPanel sends the message at 700ms — cards must appear after that.
+    // +1100ms offset gives a natural "AI is generating" pause after send.
+    const OFFSET = 1100
+    const t1 = setTimeout(() => setCard1(true), OFFSET + 200)
+    const t2 = setTimeout(() => setConn1(true), OFFSET + 700)
+    const t3 = setTimeout(() => setCard2(true), OFFSET + 950)
+    const t4 = setTimeout(() => setConn2(true), OFFSET + 1500)
+    const t5 = setTimeout(() => setCard3(true), OFFSET + 1750)
     return () => [t1, t2, t3, t4, t5].forEach(clearTimeout)
   }, [])
 
