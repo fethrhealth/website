@@ -7,7 +7,8 @@ import { ImageGridSection } from '@/components/sections/ImageGridSection'
 import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
-import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, AUTOMATE_YOUR_WAY, BETTER_SYSTEM_FEATURES, WORKFLOW_INTEGRATIONS } from '@/data/platform-workflows'
+import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, BETTER_SYSTEM_FEATURES, WORKFLOW_INTEGRATIONS } from '@/data/platform-workflows'
+import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING } from '@/data/workflows-automate'
 import Divider from '@/components/ui/divider'
 
 export const metadata: Metadata = {
@@ -24,11 +25,11 @@ export default function WorkflowsPage(): React.ReactElement {
       <WorkflowsHeroSection />
       <CompaniesSection />
       <AccordionImageSection
-      headerLayout="split"
-      headingPrimary="Automate your way to\n"
-      headingMuted="GTM success."
-      subheading="No matter your GTM motion or strategy, Attio is the perfect way to drive it forward."
-      items = { AUTOMATE_YOUR_WAY }
+        headerLayout="split"
+        headingPrimary={AUTOMATE_HEADING_PRIMARY}
+        headingMuted={AUTOMATE_HEADING_MUTED}
+        subheading={AUTOMATE_SUBHEADING}
+        items={AUTOMATE_YOUR_WAY}
       />
       <FeatureCardsSection items={BETTER_SYSTEM_FEATURES} />
       <IntegrationCardsSection
