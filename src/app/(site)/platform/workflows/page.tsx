@@ -9,6 +9,7 @@ import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsS
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
 import { WORKFLOW_EXAMPLES, BUILD_HEADING_MUTED, BUILD_HEADING_PRIMARY, BUILD_SUBTEXT, BUILD_CTA_LABEL, BUILD_CTA_HREF } from '@/data/workflows-build'
 import { LEAD_UPDATES, LEADS_HEADING_PRIMARY, LEADS_HEADING_MUTED, LEADS_SUBHEADING } from '@/data/workflows-leads'
+import { WORKFLOWS_CTA_SOURCE } from '@/data/workflows-cta'
 import { AUTOMATION_WITH_AI, EMAIL_HEADING_PRIMARY, EMAIL_HEADING_MUTED, EMAIL_SUBTEXT } from '@/data/workflows-email'
 import { WORKFLOW_INTEGRATIONS, AUTOMATIONS_HEADING_MUTED, AUTOMATIONS_HEADING_PRIMARY, AUTOMATIONS_SUBTEXT } from '@/data/workflows-automations'
 import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING, BETTER_SYSTEM_FEATURES } from '@/data/workflows-automate'
@@ -66,7 +67,7 @@ export default function WorkflowsPage(): React.ReactElement {
         ctaHref={BUILD_CTA_HREF}
       />
       <Divider/>
-      <TrialSection headingLayout='inline' source='workflows'/>
+      <TrialSection headingLayout='inline' source={WORKFLOWS_CTA_SOURCE} />
     </main>
   )
 }
