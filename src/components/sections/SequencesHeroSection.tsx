@@ -22,6 +22,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { DemoRequestForm } from '../ui/DemoRequestForm'
 import { TalkToSalesDialog } from '../ui/TalkToSalesDialog'
+import {
+  SEQUENCES_HERO_BADGE,
+  SEQUENCES_HERO_HEADING,
+  SEQUENCES_HERO_SUBHEADING,
+  SEQUENCES_HERO_CTA_LABEL,
+  SEQUENCES_HERO_CTA_HREF,
+  SEQUENCES_HERO_SALES_SOURCE,
+  SEQUENCES_HERO_FORM_SOURCE,
+  SEQUENCES_ENROLLED_BY_LABEL,
+  SEQUENCES_WORKFLOW_NAME,
+  SEQUENCES_EMAIL_1_SUBJECT,
+  SEQUENCES_EMAIL_1_TIMESTAMP,
+  SEQUENCES_TIME_PILL_LABEL,
+  SEQUENCES_EMAIL_2_SUBJECT,
+  SEQUENCES_EMAIL_2_TIMESTAMP,
+  SEQUENCES_STATUS_LABEL,
+  SEQUENCES_MEETING_LABEL,
+  SEQUENCES_MEETING_NAME,
+  SEQUENCES_AVATAR_1,
+  SEQUENCES_AVATAR_2,
+} from '@/data/sequences-hero'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -177,7 +198,7 @@ function MeetingPill({ delay, avatar1, avatar2 }: MeetingPillProps) {
         </div>
       </div>
       <span className="text-base text-primary-foreground lg:text-lg">
-        Booked meeting <span className="text-accent-foreground">with</span> Yara
+        {SEQUENCES_MEETING_LABEL} <span className="text-accent-foreground">with</span> {SEQUENCES_MEETING_NAME}
       </span>
     </motion.div>
   )
@@ -193,7 +214,7 @@ function EnrollmentHeader({ delay }: { delay: number }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, delay, ease: EASE }}
     >
-      <span className="text-tertiary-foreground text-xs">Enrolled by</span>
+      <span className="text-tertiary-foreground text-xs">{SEQUENCES_ENROLLED_BY_LABEL}</span>
       <div className="flex items-center gap-x-2">
         <div className="flex size-4.5 items-center justify-center rounded-md border border-[#D6E5FF] bg-[#E5EEFF] text-[#183C81]">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -203,7 +224,7 @@ function EnrollmentHeader({ delay }: { delay: number }) {
             <path d="M10 4.75L10 3.99916C10 2.89459 9.10457 1.99916 8 1.99916L7.25 1.99916" stroke="currentColor" strokeLinecap="round" />
           </svg>
         </div>
-        <span className="text-primary-foreground text-sm">PQL Triage</span>
+        <span className="text-primary-foreground text-sm">{SEQUENCES_WORKFLOW_NAME}</span>
       </div>
     </motion.div>
   )
@@ -284,8 +305,8 @@ export function SequencesHeroSection() {
                       <EnrollmentHeader delay={0.1} />
                     </div>
                     <EmailCard
-                      subject="Welcome Yara"
-                      timestamp="5 days ago"
+                      subject={SEQUENCES_EMAIL_1_SUBJECT}
+                      timestamp={SEQUENCES_EMAIL_1_TIMESTAMP}
                       delay={0.2}
                       lineGroups={[
                         [240],
@@ -299,7 +320,7 @@ export function SequencesHeroSection() {
                   {/* ② Connector + time pill
                         Scroll step 1 starts at t=1.0s → these scroll into view */}
                   <Connector delay={T_STEP1 / 1000 + 0.1} />
-                  <TimePill label="After 2 business days" delay={T_STEP1 / 1000 + 0.2} />
+                  <TimePill label={SEQUENCES_TIME_PILL_LABEL} delay={T_STEP1 / 1000 + 0.2} />
                   <Connector delay={T_STEP1 / 1000 + 0.4} />
 
                   {/* ③ Next steps card + Completed
@@ -312,15 +333,15 @@ export function SequencesHeroSection() {
                       <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
                     </svg>
                     <EmailCard
-                      subject="Next steps"
-                      timestamp="Yesterday"
+                      subject={SEQUENCES_EMAIL_2_SUBJECT}
+                      timestamp={SEQUENCES_EMAIL_2_TIMESTAMP}
                       delay={T_STEP2 / 1000 + 0.1}
                       lineGroups={[[140, 300]]}
                     />
                   </div>
 
                   <Connector delay={T_STEP2 / 1000 + 0.2} />
-                  <StatusPill label="Completed" delay={T_STEP2 / 1000 + 0.3} />
+                  <StatusPill label={SEQUENCES_STATUS_LABEL} delay={T_STEP2 / 1000 + 0.3} />
                   <Connector delay={T_STEP2 / 1000 + 0.4} />
 
                   {/* ④ Meeting pill — fades in at t=2.8s with no scroll
@@ -334,8 +355,8 @@ export function SequencesHeroSection() {
                     </svg>
                     <MeetingPill
                       delay={T_MEETING_PILL / 1000}
-                      avatar1="/assets/images/platform/sequences/hero/sequences-avatar-1.avif"
-                      avatar2="/assets/images/platform/sequences/hero/sequences-avatar-2.avif"
+                      avatar1={SEQUENCES_AVATAR_1}
+                      avatar2={SEQUENCES_AVATAR_2}
                     />
                   </div>
                 </motion.div>
@@ -353,7 +374,7 @@ export function SequencesHeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: TEXT_DELAY + 0.1, ease: EASE }}
                 >
-                  <h1>Sequences</h1>
+                  <h1>{SEQUENCES_HERO_BADGE}</h1>
                 </motion.div>
 
                 <motion.h2
@@ -362,7 +383,7 @@ export function SequencesHeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: TEXT_DELAY + 0.2, ease: EASE }}
                 >
-                  Signal, sequence, success.
+                  {SEQUENCES_HERO_HEADING}
                 </motion.h2>
 
                 <motion.p
@@ -371,7 +392,7 @@ export function SequencesHeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: TEXT_DELAY + 0.3, ease: EASE }}
                 >
-                  Go from first touch to final appointment with perfectly crafted outreach delivered right on cue.
+                  {SEQUENCES_HERO_SUBHEADING}
                 </motion.p>
 
                 <motion.div
@@ -381,13 +402,13 @@ export function SequencesHeroSection() {
                   transition={{ duration: 1, delay: TEXT_DELAY + 0.4, ease: EASE }}
                 >
                   <Link
-                    href="/platform/sequences"
+                    href={SEQUENCES_HERO_CTA_HREF}
                     className="button-primary relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                   >
-                    Start for free
+                    {SEQUENCES_HERO_CTA_LABEL}
                   </Link>
                   <TalkToSalesDialog
-                    source="sequences-hero"
+                    source={SEQUENCES_HERO_SALES_SOURCE}
                     className="button-outline border relative inline-flex h-9 cursor-pointer items-center justify-center text-nowrap rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-md:hidden"
                   />
                   {/* <form className="flex w-full max-w-xs flex-col gap-2 md:hidden">
@@ -402,7 +423,7 @@ export function SequencesHeroSection() {
                     </button>
                   </form> */}
                   <DemoRequestForm
-                    source='sequences'
+                    source={SEQUENCES_HERO_FORM_SOURCE}
                     className='md:hidden'
                   />
                 </motion.div>
