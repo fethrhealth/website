@@ -513,10 +513,10 @@ function HubSpokeSvg() {
       className="relative top-4 left-1/2 -translate-x-1/2 flex items-center justify-center overflow-hidden size-[calc(100%-16px)]"
       style={{
         WebkitMaskImage:
-          'linear-gradient(to right, black 85%, transparent), linear-gradient(to bottom, black 85%, transparent)',
+          'linear-gradient(to right, transparent, black 20%, black 80%, transparent), linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)',
         WebkitMaskComposite: 'source-in',
         maskImage:
-          'linear-gradient(to right, black 85%, transparent), linear-gradient(to bottom, black 85%, transparent)',
+          'linear-gradient(to right, transparent, black 20%, black 80%, transparent), linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)',
         maskComposite: 'intersect',
       }}
     >
@@ -528,50 +528,69 @@ function HubSpokeSvg() {
         className="scale-[1.28] max-md:scale-150"
         aria-hidden
       >
-        {/* ── CSS: dash-scroll animation for spoke lines ── */}
+        {/* ── CSS: dash-scroll animations, one per travel direction ── */}
+        {/*   hs-fwd: dashes move in path direction  (right-bend, top-right)  */}
+        {/*   hs-rev: dashes move against path dir   (left spoke, bottom)     */}
         <defs>
           <style>{`
-            @keyframes hs-scroll { to { stroke-dashoffset: -8; } }
-            .hs-spoke { animation: hs-scroll 0.4s linear infinite; }
+            @keyframes hs-fwd { to { stroke-dashoffset: -8; } }
+            @keyframes hs-rev { to { stroke-dashoffset:  8; } }
+            .hs-fwd { animation: hs-fwd 1s linear infinite; }
+            .hs-rev { animation: hs-rev 1s linear infinite; }
           `}</style>
         </defs>
 
-        {/* ── 4 dashed spokes radiating from hub ── */}
-        {/* Left: hub center → left edge */}
-        <path d="M220 147.5H0"           className="hs-spoke" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
-        {/* Right-bend: hub center → right → bend down → far-right */}
-        <path d="M220 147.5H330V220H440" className="hs-spoke" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
-        {/* Top-right: hub top edge → up → bend right → far-right */}
-        <path d="M220 99.5V43H440"       className="hs-spoke" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
-        {/* Bottom: hub center → bottom edge */}
-        <path d="M220 147.5V295"         className="hs-spoke" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
+        {/* ── 4 dashed spokes — direction matches circle travel ── */}
+        {/* Left spoke: circle enters from left → scrolls rightward (against path M220→0) */}
+        <path d="M220 147.5H0"           className="hs-rev" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
+        {/* Right-bend: circle exits center going right/down (same as path M220→440) */}
+        <path d="M220 147.5H330V220H440" className="hs-fwd" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
+        {/* Top-right: circle exits hub going up then right (same as path M220,99.5→440,43) */}
+        <path d="M220 99.5V43H440"       className="hs-fwd" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
+        {/* Bottom: circle enters from bottom going up (against path M220,147.5→295) */}
+        <path d="M220 147.5V295"         className="hs-rev" stroke="#e4e7ec" strokeLinecap="round" strokeDasharray="4 4" />
 
-        {/* ── Traveling dots — follow spoke path inward toward hub ── */}
-        {/* Left spoke: 0,147.5 → 220,147.5 */}
-        <motion.circle r={3} fill="#8f99a8"
-          animate={{ cx: [0, 220], cy: [147.5, 147.5] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'linear', repeatDelay: 1.3 }}
+        {/* ── 2 traveling circles — each crosses the full hub from one side to the other ── */}
+
+        {/* Cross 1: left spoke → hub center → right-bend spoke (horizontal path) */}
+        {/* Path: (0,147.5) → (220,147.5) → (330,147.5) → (330,220) → (440,220)   */}
+        <motion.circle r={3} fill="none" stroke="#cbd5e1" strokeWidth="1.5"
+          animate={{
+            cx:      [0,     0,     220,   330,   330,   440,   440  ],
+            cy:      [147.5, 147.5, 147.5, 147.5, 220,   220,   220  ],
+            opacity: [0,     1,     1,     1,     1,     1,     0    ],
+          }}
+          transition={{
+            duration: 9.5,
+            times: [0, 0.04, 0.43, 0.64, 0.79, 0.96, 1],
+            repeat: Infinity,
+            ease: 'linear',
+            repeatDelay: 2,
+          }}
         />
-        {/* Right-bend: 440,220 → 330,220 → 330,147.5 → 220,147.5 */}
-        <motion.circle r={3} fill="#8f99a8"
-          animate={{ cx: [440, 330, 330, 220], cy: [220, 220, 147.5, 147.5] }}
-          transition={{ duration: 2.8, times: [0, 0.38, 0.63, 1], repeat: Infinity, ease: 'linear', repeatDelay: 0.7, delay: 0.8 }}
-        />
-        {/* Top-right: 440,43 → 220,43 → 220,99.5 */}
-        <motion.circle r={3} fill="#8f99a8"
-          animate={{ cx: [440, 220, 220], cy: [43, 43, 99.5] }}
-          transition={{ duration: 2.8, times: [0, 0.80, 1], repeat: Infinity, ease: 'linear', repeatDelay: 0.7, delay: 1.6 }}
-        />
-        {/* Bottom spoke: 220,295 → 220,147.5 */}
-        <motion.circle r={3} fill="#8f99a8"
-          animate={{ cx: [220, 220], cy: [295, 147.5] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'linear', repeatDelay: 1.3, delay: 2.4 }}
+
+        {/* Cross 2: bottom spoke → hub center → top-right spoke (vertical path, reversed) */}
+        {/* Path: (220,295) → (220,147.5) → (220,99.5) → (220,43) → (440,43)               */}
+        <motion.circle r={3} fill="none" stroke="#cbd5e1" strokeWidth="1.5"
+          animate={{
+            cx:      [220, 220,   220,   220,   220,   440,   440],
+            cy:      [295, 295,   147.5, 99.5,  43,    43,    43 ],
+            opacity: [0,   1,     1,     1,     1,     1,     0  ],
+          }}
+          transition={{
+            duration: 7,
+            times: [0, 0.04, 0.31, 0.41, 0.52, 0.96, 1],
+            repeat: Infinity,
+            ease: 'linear',
+            repeatDelay: 2.5,
+            delay: 1.5,
+          }}
         />
 
         {/* ── Hub concentric rings — drawn on top of spokes ── */}
-        <circle cx={220} cy={147.5} r={48} fill="none" stroke="#e4e7ec" />
-        <circle cx={220} cy={147.5} r={36} fill="none" stroke="#e4e7ec" />
-        <circle cx={220} cy={147.5} r={24} fill="none" stroke="#e4e7ec" />
+        <circle cx={220} cy={147.5} r={48} fill="#fff" stroke="#e4e7ec" />
+        <circle cx={220} cy={147.5} r={36} fill="#fff" stroke="#e4e7ec" />
+        <circle cx={220} cy={147.5} r={24} fill="#fff" stroke="#e4e7ec" />
         {/* Inner disc */}
         <circle cx={220} cy={147.5} r={16} fill="#f1f5f9" stroke="#e2e8f0" />
 
