@@ -10,6 +10,7 @@ import { ZeroTouchSection } from "@/components/sections/ZeroTouchSection";
 import Divider from "@/components/ui/divider";
 import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-sequences"
 import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSIDE_IMAGE_SRC, SEQUENCES_INSIDE_IMAGE_ALT, SEQUENCES_INSIDE_IMAGE_WIDTH, SEQUENCES_INSIDE_IMAGE_HEIGHT } from "@/data/sequences-inside"
+import { SEQUENCES_QUOTE, SEQUENCES_QUOTE_AUTHOR, SEQUENCES_QUOTE_ROLE } from "@/data/sequences-quote"
 
 export const metadata: Metadata = {
   title: 'Sequences',
@@ -32,10 +33,11 @@ export default function SequencesPage(): React.ReactElement {
         imageWidth={SEQUENCES_INSIDE_IMAGE_WIDTH}
         imageHeight={SEQUENCES_INSIDE_IMAGE_HEIGHT}
       />
+      <Divider/>
       <QuoteSection
-        quote={`"With Fethr, we\u2019re able to conduct highly targeted and personalized patient outreach."`}
-        author="Margaret Shen"
-        role="Head of Patient Operations · Modal"
+        quote={SEQUENCES_QUOTE}
+        author={SEQUENCES_QUOTE_AUTHOR}
+        role={SEQUENCES_QUOTE_ROLE}
       />
       <Divider />
       <ZeroTouchSection
