@@ -109,18 +109,26 @@ export function ScrollAccordionSection({
   const scrollToItem = useCallback((index: number) => {
     if (!containerRef.current) return
 
-    // Stop any animation already in flight
+    // Stop any in-flight animation before reading layout — ensures scrollY and
+    // getBoundingClientRect() are in a consistent, stable state.
     scrollAnimRef.current?.stop()
 
-    // Compute stable absolute offset from document top
-    let containerTop = 0
-    let node: HTMLElement | null = containerRef.current
-    while (node) {
-      containerTop += node.offsetTop
-      node = node.offsetParent as HTMLElement | null
-    }
+    const rect = containerRef.current.getBoundingClientRect()
 
-    const targetY = containerTop + (index / n) * (containerRef.current.offsetHeight - window.innerHeight)
+    // rect.top + scrollY = absolute document offset (stable; the two cancel out
+    // as scroll changes, so this is safe to read immediately after .stop()).
+    const containerAbsTop = rect.top + window.scrollY
+
+    // Use getBoundingClientRect().height (fractional pixels) so our scroll range
+    // matches exactly what framer-motion uses for scrollYProgress.  offsetHeight
+    // rounds to an integer, which makes targetY land 0.5–1 px short of the item
+    // boundary — enough for Math.floor(progress * n) to stay on the previous item.
+    const range = rect.height - window.innerHeight
+
+    // +2 px buffer: even with exact float height, progress = index/n can round to
+    // 0.9999… * index/n due to IEEE-754, causing Math.floor to return index-1.
+    // Two pixels is imperceptible in barProgress (< 0.2% for typical page heights).
+    const targetY = containerAbsTop + (index / n) * range + 2
 
     scrollAnimRef.current = animate(window.scrollY, targetY, {
       duration: 0.75,
