@@ -31,7 +31,7 @@
  */
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ─── Heatmap data ─────────────────────────────────────────────────────────────
 
@@ -52,6 +52,15 @@ const LEVEL_COLOR = [
   '#8f99a8', // 2 — 6–15 PRs
   '#505967', // 3 — 16–25 PRs
   '#202124', // 4 — 26+ PRs
+] as const
+
+/** Hacker-mode palette: dark-to-bright green scale */
+const LEVEL_COLOR_HACKER = [
+  '#0a160a', // 0 — no activity  (barely visible on dark bg)
+  '#003d1a', // 1 — 1–5 PRs
+  '#006b2e', // 2 — 6–15 PRs
+  '#00a847', // 3 — 16–25 PRs
+  '#00d36a', // 4 — 26+ PRs     (peak, bright green)
 ] as const
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] as const
@@ -148,10 +157,11 @@ function prToLevel(prs: number): 0 | 1 | 2 | 3 | 4 {
 
 /**
  * PR_CELLS — flat array of 364 cells (52 cols × 7 rows, column-first).
- * Derived from WEEKLY_PRS above.
+ * Stores level (0–4) instead of a hardcoded color so HeatmapGrid can
+ * swap palettes at render time (normal vs hacker mode).
  */
-const PR_CELLS: ReadonlyArray<{ bg: string; title: string }> = (() => {
-  const out: { bg: string; title: string }[] = []
+const PR_CELLS: ReadonlyArray<{ level: 0 | 1 | 2 | 3 | 4; title: string }> = (() => {
+  const out: { level: 0 | 1 | 2 | 3 | 4; title: string }[] = []
   for (let week = 0; week < 52; week++) {
     for (let day = 0; day < 7; day++) {
       const count = WEEKLY_PRS[week]?.[day] ?? 0
@@ -163,7 +173,7 @@ const PR_CELLS: ReadonlyArray<{ bg: string; title: string }> = (() => {
         count === 0
           ? `No PRs on ${mon} ${dom}`
           : `${count} PR${count === 1 ? '' : 's'} on ${mon} ${dom}`
-      out.push({ bg: LEVEL_COLOR[lv], title })
+      out.push({ level: lv, title })
     }
   }
   return out
@@ -186,8 +196,10 @@ function HeatmapTooltip({ text, x, y }: { text: string; x: number; y: number }) 
 /**
  * The 52×7 grid of colored PR activity squares.
  * Hovering a square shows a custom tooltip with date + PR count.
+ * isHacker: swaps the color palette to hacker-mode greens.
  */
-function HeatmapGrid() {
+function HeatmapGrid({ isHacker }: { isHacker: boolean }) {
+  const colors = isHacker ? LEVEL_COLOR_HACKER : LEVEL_COLOR
   const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null)
 
   return (
@@ -200,7 +212,7 @@ function HeatmapGrid() {
           <div key={i} className="p-[1px]">
             <div
               className="aspect-square rounded-[30%] transition-opacity duration-100 hover:opacity-60 cursor-default"
-              style={{ backgroundColor: cell.bg }}
+              style={{ backgroundColor: colors[cell.level] }}
               onMouseEnter={(e) => {
                 const r = (e.currentTarget as HTMLElement).getBoundingClientRect()
                 setTooltip({ text: cell.title, x: r.left + r.width / 2, y: r.top })
@@ -251,6 +263,18 @@ function PanelBorders() {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function DevelopersForDevsSection() {
+  const [isHacker, setIsHacker] = useState(false)
+
+  useEffect(() => {
+    const root = document.documentElement
+    setIsHacker(root.hasAttribute('data-hacker'))
+    const observer = new MutationObserver(() =>
+      setIsHacker(root.hasAttribute('data-hacker'))
+    )
+    observer.observe(root, { attributes: true, attributeFilter: ['data-hacker'] })
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section className="border-t border-subtle-stroke">
       <div className="container flex flex-1 flex-col isolate">
@@ -276,7 +300,7 @@ export function DevelopersForDevsSection() {
                 <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeDasharray="4 6" strokeLinecap="round" />
               </svg>
               <header className="col-[6/-6] flex flex-col gap-7">
-                <div className="relative max-w-[22em] text-pretty text-start text-heading-responsive-sm mix-blend-multiply dark:mix-blend-screen">
+                <div className="relative max-w-[22em] text-pretty text-start text-heading-responsive-sm mix-blend-multiply dark:mix-blend-screen hacker-mode:mix-blend-normal">
                   <h2 className="inline text-pretty">For developers, by developers.</h2>{' '}
                   <p className="inline text-pretty font-medium text-black-800">
                     We use what we build and commit to it daily.
@@ -285,7 +309,7 @@ export function DevelopersForDevsSection() {
                 <div className="flex w-full flex-row items-center gap-x-2.5 gap-y-2">
                   <Link
                     href="/engineering/blog"
-                    className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline"
+                    className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
                   >
                     How we build
                   </Link>
@@ -305,7 +329,7 @@ export function DevelopersForDevsSection() {
             <div className="mt-6">
               <Link
                 href="/engineering/blog"
-                className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline"
+                className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
               >
                 How we build
               </Link>
@@ -356,7 +380,7 @@ export function DevelopersForDevsSection() {
                   scrollbarWidth: 'none' as const,
                 }}
               >
-                <HeatmapGrid />
+                <HeatmapGrid isHacker={isHacker} />
               </div>
 
               {/* ── Left edge fade — sits above scrollable content */}
@@ -365,7 +389,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '5 / 6',
                   gridRow: '1 / -3',
-                  background: 'linear-gradient(to right, var(--color-primary-background) 20%, transparent)',
+                  background: `linear-gradient(to right, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
                 }}
               />
               {/* ── Right edge fade */}
@@ -374,7 +398,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '-6 / -5',
                   gridRow: '1 / -3',
-                  background: 'linear-gradient(to left, var(--color-primary-background) 20%, transparent)',
+                  background: `linear-gradient(to left, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
                 }}
               />
 
@@ -438,7 +462,7 @@ export function DevelopersForDevsSection() {
                   scrollbarWidth: 'none' as const,
                 }}
               >
-                <HeatmapGrid />
+                <HeatmapGrid isHacker={isHacker} />
               </div>
 
               {/* Left/right edge fades */}
@@ -447,7 +471,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '5 / 6',
                   gridRow: '1 / -5',
-                  background: 'linear-gradient(to right, var(--color-primary-background) 20%, transparent)',
+                  background: `linear-gradient(to right, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
                 }}
               />
               <div
@@ -455,7 +479,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '-6 / -5',
                   gridRow: '1 / -5',
-                  background: 'linear-gradient(to left, var(--color-primary-background) 20%, transparent)',
+                  background: `linear-gradient(to left, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
                 }}
               />
 

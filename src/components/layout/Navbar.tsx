@@ -33,28 +33,52 @@ interface NavSection {
 // ─── Icons (40×40 inline SVGs, stroke-based, use currentColor) ───────────────
 
 const askIcon = (
-  <Image src="/assets/icons/navbar/ask-attio.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/ask-attio.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-ask-attio-dark-3.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const aiIcon = (
-  <Image src="/assets/icons/navbar/ai.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/ai.png"                    alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/ai.svg"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const dataIcon = (
-  <Image src="/assets/icons/navbar/data-model.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/data-model.png"            alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/data-model.svg"     alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const productivityIcon = (
-  <Image src="/assets/icons/navbar/productivity.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/productivity.png"          alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/productivity.svg"   alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const workflowsIcon = (
-  <Image src="/assets/icons/navbar/workflows.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/workflows.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/workflows.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const sequencesIcon = (
-  <Image src="/assets/icons/navbar/sequences.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/sequences.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/sequences.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const reportingIcon = (
-  <Image src="/assets/icons/navbar/reporting.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/reporting.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/reporting.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const developersIcon = (
-  <Image src="/assets/icons/navbar/developer.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/developer.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/developer.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 const blogIcon = (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="absolute inset-0 text-fg-tertiary" aria-hidden>
@@ -71,7 +95,10 @@ const startupIcon = (
   </svg>
 )
 const partnersIcon = (
-  <Image src="/assets/icons/navbar/partner.png" alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover" />
+  <>
+    <Image src="/assets/icons/navbar/partner.png"               alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/partner.svg"        alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+  </>
 )
 
 // ─── Data ────────────────────────────────────────────────────────────────────

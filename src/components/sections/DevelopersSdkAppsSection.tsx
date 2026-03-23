@@ -96,7 +96,7 @@ function CardBorders() {
 function StripeBg() {
   return (
     <div
-      className="absolute inset-0 text-secondary-background"
+      className="absolute inset-0 text-secondary-background hacker-mode:text-[#00180d]"
       style={{
         backgroundImage:
           'repeating-linear-gradient(90deg, transparent, transparent 5px, currentColor 5px, currentColor 6px)',
@@ -178,7 +178,7 @@ export function DevelopersSdkAppsSection() {
                 <div>
                   <Link
                     href={CTA_HREF}
-                    className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline"
+                    className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
                   >
                     {CTA_LABEL}
                   </Link>
@@ -196,7 +196,7 @@ export function DevelopersSdkAppsSection() {
             <div className="mt-6">
               <Link
                 href={CTA_HREF}
-                className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline"
+                className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
               >
                 {CTA_LABEL}
               </Link>

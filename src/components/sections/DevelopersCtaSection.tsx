@@ -27,7 +27,7 @@ import {
   useSpring,
   animate,
 } from 'framer-motion'
-import { useRef, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 
 // ─── Grid line arrays ─────────────────────────────────────────────────────────
 // 23 vertical dividers → 24 columns; 12 horizontal dividers → 13 rows.
@@ -89,6 +89,7 @@ function DraggableCard({
   isSelected: _isSelected,
   onSelect,
   onDragUpdate,
+  onCardClick,
   children,
 }: {
   gridArea:         string
@@ -100,6 +101,8 @@ function DraggableCard({
   isSelected?:      boolean
   onSelect?:        (id: string | null) => void
   onDragUpdate?:    (info: { x: number; y: number; overlapping: boolean } | null) => void
+  /** Fired on tap (pointer down + up with < 3px movement). Use for interactive cards. */
+  onCardClick?:     () => void
   children:         React.ReactNode
 }) {
   // Outer motion.div ref — used for bounding-rect overlap tests.
@@ -252,6 +255,8 @@ function DraggableCard({
       // Always hide corner handles and clear parent selection on release.
       setIsPointerHeld(false)
       onSelect?.(null)
+      // Fire card click if the pointer never moved (tap, not drag).
+      if (!hasMoved) onCardClick?.()
       if (hasMoved) {
         setIsDragging(false)
         // If released over a blocked area, spring back to the origin grid position.
@@ -506,16 +511,22 @@ function TextInputSvg() {
   )
 }
 
-/** Widget 5 — Toggle switches  (grid-area 3/14/4/17, 180×60) */
-function ToggleSvg() {
+/** Widget 5 — Hacker Mode toggle  (grid-area 3/14/4/17, 180×60)
+ *  `checked` reflects current hacker-mode state; the whole card is clickable. */
+function ToggleSvg({ checked = false }: { checked?: boolean }) {
+  // Top row — Hacker Mode (interactive, reflects checked state)
+  const pillFill   = checked ? '#0fc27b' : C.cardBg
+  const pillStroke = checked ? '#0db472' : C.border
+  const knobOffX   = checked ? 23.5311  : 13.7576   // knob right when ON, left when OFF
+  const knobFill   = checked ? C.cardBg  : C.surface
   return (
-    <svg width="180" height="60" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-full">
-      {/* Toggle 1 — OFF (knob on left, light bg) */}
-      <path d="M12 17.3335C12 13.2833 15.2833 10 19.3335 10H29.1114C33.1615 10 36.4448 13.2833 36.4448 17.3335C36.4448 21.3836 33.1615 24.6669 29.1114 24.6669H19.3335C15.2833 24.6669 12 21.3836 12 17.3335Z" fill={C.cardBg} stroke={C.border} strokeWidth="0.3" />
-      <rect x="13.7576" y="11.7569" width="11.153" height="11.153" rx="5.57648" fill={C.surface} />
-      <rect x="13.7576" y="11.7569" width="11.153" height="11.153" rx="5.57648" stroke={C.strokeLight} strokeWidth="0.15278" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="180" height="60" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-full cursor-pointer">
+      {/* Row 1 — Hacker Mode toggle (state-driven) */}
+      <path d="M12 17.3335C12 13.2833 15.2833 10 19.3335 10H29.1114C33.1615 10 36.4448 13.2833 36.4448 17.3335C36.4448 21.3836 33.1615 24.6669 29.1114 24.6669H19.3335C15.2833 24.6669 12 21.3836 12 17.3335Z" fill={pillFill} stroke={pillStroke} strokeWidth="0.3" />
+      <rect x={knobOffX} y="11.7569" width="11.153" height="11.153" rx="5.57648" fill={knobFill} />
+      <rect x={knobOffX} y="11.7569" width="11.153" height="11.153" rx="5.57648" stroke={C.strokeLight} strokeWidth="0.15278" strokeLinecap="round" strokeLinejoin="round" />
       <text x="42.56" y="23" fill={C.iconDark} fontSize="15.89" fontWeight="500" className="select-none">Hacker Mode</text>
-      {/* Toggle 2 — ON (knob on right, accent bg) */}
+      {/* Row 2 — static Toggle decoration */}
       <rect x="12" y="36" width="24.437" height="14.6622" rx="7.3311" fill={C.surface} />
       <rect x="12" y="36" width="24.437" height="14.6622" rx="7.3311" stroke={C.border} strokeWidth="0.3" />
       <rect x="23.5311" y="37.7564" width="11.1494" height="11.1494" rx="5.57469" fill={C.iconMid} />
@@ -737,14 +748,17 @@ function MobTextInputSvg() {
 }
 
 /** Mobile Widget 5 — Toggle field  (grid-area 14/3/15/6, 180×60) */
-function MobToggleSvg() {
+function MobToggleSvg({ checked = false }: { checked?: boolean }) {
+  const pillFill = checked ? '#0fc27b' : C.cardBg
+  const pillStroke = checked ? '#0db472' : C.border
+  const knobOffX = checked ? 23.5311 : 13.7576
+  const knobFill = checked ? C.cardBg : C.surface
   return (
-    <svg width="180" height="60" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-full">
-      {/* Toggle on — outline pill */}
-      <path d="M12 17.3335C12 13.2833 15.2833 10 19.3335 10H29.1114C33.1615 10 36.4448 13.2833 36.4448 17.3335C36.4448 21.3836 33.1615 24.6669 29.1114 24.6669H19.3335C15.2833 24.6669 12 21.3836 12 17.3335Z" stroke={C.border} strokeWidth="0.3" />
-      <path d="M12 17.3335C12 13.2833 15.2833 10 19.3335 10H29.1114C33.1615 10 36.4448 13.2833 36.4448 17.3335C36.4448 21.3836 33.1615 24.6669 29.1114 24.6669H19.3335C15.2833 24.6669 12 21.3836 12 17.3335Z" fill={C.cardBg} />
-      <rect x="13.7576" y="11.7569" width="11.153" height="11.153" rx="5.57648" fill={C.surface} />
-      <rect x="13.7576" y="11.7569" width="11.153" height="11.153" rx="5.57648" stroke={C.iconMid} strokeWidth="0.15278" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="180" height="60" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-full cursor-pointer">
+      {/* Toggle — Hacker Mode (state-driven) */}
+      <path d="M12 17.3335C12 13.2833 15.2833 10 19.3335 10H29.1114C33.1615 10 36.4448 13.2833 36.4448 17.3335C36.4448 21.3836 33.1615 24.6669 29.1114 24.6669H19.3335C15.2833 24.6669 12 21.3836 12 17.3335Z" fill={pillFill} stroke={pillStroke} strokeWidth="0.3" />
+      <rect x={knobOffX} y="11.7569" width="11.153" height="11.153" rx="5.57648" fill={knobFill} />
+      <rect x={knobOffX} y="11.7569" width="11.153" height="11.153" rx="5.57648" stroke={C.iconMid} strokeWidth="0.15278" strokeLinecap="round" strokeLinejoin="round" />
       <text x="42.56" y="23" fill={C.iconDark} fontSize="15.89" fontWeight="500" className="select-none">#0DB472</text>
       {/* Toggle off — filled pill */}
       <rect x="12" y="36" width="24.437" height="14.6622" rx="7.3311" fill={C.border} />
@@ -955,6 +969,18 @@ export function DevelopersCtaSection() {
   // Track which card is currently selected (shows corner handles).
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
 
+  // Hacker Mode — adds data-hacker to <html> so the whole /platform/developers page goes dark.
+  // Cleaned up automatically when this component unmounts (navigating away).
+  const [hackerMode, setHackerMode] = useState(false)
+  useEffect(() => {
+    if (hackerMode) {
+      document.documentElement.dataset.hacker = 'true'
+    } else {
+      delete document.documentElement.dataset.hacker
+    }
+    return () => { delete document.documentElement.dataset.hacker }
+  }, [hackerMode])
+
   return (
     <section className="border-t border-subtle-stroke">
 
@@ -1006,7 +1032,7 @@ export function DevelopersCtaSection() {
                 <DraggableCard gridArea="3 / 18 / 6 / 23"  centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d2"  isSelected={selectedCardId==='d2'}  onSelect={setSelectedCardId}><RecordsTableSvg /></DraggableCard>
                 <DraggableCard gridArea="9 / 3 / 12 / 7"   centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d3"  isSelected={selectedCardId==='d3'}  onSelect={setSelectedCardId}><SidebarNavSvg   /></DraggableCard>
                 <DraggableCard gridArea="2 / 8 / 3 / 11"   centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d4"  isSelected={selectedCardId==='d4'}  onSelect={setSelectedCardId}><TextInputSvg    /></DraggableCard>
-                <DraggableCard gridArea="3 / 14 / 4 / 17"  centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d5"  isSelected={selectedCardId==='d5'}  onSelect={setSelectedCardId}><ToggleSvg       /></DraggableCard>
+                <DraggableCard gridArea="3 / 14 / 4 / 17"  centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d5"  isSelected={selectedCardId==='d5'}  onSelect={setSelectedCardId} onCardClick={() => setHackerMode(h => !h)}><ToggleSvg checked={hackerMode} /></DraggableCard>
                 <DraggableCard gridArea="9 / 18 / 11 / 23" centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d6"  isSelected={selectedCardId==='d6'}  onSelect={setSelectedCardId}><RatingsTableSvg /></DraggableCard>
                 <DraggableCard gridArea="10 / 9 / 11 / 10" centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d7"  isSelected={selectedCardId==='d7'}  onSelect={setSelectedCardId}><AvatarSvg       /></DraggableCard>
                 <DraggableCard gridArea="10 / 10 / 11 / 11"centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d8"  isSelected={selectedCardId==='d8'}  onSelect={setSelectedCardId}><LetterBadgeSvg  /></DraggableCard>
@@ -1063,7 +1089,7 @@ export function DevelopersCtaSection() {
                 <DraggableCard gridArea="8 / 7 / 9 / 9"    centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m2" isSelected={selectedCardId==='m2'} onSelect={setSelectedCardId}><MobRecordCircleSvg /></DraggableCard>
                 <DraggableCard gridArea="14 / 8 / 17 / 12"  centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m3" isSelected={selectedCardId==='m3'} onSelect={setSelectedCardId}><MobSidebarNavSvg   /></DraggableCard>
                 <DraggableCard gridArea="10 / 8 / 11 / 11"  centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m4" isSelected={selectedCardId==='m4'} onSelect={setSelectedCardId}><MobTextInputSvg    /></DraggableCard>
-                <DraggableCard gridArea="14 / 3 / 15 / 6"   centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m5" isSelected={selectedCardId==='m5'} onSelect={setSelectedCardId}><MobToggleSvg       /></DraggableCard>
+                <DraggableCard gridArea="14 / 3 / 15 / 6"   centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m5" isSelected={selectedCardId==='m5'} onSelect={setSelectedCardId} onCardClick={() => setHackerMode(h => !h)}><MobToggleSvg checked={hackerMode} /></DraggableCard>
                 <DraggableCard gridArea="12 / 9 / 13 / 11"  centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m6" isSelected={selectedCardId==='m6'} onSelect={setSelectedCardId}><MobCheckboxSvg     /></DraggableCard>
                 <DraggableCard gridArea="16 / 2 / 19 / 7"   centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m7" isSelected={selectedCardId==='m7'} onSelect={setSelectedCardId}><MobRecordsTableSvg /></DraggableCard>
 

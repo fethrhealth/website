@@ -20,6 +20,7 @@
  */
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 // ─── Grid background lines ──────────────────────────────────────────────────
 // Desktop: 23 vertical SVG lines alternating dashed / solid.
@@ -31,11 +32,16 @@ const H_LINES = Array.from({ length: 11 }, (_, i) => i % 2 === 0)  // true = das
 // ─── Geometric SVG diagram (shared across breakpoints) ──────────────────────
 // Ported verbatim from attio.com HTML. Four polygon shapes on a 1600 × 1600 viewBox.
 // Pattern IDs must be unique per SVG instance → passed as a prefix prop.
-function GeometricDiagram({ prefix }: { prefix: string }) {
+// isHacker: when true uses direct hex values instead of CSS vars (SVG attrs ignore CSS vars)
+function GeometricDiagram({ prefix, isHacker }: { prefix: string; isHacker: boolean }) {
+  const C = isHacker
+    ? { bg: '#050e05', surface: '#0d1f0d', stroke: '#0a160a', shape: '#007f46' }
+    : { bg: '#ffffff', surface: '#edeff3', stroke: '#edeff3', shape: '#a4adba' }
+
   return (
     <svg viewBox="0 0 1600 1600" className="absolute inset-0 w-full h-full">
       {/* Diagonal dashed background lines */}
-      <g strokeDasharray="4 6" strokeWidth="1" stroke="var(--color-weak-stroke)">
+      <g strokeDasharray="4 6" strokeWidth="1" stroke={C.stroke}>
         <line vectorEffect="non-scaling-stroke" x1="200"  y1="0"    x2="1200" y2="1600" />
         <line vectorEffect="non-scaling-stroke" x1="600"  y1="0"    x2="1600" y2="1600" />
         <line vectorEffect="non-scaling-stroke" x1="1000" y1="0"    x2="0"    y2="1600" />
@@ -49,7 +55,7 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
       {/* Shape 1 — large hexagonal (hatch fill) */}
       <g>
         <path
-          fill="var(--color-primary-background)"
+          fill={C.bg}
           d="M 700 480 L 900 480 L 600 960 L 700 1120 L 500 1120 L 400 960 L 700 480"
         />
         <path
@@ -59,7 +65,7 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
         <path
           d="M 700 480 L 900 480 L 600 960 L 700 1120 L 500 1120 L 400 960 L 700 480"
           fill="none"
-          stroke="var(--color-caption-foreground)"
+          stroke={C.shape}
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
           pathLength="1"
@@ -67,7 +73,7 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
           strokeDasharray="1px 1px"
         />
         {/* Vertex squares */}
-        <g fill="var(--color-caption-foreground)">
+        <g fill={C.shape}>
           <rect x="692"  y="472"  width="16" height="16" />
           <rect x="892"  y="472"  width="16" height="16" />
           <rect x="592"  y="952"  width="16" height="16" />
@@ -77,7 +83,7 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
         </g>
         <defs>
           <pattern id={`${prefix}_hatch_a`} width="1" height="16" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0.5" x2="1" y2="0.5" stroke="var(--color-surface)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            <line x1="0" y1="0.5" x2="1" y2="0.5" stroke={C.surface} strokeWidth="1" vectorEffect="non-scaling-stroke" />
           </pattern>
         </defs>
       </g>
@@ -85,20 +91,20 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
       {/* Shape 2 — thin connecting parallelogram (stroke only, no hatch) */}
       <g>
         <path
-          fill="var(--color-primary-background)"
+          fill={C.bg}
           d="M 900 480 L 1000 640 L 700 1120 L 600 960 L 900 480"
         />
         <path
           d="M 900 480 L 1000 640 L 700 1120 L 600 960 L 900 480"
           fill="none"
-          stroke="var(--color-caption-foreground)"
+          stroke={C.shape}
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
           pathLength="1"
           strokeDashoffset="0px"
           strokeDasharray="1px 1px"
         />
-        <g fill="var(--color-caption-foreground)">
+        <g fill={C.shape}>
           <rect x="892" y="472"  width="16" height="16" />
           <rect x="992" y="632"  width="16" height="16" />
           <rect x="692" y="1112" width="16" height="16" />
@@ -109,7 +115,7 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
       {/* Shape 3 — hexagonal (hatch fill, right side) */}
       <g>
         <path
-          fill="var(--color-primary-background)"
+          fill={C.bg}
           d="M 900 800 L 800 960 L 900 1120 L 1100 1120 L 1000 960 L 1100 800 L 900 800"
         />
         <path
@@ -119,14 +125,14 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
         <path
           d="M 900 800 L 800 960 L 900 1120 L 1100 1120 L 1000 960 L 1100 800 L 900 800"
           fill="none"
-          stroke="var(--color-caption-foreground)"
+          stroke={C.shape}
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
           pathLength="1"
           strokeDashoffset="0px"
           strokeDasharray="1px 1px"
         />
-        <g fill="var(--color-caption-foreground)">
+        <g fill={C.shape}>
           <rect x="892"  y="792"  width="16" height="16" />
           <rect x="792"  y="952"  width="16" height="16" />
           <rect x="892"  y="1112" width="16" height="16" />
@@ -136,7 +142,7 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
         </g>
         <defs>
           <pattern id={`${prefix}_hatch_b`} width="1" height="16" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0.5" x2="1" y2="0.5" stroke="var(--color-surface)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            <line x1="0" y1="0.5" x2="1" y2="0.5" stroke={C.surface} strokeWidth="1" vectorEffect="non-scaling-stroke" />
           </pattern>
         </defs>
       </g>
@@ -144,20 +150,20 @@ function GeometricDiagram({ prefix }: { prefix: string }) {
       {/* Shape 4 — small diamond / rhombus (stroke only, no hatch) */}
       <g>
         <path
-          fill="var(--color-primary-background)"
+          fill={C.bg}
           d="M 1100 800 L 1000 960 L 1100 1120 L 1200 960 L 1100 800"
         />
         <path
           d="M 1100 800 L 1000 960 L 1100 1120 L 1200 960 L 1100 800"
           fill="none"
-          stroke="var(--color-caption-foreground)"
+          stroke={C.shape}
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
           pathLength="1"
           strokeDashoffset="0px"
           strokeDasharray="1px 1px"
         />
-        <g fill="var(--color-caption-foreground)">
+        <g fill={C.shape}>
           <rect x="1092" y="792"  width="16" height="16" />
           <rect x="992"  y="952"  width="16" height="16" />
           <rect x="1092" y="1112" width="16" height="16" />
@@ -181,22 +187,22 @@ function HeroText({ mode = 'absolute' }: { mode?: 'absolute' | 'flow' }) {
       <p className="relative text-overline text-accent-foreground">
         [ Developer Platform ]
       </p>
-      <h2 className="relative mt-6 text-heading-responsive-lg">
+      <h2 className="relative mt-6 text-heading-responsive-lg hacker-mode:text-[#00d36a]">
         Build on Fethr.
       </h2>
-      <p className="relative mt-4 max-w-[28em] text-balance text-lg text-fg-tertiary">
+      <p className="relative mt-4 max-w-[28em] text-balance text-lg text-fg-tertiary hacker-mode:text-[#00d36a]">
         Connect your health data stack with the Fethr MCP, REST API, or App SDK.
       </p>
       <div className="relative mt-6 flex flex-row flex-wrap items-center gap-x-2.5 gap-y-2">
         <Link
           href="/docs"
-          className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-primary"
+          className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-primary hacker-mode:bg-[#002917] hacker-mode:text-[#00d36a] hacker-mode:border-[#1a4a2a]"
         >
           View docs
         </Link>
         <Link
           href="/platform/developers/apps"
-          className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base border button-outline"
+          className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
         >
           Browse apps
         </Link>
@@ -207,6 +213,18 @@ function HeroText({ mode = 'absolute' }: { mode?: 'absolute' | 'flow' }) {
 
 // ─── Main section ────────────────────────────────────────────────────────────
 export function DevelopersHeroSection() {
+  const [isHacker, setIsHacker] = useState(false)
+
+  useEffect(() => {
+    const root = document.documentElement
+    setIsHacker(root.hasAttribute('data-hacker'))
+    const observer = new MutationObserver(() =>
+      setIsHacker(root.hasAttribute('data-hacker'))
+    )
+    observer.observe(root, { attributes: true, attributeFilter: ['data-hacker'] })
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section className="border-t border-subtle-stroke">
       <div className="container flex flex-col isolate">
@@ -271,7 +289,7 @@ export function DevelopersHeroSection() {
                 className="absolute inset-0 bg-primary-background"
                 style={{ gridColumn: '15 / -1', gridRow: '2 / -2' }}
               >
-                <GeometricDiagram prefix="d" />
+                <GeometricDiagram prefix="d" isHacker={isHacker} />
               </div>
 
               {/* Divider — vertical line at column 15 */}
@@ -310,7 +328,7 @@ export function DevelopersHeroSection() {
           <div className="isolate max-md:hidden lg:hidden">
             {/* Square illustration */}
             <div className="relative aspect-square w-full bg-primary-background">
-              <GeometricDiagram prefix="t" />
+              <GeometricDiagram prefix="t" isHacker={isHacker} />
             </div>
 
             {/* Text grid — 12 × 8, grid items stretch by default → h-full works */}
@@ -332,7 +350,7 @@ export function DevelopersHeroSection() {
           <div className="isolate md:hidden">
             {/* Square illustration */}
             <div className="relative aspect-square w-full bg-primary-background">
-              <GeometricDiagram prefix="m" />
+              <GeometricDiagram prefix="m" isHacker={isHacker} />
             </div>
 
             {/* Text grid — 12 × 12, grid items stretch by default → h-full works */}

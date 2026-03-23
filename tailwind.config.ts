@@ -348,7 +348,14 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    // Custom variant: hacker-mode:<utility> applies when <html data-hacker> is set.
+    // Usage: className="bg-white hacker-mode:bg-green-900 hacker-mode:text-green-400"
+    ({ addVariant }: { addVariant: (name: string, selector: string) => void }) => {
+      addVariant('hacker-mode', ':root[data-hacker] &')
+    },
+  ],
 }
 
 export default config

@@ -315,7 +315,7 @@ export function DevelopersRestApiSection() {
               </svg>
               {/* Content — occupies columns 6 through -6 */}
               <header className="col-[6/-6] flex flex-col gap-7">
-                <div className="relative max-w-[22em] text-pretty text-start text-heading-responsive-sm mix-blend-multiply dark:mix-blend-screen">
+                <div className="relative max-w-[22em] text-pretty text-start text-heading-responsive-sm mix-blend-multiply dark:mix-blend-screen hacker-mode:mix-blend-normal">
                   <h2 className="inline text-pretty">Integrate Attio with anything.</h2>{' '}
                   <p className="inline text-pretty font-medium text-black-800">
                     Start coding with a simple REST API that’s secure and built for scale.
@@ -324,7 +324,7 @@ export function DevelopersRestApiSection() {
                 <div className="flex w-full flex-row items-center gap-x-2.5 gap-y-2">
                   <Link
                     href="/docs/rest-api"
-                    className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline"
+                    className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
                   >
                     View docs
                   </Link>
@@ -344,7 +344,7 @@ export function DevelopersRestApiSection() {
             <div className="mt-6">
               <Link
                 href="/docs/rest-api"
-                className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline"
+                className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline hacker-mode:bg-[#001a0d] hacker-mode:text-[#00a852] hacker-mode:border-[#1a2d1a]"
               >
                 View docs
               </Link>

@@ -1,3 +1,218 @@
+/* ── Hacker Mode ────────────────────────────────────────────────────────────────
+ * Activated by DevelopersCtaSection setting data-hacker on <html>.
+ * Only active on /platform/developers — attribute is removed on component unmount.
+ *
+ * Green palette:
+ *   #00d36a — primary green   (main headings / h1-h3)
+ *   #00a852 — mid green       (body text / subheadings)
+ *   #007f46 — dark green      (tertiary / smaller labels)
+ *   #005c34 — deepest green   (captions / disabled)
+ *   #1a2d1a — dark green tint (borders / strokes)
+ *   #050e05 — near-black      (backgrounds)
+ * ────────────────────────────────────────────────────────────────────────────── */
+
+/* 1 — CSS variable overrides (affect all hsl(var(--*)) tokens) */
+[data-hacker] {
+  --background:            120 100% 2%;
+  --background-secondary:  120 80%  3%;
+  --surface-subtle:        120 60%  4%;
+  --surface:               120 60%  6%;
+  --muted:                 120 60%  6%;
+  --muted-foreground:      120 80%  41%;
+  --foreground:            120 100% 41%;   /* #00d36a */
+  --foreground-secondary:  120 100% 33%;   /* #00a852 */
+  --foreground-tertiary:   120 100% 25%;   /* #007f46 */
+  --foreground-caption:    120 100% 18%;   /* #005c34 */
+  --border:                120 30%  14%;
+  --input:                 120 30%  14%;
+  --internal-color-primary-background: #050e05;
+  --color-primary-background:          #050e05;
+  --color-surface:                     #0d1f0d;
+  --internal-color-surface:            #0d1f0d;
+  --color-weak-stroke:                 #0a160a;
+  --internal-color-subtle-stroke:      #0d160d;
+  --internal-color-default-stroke:     #1a2d1a;
+  --internal-color-strong-stroke:      #2a4a2a;
+  --color-caption-foreground:          #007f46;  /* shape strokes + vertex squares in GeometricDiagram */
+  --internal-color-caption-foreground: #005c34;
+  --internal-color-accent-foreground:  #007f46;
+  /* shadcn/tailwind component tokens */
+  --accent-foreground:     120 100% 25%;   /* maps text-accent-foreground → #007f46 */
+  --secondary-foreground:  120 100% 33%;   /* maps text-secondary-foreground → #00a852 */
+  --card:                  120 100% 2%;
+  --card-foreground:       120 100% 33%;
+  --popover:               120 100% 2%;
+  --popover-foreground:    120 100% 33%;
+  --primary:               120 100% 41%;   /* green */
+  --primary-foreground:    120 100% 2%;    /* near-black (text inside green buttons) */
+  /* CSS var() aliases used in inline styles */
+  --color-secondary-foreground: #00a852;
+  color-scheme: dark;
+}
+
+/* 2 — body base (wins over body { @apply bg-background }) */
+[data-hacker] body {
+  background-color: #050e05;
+  color: #00d36a;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* 3 — headings: bright green */
+[data-hacker] h1,
+[data-hacker] h2,
+[data-hacker] h3,
+[data-hacker] h4,
+[data-hacker] h5,
+[data-hacker] h6,
+[data-hacker] .text-heading-responsive-xl,
+[data-hacker] .text-heading-responsive-lg,
+[data-hacker] .text-heading-responsive-md,
+[data-hacker] .text-heading-responsive-sm,
+[data-hacker] .text-heading-md-serif,
+[data-hacker] .text-heading-md-serif,
+[data-hacker] .text-heading-responsive-md-serif,
+[data-hacker] .text-heading-responsive-lg-serif,
+[data-hacker] .text-quote,
+[data-hacker] .text-quote-responsive,
+[data-hacker] .text-quote-sm {
+  color: #00d36a;
+}
+
+/* 4 — body / subheading text: mid green */
+[data-hacker] p,
+[data-hacker] span,
+[data-hacker] li,
+[data-hacker] label,
+[data-hacker] .text-overline {
+  color: #00D36A;
+}
+
+/* 5 — Tailwind hardcoded text utilities */
+[data-hacker] .text-fg-primary        { color: #00d36a; }
+[data-hacker] .text-fg-secondary      { color: #00a852; }
+[data-hacker] .text-fg-tertiary       { color: #007f46; }
+[data-hacker] .text-fg-accent         { color: #007f46; }
+[data-hacker] .text-fg-caption        { color: #005c34; }
+[data-hacker] .text-fg-disabled       { color: #005c34; }
+[data-hacker] .text-fg-link           { color: #00d36a; }
+[data-hacker] .text-foreground        { color: #00d36a; }
+[data-hacker] .text-muted-foreground  { color: #007f46; }
+
+/* shadcn semantic tokens used as text utilities */
+[data-hacker] .text-accent-foreground    { color: #007f46; }
+[data-hacker] .text-secondary-foreground { color: #00a852; }
+[data-hacker] .text-tertiary-foreground  { color: #007f46; }
+[data-hacker] .text-card-foreground      { color: #00a852; }
+[data-hacker] .text-popover-foreground   { color: #00a852; }
+[data-hacker] .text-primary-foreground   { color: #050e05; }
+
+/* stroke tokens used as text colors */
+[data-hacker] .text-subtle-stroke   { color: #1a2d1a; }
+[data-hacker] .text-weak-stroke     { color: #1a2d1a; }
+[data-hacker] .text-default-stroke  { color: #1a2d1a; }
+[data-hacker] .text-strong-stroke   { color: #2a4a2a; }
+
+/* Primitive black palette used directly as text colors */
+[data-hacker] .text-black-100  { color: #00d36a; }
+[data-hacker] .text-black-300  { color: #00d36a; }
+[data-hacker] .text-black-400  { color: #00a852; }
+[data-hacker] .text-black-500  { color: #00a852; }
+[data-hacker] .text-black-600  { color: #007f46; }
+[data-hacker] .text-black-700  { color: #007f46; }
+[data-hacker] .text-black-800  { color: #005c34; }
+[data-hacker] .text-black-900  { color: #005c34; }
+
+/* caption-foreground custom class */
+[data-hacker] .text-caption-foreground { color: #005c34; }
+
+/* arbitrary Tailwind text color classes used in specific components */
+[data-hacker] .text-\[#b5bdc9\] { color: #1a2d1a; } /* DotPattern in DevelopersMcpSection */
+
+/* 6 — Tailwind hardcoded background utilities */
+[data-hacker] .bg-background,
+[data-hacker] .bg-primary-background,
+[data-hacker] .bg-secondary-background,
+[data-hacker] .bg-surface-subtle,
+[data-hacker] .bg-surface,
+[data-hacker] .bg-muted-bg,
+[data-hacker] .bg-muted-strong-bg,
+[data-hacker] .bg-white,
+[data-hacker] .bg-white-0,
+[data-hacker] .bg-white-100,
+[data-hacker] .bg-white-200,
+[data-hacker] .bg-white-300,
+[data-hacker] .bg-white-400 { background-color: #050e05; }
+
+[data-hacker] .bg-white-500,
+[data-hacker] .bg-white-600,
+[data-hacker] .bg-white-700 { background-color: #0a150a; }
+
+[data-hacker] .bg-black-50  { background-color: #050e05; }
+[data-hacker] .bg-black-100 { background-color: #0a150a; }
+[data-hacker] .bg-black-200 { background-color: #0d1f0d; }
+
+/* stroke tokens used as backgrounds */
+[data-hacker] .bg-subtle-stroke   { background-color: #0d160d; }
+[data-hacker] .bg-weak-stroke     { background-color: #0a160a; }
+[data-hacker] .bg-default-stroke  { background-color: #1a2d1a; }
+[data-hacker] .bg-strong-stroke   { background-color: #2a4a2a; }
+
+/* 7 — border / stroke utilities */
+[data-hacker] .border-subtle-stroke,
+[data-hacker] .border-default-stroke,
+[data-hacker] .border-weak-stroke,
+[data-hacker] .border-strong-stroke,
+[data-hacker] .border-border,
+[data-hacker] .border-white-500,
+[data-hacker] .border-white-600,
+[data-hacker] .border-white-700,
+[data-hacker] .border-white-800 { border-color: #1a2d1a; }
+
+/* 8 — links */
+[data-hacker] a { color: #00d36a; }
+[data-hacker] a:hover { color: #00ff41; }
+
+/* 9 — header / nav (bg-background/95 uses opacity modifier — needs separate selector) */
+[data-hacker] header,
+[data-hacker] nav,
+[data-hacker] footer,
+[data-hacker] .bg-white-0,
+[data-hacker] .bg-background\/95,
+[data-hacker] .bg-background\/80,
+[data-hacker] .bg-white\/95,
+[data-hacker] .bg-white\/80 {
+  background-color: rgba(5, 14, 5, 0.95);
+}
+
+/* 9a — navbar text: fijo en #00c663, no cambia en hover ni open */
+[data-hacker] header a,
+[data-hacker] header button,
+[data-hacker] header span:not([aria-hidden]),
+[data-hacker] header .text-fg-primary,
+[data-hacker] header .text-fg-secondary,
+[data-hacker] header .hover\:text-fg-primary:hover,
+[data-hacker] header .data-\[state\=open\]\:text-fg-primary[data-state=open],
+[data-hacker] header .focus-visible\:text-fg-primary:focus-visible,
+[data-hacker] header .focus\:text-fg-secondary:focus { color: #00c663; }
+
+/* 9b — dropdown / popover panel */
+[data-hacker] .bg-popover { background-color: #00180d; }
+
+/* dropdown item hover + any hover:bg-surface-subtle / hover:bg-accent */
+[data-hacker] .hover\:bg-surface-subtle:hover,
+[data-hacker] .hover\:bg-accent:hover,
+[data-hacker] .data-\[state\=open\]\:bg-accent\/50[data-state=open],
+[data-hacker] .data-\[state\=open\]\:hover\:bg-accent[data-state=open]:hover,
+[data-hacker] .focus\:bg-accent:focus,
+[data-hacker] .focus-visible\:bg-surface-subtle:focus-visible { background-color: #002917; }
+
+/* 10 — buttons: remap fg-primary bg to dark green */
+[data-hacker] .bg-fg-primary   { background-color: #00d36a; }
+[data-hacker] .bg-fg-secondary { background-color: #007f46; }
+/* text-background (used inside a bg-fg-primary button: text is bg color = near-black) */
+[data-hacker] .text-background { color: #050e05; }
+
+
 /* ─── Legal page prose ────────────────────────────────────────────────────────
  * Wraps LexicalRenderer output on /legal/[slug] pages.
  * Mirrors attio.com's legal content spacing exactly.
