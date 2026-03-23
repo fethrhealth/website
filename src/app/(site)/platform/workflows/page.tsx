@@ -7,7 +7,8 @@ import { ImageGridSection } from '@/components/sections/ImageGridSection'
 import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
-import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI, WORKFLOW_INTEGRATIONS } from '@/data/platform-workflows'
+import { WORKFLOW_EXAMPLES, LEAD_UPDATES, AUTOMATION_WITH_AI } from '@/data/platform-workflows'
+import { WORKFLOW_INTEGRATIONS, AUTOMATIONS_HEADING_MUTED, AUTOMATIONS_HEADING_PRIMARY, AUTOMATIONS_SUBTEXT } from '@/data/workflows-automations'
 import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING, BETTER_SYSTEM_FEATURES } from '@/data/workflows-automate'
 import Divider from '@/components/ui/divider'
 
@@ -34,10 +35,10 @@ export default function WorkflowsPage(): React.ReactElement {
       <FeatureCardsSection items={BETTER_SYSTEM_FEATURES} />
       <IntegrationCardsSection
         headerLayout='split'
-        headingMuted='Integrate '
-        headingPrimary='automations with your stack.'
-        subtext='Connect the best tools in your stack with Workflows to orchestrate your GTM efforts.'
-        items = { WORKFLOW_INTEGRATIONS }
+        headingMuted={AUTOMATIONS_HEADING_MUTED}
+        headingPrimary={AUTOMATIONS_HEADING_PRIMARY}
+        subtext={AUTOMATIONS_SUBTEXT}
+        items={WORKFLOW_INTEGRATIONS}
       />
       <BentoGridSection
         headingMutedFirst = {false}
