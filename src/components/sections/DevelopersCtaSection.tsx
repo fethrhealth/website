@@ -51,12 +51,22 @@ const C = {
 } as const
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-/** Axis-aligned bounding-box overlap test. */
+/**
+ * Axis-aligned bounding-box overlap test.
+ * Cards snapped to adjacent cells share a fractional-pixel boundary, so we
+ * require at least OVERLAP_PX of actual overlap before treating them as colliding.
+ */
+const OVERLAP_PX = 2
 function rectsOverlap(
   a: { left: number; right: number; top: number; bottom: number },
   b: DOMRect,
 ): boolean {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+  return (
+    a.left   < b.right  - OVERLAP_PX &&
+    a.right  > b.left   + OVERLAP_PX &&
+    a.top    < b.bottom - OVERLAP_PX &&
+    a.bottom > b.top    + OVERLAP_PX
+  )
 }
 
 // ─── Draggable widget wrapper ─────────────────────────────────────────────────
@@ -97,9 +107,11 @@ function DraggableCard({
   // Inner div ref — used for 3-D tilt calculations.
   const tiltRef = useRef<HTMLDivElement>(null)
 
-  // Position offset motion values (grid-snapped, relative to natural grid position).
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
+  // Raw snap target (instant) + spring-smoothed display value for the transform.
+  const snapX = useMotionValue(0)
+  const snapY = useMotionValue(0)
+  const x     = useSpring(snapX, { stiffness: 600, damping: 45 })
+  const y     = useSpring(snapY, { stiffness: 600, damping: 45 })
 
   // 3-D tilt spring axes.
   const baseRX  = useMotionValue(0)
@@ -176,13 +188,15 @@ function DraggableCard({
 
     const startMouseX  = e.clientX
     const startMouseY  = e.clientY
-    const startOffsetX = x.get()
-    const startOffsetY = y.get()
+    // Read from the snap target, not the spring, so offset is always exact.
+    const startOffsetX = snapX.get()
+    const startOffsetY = snapY.get()
 
-    // Card's natural top-left position within the grid container (without current transform).
-    // Used to report absolute grid-relative coordinates to the parent for snap-line rendering.
+    // Card's natural position + bounds — captured once at drag start.
     let naturalLeft = 0
     let naturalTop  = 0
+    let minX = -Infinity, maxX = Infinity
+    let minY = -Infinity, maxY = Infinity
     const containerEl = gridContainerRef.current
     const cardEl      = dragRef.current
     if (containerEl && cardEl) {
@@ -190,6 +204,11 @@ function DraggableCard({
       const dRect = cardEl.getBoundingClientRect()
       naturalLeft = dRect.left - cRect.left - startOffsetX
       naturalTop  = dRect.top  - cRect.top  - startOffsetY
+      // Clamp offsets so the card never leaves the grid.
+      minX = -naturalLeft
+      maxX =  containerEl.clientWidth  - naturalLeft - cardEl.clientWidth
+      minY = -naturalTop
+      maxY =  containerEl.clientHeight - naturalTop  - cardEl.clientHeight
     }
 
     let hasMoved = false
@@ -211,13 +230,13 @@ function DraggableCard({
       const container = gridContainerRef.current
       if (!container) return
 
-      // Snap to nearest grid cell boundary.
+      // Snap to nearest grid cell boundary, then clamp to grid bounds.
       const cellW = container.clientWidth  / gridCols
       const cellH = container.clientHeight / gridRows
-      const snappedX = Math.round((startOffsetX + dx) / cellW) * cellW
-      const snappedY = Math.round((startOffsetY + dy) / cellH) * cellH
-      x.set(snappedX)
-      y.set(snappedY)
+      const snappedX = Math.max(minX, Math.min(maxX, Math.round((startOffsetX + dx) / cellW) * cellW))
+      const snappedY = Math.max(minY, Math.min(maxY, Math.round((startOffsetY + dy) / cellH) * cellH))
+      snapX.set(snappedX)
+      snapY.set(snappedY)
 
       checkOverlap()
 
@@ -237,8 +256,8 @@ function DraggableCard({
         setIsDragging(false)
         // If released over a blocked area, spring back to the origin grid position.
         if (isOverlappingRef.current) {
-          void animate(x, 0, { type: 'spring', stiffness: 400, damping: 35 })
-          void animate(y, 0, { type: 'spring', stiffness: 400, damping: 35 })
+          snapX.set(0)
+          snapY.set(0)
         }
         isOverlappingRef.current = false
         setIsOverlapping(false)
