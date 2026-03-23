@@ -5,6 +5,7 @@ import { CompaniesSection } from '@/components/sections/CompaniesSection'
 import { FeatureCardsSection } from '@/components/sections/FeatureCardsSection'
 import { PageHero } from '@/components/sections/PageHero'
 import { ProductivityFloatingCursors } from '@/components/sections/ProductivityFloatingCursors'
+import { ProductivityHeroCursorZone } from '@/components/sections/ProductivityHeroCursorZone'
 import { ProductivityHeroImages } from '@/components/sections/ProductivityHeroImages'
 import TrialSection from '@/components/sections/TrialSection'
 import { PRODUCTIVITY_FEATURES, PRODUCTIVITY_FEATURES_HEADING, PRODUCTIVITY_FEATURES_SUBTEXT } from '@/data/productivity-features'
@@ -31,21 +32,23 @@ export const metadata: Metadata = {
 export default function ProductivityPage(): React.ReactElement {
   return (
     <main>
-      <div className="container">
-        <div className='relative'>
-        <PageHero
-          badge={PRODUCTIVITY_HERO_BADGE}
-          heading={PRODUCTIVITY_HERO_HEADING}
-          subheading={PRODUCTIVITY_HERO_SUBHEADING}
-          primaryCta={{ label: PRODUCTIVITY_HERO_CTA_LABEL, href: PRODUCTIVITY_HERO_CTA_HREF }}
-          showSales
-          mobileFormSource={PRODUCTIVITY_HERO_FORM_SOURCE}
-          showMobileSales
-        />
-        <ProductivityFloatingCursors />
+      <ProductivityHeroCursorZone>
+        <div className="container">
+          <div className="relative">
+            <PageHero
+              badge={PRODUCTIVITY_HERO_BADGE}
+              heading={PRODUCTIVITY_HERO_HEADING}
+              subheading={PRODUCTIVITY_HERO_SUBHEADING}
+              primaryCta={{ label: PRODUCTIVITY_HERO_CTA_LABEL, href: PRODUCTIVITY_HERO_CTA_HREF }}
+              showSales
+              mobileFormSource={PRODUCTIVITY_HERO_FORM_SOURCE}
+              showMobileSales
+            />
+            <ProductivityFloatingCursors />
+          </div>
+          <ProductivityHeroImages />
         </div>
-        <ProductivityHeroImages />
-      </div>
+      </ProductivityHeroCursorZone>
       <CompaniesSection />
       <BentoGridSection
         headingMutedFirst={false}

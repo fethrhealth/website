@@ -20,7 +20,7 @@ export const PLATFORM_FEATURES: PlatformFeature[] = [
   { number: '03', label: 'Data',         href: '/platform/data' },
   { number: '04', label: 'Developers',   href: '/platform/developers' },
   { number: '05', label: 'Productivity', href: '/platform/productivity' },
-  { number: '06', label: 'Reporting',    href: '/platform/reporting' },
+  { number: '06', label: 'Workflows',    href: '/platform/workflows' },
   { number: '07', label: 'Sequences',    href: '/platform/sequences' },
-  { number: '08', label: 'Workflows',    href: '/platform/workflows' },
+  { number: '08', label: 'Reporting',    href: '/platform/reporting' },
 ]

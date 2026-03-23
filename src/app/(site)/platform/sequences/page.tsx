@@ -38,15 +38,15 @@ export default function SequencesPage(): React.ReactElement {
         imageHeight={SEQUENCES_INSIDE_IMAGE_HEIGHT}
       />
       <Divider/>
+      <ZeroTouchSection
+        heading={ZERO_TOUCH_HEADING}
+        subheading={ZERO_TOUCH_SUBHEADING}
+      />
+      <Divider />
       <QuoteSection
         quote={SEQUENCES_QUOTE}
         author={SEQUENCES_QUOTE_AUTHOR}
         role={SEQUENCES_QUOTE_ROLE}
-      />
-      <Divider />
-      <ZeroTouchSection
-        heading={ZERO_TOUCH_HEADING}
-        subheading={ZERO_TOUCH_SUBHEADING}
       />
       <Divider />
       <ScrollAccordionSection
