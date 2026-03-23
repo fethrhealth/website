@@ -9,6 +9,7 @@ import TrialSection from "@/components/sections/TrialSection";
 import { ZeroTouchSection } from "@/components/sections/ZeroTouchSection";
 import Divider from "@/components/ui/divider";
 import { HANDWRITTEN_WARMTH_ITEMS, INTERACTION_ITEMS } from "@/data/platform-sequences"
+import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSIDE_IMAGE_SRC, SEQUENCES_INSIDE_IMAGE_ALT, SEQUENCES_INSIDE_IMAGE_WIDTH, SEQUENCES_INSIDE_IMAGE_HEIGHT } from "@/data/sequences-inside"
 
 export const metadata: Metadata = {
   title: 'Sequences',
@@ -24,12 +25,12 @@ export default function SequencesPage(): React.ReactElement {
       <SequencesHeroSection />
       <Divider/>
       <FeaturePreviewSection
-        heading="Step inside Sequences."
-        description="Convert warm signals into outreach that closes itself."
-        imageSrc="/assets/images/platform/sequences/step-inside-sequences.webp"
-        imageAlt="Sequences UI preview"
-        imageWidth={2880}
-        imageHeight={1800}
+        heading={SEQUENCES_INSIDE_HEADING}
+        description={SEQUENCES_INSIDE_DESCRIPTION}
+        imageSrc={SEQUENCES_INSIDE_IMAGE_SRC}
+        imageAlt={SEQUENCES_INSIDE_IMAGE_ALT}
+        imageWidth={SEQUENCES_INSIDE_IMAGE_WIDTH}
+        imageHeight={SEQUENCES_INSIDE_IMAGE_HEIGHT}
       />
       <QuoteSection
         quote={`"With Fethr, we\u2019re able to conduct highly targeted and personalized patient outreach."`}
