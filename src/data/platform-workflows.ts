@@ -1,31 +1,10 @@
 import type { ImageGridItem } from '@/data/image-grid'
 import { AccordionItem } from './rewards'
 import { BentoItem } from './bento-grid'
-import { FeatureCardItem } from './feature-cards'
 import type { IntegrationCard } from '@/data/integration-cards'
 
 
 
-export const BETTER_SYSTEM_FEATURES: FeatureCardItem[] = [
-  {
-    iconSrc: '/assets/icons/workflows/dashboard.webp',
-    label: 'Triggers',
-    description:
-      'Trigger actions inside Attio or from any external input.',
-  },
-  {
-    iconSrc: '/assets/icons/workflows/arrow.webp',
-    label: 'Actions',
-    description:
-      'Get precise by customizing every actionable step of your process.',
-  },
-  {
-    iconSrc: '/assets/icons/workflows/thunder.webp',
-    label: 'Artificial intelligence',
-    description:
-      'Use AI to even automate tasks that require unstructured data.',
-  },
-]
 
 export const WORKFLOW_INTEGRATIONS: IntegrationCard[] = [
   {
