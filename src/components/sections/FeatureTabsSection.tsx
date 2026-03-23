@@ -208,19 +208,29 @@ export function FeatureTabsSection({
                 <rect width="100%" height="100%" fill="url(#feature-tabs-dots)" />
               </svg>
 
-              {/* Product image */}
-              {activeTab && (
-                <div className="absolute inset-0">
-                  <Image
-                    key={activeTab.id}
-                    src={activeTab.imageSrc}
-                    alt={activeTab.imageAlt ?? ''}
-                    width={activeTab.imageWidth}
-                    height={activeTab.imageHeight}
-                    className="size-full object-contain"
-                  />
-                </div>
-              )}
+              {/* Product images — all pre-rendered so they load in the background;
+                  only the active tab is visible. This avoids a cold-load on every
+                  tab switch. */}
+              <div className="absolute inset-0">
+                {tabs.map((tab, i) => (
+                  <div
+                    key={tab.id}
+                    className={cn(
+                      'absolute inset-0 transition-opacity duration-200',
+                      i === activeIndex ? 'opacity-100' : 'opacity-0 pointer-events-none',
+                    )}
+                  >
+                    <Image
+                      src={tab.imageSrc}
+                      alt={tab.imageAlt ?? ''}
+                      width={tab.imageWidth}
+                      height={tab.imageHeight}
+                      className="size-full object-contain"
+                      sizes="(max-width: 1024px) 100vw, 70vw"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
