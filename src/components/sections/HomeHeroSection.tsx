@@ -1482,7 +1482,8 @@ function ProductUIMock({ activeTab }: { activeTab: TabIdx }): ReactNode {
               {/* ── Col 1: workspace header + sidebar (lg only) ── */}
               <div className="hidden lg:flex flex-col w-[272px] shrink-0 border-r border-[#EEEFF1]">
                 <div className="flex items-center h-[48px] gap-[12px] pr-[16px] pl-[12px] border-b border-[#EEEFF1] bg-[#FBFBFB]">
-                  <div className="size-[24px] shrink-0 rounded-[7px] bg-gradient-to-br from-blue-500 to-blue-600 border border-[rgba(0,0,0,0.08)]" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/favicon.ico" alt="Fethr" className="size-[24px] shrink-0 rounded-[7px] border border-[rgba(0,0,0,0.08)] object-cover" />
                   <div className="flex h-full flex-1 items-center gap-[4px]">
                     <span className="font-semibold text-[#242629] text-[16px] leading-[20px] tracking-[-0.16px]">{WORKSPACE_NAME}</span>
                     <WorkspaceChevronDownIcon className="size-[14px] shrink-0" />
