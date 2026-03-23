@@ -288,7 +288,7 @@ function ProductSidebar({ activeTab }: { activeTab: TabIdx }): ReactNode {
  */
 function MonitorContent(): ReactNode {
   const [visibleCount, setVisibleCount] = useState(0)
-  const [phase, setPhase] = useState<'entering' | 'starting' | 'started'>('entering')
+  const [phase, setPhase] = useState<'entering' | 'selected' | 'pressing' | 'starting' | 'started'>('entering')
 
   useEffect(() => {
     const ROW_DELAY = 110 // ms between each row appearing
@@ -303,15 +303,18 @@ function MonitorContent(): ReactNode {
     }, ROW_DELAY)
 
     const enterDone = TOTAL_ROWS * ROW_DELAY + 300
-    const t1 = setTimeout(() => setPhase('starting'), enterDone)        // select + "Starting"
-    const t2 = setTimeout(() => setPhase('started'), enterDone + 2000) // → "Started" green
+    // Total budget: TAB_MS (5000ms). With enterDone ≈ 1400ms, all phases must land < 4800ms.
+    const t1 = setTimeout(() => setPhase('selected'),  enterDone + 200)  // bar slides in, rows selected, status still Stopped
+    const t2 = setTimeout(() => setPhase('pressing'),  enterDone + 800)  // Start All button visually pressed
+    const t3 = setTimeout(() => setPhase('starting'),  enterDone + 1200) // → blue spinner "Starting"
+    const t4 = setTimeout(() => setPhase('started'),   enterDone + 2500) // → green "Started"
 
-    return () => { clearInterval(rowId); clearTimeout(t1); clearTimeout(t2) }
+    return () => { clearInterval(rowId); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [])
 
   const rowColor = (i: number): string => {
     if (i < 2) {
-      if (phase === 'starting') return '#f59e0b'
+      if (phase === 'starting') return '#3b82f6'
       if (phase === 'started') return '#10b981'
     }
     return '#ef4444'
@@ -325,7 +328,8 @@ function MonitorContent(): ReactNode {
     return MONITOR_STATUS_STOPPED
   }
 
-  const showBar = phase !== 'entering'
+  const showBar        = phase !== 'entering'
+  const startAllPressed = phase === 'pressing'
 
   return (
     <div className="flex h-full flex-col bg-white overflow-hidden">
@@ -417,7 +421,18 @@ function MonitorContent(): ReactNode {
                   {/* Status */}
                   <td className="px-[2px] lg:px-[16px] py-[5px] lg:py-[10px]">
                     <div className="flex items-center gap-[3px] lg:gap-[6px]">
-                      <div className="size-[5px] lg:size-[10px] rounded-full shrink-0 transition-colors duration-500" style={{ backgroundColor: color }} />
+                      {selected && phase === 'starting' ? (
+                        <svg
+                          width="14" height="14" viewBox="0 0 14 14" fill="none"
+                          className="w-[7px] h-[7px] lg:w-[14px] lg:h-[14px] shrink-0 animate-spin"
+                          aria-hidden="true"
+                        >
+                          <circle cx="7" cy="7" r="6" fill="none" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="3.14 0" strokeDashoffset="-0.7" />
+                          <circle cx="7" cy="7" r="2" fill="none" stroke="#3b82f6" strokeWidth="4" strokeDasharray="11.309733552923255 22.61946710584651" strokeDashoffset="5.654866776461628" transform="rotate(-90 7 7)" />
+                        </svg>
+                      ) : (
+                        <div className="size-[5px] lg:size-[10px] rounded-full shrink-0 transition-colors duration-500" style={{ backgroundColor: color }} />
+                      )}
                       <span className="font-medium text-[7px] leading-[10px] tracking-[-0.14px] lg:text-[13px] lg:leading-5 lg:tracking-[-0.28px] transition-colors duration-500" style={{ color }}>{label}</span>
                     </div>
                   </td>
@@ -469,8 +484,16 @@ function MonitorContent(): ReactNode {
           <div className="h-[5px] lg:h-[20px] w-px bg-gray-200" />
           {/* Actions */}
           <div className="flex items-center gap-[2px] lg:gap-[6px]">
-            {/* Start All — highlighted */}
-            <button type="button" className="flex items-center gap-[2px] lg:gap-[6px] px-[2px] py-[1px] lg:px-[10px] lg:py-[4px] text-[4px] lg:text-[13px] text-gray-700 bg-gray-200 hover:bg-gray-300 rounded transition-colors">
+            {/* Start All — pressed state animates during 'pressing' phase */}
+            <button
+              type="button"
+              className="flex items-center gap-[2px] lg:gap-[6px] px-[2px] py-[1px] lg:px-[10px] lg:py-[4px] text-[4px] lg:text-[13px] rounded transition-all duration-150"
+              style={{
+                backgroundColor: startAllPressed ? '#e5e7eb' : 'transparent',
+                color:           '#374151',
+                transform:       startAllPressed ? 'scale(0.95)' : 'scale(1)',
+              }}
+            >
               <StartAllIcon className="lg:w-[13px] lg:h-[13px]" />
               {MONITOR_ACTION_START_ALL}
             </button>
