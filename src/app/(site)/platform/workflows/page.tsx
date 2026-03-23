@@ -7,7 +7,7 @@ import { ImageGridSection } from '@/components/sections/ImageGridSection'
 import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
-import { WORKFLOW_EXAMPLES } from '@/data/platform-workflows'
+import { WORKFLOW_EXAMPLES, BUILD_HEADING_MUTED, BUILD_HEADING_PRIMARY, BUILD_SUBTEXT, BUILD_CTA_LABEL, BUILD_CTA_HREF } from '@/data/workflows-build'
 import { LEAD_UPDATES, LEADS_HEADING_PRIMARY, LEADS_HEADING_MUTED, LEADS_SUBHEADING } from '@/data/workflows-leads'
 import { AUTOMATION_WITH_AI, EMAIL_HEADING_PRIMARY, EMAIL_HEADING_MUTED, EMAIL_SUBTEXT } from '@/data/workflows-email'
 import { WORKFLOW_INTEGRATIONS, AUTOMATIONS_HEADING_MUTED, AUTOMATIONS_HEADING_PRIMARY, AUTOMATIONS_SUBTEXT } from '@/data/workflows-automations'
@@ -57,13 +57,13 @@ export default function WorkflowsPage(): React.ReactElement {
         subheading={LEADS_SUBHEADING}
         items={LEAD_UPDATES}
       />
-      <ImageGridSection 
-        items={WORKFLOW_EXAMPLES} 
-        headingMuted='Build'
-        headingPrimary=' faster to go further.'
-        subtext='Get up and running instantly with customizable, out-of-the-box templates.'
-        ctaLabel='See templates library'
-        ctaHref='/platform/workflows'
+      <ImageGridSection
+        items={WORKFLOW_EXAMPLES}
+        headingMuted={BUILD_HEADING_MUTED}
+        headingPrimary={BUILD_HEADING_PRIMARY}
+        subtext={BUILD_SUBTEXT}
+        ctaLabel={BUILD_CTA_LABEL}
+        ctaHref={BUILD_CTA_HREF}
       />
       <Divider/>
       <TrialSection headingLayout='inline' source='workflows'/>
