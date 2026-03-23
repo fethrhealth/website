@@ -1,31 +1,11 @@
 import type { AccordionItem } from '@/data/rewards'
-import type { FeatureCardItem } from '@/data/feature-cards'
 
-// ─── AccordionImageSection + FeatureCardsSection ───────────────────────────────
-// ─── "Automate your way to GTM success." — /platform/workflows ────────────────
+// ─── AccordionImageSection — "Automate your way to GTM success." — /platform/workflows ──────────
 
 export const AUTOMATE_HEADING_PRIMARY = 'Automate your way to\n'
 export const AUTOMATE_HEADING_MUTED   = 'GTM success.'
 export const AUTOMATE_SUBHEADING      =
   'No matter your GTM motion or strategy, Attio is the perfect way to drive it forward.'
-
-export const BETTER_SYSTEM_FEATURES: FeatureCardItem[] = [
-  {
-    iconSrc:     '/assets/icons/workflows/dashboard.webp',
-    label:       'Triggers',
-    description: 'Trigger actions inside Attio or from any external input.',
-  },
-  {
-    iconSrc:     '/assets/icons/workflows/arrow.webp',
-    label:       'Actions',
-    description: 'Get precise by customizing every actionable step of your process.',
-  },
-  {
-    iconSrc:     '/assets/icons/workflows/thunder.webp',
-    label:       'Artificial intelligence',
-    description: 'Use AI to even automate tasks that require unstructured data.',
-  },
-]
 
 export const AUTOMATE_YOUR_WAY: AccordionItem[] = [
   {

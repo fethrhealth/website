@@ -12,7 +12,8 @@ import { LEAD_UPDATES, LEADS_HEADING_PRIMARY, LEADS_HEADING_MUTED, LEADS_SUBHEAD
 import { WORKFLOWS_CTA_SOURCE } from '@/data/workflows-cta'
 import { AUTOMATION_WITH_AI, EMAIL_HEADING_PRIMARY, EMAIL_HEADING_MUTED, EMAIL_SUBTEXT } from '@/data/workflows-email'
 import { WORKFLOW_INTEGRATIONS, AUTOMATIONS_HEADING_MUTED, AUTOMATIONS_HEADING_PRIMARY, AUTOMATIONS_SUBTEXT } from '@/data/workflows-automations'
-import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING, BETTER_SYSTEM_FEATURES } from '@/data/workflows-automate'
+import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING } from '@/data/workflows-automate'
+import { BETTER_SYSTEMS_BENTO, BETTER_SYSTEM_FEATURES } from '@/data/workflows-better-systems'
 import Divider from '@/components/ui/divider'
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function WorkflowsPage(): React.ReactElement {
         subheading={AUTOMATE_SUBHEADING}
         items={AUTOMATE_YOUR_WAY}
       />
+      <BentoGridSection {...BETTER_SYSTEMS_BENTO} />
       <FeatureCardsSection items={BETTER_SYSTEM_FEATURES} />
       <IntegrationCardsSection
         headerLayout='split'
