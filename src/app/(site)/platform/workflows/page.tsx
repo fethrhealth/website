@@ -7,7 +7,8 @@ import { ImageGridSection } from '@/components/sections/ImageGridSection'
 import TrialSection from '@/components/sections/TrialSection'
 import { IntegrationCardsSection } from '@/components/sections/IntegrationCardsSection'
 import { WorkflowsHeroSection } from '@/components/sections/WorkflowsHeroSection'
-import { WORKFLOW_EXAMPLES, LEAD_UPDATES } from '@/data/platform-workflows'
+import { WORKFLOW_EXAMPLES } from '@/data/platform-workflows'
+import { LEAD_UPDATES, LEADS_HEADING_PRIMARY, LEADS_HEADING_MUTED, LEADS_SUBHEADING } from '@/data/workflows-leads'
 import { AUTOMATION_WITH_AI, EMAIL_HEADING_PRIMARY, EMAIL_HEADING_MUTED, EMAIL_SUBTEXT } from '@/data/workflows-email'
 import { WORKFLOW_INTEGRATIONS, AUTOMATIONS_HEADING_MUTED, AUTOMATIONS_HEADING_PRIMARY, AUTOMATIONS_SUBTEXT } from '@/data/workflows-automations'
 import { AUTOMATE_YOUR_WAY, AUTOMATE_HEADING_PRIMARY, AUTOMATE_HEADING_MUTED, AUTOMATE_SUBHEADING, BETTER_SYSTEM_FEATURES } from '@/data/workflows-automate'
@@ -50,11 +51,11 @@ export default function WorkflowsPage(): React.ReactElement {
         items={AUTOMATION_WITH_AI}
       />
       <AccordionImageSection
-      headerLayout="split"
-      headingPrimary="Keep your leads\n"
-      headingMuted="in the loop."
-      subheading="No more manual work. Automate and personalize your emails and follow-ups to close more deals."
-      items = { LEAD_UPDATES }
+        headerLayout="split"
+        headingPrimary={LEADS_HEADING_PRIMARY}
+        headingMuted={LEADS_HEADING_MUTED}
+        subheading={LEADS_SUBHEADING}
+        items={LEAD_UPDATES}
       />
       <ImageGridSection 
         items={WORKFLOW_EXAMPLES} 
