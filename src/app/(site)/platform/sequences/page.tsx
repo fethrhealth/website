@@ -14,6 +14,7 @@ import { SEQUENCES_INSIDE_HEADING, SEQUENCES_INSIDE_DESCRIPTION, SEQUENCES_INSID
 import { SEQUENCES_QUOTE, SEQUENCES_QUOTE_AUTHOR, SEQUENCES_QUOTE_ROLE } from "@/data/sequences-quote"
 import { ZERO_TOUCH_HEADING, ZERO_TOUCH_SUBHEADING } from "@/data/sequences-zero-touch"
 import { SEQUENCES_NAV_CURRENT_HREF } from "@/data/sequences-nav-section"
+import { SEQUENCES_CTA_SOURCE } from "@/data/sequences-cta"
 
 export const metadata: Metadata = {
   title: 'Sequences',
@@ -66,7 +67,7 @@ export default function SequencesPage(): React.ReactElement {
       <Divider />
       <PlatformNavSection currentHref={SEQUENCES_NAV_CURRENT_HREF} />
       <TrialSection
-        source="sequences"
+        source={SEQUENCES_CTA_SOURCE}
         headingLayout="inline"
       />
     </main>
