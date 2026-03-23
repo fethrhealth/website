@@ -25,9 +25,9 @@ import {
   motion,
   useMotionValue,
   useSpring,
-  useAnimation,
+  animate,
 } from 'framer-motion'
-import { useRef, type MouseEvent } from 'react'
+import { useRef, useState, type MouseEvent } from 'react'
 
 // ─── Grid line arrays ─────────────────────────────────────────────────────────
 // 23 vertical dividers → 24 columns; 12 horizontal dividers → 13 rows.
@@ -50,42 +50,75 @@ const C = {
   strokeLight:   '#cad0d9',   // strong-stroke  (thin strokes on light bg)
 } as const
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+/** Axis-aligned bounding-box overlap test. */
+function rectsOverlap(
+  a: { left: number; right: number; top: number; bottom: number },
+  b: DOMRect,
+): boolean {
+  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+}
+
 // ─── Draggable widget wrapper ─────────────────────────────────────────────────
 /**
- * Wraps an SVG widget card in two Framer Motion layers:
- *  1. Outer `motion.div` with `drag` — freely moves around the grid.
- *     On drag-end, if the card overlaps the center CTA panel it springs back
- *     to its original position (x:0, y:0) so it can never cover the panel.
- *  2. Inner `motion.div` with `rotateX / rotateY` springs — smooth 3-D tilt
- *     that tracks the cursor while hovering.
+ * Wraps an SVG widget card with:
+ *  • Grid-snap drag — pointer events snap the card to cell boundaries in real-time.
+ *  • Corner dot handles (matching CTA panel dots) while the pointer is held down.
+ *  • Reports its snapped pixel position + overlap state to the parent via onDragUpdate
+ *    so the parent can render full-width/height snap guide lines in the grid.
+ *  • 3-D tilt-on-hover while not dragging.
+ *  • Springs back to origin (x:0, y:0) if released over a blocked area.
  */
 function DraggableCard({
   gridArea,
   centerPanelRef,
+  gridContainerRef,
+  gridCols,
+  gridRows,
+  cardId,
+  isSelected: _isSelected,
+  onSelect,
+  onDragUpdate,
   children,
 }: {
-  gridArea: string
-  centerPanelRef: React.RefObject<HTMLDivElement | null>
-  children: React.ReactNode
+  gridArea:         string
+  centerPanelRef:   React.RefObject<HTMLDivElement | null>
+  gridContainerRef: React.RefObject<HTMLDivElement | null>
+  gridCols:         number
+  gridRows:         number
+  cardId:           string
+  isSelected?:      boolean
+  onSelect?:        (id: string | null) => void
+  onDragUpdate?:    (info: { x: number; y: number; overlapping: boolean } | null) => void
+  children:         React.ReactNode
 }) {
-  // Ref on the outer motion.div so we can read its bounding rect after drag.
-  const dragRef   = useRef<HTMLDivElement>(null)
-  // Ref on the inner mouse-tracking div for 3-D tilt calculations.
-  const tiltRef   = useRef<HTMLDivElement>(null)
-  // Animation controls used to spring the card back to its origin.
-  const controls  = useAnimation()
+  // Outer motion.div ref — used for bounding-rect overlap tests.
+  const dragRef = useRef<HTMLDivElement>(null)
+  // Inner div ref — used for 3-D tilt calculations.
+  const tiltRef = useRef<HTMLDivElement>(null)
 
-  // Spring-smoothed rotation axes for the 3-D tilt effect.
-  const baseRX = useMotionValue(0)
-  const baseRY = useMotionValue(0)
+  // Position offset motion values (grid-snapped, relative to natural grid position).
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+
+  // 3-D tilt spring axes.
+  const baseRX  = useMotionValue(0)
+  const baseRY  = useMotionValue(0)
   const rotateX = useSpring(baseRX, { stiffness: 300, damping: 30 })
   const rotateY = useSpring(baseRY, { stiffness: 300, damping: 30 })
 
+  const [isDragging,    setIsDragging]    = useState(false)
+  const [isPointerHeld, setIsPointerHeld] = useState(false)
+  const [isOverlapping, setIsOverlapping] = useState(false)
+  // Ref mirror so the pointerUp closure always reads the latest overlap value.
+  const isOverlappingRef = useRef(false)
+
+  // ── 3-D tilt on hover ──────────────────────────────────────────────────────
   function onMouseMove(e: MouseEvent<HTMLDivElement>) {
+    if (isDragging) return
     const el = tiltRef.current
     if (!el) return
     const { left, top, width, height } = el.getBoundingClientRect()
-    // Normalise cursor position to –1 … +1 relative to card centre.
     const nx = (e.clientX - left - width  / 2) / (width  / 2)
     const ny = (e.clientY - top  - height / 2) / (height / 2)
     baseRY.set(nx *  8)
@@ -97,50 +130,182 @@ function DraggableCard({
     baseRY.set(0)
   }
 
-  function onDragEnd() {
-    if (!dragRef.current || !centerPanelRef.current) return
+  // ── Overlap detection (runs after each grid-snap position update) ───────────
+  function checkOverlap() {
+    const el        = dragRef.current
+    const container = gridContainerRef.current
+    if (!el || !container) return
 
-    const card  = dragRef.current.getBoundingClientRect()
-    const panel = centerPanelRef.current.getBoundingClientRect()
+    const card = el.getBoundingClientRect()
 
-    // AABB overlap — any intersection triggers snap-back.
-    const overlaps =
-      card.left   < panel.right  &&
-      card.right  > panel.left   &&
-      card.top    < panel.bottom &&
-      card.bottom > panel.top
+    // 1. Check center CTA panel.
+    if (centerPanelRef.current) {
+      const panel = centerPanelRef.current.getBoundingClientRect()
+      if (rectsOverlap(card, panel)) {
+        isOverlappingRef.current = true
+        setIsOverlapping(true)
+        return
+      }
+    }
 
-    if (overlaps) {
-      // Spring the card back to its original grid position.
-      void controls.start({
-        x: 0,
-        y: 0,
-        transition: { type: 'spring', stiffness: 400, damping: 35 },
+    // 2. Check sibling cards within the same grid container.
+    const siblings = container.querySelectorAll<HTMLElement>('[data-card-drag]')
+    for (const sib of siblings) {
+      if (sib === el) continue
+      const sibRect = sib.getBoundingClientRect()
+      if (rectsOverlap(card, sibRect)) {
+        isOverlappingRef.current = true
+        setIsOverlapping(true)
+        return
+      }
+    }
+
+    isOverlappingRef.current = false
+    setIsOverlapping(false)
+  }
+
+  // ── Pointer-based grid-snap drag ───────────────────────────────────────────
+  function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    // Ignore non-primary mouse buttons.
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    e.preventDefault()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    // Show corner handles immediately on press.
+    setIsPointerHeld(true)
+    onSelect?.(cardId)
+
+    const startMouseX  = e.clientX
+    const startMouseY  = e.clientY
+    const startOffsetX = x.get()
+    const startOffsetY = y.get()
+
+    // Card's natural top-left position within the grid container (without current transform).
+    // Used to report absolute grid-relative coordinates to the parent for snap-line rendering.
+    let naturalLeft = 0
+    let naturalTop  = 0
+    const containerEl = gridContainerRef.current
+    const cardEl      = dragRef.current
+    if (containerEl && cardEl) {
+      const cRect = containerEl.getBoundingClientRect()
+      const dRect = cardEl.getBoundingClientRect()
+      naturalLeft = dRect.left - cRect.left - startOffsetX
+      naturalTop  = dRect.top  - cRect.top  - startOffsetY
+    }
+
+    let hasMoved = false
+
+    function handlePointerMove(ev: PointerEvent) {
+      const dx = ev.clientX - startMouseX
+      const dy = ev.clientY - startMouseY
+
+      // Require a minimum movement before entering drag mode (prevents accidental drag on click).
+      if (!hasMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+        hasMoved = true
+        setIsDragging(true)
+        // Reset tilt while dragging.
+        baseRX.set(0)
+        baseRY.set(0)
+      }
+      if (!hasMoved) return
+
+      const container = gridContainerRef.current
+      if (!container) return
+
+      // Snap to nearest grid cell boundary.
+      const cellW = container.clientWidth  / gridCols
+      const cellH = container.clientHeight / gridRows
+      const snappedX = Math.round((startOffsetX + dx) / cellW) * cellW
+      const snappedY = Math.round((startOffsetY + dy) / cellH) * cellH
+      x.set(snappedX)
+      y.set(snappedY)
+
+      checkOverlap()
+
+      // Report snapped position to parent so it can render the snap guide lines.
+      onDragUpdate?.({
+        x:          naturalLeft + snappedX,
+        y:          naturalTop  + snappedY,
+        overlapping: isOverlappingRef.current,
       })
     }
+
+    function handlePointerUp() {
+      // Always hide corner handles and clear parent selection on release.
+      setIsPointerHeld(false)
+      onSelect?.(null)
+      if (hasMoved) {
+        setIsDragging(false)
+        // If released over a blocked area, spring back to the origin grid position.
+        if (isOverlappingRef.current) {
+          void animate(x, 0, { type: 'spring', stiffness: 400, damping: 35 })
+          void animate(y, 0, { type: 'spring', stiffness: 400, damping: 35 })
+        }
+        isOverlappingRef.current = false
+        setIsOverlapping(false)
+        // Clear snap guide lines in parent.
+        onDragUpdate?.(null)
+      }
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup',   handlePointerUp)
+    }
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup',   handlePointerUp)
   }
 
   return (
-    /* Outer drag container — lives in the CSS grid via `gridArea`. */
+    /* Outer container — positioned in CSS grid via `gridArea`; offset by motion x/y. */
     <motion.div
       ref={dragRef}
+      data-card-drag={cardId}
       className="size-full"
-      style={{ gridArea }}
-      animate={controls}
-      drag
-      dragMomentum={false}
-      dragElastic={0}
-      onDragEnd={onDragEnd}
+      style={{ gridArea, x, y, zIndex: isDragging ? 20 : 'auto' }}
     >
-      {/* Mouse-tracking wrapper for the 3-D tilt. */}
+      {/* Pointer-capture + tilt wrapper */}
       <div
         ref={tiltRef}
         className="relative isolate z-10 size-full cursor-grab active:cursor-grabbing"
         style={{ touchAction: 'none' }}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
+        onPointerDown={onPointerDown}
       >
-        <div className="relative size-full [perspective:800px]">
+        {/* ── Selection border: corner dots + connecting lines — visible while pointer is held ── */}
+        {isPointerHeld && (() => {
+          // TODO: change '#000000' → 'currentColor' and add className="text-weak-stroke"
+          // to each SVG once you've confirmed the lines are visible.
+          const stroke = isOverlapping ? '#ef4444' : '#e2e8f0'
+          return (
+            <>
+              {/* Corner dots */}
+              <div className={`pointer-events-none absolute top-0    left-0  z-20 size-1 -translate-x-1/2 -translate-y-1/2 ${isOverlapping ? 'bg-red-500' : 'bg-default-stroke'}`} />
+              <div className={`pointer-events-none absolute top-0    right-0 z-20 size-1  translate-x-1/2 -translate-y-1/2 ${isOverlapping ? 'bg-red-500' : 'bg-default-stroke'}`} />
+              <div className={`pointer-events-none absolute bottom-0 left-0  z-20 size-1 -translate-x-1/2  translate-y-1/2 ${isOverlapping ? 'bg-red-500' : 'bg-default-stroke'}`} />
+              <div className={`pointer-events-none absolute bottom-0 right-0 z-20 size-1  translate-x-1/2  translate-y-1/2 ${isOverlapping ? 'bg-red-500' : 'bg-default-stroke'}`} />
+              {/* Top edge line */}
+              <svg width="100%" height="1" className="pointer-events-none absolute inset-x-0 top-0 z-20 -translate-y-1/2">
+                <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke={stroke} strokeLinecap="round" />
+              </svg>
+              {/* Bottom edge line */}
+              <svg width="100%" height="1" className="pointer-events-none absolute inset-x-0 bottom-0 z-20 translate-y-1/2">
+                <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke={stroke} strokeLinecap="round" />
+              </svg>
+              {/* Left edge line */}
+              <svg width="1" height="100%" className="pointer-events-none absolute inset-y-0 left-0 z-20 -translate-x-1/2">
+                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke={stroke} strokeLinecap="round" />
+              </svg>
+              {/* Right edge line */}
+              <svg width="1" height="100%" className="pointer-events-none absolute inset-y-0 right-0 z-20 translate-x-1/2">
+                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke={stroke} strokeLinecap="round" />
+              </svg>
+            </>
+          )
+        })()}
+
+        <div className={[
+          'relative size-full [perspective:800px] transition-opacity duration-100',
+          isDragging ? 'opacity-75' : 'opacity-100',
+        ].join(' ')}>
           <motion.div
             className="size-full"
             style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
@@ -316,12 +481,7 @@ function TextInputSvg() {
       <path d="M19.1784 32.2507V30.7955H27.8499V32.2507H24.3539V42H22.6689V32.2507H19.1784Z" fill={C.iconDark} />
       <path d="M31.7298 42.1696C30.9018 42.1696 30.1888 41.9927 29.5906 41.6389C28.9961 41.2815 28.5366 40.78 28.212 40.1344C27.891 39.4852 27.7305 38.7247 27.7305 37.853C27.7305 36.9922 27.891 36.2336 28.212 35.5771C28.5366 34.9206 28.9888 34.4081 29.5688 34.0397C30.1523 33.6714 30.8344 33.4872 31.6149 33.4872C32.089 33.4872 32.5486 33.5656 32.9936 33.7224C33.4386 33.8793 33.8379 34.1255 34.1917 34.461C34.5455 34.7966 34.8245 35.2324 35.0288 35.7686C35.233 36.3011 35.3352 36.9485 35.3352 37.7108V38.2907H28.6551V37.0652H33.7322C33.7322 36.6348 33.6446 36.2537 33.4696 35.9218C33.2945 35.5862 33.0483 35.3218 32.731 35.1285C32.4173 34.9352 32.0489 34.8385 31.6258 34.8385C31.1663 34.8385 30.7651 34.9516 30.4222 35.1777C30.083 35.4002 29.8204 35.692 29.6344 36.0531C29.452 36.4105 29.3609 36.7989 29.3609 37.2184V38.1758C29.3609 38.7375 29.4593 39.2153 29.6563 39.6092C29.8569 40.0031 30.1359 40.304 30.4934 40.5119C30.8508 40.7161 31.2684 40.8183 31.7462 40.8183C32.0562 40.8183 32.3389 40.7745 32.5942 40.687C32.8495 40.5958 33.0702 40.4608 33.2562 40.2821C33.4422 40.1034 33.5844 39.8827 33.6829 39.6201L35.2312 39.8991C35.1072 40.3551 34.8847 40.7544 34.5638 41.0973C34.2464 41.4365 33.8471 41.7009 33.3656 41.8906C32.8878 42.0766 32.3425 42.1696 31.7298 42.1696Z" fill={C.iconDark} />
       <path d="M37.9376 33.5966L39.7922 36.8682L41.6633 33.5966H43.4523L40.8317 37.7983L43.4742 42H41.6852L39.7922 38.8597L37.9048 42H36.1103L38.7254 37.7983L36.1431 33.5966H37.9376Z" fill={C.iconDark} />
-      <path d="M48.7465 33.5966V34.9096H44.1563V33.5966H48.7465ZM45.3873 31.5833H47.0231V39.5326C47.0231 39.8499 47.0705 40.0888 47.1654 40.2493C47.2602 40.4061 47.3824 40.5137 47.5319 40.5721C47.6851 40.6268 47.8511 40.6541 48.0298 40.6541C48.1611 40.6541 48.276 40.645 48.3744 40.6268C48.4729 40.6086 48.5495 40.594 48.6042 40.583L48.8997 41.9343C48.8048 41.9708 48.6699 42.0073 48.4948 42.0438C48.3197 42.0839 48.1009 42.1058 47.8383 42.1094C47.4079 42.1167 47.0067 42.0401 46.6347 41.8796C46.2627 41.7192 45.9617 41.4711 45.732 41.1356C45.5022 40.8 45.3873 40.3788 45.3873 39.8718V31.5833Z" fill={C.iconDark} />
-      <path d="M54.017 42V33.5966H55.6528V42H54.017ZM54.8431 32.3C54.5586 32.3 54.3142 32.2051 54.11 32.0155C53.9094 31.8222 53.8091 31.5924 53.8091 31.3261C53.8091 31.0562 53.9094 30.8265 54.11 30.6368C54.3142 30.4435 54.5586 30.3468 54.8431 30.3468C55.1276 30.3468 55.3701 30.4435 55.5707 30.6368C55.775 30.8265 55.8771 31.0562 55.8771 31.3261C55.8771 31.5924 55.775 31.8222 55.5707 32.0155C55.3701 32.2051 55.1276 32.3 54.8431 32.3Z" fill={C.iconDark} />
-      <path d="M59.1812 37.0105V42H57.5454V33.5966H59.1155V34.9643H59.2195C59.4128 34.5194 59.7155 34.1619 60.1277 33.892C60.5435 33.6221 61.0669 33.4872 61.6978 33.4872C62.2705 33.4872 62.772 33.6075 63.2024 33.8483C63.6327 34.0853 63.9665 34.4391 64.2035 34.9096C64.4406 35.3801 64.5592 35.9619 64.5592 36.6549V42H62.9233V36.8518C62.9233 36.2427 62.7647 35.7667 62.4474 35.4239C62.1301 35.0774 61.6942 34.9042 61.1398 34.9042C60.7605 34.9042 60.4231 34.9862 60.1277 35.1503C59.8359 35.3145 59.6043 35.5552 59.4329 35.8725C59.2651 36.1862 59.1812 36.5655 59.1812 37.0105Z" fill={C.iconDark} />
-      <path d="M66.4449 45.1513V33.5966H68.0424V34.9589H68.1792C68.274 34.7838 68.4108 34.5814 68.5895 34.3516C68.7682 34.1218 69.0163 33.9212 69.3336 33.7498C69.6509 33.5747 70.0703 33.4872 70.5919 33.4872C71.2703 33.4872 71.8757 33.6586 72.4083 34.0014C72.9408 34.3443 73.3584 34.8385 73.6611 35.4841C73.9675 36.1296 74.1207 36.9065 74.1207 37.8147C74.1207 38.7229 73.9693 39.5016 73.6666 40.1508C73.3638 40.7964 72.9481 41.2942 72.4192 41.6444C71.8903 41.9909 71.2867 42.1641 70.6083 42.1641C70.0977 42.1641 69.6801 42.0784 69.3555 41.907C69.0345 41.7356 68.7828 41.535 68.6005 41.3052C68.4181 41.0754 68.2777 40.8712 68.1792 40.6924H68.0807V45.1513H66.4449Z" fill={C.iconDark} />
-      <path d="M80.9686 38.515V33.5966H82.6099V42H81.0014V40.5447H80.9139C80.7206 40.9933 80.4105 41.3672 79.9838 41.6663C79.5607 41.9617 79.0337 42.1094 78.4027 42.1094C77.8629 42.1094 77.3851 41.9909 76.9693 41.7538C76.5571 41.5131 76.2325 41.1575 75.9955 40.687C75.762 40.2165 75.6453 39.6347 75.6453 38.9417V33.5966H77.2811V38.7448C77.2811 39.3174 77.4398 39.7733 77.7571 40.1125C78.0744 40.4517 78.4866 40.6213 78.9935 40.6213C79.2999 40.6213 79.6045 40.5447 79.9072 40.3915C80.2136 40.2383 80.4671 40.0067 80.6677 39.6967C80.8719 39.3867 80.9722 38.9928 80.9686 38.515Z" fill={C.iconDark} />
-      <path d="M88.4224 33.5966V34.9096H83.8322V33.5966H88.4224ZM85.0632 31.5833H86.699V39.5326C86.699 39.8499 86.7464 40.0888 86.8413 40.2493C86.9361 40.4061 87.0583 40.5137 87.2078 40.5721C87.361 40.6268 87.527 40.6541 87.7057 40.6541C87.837 40.6541 87.9519 40.645 88.0504 40.6268C88.1488 40.6086 88.2254 40.594 88.2801 40.583L88.5756 41.9343C88.4807 41.9708 88.3458 42.0073 88.1707 42.0438C87.9956 42.0839 87.7768 42.1058 87.5142 42.1094C87.0838 42.1167 86.6826 42.0401 86.3106 41.8796C85.9386 41.7192 85.6377 41.4711 85.4079 41.1356C85.1781 40.8 85.0632 40.3788 85.0632 39.8718V31.5833Z" fill={C.iconDark} />
+      <path d="M19.1784 32.2507V30.7955H27.8499V32.2507H24.3539V42H22.6689V32.2507H19.1784ZM31.7298 42.1696C30.9018 42.1696 30.1888 41.9927 29.5906 41.6389C28.9961 41.2815 28.5366 40.78 28.212 40.1344C27.891 39.4852 27.7305 38.7247 27.7305 37.853C27.7305 36.9922 27.891 36.2336 28.212 35.5771C28.5366 34.9206 28.9888 34.4081 29.5688 34.0397C30.1523 33.6714 30.8344 33.4872 31.6149 33.4872C32.089 33.4872 32.5486 33.5656 32.9936 33.7224C33.4386 33.8793 33.8379 34.1255 34.1917 34.461C34.5455 34.7966 34.8245 35.2324 35.0288 35.7686C35.233 36.3011 35.3352 36.9485 35.3352 37.7108V38.2907H28.6551V37.0652H33.7322C33.7322 36.6348 33.6446 36.2537 33.4696 35.9218C33.2945 35.5862 33.0483 35.3218 32.731 35.1285C32.4173 34.9352 32.0489 34.8385 31.6258 34.8385C31.1663 34.8385 30.7651 34.9516 30.4222 35.1777C30.083 35.4002 29.8204 35.692 29.6344 36.0531C29.452 36.4105 29.3609 36.7989 29.3609 37.2184V38.1758C29.3609 38.7375 29.4593 39.2153 29.6563 39.6092C29.8569 40.0031 30.1359 40.304 30.4934 40.5119C30.8508 40.7161 31.2684 40.8183 31.7462 40.8183C32.0562 40.8183 32.3389 40.7745 32.5942 40.687C32.8495 40.5958 33.0702 40.4608 33.2562 40.2821C33.4422 40.1034 33.5844 39.8827 33.6829 39.6201L35.2312 39.8991C35.1072 40.3551 34.8847 40.7544 34.5638 41.0973C34.2464 41.4365 33.8471 41.7009 33.3656 41.8906C32.8878 42.0766 32.3425 42.1696 31.7298 42.1696ZM37.9376 33.5966L39.7922 36.8682L41.6633 33.5966H43.4523L40.8317 37.7983L43.4742 42H41.6852L39.7922 38.8597L37.9048 42H36.1103L38.7254 37.7983L36.1431 33.5966H37.9376ZM48.7465 33.5966V34.9096H44.1563V33.5966H48.7465ZM45.3873 31.5833H47.0231V39.5326C47.0231 39.8499 47.0705 40.0888 47.1654 40.2493C47.2602 40.4061 47.3824 40.5137 47.5319 40.5721C47.6851 40.6268 47.8511 40.6541 48.0298 40.6541C48.1611 40.6541 48.276 40.645 48.3744 40.6268C48.4729 40.6086 48.5495 40.594 48.6042 40.583L48.8997 41.9343C48.8048 41.9708 48.6699 42.0073 48.4948 42.0438C48.3197 42.0839 48.1009 42.1058 47.8383 42.1094C47.4079 42.1167 47.0067 42.0401 46.6347 41.8796C46.2627 41.7192 45.9617 41.4711 45.732 41.1356C45.5022 40.8 45.3873 40.3788 45.3873 39.8718V31.5833ZM54.017 42V33.5966H55.6528V42H54.017ZM54.8431 32.3C54.5586 32.3 54.3142 32.2051 54.11 32.0155C53.9094 31.8222 53.8091 31.5924 53.8091 31.3261C53.8091 31.0562 53.9094 30.8265 54.11 30.6368C54.3142 30.4435 54.5586 30.3468 54.8431 30.3468C55.1276 30.3468 55.3701 30.4435 55.5707 30.6368C55.775 30.8265 55.8771 31.0562 55.8771 31.3261C55.8771 31.5924 55.775 31.8222 55.5707 32.0155C55.3701 32.2051 55.1276 32.3 54.8431 32.3ZM59.1812 37.0105V42H57.5454V33.5966H59.1155V34.9643H59.2195C59.4128 34.5194 59.7155 34.1619 60.1277 33.892C60.5435 33.6221 61.0669 33.4872 61.6978 33.4872C62.2705 33.4872 62.772 33.6075 63.2024 33.8483C63.6327 34.0853 63.9665 34.4391 64.2035 34.9096C64.4406 35.3801 64.5592 35.9619 64.5592 36.6549V42H62.9233V36.8518C62.9233 36.2427 62.7647 35.7667 62.4474 35.4239C62.1301 35.0774 61.6942 34.9042 61.1398 34.9042C60.7605 34.9042 60.4231 34.9862 60.1277 35.1503C59.8359 35.3145 59.6043 35.5552 59.4329 35.8725C59.2651 36.1862 59.1812 36.5655 59.1812 37.0105ZM66.4449 45.1513V33.5966H68.0424V34.9589H68.1792C68.274 34.7838 68.4108 34.5814 68.5895 34.3516C68.7682 34.1218 69.0163 33.9212 69.3336 33.7498C69.6509 33.5747 70.0703 33.4872 70.5919 33.4872C71.2703 33.4872 71.8757 33.6586 72.4083 34.0014C72.9408 34.3443 73.3584 34.8385 73.6611 35.4841C73.9675 36.1296 74.1207 36.9065 74.1207 37.8147C74.1207 38.7229 73.9693 39.5016 73.6666 40.1508C73.3638 40.7964 72.9481 41.2942 72.4192 41.6444C71.8903 41.9909 71.2867 42.1641 70.6083 42.1641C70.0977 42.1641 69.6801 42.0784 69.3555 41.907C69.0345 41.7356 68.7828 41.535 68.6005 41.3052C68.4181 41.0754 68.2777 40.8712 68.1792 40.6924H68.0807V45.1513H66.4449ZM68.0479 37.7983C68.0479 38.3892 68.1336 38.9071 68.305 39.3521C68.4764 39.797 68.7245 40.1453 69.0491 40.397C69.3737 40.645 69.7712 40.769 70.2417 40.769C70.7305 40.769 71.139 40.6396 71.4672 40.3806C71.7955 40.118 72.0435 39.7624 72.2113 39.3138C72.3827 38.8651 72.4684 38.36 72.4684 37.7983C72.4684 37.2439 72.3845 36.746 72.2168 36.3047C72.0526 35.8634 71.8046 35.5151 71.4727 35.2598C71.1445 35.0045 70.7341 34.8768 70.2417 34.8768C69.7676 34.8768 69.3664 34.999 69.0381 35.2434C68.7135 35.4877 68.4673 35.8287 68.2996 36.2664C68.1318 36.7041 68.0479 37.2147 68.0479 37.7983ZM80.9686 38.515V33.5966H82.6099V42H81.0014V40.5447H80.9139C80.7206 40.9933 80.4105 41.3672 79.9838 41.6663C79.5607 41.9617 79.0337 42.1094 78.4027 42.1094C77.8629 42.1094 77.3851 41.9909 76.9693 41.7538C76.5571 41.5131 76.2325 41.1575 75.9955 40.687C75.762 40.2165 75.6453 39.6347 75.6453 38.9417V33.5966H77.2811V38.7448C77.2811 39.3174 77.4398 39.7733 77.7571 40.1125C78.0744 40.4517 78.4866 40.6213 78.9935 40.6213C79.2999 40.6213 79.6045 40.5447 79.9072 40.3915C80.2136 40.2383 80.4671 40.0067 80.6677 39.6967C80.8719 39.3867 80.9722 38.9928 80.9686 38.515ZM88.4224 33.5966V34.9096H83.8322V33.5966H88.4224ZM85.0632 31.5833H86.699V39.5326C86.699 39.8499 86.7464 40.0888 86.8413 40.2493C86.9361 40.4061 87.0583 40.5137 87.2078 40.5721C87.361 40.6268 87.527 40.6541 87.7057 40.6541C87.837 40.6541 87.9519 40.645 88.0504 40.6268C88.1488 40.6086 88.2254 40.594 88.2801 40.583L88.5756 41.9343C88.4807 41.9708 88.3458 42.0073 88.1707 42.0438C87.9956 42.0839 87.7768 42.1058 87.5142 42.1094C87.0838 42.1167 86.6826 42.0401 86.3106 41.8796C85.9386 41.7192 85.6377 41.4711 85.4079 41.1356C85.1781 40.8 85.0632 40.3788 85.0632 39.8718V31.5833Z" fill={C.iconDark}></path>
       <path d="M13.9515 13.8125V6.85795H15.0008V12.9092H18.1521V13.8125H13.9515ZM20.5943 13.928C20.2638 13.928 19.9649 13.8668 19.6978 13.7446C19.4307 13.6201 19.219 13.4401 19.0628 13.2047C18.9089 12.9692 18.8319 12.6806 18.8319 12.3387C18.8319 12.0444 18.8885 11.8022 19.0017 11.612C19.1149 11.4219 19.2677 11.2713 19.4601 11.1604C19.6525 11.0495 19.8676 10.9657 20.1053 10.9091C20.343 10.8525 20.5852 10.8095 20.832 10.7801C21.1444 10.7439 21.398 10.7144 21.5927 10.6918C21.7873 10.6669 21.9288 10.6273 22.0171 10.5729C22.1054 10.5186 22.1496 10.4303 22.1496 10.3081V10.2843C22.1496 9.98773 22.0658 9.75795 21.8983 9.59495C21.733 9.43195 21.4863 9.35045 21.158 9.35045C20.8162 9.35045 20.5468 9.42629 20.3498 9.57797C20.1551 9.72738 20.0204 9.89378 19.9457 10.0771L18.9915 9.85982C19.1047 9.54288 19.2699 9.28706 19.4873 9.09237C19.7069 8.89542 19.9593 8.7528 20.2445 8.66451C20.5298 8.57395 20.8297 8.52868 21.1444 8.52868C21.3527 8.52868 21.5734 8.55358 21.8066 8.60338C22.042 8.65092 22.2616 8.73921 22.4654 8.86825C22.6714 8.99729 22.84 9.1818 22.9713 9.42176C23.1026 9.65947 23.1683 9.96848 23.1683 10.3488V13.8125H22.1767V13.0994H22.136C22.0703 13.2307 21.9718 13.3597 21.8405 13.4865C21.7092 13.6133 21.5406 13.7186 21.3346 13.8023C21.1286 13.8861 20.8818 13.928 20.5943 13.928ZM20.815 13.113C21.0957 13.113 21.3357 13.0575 21.5349 12.9466C21.7364 12.8356 21.8892 12.6908 21.9934 12.5119C22.0998 12.3308 22.153 12.1373 22.153 11.9312V11.2589C22.1167 11.2951 22.0466 11.3291 21.9424 11.3608C21.8405 11.3902 21.724 11.4162 21.5927 11.4389C21.4613 11.4592 21.3334 11.4785 21.2089 11.4966C21.0844 11.5124 20.9803 11.526 20.8965 11.5373C20.6996 11.5622 20.5196 11.6041 20.3566 11.663C20.1959 11.7218 20.0668 11.8067 19.9695 11.9177C19.8744 12.0263 19.8268 12.1712 19.8268 12.3523C19.8268 12.6036 19.9197 12.7938 20.1053 12.9228C20.2909 13.0496 20.5275 13.113 20.815 13.113ZM24.4109 13.8125V6.85795H25.4262V9.44214H25.4874C25.5462 9.33347 25.6311 9.20783 25.7421 9.06521C25.853 8.92258 26.0069 8.79807 26.2039 8.69167C26.4008 8.58301 26.6612 8.52868 26.9849 8.52868C27.406 8.52868 27.7818 8.63508 28.1123 8.84788C28.4428 9.06068 28.702 9.36743 28.8899 9.76813C29.0801 10.1688 29.1752 10.651 29.1752 11.2147C29.1752 11.7784 29.0812 12.2618 28.8933 12.6647C28.7054 13.0654 28.4474 13.3744 28.1191 13.5918C27.7908 13.8068 27.4162 13.9144 26.9951 13.9144C26.6782 13.9144 26.4189 13.8612 26.2175 13.7548C26.0182 13.6484 25.862 13.5239 25.7488 13.3812C25.6357 13.2386 25.5485 13.1118 25.4874 13.0009H25.4025V13.8125H24.4109ZM25.4059 11.2045C25.4059 11.5713 25.4591 11.8928 25.5655 12.1689C25.6719 12.4451 25.8258 12.6613 26.0273 12.8175C26.2288 12.9715 26.4755 13.0485 26.7676 13.0485C27.0709 13.0485 27.3245 12.9681 27.5282 12.8074C27.732 12.6444 27.8859 12.4236 27.9901 12.1452C28.0965 11.8667 28.1497 11.5532 28.1497 11.2045C28.1497 10.8604 28.0976 10.5514 27.9934 10.2775C27.8916 10.0036 27.7376 9.78738 27.5316 9.62891C27.3279 9.47044 27.0732 9.3912 26.7676 9.3912C26.4733 9.3912 26.2243 9.46704 26.0205 9.61872C25.819 9.7704 25.6662 9.98207 25.5621 10.2537C25.4579 10.5254 25.4059 10.8423 25.4059 11.2045ZM32.3721 13.9178C31.8582 13.9178 31.4156 13.808 31.0443 13.5884C30.6753 13.3665 30.3901 13.0552 30.1886 12.6545C29.9894 12.2516 29.8898 11.7796 29.8898 11.2385C29.8898 10.7042 29.9894 10.2334 30.1886 9.82586C30.3901 9.41837 30.6708 9.1003 31.0307 8.87165C31.3929 8.643 31.8163 8.52868 32.3008 8.52868C32.5951 8.52868 32.8803 8.57735 33.1565 8.67469C33.4327 8.77204 33.6806 8.92485 33.9002 9.13312C34.1198 9.3414 34.2929 9.61193 34.4197 9.94471C34.5465 10.2752 34.6099 10.6771 34.6099 11.1502V11.5102H30.4636V10.7495H33.6149C33.6149 10.4824 33.5606 10.2458 33.4519 10.0398C33.3433 9.83152 33.1904 9.66739 32.9935 9.54741C32.7988 9.42742 32.5701 9.36743 32.3075 9.36743C32.0223 9.36743 31.7733 9.43761 31.5605 9.57797C31.3499 9.71606 31.1869 9.89717 31.0715 10.1213C30.9583 10.3432 30.9017 10.5843 30.9017 10.8446V11.4389C30.9017 11.7875 30.9628 12.0841 31.0851 12.3285C31.2096 12.573 31.3828 12.7598 31.6046 12.8888C31.8265 13.0156 32.0857 13.079 32.3822 13.079C32.5747 13.079 32.7501 13.0518 32.9086 12.9975C33.0671 12.9409 33.204 12.8572 33.3195 12.7462C33.4349 12.6353 33.5232 12.4983 33.5844 12.3353L34.5454 12.5085C34.4684 12.7915 34.3303 13.0394 34.1311 13.2522C33.9341 13.4627 33.6862 13.6269 33.3874 13.7446C33.0908 13.86 32.7524 13.9178 32.3721 13.9178ZM36.5605 6.85795V13.8125H35.5452V6.85795H36.5605Z" fill="#616874"></path>
     </svg>
   )
@@ -765,9 +925,16 @@ function CtaPanel({ panelRef }: { panelRef: React.RefObject<HTMLDivElement | nul
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 export function DevelopersCtaSection() {
-  // Shared refs for each grid's CTA panel — used by DraggableCard for collision detection.
-  const centerPanelRef  = useRef<HTMLDivElement>(null) // desktop
-  const mobilePanelRef  = useRef<HTMLDivElement>(null) // mobile
+  // CTA panel refs — used by DraggableCard for collision detection.
+  const centerPanelRef = useRef<HTMLDivElement>(null) // desktop
+  const mobilePanelRef = useRef<HTMLDivElement>(null) // mobile
+
+  // Grid container refs — used by DraggableCard to measure cell dimensions for snapping.
+  const desktopGridRef = useRef<HTMLDivElement>(null)
+  const mobileGridRef  = useRef<HTMLDivElement>(null)
+
+  // Track which card is currently selected (shows corner handles).
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
 
   return (
     <section className="border-t border-subtle-stroke">
@@ -778,12 +945,14 @@ export function DevelopersCtaSection() {
           <div className="size-full">
             <div className="size-full">
               <div
+                ref={desktopGridRef}
                 className="grid w-full items-center relative"
                 style={{
                   aspectRatio:           '24 / 13',
                   gridTemplateColumns:   'repeat(24, 1fr)',
                   gridTemplateRows:      'repeat(13, 1fr)',
                 }}
+                onClick={() => setSelectedCardId(null)}
               >
                 {/* ── Background grid lines ────────────────────────────── */}
                 <div className="absolute inset-0">
@@ -809,22 +978,22 @@ export function DevelopersCtaSection() {
                 <CtaPanel panelRef={centerPanelRef} />
 
                 {/* ── Draggable widget cards ────────────────────────────
-                     Each card:
-                       • Starts at its fixed grid-area.
-                       • Can be dragged freely across the canvas.
-                       • Springs back to origin if dropped over the center panel.   */}
+                     Each card snaps to grid cells while dragging.
+                     Shows corner handles when selected (clicked).
+                     Shows red indicator when overlapping another element.
+                     Springs back to origin if released over a blocked area. */}
 
-                <DraggableCard gridArea="2 / 3 / 6 / 7"   centerPanelRef={centerPanelRef}><CodeEditorSvg   /></DraggableCard>
-                <DraggableCard gridArea="3 / 18 / 6 / 23" centerPanelRef={centerPanelRef}><RecordsTableSvg /></DraggableCard>
-                <DraggableCard gridArea="9 / 3 / 12 / 7"  centerPanelRef={centerPanelRef}><SidebarNavSvg   /></DraggableCard>
-                <DraggableCard gridArea="2 / 8 / 3 / 11"  centerPanelRef={centerPanelRef}><TextInputSvg    /></DraggableCard>
-                <DraggableCard gridArea="3 / 14 / 4 / 17" centerPanelRef={centerPanelRef}><ToggleSvg       /></DraggableCard>
-                <DraggableCard gridArea="9 / 18 / 11 / 23"centerPanelRef={centerPanelRef}><RatingsTableSvg /></DraggableCard>
-                <DraggableCard gridArea="10 / 9 / 11 / 10"centerPanelRef={centerPanelRef}><AvatarSvg       /></DraggableCard>
-                <DraggableCard gridArea="10 / 10 / 11 / 11"centerPanelRef={centerPanelRef}><LetterBadgeSvg /></DraggableCard>
-                <DraggableCard gridArea="10 / 11 / 11 / 12"centerPanelRef={centerPanelRef}><PackageBoxSvg  /></DraggableCard>
-                <DraggableCard gridArea="7 / 19 / 8 / 21" centerPanelRef={centerPanelRef}><CheckboxSvg    /></DraggableCard>
-                <DraggableCard gridArea="11 / 15 / 12 / 17"centerPanelRef={centerPanelRef}><SearchBarSvg  /></DraggableCard>
+                <DraggableCard gridArea="2 / 3 / 6 / 7"    centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d1"  isSelected={selectedCardId==='d1'}  onSelect={setSelectedCardId}><CodeEditorSvg   /></DraggableCard>
+                <DraggableCard gridArea="3 / 18 / 6 / 23"  centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d2"  isSelected={selectedCardId==='d2'}  onSelect={setSelectedCardId}><RecordsTableSvg /></DraggableCard>
+                <DraggableCard gridArea="9 / 3 / 12 / 7"   centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d3"  isSelected={selectedCardId==='d3'}  onSelect={setSelectedCardId}><SidebarNavSvg   /></DraggableCard>
+                <DraggableCard gridArea="2 / 8 / 3 / 11"   centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d4"  isSelected={selectedCardId==='d4'}  onSelect={setSelectedCardId}><TextInputSvg    /></DraggableCard>
+                <DraggableCard gridArea="3 / 14 / 4 / 17"  centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d5"  isSelected={selectedCardId==='d5'}  onSelect={setSelectedCardId}><ToggleSvg       /></DraggableCard>
+                <DraggableCard gridArea="9 / 18 / 11 / 23" centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d6"  isSelected={selectedCardId==='d6'}  onSelect={setSelectedCardId}><RatingsTableSvg /></DraggableCard>
+                <DraggableCard gridArea="10 / 9 / 11 / 10" centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d7"  isSelected={selectedCardId==='d7'}  onSelect={setSelectedCardId}><AvatarSvg       /></DraggableCard>
+                <DraggableCard gridArea="10 / 10 / 11 / 11"centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d8"  isSelected={selectedCardId==='d8'}  onSelect={setSelectedCardId}><LetterBadgeSvg  /></DraggableCard>
+                <DraggableCard gridArea="10 / 11 / 11 / 12"centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d9"  isSelected={selectedCardId==='d9'}  onSelect={setSelectedCardId}><PackageBoxSvg   /></DraggableCard>
+                <DraggableCard gridArea="7 / 19 / 8 / 21"  centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d10" isSelected={selectedCardId==='d10'} onSelect={setSelectedCardId}><CheckboxSvg     /></DraggableCard>
+                <DraggableCard gridArea="11 / 15 / 12 / 17"centerPanelRef={centerPanelRef} gridContainerRef={desktopGridRef} gridCols={24} gridRows={13} cardId="d11" isSelected={selectedCardId==='d11'} onSelect={setSelectedCardId}><SearchBarSvg    /></DraggableCard>
 
               </div>
             </div>
@@ -838,12 +1007,14 @@ export function DevelopersCtaSection() {
           <div className="size-full">
             <div className="size-full">
               <div
+                ref={mobileGridRef}
                 className="grid w-full items-center relative"
                 style={{
                   aspectRatio:         '12 / 19',
                   gridTemplateColumns: 'repeat(12, 1fr)',
                   gridTemplateRows:    'repeat(19, 1fr)',
                 }}
+                onClick={() => setSelectedCardId(null)}
               >
                 {/* ── Background grid lines ────────────────────────────── */}
                 <div className="absolute inset-0">
@@ -868,16 +1039,14 @@ export function DevelopersCtaSection() {
                 {/* ── Mobile CTA panel (full width, rows 1–5) ─────────── */}
                 <MobileCtaPanel panelRef={mobilePanelRef} />
 
-                {/* ── Draggable widget cards ────────────────────────────
-                     Same spring snap-back logic as desktop: cards released
-                     over the CTA panel return to their origin position.      */}
-                <DraggableCard gridArea="8 / 2 / 12 / 6"   centerPanelRef={mobilePanelRef}><MobCodeEditorSvg    /></DraggableCard>
-                <DraggableCard gridArea="8 / 7 / 9 / 9"    centerPanelRef={mobilePanelRef}><MobRecordCircleSvg  /></DraggableCard>
-                <DraggableCard gridArea="14 / 8 / 17 / 12"  centerPanelRef={mobilePanelRef}><MobSidebarNavSvg    /></DraggableCard>
-                <DraggableCard gridArea="10 / 8 / 11 / 11"  centerPanelRef={mobilePanelRef}><MobTextInputSvg     /></DraggableCard>
-                <DraggableCard gridArea="14 / 3 / 15 / 6"   centerPanelRef={mobilePanelRef}><MobToggleSvg        /></DraggableCard>
-                <DraggableCard gridArea="12 / 9 / 13 / 11"  centerPanelRef={mobilePanelRef}><MobCheckboxSvg      /></DraggableCard>
-                <DraggableCard gridArea="16 / 2 / 19 / 7"   centerPanelRef={mobilePanelRef}><MobRecordsTableSvg  /></DraggableCard>
+                {/* ── Draggable widget cards (same grid-snap + corner handles logic) ── */}
+                <DraggableCard gridArea="8 / 2 / 12 / 6"   centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m1" isSelected={selectedCardId==='m1'} onSelect={setSelectedCardId}><MobCodeEditorSvg   /></DraggableCard>
+                <DraggableCard gridArea="8 / 7 / 9 / 9"    centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m2" isSelected={selectedCardId==='m2'} onSelect={setSelectedCardId}><MobRecordCircleSvg /></DraggableCard>
+                <DraggableCard gridArea="14 / 8 / 17 / 12"  centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m3" isSelected={selectedCardId==='m3'} onSelect={setSelectedCardId}><MobSidebarNavSvg   /></DraggableCard>
+                <DraggableCard gridArea="10 / 8 / 11 / 11"  centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m4" isSelected={selectedCardId==='m4'} onSelect={setSelectedCardId}><MobTextInputSvg    /></DraggableCard>
+                <DraggableCard gridArea="14 / 3 / 15 / 6"   centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m5" isSelected={selectedCardId==='m5'} onSelect={setSelectedCardId}><MobToggleSvg       /></DraggableCard>
+                <DraggableCard gridArea="12 / 9 / 13 / 11"  centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m6" isSelected={selectedCardId==='m6'} onSelect={setSelectedCardId}><MobCheckboxSvg     /></DraggableCard>
+                <DraggableCard gridArea="16 / 2 / 19 / 7"   centerPanelRef={mobilePanelRef} gridContainerRef={mobileGridRef} gridCols={12} gridRows={19} cardId="m7" isSelected={selectedCardId==='m7'} onSelect={setSelectedCardId}><MobRecordsTableSvg /></DraggableCard>
 
               </div>
             </div>
