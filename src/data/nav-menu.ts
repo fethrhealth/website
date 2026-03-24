@@ -97,7 +97,7 @@ export const NAV_MENU: NavEntry[] = [
       },
     ],
   },
-
+  
   // ── Link simple (sin dropdown) — descomenta para agregar ──────────────────
   // { type: 'link', label: 'Pricing', href: '/pricing' },
 ]

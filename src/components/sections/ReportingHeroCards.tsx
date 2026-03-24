@@ -29,14 +29,7 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
-
-// ─── Report list shown in the NAV card ────────────────────────────────────────
-
-const REPORTS = [
-  { name: 'Product-led Growth', description: 'Data for our PLG reporting.' },
-  { name: 'Revenue Operations', description: 'Dashboard for revenue data.' },
-  { name: 'Sales Leads', description: 'An overview of our pipeline.' },
-] as const
+import { REPORTING_NAV_REPORTS, REPORTING_CARD_DATA } from '@/data/reporting-hero'
 
 type Active = 0 | 1 | 2
 
@@ -68,6 +61,9 @@ function LegendDot({ color, label }: { color: string; label: string }) {
 // col-start-1 · row-start-1 · row-span-6
 
 function Card1({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.card1
+  const d1 = REPORTING_CARD_DATA.s1.card1
+  const d2 = REPORTING_CARD_DATA.s2.card1
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
@@ -76,7 +72,7 @@ function Card1({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Active and Habit
+            {d0.title}
           </span>
           {/* Badge — Workspaces */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -87,19 +83,19 @@ function Card1({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws0"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d0.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="Active" />
-          <LegendDot color="bg-blue-300" label="Habit" />
+          <LegendDot color={d0.legends[0].color} label={d0.legends[0].text} />
+          <LegendDot color={d0.legends[1].color} label={d0.legends[1].text} />
         </div>
       </div>
       {/* Chart area */}
       <div className="relative flex-1">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-product-growth-pie-chart.svg"
+          src={d0.image}
           alt=""
           fill
           className="mt-[13px] hidden object-scale-down object-top lg:block"
@@ -114,7 +110,7 @@ function Card1({ active }: { active: Active }) {
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-4">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Paid Accounts
+            {d1.title}
           </span>
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
@@ -123,7 +119,7 @@ function Card1({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws1"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d1.badge}</span>
           </div>
         </div>
         {/* No legend in this state — attio removes it */}
@@ -172,7 +168,7 @@ function Card1({ active }: { active: Active }) {
       <div className="flex flex-col gap-y-2.5 pt-[15px] border-b border-subtle-stroke px-[15px] pb-[15px]">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            US Lead Locations
+            {d2.title}
           </span>
           {/* Badge — Sales */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -190,14 +186,14 @@ function Card1({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="sales2"><rect width="12" height="12" fill="white" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Sales</span>
+            <span className="text-accent-foreground text-xs">{d2.badge}</span>
           </div>
         </div>
       </div>
       {/* Map area */}
       <div className="relative flex-1">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-sales-map.svg"
+          src={d2.image}
           alt=""
           fill
           className="object-contain object-center"
@@ -211,6 +207,9 @@ function Card1({ active }: { active: Active }) {
 // col-start-2 · row-start-2 · row-span-8 · xl only
 
 function Card2({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.card2
+  const d1 = REPORTING_CARD_DATA.s1.card2
+  const d2 = REPORTING_CARD_DATA.s2.card2
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
@@ -219,7 +218,7 @@ function Card2({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Seat Counts
+            {d0.title}
           </span>
           {/* Badge — Workspaces */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -230,14 +229,14 @@ function Card2({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws0"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d0.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="1 to 5" />
-          <LegendDot color="bg-[#94B9FF]" label="6 to 10" />
-          <LegendDot color="bg-[#C8DCFF]" label="11 to 20" />
+          <LegendDot color={d0.legends[0].color} label={d0.legends[0].text} />
+          <LegendDot color={d0.legends[1].color} label={d0.legends[1].text} />
+          <LegendDot color={d0.legends[2].color} label={d0.legends[2].text} />
         </div>
       </div>
 
@@ -318,7 +317,7 @@ function Card2({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Accounts by Plan
+            {d1.title}
           </span>
           {/* Badge — Workspaces */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -329,13 +328,13 @@ function Card2({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws0"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d1.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="Pro" />
-          <LegendDot color="bg-green-500" label="Plus" />
+          <LegendDot color={d1.legends[0].color} label={d1.legends[0].text} />
+          <LegendDot color={d1.legends[1].color} label={d1.legends[1].text} />
         </div>
       </div>
 
@@ -412,16 +411,16 @@ function Card2({ active }: { active: Active }) {
     <CardShell>
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-4">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
-          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Won Deals by Region</span>
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">{d2.title}</span>
           {/* Badge — Deals */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_921_281063)"><path fillRule="evenodd" clipRule="evenodd" d="M0.768994 1.83044C0.476074 2.40533 0.476074 3.1579 0.476074 4.66304V6.81304C0.476074 8.31818 0.476074 9.07075 0.768994 9.64564C1.02665 10.1513 1.43779 10.5625 1.94347 10.8201C2.51836 11.113 3.27093 11.113 4.77607 11.113H6.92607C8.43121 11.113 9.18379 11.113 9.75867 10.8201C10.2644 10.5625 10.6755 10.1513 10.9332 9.64564C11.2261 9.07075 11.2261 8.31818 11.2261 6.81304V4.66304C11.2261 3.1579 11.2261 2.40533 10.9332 1.83044C10.6755 1.32475 10.2644 0.913617 9.75867 0.655957C9.18379 0.363037 8.43122 0.363037 6.92607 0.363037H4.77607C3.27093 0.363037 2.51836 0.363037 1.94347 0.655957C1.43779 0.913617 1.02665 1.32475 0.768994 1.83044ZM2.95643 6.39946L2.95642 5.07647V5.07646C2.95642 4.1502 2.95641 3.68708 3.13667 3.3333C3.29523 3.02211 3.54824 2.7691 3.85943 2.61054C4.21321 2.43028 4.67633 2.43028 5.60257 2.43028H6.09873C7.02497 2.43028 7.48809 2.43028 7.84186 2.61054C8.15305 2.7691 8.40606 3.0221 8.56462 3.33329C8.74488 3.68707 8.74488 4.15019 8.74488 5.07643V6.39951C8.74488 7.32575 8.74488 7.78887 8.56462 8.14265C8.40606 8.45384 8.15305 8.70684 7.84186 8.8654C7.48809 9.04566 7.02497 9.04566 6.09872 9.04566H5.6026C4.67636 9.04566 4.21323 9.04566 3.85946 8.86541C3.54827 8.70685 3.29526 8.45384 3.1367 8.14265C2.95644 7.78888 2.95644 7.32574 2.95643 6.39946ZM6.26451 3.50565C6.26451 3.2773 6.0794 3.09218 5.85105 3.09218C5.6227 3.09218 5.43759 3.2773 5.43759 3.50565V3.56521C5.18416 3.57489 4.93984 3.67497 4.75449 3.85149C4.55858 4.03806 4.44452 4.29555 4.44452 4.56855C4.44452 4.84155 4.55858 5.09904 4.75449 5.28561C4.94972 5.47154 5.21038 5.57267 5.47819 5.57267H6.22243C6.2836 5.57267 6.33844 5.596 6.37584 5.63161C6.41255 5.66657 6.42917 5.70956 6.42917 5.74986C6.42917 5.79016 6.41255 5.83315 6.37584 5.86811C6.33844 5.90372 6.2836 5.92705 6.22243 5.92705H5.03963C4.81129 5.92705 4.62617 6.11217 4.62617 6.34051C4.62617 6.56886 4.81129 6.75398 5.03963 6.75398H5.43759V6.81368C5.43759 7.04203 5.6227 7.22714 5.85105 7.22714C6.0794 7.22714 6.26451 7.04203 6.26451 6.81368V6.75314C6.51741 6.74313 6.76114 6.64309 6.94612 6.46692C7.14204 6.28035 7.2561 6.02286 7.2561 5.74986C7.2561 5.47686 7.14204 5.21937 6.94612 5.0328C6.7509 4.84687 6.49024 4.74574 6.22243 4.74574H5.47819C5.41702 4.74574 5.36217 4.72241 5.32478 4.6868C5.28807 4.65184 5.27144 4.60885 5.27144 4.56855C5.27144 4.52825 5.28807 4.48526 5.32478 4.4503C5.36217 4.41469 5.41702 4.39136 5.47819 4.39136H5.83585L5.85105 4.39163L5.86625 4.39136H6.64417C6.87252 4.39136 7.05763 4.20624 7.05763 3.9779C7.05763 3.74955 6.87252 3.56443 6.64417 3.56443H6.26451V3.50565ZM3.78355 7.88749C3.78355 7.65914 3.96866 7.47403 4.19701 7.47403H7.5047C7.73305 7.47403 7.91817 7.65914 7.91817 7.88749C7.91817 8.11584 7.73305 8.30095 7.5047 8.30095H4.19701C3.96866 8.30095 3.78355 8.11584 3.78355 7.88749Z" fill="#FD9038"></path></g><defs><clipPath id="clip0_921_281063"><rect width="10.75" height="10.75" fill="white" transform="translate(0.476074 0.362915)"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Deals</span>
+            <span className="text-accent-foreground text-xs">{d2.badge}</span>
           </div>
         </div>
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="US" />
-          <LegendDot color="bg-[#54D490]" label="EMEA" />
+          <LegendDot color={d2.legends[0].color} label={d2.legends[0].text} />
+          <LegendDot color={d2.legends[1].color} label={d2.legends[1].text} />
         </div>
       </div>
 
@@ -486,23 +485,26 @@ function Card2({ active }: { active: Active }) {
 // col-start-5 · row-start-1 · row-span-5
 
 function Card5({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.card5
+  const d1 = REPORTING_CARD_DATA.s1.card5
+  const d2 = REPORTING_CARD_DATA.s2.card5
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
     <CardShell>
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-4">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
-          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Cumulative Leads</span>
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">{d0.title}</span>
           {/* Badge — Leads */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             {/* Leads icon */}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_921_281063)"><path fillRule="evenodd" clipRule="evenodd" d="M0.768994 1.83044C0.476074 2.40533 0.476074 3.1579 0.476074 4.66304V6.81304C0.476074 8.31818 0.476074 9.07075 0.768994 9.64564C1.02665 10.1513 1.43779 10.5625 1.94347 10.8201C2.51836 11.113 3.27093 11.113 4.77607 11.113H6.92607C8.43121 11.113 9.18379 11.113 9.75867 10.8201C10.2644 10.5625 10.6755 10.1513 10.9332 9.64564C11.2261 9.07075 11.2261 8.31818 11.2261 6.81304V4.66304C11.2261 3.1579 11.2261 2.40533 10.9332 1.83044C10.6755 1.32475 10.2644 0.913617 9.75867 0.655957C9.18379 0.363037 8.43122 0.363037 6.92607 0.363037H4.77607C3.27093 0.363037 2.51836 0.363037 1.94347 0.655957C1.43779 0.913617 1.02665 1.32475 0.768994 1.83044ZM2.95643 6.39946L2.95642 5.07647V5.07646C2.95642 4.1502 2.95641 3.68708 3.13667 3.3333C3.29523 3.02211 3.54824 2.7691 3.85943 2.61054C4.21321 2.43028 4.67633 2.43028 5.60257 2.43028H6.09873C7.02497 2.43028 7.48809 2.43028 7.84186 2.61054C8.15305 2.7691 8.40606 3.0221 8.56462 3.33329C8.74488 3.68707 8.74488 4.15019 8.74488 5.07643V6.39951C8.74488 7.32575 8.74488 7.78887 8.56462 8.14265C8.40606 8.45384 8.15305 8.70684 7.84186 8.8654C7.48809 9.04566 7.02497 9.04566 6.09872 9.04566H5.6026C4.67636 9.04566 4.21323 9.04566 3.85946 8.86541C3.54827 8.70685 3.29526 8.45384 3.1367 8.14265C2.95644 7.78888 2.95644 7.32574 2.95643 6.39946ZM6.26451 3.50565C6.26451 3.2773 6.0794 3.09218 5.85105 3.09218C5.6227 3.09218 5.43759 3.2773 5.43759 3.50565V3.56521C5.18416 3.57489 4.93984 3.67497 4.75449 3.85149C4.55858 4.03806 4.44452 4.29555 4.44452 4.56855C4.44452 4.84155 4.55858 5.09904 4.75449 5.28561C4.94972 5.47154 5.21038 5.57267 5.47819 5.57267H6.22243C6.2836 5.57267 6.33844 5.596 6.37584 5.63161C6.41255 5.66657 6.42917 5.70956 6.42917 5.74986C6.42917 5.79016 6.41255 5.83315 6.37584 5.86811C6.33844 5.90372 6.2836 5.92705 6.22243 5.92705H5.03963C4.81129 5.92705 4.62617 6.11217 4.62617 6.34051C4.62617 6.56886 4.81129 6.75398 5.03963 6.75398H5.43759V6.81368C5.43759 7.04203 5.6227 7.22714 5.85105 7.22714C6.0794 7.22714 6.26451 7.04203 6.26451 6.81368V6.75314C6.51741 6.74313 6.76114 6.64309 6.94612 6.46692C7.14204 6.28035 7.2561 6.02286 7.2561 5.74986C7.2561 5.47686 7.14204 5.21937 6.94612 5.0328C6.7509 4.84687 6.49024 4.74574 6.22243 4.74574H5.47819C5.41702 4.74574 5.36217 4.72241 5.32478 4.6868C5.28807 4.65184 5.27144 4.60885 5.27144 4.56855C5.27144 4.52825 5.28807 4.48526 5.32478 4.4503C5.36217 4.41469 5.41702 4.39136 5.47819 4.39136H5.83585L5.85105 4.39163L5.86625 4.39136H6.64417C6.87252 4.39136 7.05763 4.20624 7.05763 3.9779C7.05763 3.74955 6.87252 3.56443 6.64417 3.56443H6.26451V3.50565ZM3.78355 7.88749C3.78355 7.65914 3.96866 7.47403 4.19701 7.47403H7.5047C7.73305 7.47403 7.91817 7.65914 7.91817 7.88749C7.91817 8.11584 7.73305 8.30095 7.5047 8.30095H4.19701C3.96866 8.30095 3.78355 8.11584 3.78355 7.88749Z" fill="#FD9038"></path></g><defs><clipPath id="clip0_921_281063"><rect width="10.75" height="10.75" fill="white" transform="translate(0.476074 0.362915)"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Leads</span>
+            <span className="text-accent-foreground text-xs">{d0.badge}</span>
           </div>
         </div>
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="US" />
-          <LegendDot color="bg-blue-300" label="EMEA" />
+          <LegendDot color={d0.legends[0].color} label={d0.legends[0].text} />
+          <LegendDot color={d0.legends[1].color} label={d0.legends[1].text} />
         </div>
       </div>
 
@@ -568,7 +570,7 @@ function Card5({ active }: { active: Active }) {
       <div className="flex flex-col gap-y-2.5 pt-[15px] border-b border-subtle-stroke px-[15px] pb-[15px]">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            EU Account Distribution
+            {d1.title}
           </span>
           {/* Badge — workspace */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -578,14 +580,14 @@ function Card5({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws1"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d1.badge}</span>
           </div>
         </div>
       </div>
       {/* Map area */}
       <div className="relative flex-1">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-sales-map.svg"
+          src={d1.image}
           alt=""
           fill
           className="object-contain object-center"
@@ -599,17 +601,17 @@ function Card5({ active }: { active: Active }) {
     <CardShell>
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-4">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
-          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Average Deal Size</span>
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">{d2.title}</span>
           {/* Badge — Sales */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_921_281063)"><path fillRule="evenodd" clipRule="evenodd" d="M0.768994 1.83044C0.476074 2.40533 0.476074 3.1579 0.476074 4.66304V6.81304C0.476074 8.31818 0.476074 9.07075 0.768994 9.64564C1.02665 10.1513 1.43779 10.5625 1.94347 10.8201C2.51836 11.113 3.27093 11.113 4.77607 11.113H6.92607C8.43121 11.113 9.18379 11.113 9.75867 10.8201C10.2644 10.5625 10.6755 10.1513 10.9332 9.64564C11.2261 9.07075 11.2261 8.31818 11.2261 6.81304V4.66304C11.2261 3.1579 11.2261 2.40533 10.9332 1.83044C10.6755 1.32475 10.2644 0.913617 9.75867 0.655957C9.18379 0.363037 8.43122 0.363037 6.92607 0.363037H4.77607C3.27093 0.363037 2.51836 0.363037 1.94347 0.655957C1.43779 0.913617 1.02665 1.32475 0.768994 1.83044ZM2.95643 6.39946L2.95642 5.07647V5.07646C2.95642 4.1502 2.95641 3.68708 3.13667 3.3333C3.29523 3.02211 3.54824 2.7691 3.85943 2.61054C4.21321 2.43028 4.67633 2.43028 5.60257 2.43028H6.09873C7.02497 2.43028 7.48809 2.43028 7.84186 2.61054C8.15305 2.7691 8.40606 3.0221 8.56462 3.33329C8.74488 3.68707 8.74488 4.15019 8.74488 5.07643V6.39951C8.74488 7.32575 8.74488 7.78887 8.56462 8.14265C8.40606 8.45384 8.15305 8.70684 7.84186 8.8654C7.48809 9.04566 7.02497 9.04566 6.09872 9.04566H5.6026C4.67636 9.04566 4.21323 9.04566 3.85946 8.86541C3.54827 8.70685 3.29526 8.45384 3.1367 8.14265C2.95644 7.78888 2.95644 7.32574 2.95643 6.39946ZM6.26451 3.50565C6.26451 3.2773 6.0794 3.09218 5.85105 3.09218C5.6227 3.09218 5.43759 3.2773 5.43759 3.50565V3.56521C5.18416 3.57489 4.93984 3.67497 4.75449 3.85149C4.55858 4.03806 4.44452 4.29555 4.44452 4.56855C4.44452 4.84155 4.55858 5.09904 4.75449 5.28561C4.94972 5.47154 5.21038 5.57267 5.47819 5.57267H6.22243C6.2836 5.57267 6.33844 5.596 6.37584 5.63161C6.41255 5.66657 6.42917 5.70956 6.42917 5.74986C6.42917 5.79016 6.41255 5.83315 6.37584 5.86811C6.33844 5.90372 6.2836 5.92705 6.22243 5.92705H5.03963C4.81129 5.92705 4.62617 6.11217 4.62617 6.34051C4.62617 6.56886 4.81129 6.75398 5.03963 6.75398H5.43759V6.81368C5.43759 7.04203 5.6227 7.22714 5.85105 7.22714C6.0794 7.22714 6.26451 7.04203 6.26451 6.81368V6.75314C6.51741 6.74313 6.76114 6.64309 6.94612 6.46692C7.14204 6.28035 7.2561 6.02286 7.2561 5.74986C7.2561 5.47686 7.14204 5.21937 6.94612 5.0328C6.7509 4.84687 6.49024 4.74574 6.22243 4.74574H5.47819C5.41702 4.74574 5.36217 4.72241 5.32478 4.6868C5.28807 4.65184 5.27144 4.60885 5.27144 4.56855C5.27144 4.52825 5.28807 4.48526 5.32478 4.4503C5.36217 4.41469 5.41702 4.39136 5.47819 4.39136H5.83585L5.85105 4.39163L5.86625 4.39136H6.64417C6.87252 4.39136 7.05763 4.20624 7.05763 3.9779C7.05763 3.74955 6.87252 3.56443 6.64417 3.56443H6.26451V3.50565ZM3.78355 7.88749C3.78355 7.65914 3.96866 7.47403 4.19701 7.47403H7.5047C7.73305 7.47403 7.91817 7.65914 7.91817 7.88749C7.91817 8.11584 7.73305 8.30095 7.5047 8.30095H4.19701C3.96866 8.30095 3.78355 8.11584 3.78355 7.88749Z" fill="#FD9038"></path></g><defs><clipPath id="clip0_921_281063"><rect width="10.75" height="10.75" fill="white" transform="translate(0.476074 0.362915)"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Deals</span>
+            <span className="text-accent-foreground text-xs">{d2.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="US" />
-          <LegendDot color="bg-green-500" label="EMEA" />
+          <LegendDot color={d2.legends[0].color} label={d2.legends[0].text} />
+          <LegendDot color={d2.legends[1].color} label={d2.legends[1].text} />
         </div>
       </div>
 
@@ -667,6 +669,9 @@ function Card5({ active }: { active: Active }) {
 // col-start-4 · row-start-2 · row-span-6
 
 function Card4({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.card4
+  const d1 = REPORTING_CARD_DATA.s1.card4
+  const d2 = REPORTING_CARD_DATA.s2.card4
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
@@ -675,20 +680,20 @@ function Card4({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Pipeline Funnel
+            {d0.title}
           </span>
-          {/* Badge — Workspaces */}
+          {/* Badge — Sales */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
-            {/* Workspaces icon */}
+            {/* Sales icon */}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_907_98105)"><path d="M6.857 8.91379C5.99986 8.91379 3.94272 8.48522 2.57129 6.77094" stroke="#75777C" strokeLinejoin="round"></path><path d="M4.71387 9.77094C4.14244 9.77094 2.74244 9.5138 1.71387 8.48523" stroke="#75777C" strokeLinejoin="round"></path><path d="M3.72611 3.87933L0.935767 9.78462C0.639406 10.3634 1.23169 10.9946 1.82978 10.7374L7.6923 8.67036" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.80197 5.05579C7.94081 6.36838 8.4537 7.90537 7.94755 8.48874C7.4414 9.07211 6.10788 8.48097 4.96905 7.16838C3.83021 5.85579 3.31732 4.3188 3.82347 3.73543C4.32962 3.15206 5.66314 3.7432 6.80197 5.05579Z" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.77523 1.25149C7.38752 1.73641 7.53705 2.4673 7.47727 3.08235" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.86183 3.93946C9.49134 3.57601 10.1208 3.21256 11.1424 3.52822" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M10.1475 5.65347H10.2332" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M9.42822 1.20001H9.51394" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path></g><defs><clipPath id="clip0_907_98105"><rect width="12" height="12" fill="white"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Sales</span>
+            <span className="text-accent-foreground text-xs">{d0.badge}</span>
           </div>
         </div>
       </div>
       {/* Chart area */}
       <div className="relative flex-1">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-product-growth-funnel-chart.svg"
+          src={d0.image}
           alt=""
           fill
           className="object-contain object-center"
@@ -702,21 +707,21 @@ function Card4({ active }: { active: Active }) {
     <CardShell className="items-center justify-center gap-y-4">
       <div className="flex items-center">
         <div className="m-[5px] h-[9px] w-[9px] rounded-[3px] bg-blue-500" />
-        <span className="py-0.5 text-tertiary-foreground text-xs">Average ARR Contribution</span>
+        <span className="py-0.5 text-tertiary-foreground text-xs">{d1.label}</span>
       </div>
       <p className="font-semibold text-[28px] text-primary-foreground leading-[36px] -tracking-[0.56px]">
-        US $13,125.00
+        {d1.value}
       </p>
       <div className="flex items-center text-accent-foreground text-sm -tracking-[0.28px]">
-        <span>Sales</span>
+        <span>{d1.crumbs[0]}</span>
         <svg className="h-4 w-4 -rotate-90 text-disabled-foreground" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
         </svg>
-        <span>ARR Contri...</span>
+        <span>{d1.crumbs[1]}</span>
         <svg className="h-4 w-4 -rotate-90 text-disabled-foreground" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
         </svg>
-        <span>Won</span>
+        <span>{d1.crumbs[2]}</span>
       </div>
     </CardShell>
   )
@@ -728,7 +733,7 @@ function Card4({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Target Plan Distribution
+            {d2.title}
           </span>
           {/* Badge — Workspaces */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -739,19 +744,19 @@ function Card4({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws0"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d2.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="Paid" />
-          <LegendDot color="bg-blue-300" label="Pro" />
+          <LegendDot color={d2.legends[0].color} label={d2.legends[0].text} />
+          <LegendDot color={d2.legends[1].color} label={d2.legends[1].text} />
         </div>
       </div>
       {/* Chart area */}
       <div className="relative flex-1 flex justify-center items-start">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-sales-pie-chart.svg"
+          src={d2.image}
           alt=""
           width={160}
           height={160}
@@ -766,23 +771,26 @@ function Card4({ active }: { active: Active }) {
 // col-start-1 · row-start-7 · row-span-4
 
 function StatCard({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.stat
+  const d1 = REPORTING_CARD_DATA.s1.stat
+  const d2 = REPORTING_CARD_DATA.s2.stat
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
     <CardShell className="items-center justify-center gap-y-4">
       <div className="flex items-center">
         <div className="m-[5px] h-[9px] w-[9px] rounded-[3px] bg-blue-500" />
-        <span className="py-0.5 text-tertiary-foreground text-xs">Average Weekly Sessions</span>
+        <span className="py-0.5 text-tertiary-foreground text-xs">{d0.label}</span>
       </div>
       <p className="font-semibold text-[28px] text-primary-foreground leading-[36px] -tracking-[0.56px]">
-        79 sessions
+        {d0.value}
       </p>
       <div className="flex items-center text-accent-foreground text-sm -tracking-[0.28px]">
-        <span>Workspaces</span>
+        <span>{d0.crumbs[0]}</span>
         <svg className="h-4 w-4 -rotate-90 text-disabled-foreground" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
         </svg>
-        <span>Session Count</span>
+        <span>{d0.crumbs[1]}</span>
       </div>
     </CardShell>
   )
@@ -794,26 +802,26 @@ function StatCard({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Won Accounts by Plan
+            {d1.title}
           </span>
-          {/* Badge — Workspaces */}
+          {/* Badge — Sales */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
-            {/* Workspaces icon */}
+            {/* Sales icon */}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_907_98105)"><path d="M6.857 8.91379C5.99986 8.91379 3.94272 8.48522 2.57129 6.77094" stroke="#75777C" strokeLinejoin="round"></path><path d="M4.71387 9.77094C4.14244 9.77094 2.74244 9.5138 1.71387 8.48523" stroke="#75777C" strokeLinejoin="round"></path><path d="M3.72611 3.87933L0.935767 9.78462C0.639406 10.3634 1.23169 10.9946 1.82978 10.7374L7.6923 8.67036" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.80197 5.05579C7.94081 6.36838 8.4537 7.90537 7.94755 8.48874C7.4414 9.07211 6.10788 8.48097 4.96905 7.16838C3.83021 5.85579 3.31732 4.3188 3.82347 3.73543C4.32962 3.15206 5.66314 3.7432 6.80197 5.05579Z" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.77523 1.25149C7.38752 1.73641 7.53705 2.4673 7.47727 3.08235" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.86183 3.93946C9.49134 3.57601 10.1208 3.21256 11.1424 3.52822" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M10.1475 5.65347H10.2332" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M9.42822 1.20001H9.51394" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path></g><defs><clipPath id="clip0_907_98105"><rect width="12" height="12" fill="white"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Sales</span>
+            <span className="text-accent-foreground text-xs">{d1.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="Pro" />
-          <LegendDot color="bg-blue-300" label="Plus" />
-          <LegendDot color="bg-blue-100" label="Enterprise" />
+          <LegendDot color={d1.legends[0].color} label={d1.legends[0].text} />
+          <LegendDot color={d1.legends[1].color} label={d1.legends[1].text} />
+          <LegendDot color={d1.legends[2].color} label={d1.legends[2].text} />
         </div>
       </div>
       {/* Chart area */}
       <div className="relative flex-1">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-revenue-operations-pie-chart.svg"
+          src={d1.image}
           alt=""
           fill
           className="object-scale-down object-top pb-4"
@@ -827,7 +835,7 @@ function StatCard({ active }: { active: Active }) {
     <CardShell>
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-4">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
-          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Total Pipeline MRR</span>
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">{d2.title}</span>
           {/* Badge — workspace */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
@@ -836,14 +844,14 @@ function StatCard({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws1"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d2.badge}</span>
           </div>
         </div>
         {/* Legend */}
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="Tech" />
-          <LegendDot color="bg-yellow-500" label="Finance" />
-          <LegendDot color="bg-green-500" label="Agency" />
+          <LegendDot color={d2.legends[0].color} label={d2.legends[0].text} />
+          <LegendDot color={d2.legends[1].color} label={d2.legends[1].text} />
+          <LegendDot color={d2.legends[2].color} label={d2.legends[2].text} />
         </div>
       </div>
 
@@ -938,6 +946,9 @@ function StatCard({ active }: { active: Active }) {
 // col-start-5 · row-start-6 · row-span-5
 
 function Card7({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.card7
+  const d1 = REPORTING_CARD_DATA.s1.card7
+  const d2 = REPORTING_CARD_DATA.s2.card7
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
@@ -945,7 +956,7 @@ function Card7({ active }: { active: Active }) {
       <div className="flex flex-col gap-y-2.5 pt-[15px] border-b border-subtle-stroke px-[15px] pb-[15px]">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Workspace Demographics
+            {d0.title}
           </span>
           {/* Badge — workspace */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
@@ -955,14 +966,14 @@ function Card7({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws1"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d0.badge}</span>
           </div>
         </div>
       </div>
       {/* Map area */}
       <div className="relative flex-1">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-product-growth-map.svg"
+          src={d0.image}
           alt=""
           fill
           className="object-contain object-center"
@@ -978,20 +989,20 @@ function Card7({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Pipeline Funnel
+            {d1.title}
           </span>
           {/* Badge — Sales */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             {/* Sales icon */}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_907_98105)"><path d="M6.857 8.91379C5.99986 8.91379 3.94272 8.48522 2.57129 6.77094" stroke="#75777C" strokeLinejoin="round"></path><path d="M4.71387 9.77094C4.14244 9.77094 2.74244 9.5138 1.71387 8.48523" stroke="#75777C" strokeLinejoin="round"></path><path d="M3.72611 3.87933L0.935767 9.78462C0.639406 10.3634 1.23169 10.9946 1.82978 10.7374L7.6923 8.67036" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.80197 5.05579C7.94081 6.36838 8.4537 7.90537 7.94755 8.48874C7.4414 9.07211 6.10788 8.48097 4.96905 7.16838C3.83021 5.85579 3.31732 4.3188 3.82347 3.73543C4.32962 3.15206 5.66314 3.7432 6.80197 5.05579Z" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.77523 1.25149C7.38752 1.73641 7.53705 2.4673 7.47727 3.08235" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.86183 3.93946C9.49134 3.57601 10.1208 3.21256 11.1424 3.52822" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M10.1475 5.65347H10.2332" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M9.42822 1.20001H9.51394" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path></g><defs><clipPath id="clip0_907_98105"><rect width="12" height="12" fill="white"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Sales</span>
+            <span className="text-accent-foreground text-xs">{d1.badge}</span>
           </div>
         </div>
       </div>
       {/* Chart area */}
       <div className="relative flex-1 px-3 pb-2">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-revenue-operations-funnel-chart.svg"
+          src={d1.image}
           alt=""
           fill
           className="object-contain object-center"
@@ -1005,17 +1016,17 @@ function Card7({ active }: { active: Active }) {
     <CardShell className='items-center justify-center gap-y-4'>
       <div className="flex items-center">
         <div className="m-[5px] h-[9px] w-[9px] rounded-[3px] bg-blue-500" />
-        <span className="py-0.5 text-tertiary-foreground text-xs">ARR Contribution</span>
+        <span className="py-0.5 text-tertiary-foreground text-xs">{d2.label}</span>
       </div>
       <p className="font-semibold text-[28px] text-primary-foreground leading-[36px] -tracking-[0.56px]">
-        US $15,990.00
+        {d2.value}
       </p>
       <div className="flex items-center text-accent-foreground text-sm -tracking-[0.28px]">
-        <span>Sales</span>
+        <span>{d2.crumbs[0]}</span>
         <svg className="h-4 w-4 -rotate-90 text-disabled-foreground" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
         </svg>
-        <span>Total Pipeline ARR</span>
+        <span>{d2.crumbs[1]}</span>
       </div>
     </CardShell>
   )
@@ -1025,18 +1036,21 @@ function Card7({ active }: { active: Active }) {
 // col-start-3 · col-span-2 · row-start-8 · row-span-3
 
 function Card6({ active }: { active: Active }) {
+  const d0 = REPORTING_CARD_DATA.s0.card6
+  const d1 = REPORTING_CARD_DATA.s1.card6
+  const d2 = REPORTING_CARD_DATA.s2.card6
 
   // ── State 0: Product-led Growth ──────────────────────────────────────────────
   if (active === 0) return (
     <CardShell>
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-3">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
-          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">New Leads by Source</span>
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">{d0.title}</span>
           {/* Badge — Leads */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             {/* Leads icon */}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_921_281063)"><path fillRule="evenodd" clipRule="evenodd" d="M0.768994 1.83044C0.476074 2.40533 0.476074 3.1579 0.476074 4.66304V6.81304C0.476074 8.31818 0.476074 9.07075 0.768994 9.64564C1.02665 10.1513 1.43779 10.5625 1.94347 10.8201C2.51836 11.113 3.27093 11.113 4.77607 11.113H6.92607C8.43121 11.113 9.18379 11.113 9.75867 10.8201C10.2644 10.5625 10.6755 10.1513 10.9332 9.64564C11.2261 9.07075 11.2261 8.31818 11.2261 6.81304V4.66304C11.2261 3.1579 11.2261 2.40533 10.9332 1.83044C10.6755 1.32475 10.2644 0.913617 9.75867 0.655957C9.18379 0.363037 8.43122 0.363037 6.92607 0.363037H4.77607C3.27093 0.363037 2.51836 0.363037 1.94347 0.655957C1.43779 0.913617 1.02665 1.32475 0.768994 1.83044ZM2.95643 6.39946L2.95642 5.07647V5.07646C2.95642 4.1502 2.95641 3.68708 3.13667 3.3333C3.29523 3.02211 3.54824 2.7691 3.85943 2.61054C4.21321 2.43028 4.67633 2.43028 5.60257 2.43028H6.09873C7.02497 2.43028 7.48809 2.43028 7.84186 2.61054C8.15305 2.7691 8.40606 3.0221 8.56462 3.33329C8.74488 3.68707 8.74488 4.15019 8.74488 5.07643V6.39951C8.74488 7.32575 8.74488 7.78887 8.56462 8.14265C8.40606 8.45384 8.15305 8.70684 7.84186 8.8654C7.48809 9.04566 7.02497 9.04566 6.09872 9.04566H5.6026C4.67636 9.04566 4.21323 9.04566 3.85946 8.86541C3.54827 8.70685 3.29526 8.45384 3.1367 8.14265C2.95644 7.78888 2.95644 7.32574 2.95643 6.39946ZM6.26451 3.50565C6.26451 3.2773 6.0794 3.09218 5.85105 3.09218C5.6227 3.09218 5.43759 3.2773 5.43759 3.50565V3.56521C5.18416 3.57489 4.93984 3.67497 4.75449 3.85149C4.55858 4.03806 4.44452 4.29555 4.44452 4.56855C4.44452 4.84155 4.55858 5.09904 4.75449 5.28561C4.94972 5.47154 5.21038 5.57267 5.47819 5.57267H6.22243C6.2836 5.57267 6.33844 5.596 6.37584 5.63161C6.41255 5.66657 6.42917 5.70956 6.42917 5.74986C6.42917 5.79016 6.41255 5.83315 6.37584 5.86811C6.33844 5.90372 6.2836 5.92705 6.22243 5.92705H5.03963C4.81129 5.92705 4.62617 6.11217 4.62617 6.34051C4.62617 6.56886 4.81129 6.75398 5.03963 6.75398H5.43759V6.81368C5.43759 7.04203 5.6227 7.22714 5.85105 7.22714C6.0794 7.22714 6.26451 7.04203 6.26451 6.81368V6.75314C6.51741 6.74313 6.76114 6.64309 6.94612 6.46692C7.14204 6.28035 7.2561 6.02286 7.2561 5.74986C7.2561 5.47686 7.14204 5.21937 6.94612 5.0328C6.7509 4.84687 6.49024 4.74574 6.22243 4.74574H5.47819C5.41702 4.74574 5.36217 4.72241 5.32478 4.6868C5.28807 4.65184 5.27144 4.60885 5.27144 4.56855C5.27144 4.52825 5.28807 4.48526 5.32478 4.4503C5.36217 4.41469 5.41702 4.39136 5.47819 4.39136H5.83585L5.85105 4.39163L5.86625 4.39136H6.64417C6.87252 4.39136 7.05763 4.20624 7.05763 3.9779C7.05763 3.74955 6.87252 3.56443 6.64417 3.56443H6.26451V3.50565ZM3.78355 7.88749C3.78355 7.65914 3.96866 7.47403 4.19701 7.47403H7.5047C7.73305 7.47403 7.91817 7.65914 7.91817 7.88749C7.91817 8.11584 7.73305 8.30095 7.5047 8.30095H4.19701C3.96866 8.30095 3.78355 8.11584 3.78355 7.88749Z" fill="#FD9038"></path></g><defs><clipPath id="clip0_921_281063"><rect width="10.75" height="10.75" fill="white" transform="translate(0.476074 0.362915)"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Leads</span>
+            <span className="text-accent-foreground text-xs">{d0.badge}</span>
           </div>
         </div>
       </div>
@@ -1138,7 +1152,7 @@ function Card6({ active }: { active: Active }) {
     <CardShell>
       <div className="flex flex-col gap-y-2.5 px-[15px] pt-[15px] pb-3">
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
-          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">Total ARR</span>
+          <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">{d1.title}</span>
           {/* Badge — workspace */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
@@ -1147,12 +1161,12 @@ function Card6({ active }: { active: Active }) {
               </g>
               <defs><clipPath id="ws1"><rect width="10.7456" height="10.7456" fill="white" transform="translate(0.185547 0.0893173)" /></clipPath></defs>
             </svg>
-            <span className="text-accent-foreground text-xs">Workspaces</span>
+            <span className="text-accent-foreground text-xs">{d1.badge}</span>
           </div>
         </div>
         <div className="flex gap-x-[14px]">
-          <LegendDot color="bg-blue-500" label="US" />
-          <LegendDot color="bg-green-500" label="EMEA" />
+          <LegendDot color={d1.legends[0].color} label={d1.legends[0].text} />
+          <LegendDot color={d1.legends[1].color} label={d1.legends[1].text} />
         </div>
       </div>
 
@@ -1219,20 +1233,20 @@ function Card6({ active }: { active: Active }) {
         {/* Header */}
         <div className="flex items-center justify-between gap-x-1 overflow-hidden">
           <span className="truncate text-primary-foreground text-sm -tracking-[0.28px]">
-            Pipeline Funnel
+            {d2.title}
           </span>
           {/* Badge — Sales */}
           <div className="hidden lg:flex items-center gap-x-1 rounded-lg border border-subtle-stroke bg-surface-subtle px-[5px] py-[1px]">
-            {/* Workspaces icon */}
+            {/* Sales icon */}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_907_98105)"><path d="M6.857 8.91379C5.99986 8.91379 3.94272 8.48522 2.57129 6.77094" stroke="#75777C" strokeLinejoin="round"></path><path d="M4.71387 9.77094C4.14244 9.77094 2.74244 9.5138 1.71387 8.48523" stroke="#75777C" strokeLinejoin="round"></path><path d="M3.72611 3.87933L0.935767 9.78462C0.639406 10.3634 1.23169 10.9946 1.82978 10.7374L7.6923 8.67036" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.80197 5.05579C7.94081 6.36838 8.4537 7.90537 7.94755 8.48874C7.4414 9.07211 6.10788 8.48097 4.96905 7.16838C3.83021 5.85579 3.31732 4.3188 3.82347 3.73543C4.32962 3.15206 5.66314 3.7432 6.80197 5.05579Z" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6.77523 1.25149C7.38752 1.73641 7.53705 2.4673 7.47727 3.08235" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.86183 3.93946C9.49134 3.57601 10.1208 3.21256 11.1424 3.52822" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M10.1475 5.65347H10.2332" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path><path d="M9.42822 1.20001H9.51394" stroke="#75777C" strokeLinecap="round" strokeLinejoin="round"></path></g><defs><clipPath id="clip0_907_98105"><rect width="12" height="12" fill="white"></rect></clipPath></defs></svg>
-            <span className="text-accent-foreground text-xs">Sales</span>
+            <span className="text-accent-foreground text-xs">{d2.badge}</span>
           </div>
         </div>
       </div>
       {/* Chart area */}
       <div className="relative flex-1 px-3 pb-2">
         <Image
-          src="/assets/images/platform/reporting/hero/reporting-hero-sales-funnel-chart.svg"
+          src={d2.image}
           alt=""
           fill
           className="object-scale-down object-top pb-2 px-3"
@@ -1271,13 +1285,13 @@ function NavCard({
           <path stroke="currentColor" strokeLinecap="round" d="m6.5 13 3-10" />
         </svg>
         <span className="truncate py-[1px] pr-[3px] pl-0.5 text-primary-foreground">
-          {REPORTS[active].name}
+          {REPORTING_NAV_REPORTS[active].name}
         </span>
       </div>
 
       {/* Report buttons */}
       <div className="flex flex-1 flex-col mt-5 xl:mt-4 gap-y-2 xl:gap-y-[4px]">
-        {REPORTS.map((report, i) => (
+        {REPORTING_NAV_REPORTS.map((report, i) => (
           <button
             key={report.name}
             type="button"
@@ -1769,7 +1783,7 @@ export function ReportingHeroCards() {
           {/* Tab navigation — scrollable pill tabs */}
           <ul className="scrollbar-none flex w-full justify-start overflow-x-auto overflow-y-hidden sm:justify-center">
             <div ref={tabSliderRef} className="keen-slider justify-start sm:justify-center">
-              {REPORTS.map((report, i) => (
+              {REPORTING_NAV_REPORTS.map((report, i) => (
                 <li
                   key={i}
                   className="keen-slider__slide px-1 py-1 first:pl-4 xs:first:pl-6 last:pr-4 xs:last:pr-6"

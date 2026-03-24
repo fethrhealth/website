@@ -1,285 +1,71 @@
 /**
- * Data types and content for the ReportingHeroCards section.
+ * reporting-hero.ts — Datos de la sección hero de /platform/reporting
  *
- * Images → /public/assets/images/platform/reporting/hero/[view-slug]/[filename].webp
- *   Slots per view:
- *     chart-1.webp  — leftmost tall card (map / area chart)
- *     chart-2.webp  — second col, staggered-down card
- *     chart-3.webp  — xl-only fifth col card
- *     chart-4.webp  — fourth col top card
- *     chart-5.webp  — third col bottom card
- *     funnel.webp   — bottom-left two-col card (desktop)
- *     funnel-mobile.webp — same card, mobile crop
+ * Edita REPORTING_HERO para cambiar el badge, heading, subheading y CTA.
  */
 
-export interface ReportingHeroCard {
-  /** Unique id within a view — used as React key and animation key */
-  id: string
-  /** Card heading shown at the top of the card */
-  title: string
-  /** Category badge text (e.g. "Charts", "Metrics") */
-  category: string
-  /**
-   * Tailwind grid-placement classes for the desktop grid.
-   * The grid is `grid-cols-4 xl:grid-cols-5 grid-rows-[repeat(10,37px)] gap-3`.
-   */
-  gridClass: string
-  /** Image path relative to /public */
-  imageSrc: string
-  imageWidth: number
-  imageHeight: number
-  /** When true, only renders on xl+ breakpoints */
-  xlOnly?: boolean
-  /** When 'stat', renders a metric number + label instead of an image */
-  type?: 'chart' | 'stat' | 'funnel'
-  /** Metric value, e.g. "$2.4M" — only used when type === 'stat' */
-  statValue?: string
-  /** Metric label — only used when type === 'stat' */
-  statLabel?: string
-  /** Percentage change badge — only used when type === 'stat' */
-  statDelta?: string
-  /** Whether the delta is positive (green) or negative (red) */
-  statDeltaPositive?: boolean
+// ─── Hero text ────────────────────────────────────────────────────────────────
+
+export const REPORTING_HERO = {
+  badge:      'Reporting',
+  heading:    'Real-time reporting, total flexibility.',
+  subheading: 'Fethr quickly transforms millions of your data points into insights for your entire GTM team.',
+  primaryCta: { label: 'Start for free', href: '/platform/reporting' },
+  showSales:       true as const,
+  showMobileSales: true as const,
 }
 
-export interface ReportingHeroView {
-  /** Short name shown in the nav panel */
-  name: string
-  /** Longer subtitle shown below the name in the nav panel */
-  subtitle: string
-  /** Dashboard cards for this view */
-  cards: ReportingHeroCard[]
-}
+// ─── Nav reports + card content ───────────────────────────────────────────────
+// This data drives all text visible in ReportingHeroCards.tsx.
+// ⚠️  Keep exactly 3 reports — the cards are designed for 3 states.
 
-// ─── Views ────────────────────────────────────────────────────────────────────
+/** Reports shown in the nav selector card */
+export const REPORTING_NAV_REPORTS = [
+  { name: 'Product-led Growth', description: 'Data for our PLG reporting.'    },
+  { name: 'Revenue Operations', description: 'Dashboard for revenue data.'    },
+  { name: 'Sales Leads',        description: 'An overview of our pipeline.'   },
+] as const
 
-export const REPORTING_HERO_VIEWS: ReportingHeroView[] = [
-  {
-    name: 'PLG dashboard',
-    subtitle: 'Track product-led growth and activation',
-    cards: [
-      {
-        id: 'plg-chart-1',
-        title: 'New signups by region',
-        category: 'Charts',
-        gridClass: 'lg:col-start-1 lg:row-start-1 lg:row-span-7',
-        imageSrc: '/assets/images/platform/reporting/hero/plg/chart-1.webp',
-        imageWidth: 400,
-        imageHeight: 680,
-      },
-      {
-        id: 'plg-chart-2',
-        title: 'Weekly active users',
-        category: 'Charts',
-        gridClass: 'lg:col-start-2 lg:row-start-3 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/plg/chart-2.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'plg-chart-3',
-        title: 'Activation rate',
-        category: 'Metrics',
-        gridClass: 'hidden xl:flex xl:col-start-5 xl:row-start-1 xl:row-span-8',
-        imageSrc: '/assets/images/platform/reporting/hero/plg/chart-3.webp',
-        imageWidth: 400,
-        imageHeight: 760,
-        xlOnly: true,
-      },
-      {
-        id: 'plg-chart-4',
-        title: 'Conversion to paid',
-        category: 'Charts',
-        gridClass: 'lg:col-start-4 lg:row-start-1 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/plg/chart-4.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'plg-stat',
-        title: 'MRR growth',
-        category: 'Metrics',
-        gridClass: 'lg:col-start-4 lg:row-start-6 lg:row-span-4',
-        imageSrc: '',
-        imageWidth: 0,
-        imageHeight: 0,
-        type: 'stat',
-        statValue: '+34%',
-        statLabel: 'Month-over-month',
-        statDelta: '+12%',
-        statDeltaPositive: true,
-      },
-      {
-        id: 'plg-chart-5',
-        title: 'Feature adoption',
-        category: 'Charts',
-        gridClass: 'lg:col-start-3 lg:row-start-6 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/plg/chart-5.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'plg-funnel',
-        title: 'Signup → activated funnel',
-        category: 'Funnels',
-        gridClass: 'lg:col-start-1 lg:col-span-2 lg:row-start-8 lg:row-span-3',
-        imageSrc: '/assets/images/platform/reporting/hero/plg/funnel.webp',
-        imageWidth: 800,
-        imageHeight: 280,
-        type: 'funnel',
-      },
-    ],
+/**
+ * Text content for each dashboard card per state.
+ * s0 = Product-led Growth · s1 = Revenue Operations · s2 = Sales Leads
+ *
+ * Legends: { text: string, color: Tailwind bg class }
+ * Stat cards: { label, value, crumbs }
+ */
+export const REPORTING_CARD_DATA = {
+
+  // ── State 0 — Product-led Growth ────────────────────────────────────────────
+  s0: {
+    card1: { title: 'Active and Habit',       badge: 'Workspaces', legends: [{ text: 'Active', color: 'bg-blue-500' }, { text: 'Habit', color: 'bg-blue-300' }],                                                  image: '/assets/images/platform/reporting/hero/reporting-hero-product-growth-pie-chart.svg' },
+    card2: { title: 'Seat Counts',            badge: 'Workspaces', legends: [{ text: '1 to 5', color: 'bg-blue-500' }, { text: '6 to 10', color: 'bg-[#94B9FF]' }, { text: '11 to 20', color: 'bg-[#C8DCFF]' }] },
+    card4: { title: 'Pipeline Funnel',        badge: 'Sales',                                                                                                                                                      image: '/assets/images/platform/reporting/hero/reporting-hero-product-growth-funnel-chart.svg' },
+    card5: { title: 'Cumulative Leads',       badge: 'Leads',      legends: [{ text: 'US',     color: 'bg-blue-500' }, { text: 'EMEA',    color: 'bg-[#94B9FF]' }] },
+    stat:  { label: 'Average Weekly Sessions', value: '79 sessions', crumbs: ['Workspaces', 'Session Count'] },
+    card6: { title: 'New Leads by Source',    badge: 'Leads' },
+    card7: { title: 'Workspace Demographics', badge: 'Workspaces',                                                                                                                                                 image: '/assets/images/platform/reporting/hero/reporting-hero-product-growth-map.svg' },
   },
-  {
-    name: 'Revenue ops',
-    subtitle: 'Monitor pipeline health and forecast',
-    cards: [
-      {
-        id: 'rev-chart-1',
-        title: 'Pipeline by stage',
-        category: 'Charts',
-        gridClass: 'lg:col-start-1 lg:row-start-1 lg:row-span-7',
-        imageSrc: '/assets/images/platform/reporting/hero/revenue-ops/chart-1.webp',
-        imageWidth: 400,
-        imageHeight: 680,
-      },
-      {
-        id: 'rev-chart-2',
-        title: 'Win/loss ratio',
-        category: 'Charts',
-        gridClass: 'lg:col-start-2 lg:row-start-3 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/revenue-ops/chart-2.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'rev-chart-3',
-        title: 'ARR waterfall',
-        category: 'Charts',
-        gridClass: 'hidden xl:flex xl:col-start-5 xl:row-start-1 xl:row-span-8',
-        imageSrc: '/assets/images/platform/reporting/hero/revenue-ops/chart-3.webp',
-        imageWidth: 400,
-        imageHeight: 760,
-        xlOnly: true,
-      },
-      {
-        id: 'rev-chart-4',
-        title: 'Quota attainment',
-        category: 'Charts',
-        gridClass: 'lg:col-start-4 lg:row-start-1 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/revenue-ops/chart-4.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'rev-stat',
-        title: 'Closed ARR',
-        category: 'Metrics',
-        gridClass: 'lg:col-start-4 lg:row-start-6 lg:row-span-4',
-        imageSrc: '',
-        imageWidth: 0,
-        imageHeight: 0,
-        type: 'stat',
-        statValue: '$2.4M',
-        statLabel: 'This quarter',
-        statDelta: '+18%',
-        statDeltaPositive: true,
-      },
-      {
-        id: 'rev-chart-5',
-        title: 'Deal velocity',
-        category: 'Charts',
-        gridClass: 'lg:col-start-3 lg:row-start-6 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/revenue-ops/chart-5.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'rev-funnel',
-        title: 'Lead → closed-won funnel',
-        category: 'Funnels',
-        gridClass: 'lg:col-start-1 lg:col-span-2 lg:row-start-8 lg:row-span-3',
-        imageSrc: '/assets/images/platform/reporting/hero/revenue-ops/funnel.webp',
-        imageWidth: 800,
-        imageHeight: 280,
-        type: 'funnel',
-      },
-    ],
+
+  // ── State 1 — Revenue Operations ────────────────────────────────────────────
+  s1: {
+    card1: { title: 'Paid Accounts',             badge: 'Workspaces' },
+    card2: { title: 'Accounts by Plan',          badge: 'Workspaces', legends: [{ text: 'Pro', color: 'bg-blue-500' }, { text: 'Plus', color: 'bg-[#94B9FF]' }] },
+    card4: { label: 'Average ARR Contribution',  value: 'US $13,125.00', crumbs: ['Sales', 'ARR Contri...', 'Won'] },
+    card5: { title: 'EU Account Distribution',   badge: 'Workspaces',                                                                                                                                               image: '/assets/images/platform/reporting/hero/reporting-hero-sales-map.svg' },
+    stat:  { title: 'Won Accounts by Plan',      badge: 'Sales',      legends: [{ text: 'Pro', color: 'bg-blue-500' }, { text: 'Plus', color: 'bg-[#94B9FF]' }, { text: 'Enterprise', color: 'bg-[#C8DCFF]' }], image: '/assets/images/platform/reporting/hero/reporting-hero-revenue-operations-pie-chart.svg' },
+    card6: { title: 'Total ARR',                 badge: 'Workspaces', legends: [{ text: 'US',  color: 'bg-blue-500' }, { text: 'EMEA', color: 'bg-[#94B9FF]' }] },
+    card7: { title: 'Pipeline Funnel',           badge: 'Sales',                                                                                                                                                   image: '/assets/images/platform/reporting/hero/reporting-hero-revenue-operations-funnel-chart.svg' },
   },
-  {
-    name: 'Sales leads',
-    subtitle: 'Analyze inbound quality and rep performance',
-    cards: [
-      {
-        id: 'leads-chart-1',
-        title: 'Leads by source',
-        category: 'Charts',
-        gridClass: 'lg:col-start-1 lg:row-start-1 lg:row-span-7',
-        imageSrc: '/assets/images/platform/reporting/hero/sales-leads/chart-1.webp',
-        imageWidth: 400,
-        imageHeight: 680,
-      },
-      {
-        id: 'leads-chart-2',
-        title: 'Response time',
-        category: 'Charts',
-        gridClass: 'lg:col-start-2 lg:row-start-3 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/sales-leads/chart-2.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'leads-chart-3',
-        title: 'Lead score distribution',
-        category: 'Charts',
-        gridClass: 'hidden xl:flex xl:col-start-5 xl:row-start-1 xl:row-span-8',
-        imageSrc: '/assets/images/platform/reporting/hero/sales-leads/chart-3.webp',
-        imageWidth: 400,
-        imageHeight: 760,
-        xlOnly: true,
-      },
-      {
-        id: 'leads-chart-4',
-        title: 'Rep leaderboard',
-        category: 'Charts',
-        gridClass: 'lg:col-start-4 lg:row-start-1 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/sales-leads/chart-4.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'leads-stat',
-        title: 'Qualified leads',
-        category: 'Metrics',
-        gridClass: 'lg:col-start-4 lg:row-start-6 lg:row-span-4',
-        imageSrc: '',
-        imageWidth: 0,
-        imageHeight: 0,
-        type: 'stat',
-        statValue: '1,284',
-        statLabel: 'This month',
-        statDelta: '+9%',
-        statDeltaPositive: true,
-      },
-      {
-        id: 'leads-chart-5',
-        title: 'Call activity',
-        category: 'Charts',
-        gridClass: 'lg:col-start-3 lg:row-start-6 lg:row-span-5',
-        imageSrc: '/assets/images/platform/reporting/hero/sales-leads/chart-5.webp',
-        imageWidth: 400,
-        imageHeight: 480,
-      },
-      {
-        id: 'leads-funnel',
-        title: 'MQL → SQL funnel',
-        category: 'Funnels',
-        gridClass: 'lg:col-start-1 lg:col-span-2 lg:row-start-8 lg:row-span-3',
-        imageSrc: '/assets/images/platform/reporting/hero/sales-leads/funnel.webp',
-        imageWidth: 800,
-        imageHeight: 280,
-        type: 'funnel',
-      },
-    ],
+
+  // ── State 2 — Sales Leads ────────────────────────────────────────────────────
+  s2: {
+    card1: { title: 'US Lead Locations',          badge: 'Sales',                                                                                                                                                    image: '/assets/images/platform/reporting/hero/reporting-hero-sales-map.svg' },
+    card2: { title: 'Won Deals by Region',        badge: 'Deals',      legends: [{ text: 'US', color: 'bg-blue-500' }, { text: 'EMEA', color: 'bg-[#94B9FF]' }] },
+    card4: { title: 'Target Plan Distribution',  badge: 'Workspaces', legends: [{ text: 'Paid', color: 'bg-blue-500' }, { text: 'Pro', color: 'bg-[#94B9FF]' }],                                                  image: '/assets/images/platform/reporting/hero/reporting-hero-sales-pie-chart.svg' },
+    card5: { title: 'Average Deal Size',          badge: 'Deals',      legends: [{ text: 'US', color: 'bg-blue-500' }, { text: 'EMEA', color: 'bg-[#94B9FF]' }] },
+    stat:  { title: 'Total Pipeline MRR',         badge: 'Workspaces', legends: [{ text: 'Tech', color: 'bg-blue-500' }, { text: 'Finance', color: 'bg-[#94B9FF]' }, { text: 'Agency', color: 'bg-[#C8DCFF]' }] },
+    card6: { title: 'Pipeline Funnel',            badge: 'Sales',                                                                                                                                                   image: '/assets/images/platform/reporting/hero/reporting-hero-sales-funnel-chart.svg' },
+    card7: { label: 'ARR Contribution',           value: 'US $15,990.00', crumbs: ['Sales', 'Total Pipeline ARR'] },
   },
-]
+
+} as const

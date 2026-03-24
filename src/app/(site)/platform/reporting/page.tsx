@@ -7,11 +7,11 @@ import { PageHero } from "@/components/sections/PageHero";
 import { ReportingHeroCards } from "@/components/sections/ReportingHeroCards";
 import TrialSection from "@/components/sections/TrialSection";
 import Divider from "@/components/ui/divider";
-import {
-  REPORTING_EXAMPLES,
-  REPORTING_DATA_EXPLORATION,
-  REPORTING_ENGINE,
-} from "@/data/platform-reporting";
+import { REPORTING_EXAMPLES } from "@/data/reporting-features";
+import { REPORTING_POWERFUL_SECTION, REPORTING_DATA_EXPLORATION } from "@/data/reporting-powerful";
+import { REPORTING_HERO } from "@/data/reporting-hero";
+import { REPORTING_TRIAL_SOURCE } from "@/data/reporting-cta";
+import { REPORTING_ENGINE_SECTION, REPORTING_ENGINE } from "@/data/reporting-engine";
 
 export const metadata: Metadata = {
   title: 'Reporting',
@@ -27,12 +27,12 @@ export default function ReportingPage(): React.ReactElement {
       {/* ── Hero area — relative so the decorative circles can be positioned inside ── */}
       <div className="relative overflow-hidden">
         <PageHero
-          badge="Reporting"
-          heading="Real-time reporting, total flexibility."
-          subheading="Attio quickly transforms millions of your data points into insights for your entire GTM team."
-          primaryCta={{ label: "Start for free", href: "/platform/reporting" }}
-          showSales
-          showMobileSales
+          badge={REPORTING_HERO.badge}
+          heading={REPORTING_HERO.heading}
+          subheading={REPORTING_HERO.subheading}
+          primaryCta={REPORTING_HERO.primaryCta}
+          showSales={REPORTING_HERO.showSales}
+          showMobileSales={REPORTING_HERO.showMobileSales}
         />
         <ReportingHeroCards />
 
@@ -73,16 +73,16 @@ export default function ReportingPage(): React.ReactElement {
 
       <CompaniesSection />
       <BentoGridSection
-        headingMuted="The reporting engine"
-        headingPrimary=" for \ngo-to-market teams."
-        subtext="Access, visualize and explore all your data as quickly as you can think."
+        headingMuted={REPORTING_ENGINE_SECTION.headingMuted}
+        headingPrimary={REPORTING_ENGINE_SECTION.headingPrimary}
+        subtext={REPORTING_ENGINE_SECTION.subtext}
         items={REPORTING_ENGINE}
       />
       <AccordionImageSection
-        headerLayout="centered"
-        headingPrimary="Powerful"
-        headingMuted=" data exploration"
-        subheading="No matter how large the data set, Attio makes it easy to deep dive into the details."
+        headerLayout={REPORTING_POWERFUL_SECTION.headerLayout}
+        headingPrimary={REPORTING_POWERFUL_SECTION.headingPrimary}
+        headingMuted={REPORTING_POWERFUL_SECTION.headingMuted}
+        subheading={REPORTING_POWERFUL_SECTION.subheading}
         items={REPORTING_DATA_EXPLORATION}
       />
       <ImageGridSection
@@ -90,7 +90,7 @@ export default function ReportingPage(): React.ReactElement {
       />
       <Divider/>
       <TrialSection
-        source="reporting"
+        source={REPORTING_TRIAL_SOURCE}
         headingLayout="inline"
       />
     </main>
