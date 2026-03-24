@@ -1629,7 +1629,7 @@ export function HomeHeroSection(): ReactNode {
   const [progress, setProgress] = useState(0)
 
   // Refs track mutable state inside the interval — avoids React StrictMode's
-  // double-invocation of state updaters which would otherwise skip a tab each cycle.
+  // double-invocation of state updaters which would otherwise skip a tab each cycle...
   const tabRef = useRef<TabIdx>(0)
   const progressRef = useRef(0)
 
