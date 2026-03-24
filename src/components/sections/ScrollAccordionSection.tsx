@@ -14,8 +14,8 @@
  */
 
 import Image from 'next/image'
-import { useRef, useState, useCallback } from 'react'
-import { AnimatePresence, motion, useScroll, useMotionValueEvent, animate } from 'framer-motion'
+import { useRef, useState, useCallback, useEffect } from 'react'
+import { AnimatePresence, motion, animate } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import Divider from '../ui/divider'
 
@@ -81,18 +81,32 @@ export function ScrollAccordionSection({
   // before starting a new one (prevents browser smooth-scroll race conditions).
   const scrollAnimRef = useRef<ReturnType<typeof animate> | null>(null)
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const scaled = latest * n
-    const idx = Math.min(Math.floor(scaled), n - 1)
-    setActiveIndex(idx)
-    // Last item stays at 100% so the bar stays filled at the end
-    setBarProgress(idx === n - 1 ? 100 : (scaled - idx) * 100)
-  })
+  // Track active index via a native scroll listener that always reads the
+  // element's live position with getBoundingClientRect() — the same method
+  // used by scrollToItem. This guarantees they are always in sync regardless
+  // of where on the page the section is placed (framer-motion's useScroll
+  // caches the element's absolute offset at initialization time and can drift
+  // if other content above shifts the layout after mount).
+  useEffect(() => {
+    const onScroll = () => {
+      const container = containerRef.current
+      if (!container) return
+      const rect = container.getBoundingClientRect()
+      const containerAbsTop = rect.top + window.scrollY
+      const range = rect.height - window.innerHeight
+      if (range <= 0) return
+      const progress = (window.scrollY - containerAbsTop) / range
+      const clamped = Math.max(0, Math.min(1, progress))
+      const scaled = clamped * n
+      const idx = Math.min(Math.floor(scaled), n - 1)
+      setActiveIndex(idx)
+      // Last item stays at 100% so the bar stays filled at the end
+      setBarProgress(idx === n - 1 ? 100 : (scaled - idx) * 100)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll() // sync with current scroll position on mount
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [n])
 
   /**
    * Scroll to the position where item `index` becomes active.
@@ -103,8 +117,8 @@ export function ScrollAccordionSection({
    * This prevents the race condition where the browser blends two smooth-scrolls
    * and lands at the wrong scroll position.
    *
-   * Container absolute offset is computed via offsetTop traversal (not
-   * getBoundingClientRect) so it is stable regardless of current scroll state.
+   * Container absolute offset is computed via getBoundingClientRect() + scrollY,
+   * matching the same formula used by the scroll listener above.
    */
   const scrollToItem = useCallback((index: number) => {
     if (!containerRef.current) return
@@ -119,10 +133,9 @@ export function ScrollAccordionSection({
     // as scroll changes, so this is safe to read immediately after .stop()).
     const containerAbsTop = rect.top + window.scrollY
 
-    // Use getBoundingClientRect().height (fractional pixels) so our scroll range
-    // matches exactly what framer-motion uses for scrollYProgress.  offsetHeight
-    // rounds to an integer, which makes targetY land 0.5–1 px short of the item
-    // boundary — enough for Math.floor(progress * n) to stay on the previous item.
+    // Use getBoundingClientRect().height (fractional pixels) — offsetHeight rounds
+    // to an integer, which can make targetY land 0.5–1 px short of the item
+    // boundary and cause Math.floor(progress * n) to stay on the previous item.
     const range = rect.height - window.innerHeight
 
     // +2 px buffer: even with exact float height, progress = index/n can round to
