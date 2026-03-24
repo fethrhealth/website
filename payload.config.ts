@@ -56,5 +56,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI ?? '',
     },
+    // Push schema directly on startup — creates tables automatically on first deploy.
+    // Safe for new databases; for future schema changes, generate migrations instead.
+    push: true,
   }),
 })
