@@ -15,125 +15,82 @@ import {
 } from '@/components/ui/navigation-menu'
 import { cn } from '@/lib/utils'
 import { IconMenu } from '../icons/IconMenu'
+import { NAV_MENU, type NavIcon, type NavEntry } from '@/data/nav-menu'
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Icon registry ────────────────────────────────────────────────────────────
+// Maps icon keys (used in nav-menu.ts) to their JSX. Don't edit unless adding
+// a new icon — to change menu items, edit src/data/nav-menu.ts instead.
 
-interface NavDropdownItem {
-  title: string
-  href: string
-  description: string
-  icon: ReactNode
+const ICON_MAP: Record<NavIcon, ReactNode> = {
+  ask: (
+    <>
+      <Image src="/assets/icons/navbar/ask-attio.png"                          alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-ask-attio-dark-3.svg" alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  ai: (
+    <>
+      <Image src="/assets/icons/navbar/ai.png"                     alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-ai-dark.svg" alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  data: (
+    <>
+      <Image src="/assets/icons/navbar/data-model.png"                      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-data-dark.svg"     alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  productivity: (
+    <>
+      <Image src="/assets/icons/navbar/productivity.png"                              alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-collaboration-dark.svg"     alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  workflows: (
+    <>
+      <Image src="/assets/icons/navbar/workflows.png"                               alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-automations-dark.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  sequences: (
+    <>
+      <Image src="/assets/icons/navbar/sequences.png"                               alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-sequences-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  reporting: (
+    <>
+      <Image src="/assets/icons/navbar/reporting.png"                           alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-reporting-dark.svg"    alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  developers: (
+    <>
+      <Image src="/assets/icons/navbar/developer.png"                                   alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-dev-platform-dark-3.svg"       alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
+  blog: (
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="absolute inset-0 text-fg-tertiary" aria-hidden>
+      <path d="M12 7h12l8 8v17a2 2 0 01-2 2H12a2 2 0 01-2-2V9a2 2 0 012-2z" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M24 7v8h8" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M14 20h12M14 24h12M14 28h8" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+    </svg>
+  ),
+  startup: (
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="absolute inset-0 text-fg-tertiary" aria-hidden>
+      <path d="M20 8c-2 5-5 9-5 15h10c0-6-3-10-5-15z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M15 23l-3 6M25 23l3 6" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      <circle cx="20" cy="18" r="2.5" stroke="currentColor" strokeWidth="1.1" />
+    </svg>
+  ),
+  partners: (
+    <>
+      <Image src="/assets/icons/navbar/partner.png"                              alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+      <Image src="/assets/icons/navbar/hacker/navigation-partners-dark.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    </>
+  ),
 }
-
-interface NavSection {
-  heading: string
-  items: NavDropdownItem[]
-}
-
-// ─── Icons (40×40 inline SVGs, stroke-based, use currentColor) ───────────────
-
-const askIcon = (
-  <>
-    <Image src="/assets/icons/navbar/ask-attio.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-ask-attio-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const aiIcon = (
-  <>
-    <Image src="/assets/icons/navbar/ai.png"                    alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-ai-dark.svg"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const dataIcon = (
-  <>
-    <Image src="/assets/icons/navbar/data-model.png"            alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-data-dark.svg"     alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const productivityIcon = (
-  <>
-    <Image src="/assets/icons/navbar/productivity.png"          alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-collaboration-dark.svg"   alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const workflowsIcon = (
-  <>
-    <Image src="/assets/icons/navbar/workflows.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-automations-dark.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const sequencesIcon = (
-  <>
-    <Image src="/assets/icons/navbar/sequences.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-sequences-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const reportingIcon = (
-  <>
-    <Image src="/assets/icons/navbar/reporting.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-reporting-dark.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const developersIcon = (
-  <>
-    <Image src="/assets/icons/navbar/developer.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-dev-platform-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-const blogIcon = (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="absolute inset-0 text-fg-tertiary" aria-hidden>
-    <path d="M12 7h12l8 8v17a2 2 0 01-2 2H12a2 2 0 01-2-2V9a2 2 0 012-2z" stroke="currentColor" strokeWidth="1.2" />
-    <path d="M24 7v8h8" stroke="currentColor" strokeWidth="1.1" />
-    <path d="M14 20h12M14 24h12M14 28h8" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-  </svg>
-)
-const startupIcon = (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="absolute inset-0 text-fg-tertiary" aria-hidden>
-    <path d="M20 8c-2 5-5 9-5 15h10c0-6-3-10-5-15z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-    <path d="M15 23l-3 6M25 23l3 6" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-    <circle cx="20" cy="18" r="2.5" stroke="currentColor" strokeWidth="1.1" />
-  </svg>
-)
-const partnersIcon = (
-  <>
-    <Image src="/assets/icons/navbar/partner.png"               alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-partners-dark.svg"        alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
-  </>
-)
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-
-const PLATFORM_SECTIONS: NavSection[] = [
-  {
-    heading: 'Platform',
-    items: [
-      { title: 'Ask Fethr',          href: '/platform/ask',          description: 'Get instant answers from your data',       icon: askIcon },
-      { title: 'AI',                 href: '/platform/ai',           description: 'AI-native features built for your team',   icon: aiIcon },
-      { title: 'Data model',         href: '/platform/data',         description: 'Flexible, real-time data infrastructure',  icon: dataIcon },
-      { title: 'Productivity',       href: '/platform/productivity', description: 'Stay focused on what matters most',        icon: productivityIcon },
-    ],
-  },
-  {
-    heading: 'Automations',
-    items: [
-      { title: 'Workflows',          href: '/platform/workflows',    description: 'Automate your most critical processes',    icon: workflowsIcon },
-      { title: 'Sequences',          href: '/platform/sequences',    description: 'Run personalized outreach at scale',       icon: sequencesIcon },
-    ],
-  },
-  {
-    heading: 'Insights',
-    items: [
-      { title: 'Reporting',          href: '/platform/reporting',    description: 'Track performance with live dashboards',   icon: reportingIcon },
-      { title: 'Developer Platform', href: '/platform/developers',   description: 'Build with powerful APIs and webhooks',   icon: developersIcon },
-    ],
-  },
-]
-
-const RESOURCE_ITEMS: NavDropdownItem[] = [
-  { title: 'Blog',             href: '/blog',     description: 'Insights on healthcare CRM strategy',  icon: blogIcon },
-  { title: 'Startup Program',  href: '/startups', description: 'Get Fethr free for up to 2 years',     icon: startupIcon },
-  { title: 'Become a Partner', href: '/partners', description: 'Join our partner ecosystem',           icon: partnersIcon },
-]
 
 // ─── Framer Motion variants ───────────────────────────────────────────────────
 
@@ -183,7 +140,7 @@ function ArrowIcon() {
   )
 }
 
-function DropdownCard({ item }: { item: NavDropdownItem }) {
+function DropdownCard({ item }: { item: { title: string; href: string; description: string; icon: ReactNode } }) {
   return (
     <NavigationMenuLink asChild>
       <Link
@@ -276,7 +233,7 @@ const triggerCn = cn(
 export function Navbar() {
   const [isScrolled, setIsScrolled]     = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const [openSection, setOpenSection]   = useState<'platform' | 'resources' | null>(null)
+  const [openSection, setOpenSection]   = useState<string | null>(null)
 
   const lastHoverOpenMs = useRef(0)
 
@@ -339,62 +296,66 @@ export function Navbar() {
               <NavigationMenu>
                 <NavigationMenuList className="gap-0">
 
-                  {/* Platform */}
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger
-                      className={triggerCn}
-                      onPointerEnter={handleTriggerPointerEnter}
-                      onClick={handleTriggerClick}
-                    >
-                      Platform
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <motion.div variants={dropdownVariants} initial="hidden" animate="visible">
-                        <ul className="w-[576px] grid grid-cols-2 gap-x-3 p-4 pt-3">
-                          {PLATFORM_SECTIONS.map((section) => (
-                            <Fragment key={section.heading}>
-                              <li className="col-span-2 mt-3 mb-1 px-2">
-                                <p className="text-xs font-semibold uppercase tracking-wider text-fg-caption leading-4">
-                                  {section.heading}
-                                </p>
-                              </li>
-                              {section.items.map((item) => (
-                                <li key={item.href}><DropdownCard item={item} /></li>
-                              ))}
-                            </Fragment>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  {/* Resources */}
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger
-                      className={triggerCn}
-                      onPointerEnter={handleTriggerPointerEnter}
-                      onClick={handleTriggerClick}
-                    >
-                      Resources
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <motion.ul
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="flex w-[320px] flex-col gap-0.5 p-4 pt-3"
-                      >
-                        <li className="mb-1 px-2">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-fg-caption leading-4">
-                            Company
-                          </p>
-                        </li>
-                        {RESOURCE_ITEMS.map((item) => (
-                          <li key={item.href}><DropdownCard item={item} /></li>
-                        ))}
-                      </motion.ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
+                  {NAV_MENU.map((entry) => (
+                    <NavigationMenuItem key={entry.label}>
+                      {entry.type === 'link' ? (
+                        // Simple link — no dropdown
+                        <NavigationMenuLink asChild>
+                          <Link href={entry.href} className={triggerCn}>{entry.label}</Link>
+                        </NavigationMenuLink>
+                      ) : (
+                        // Dropdown — wide grid if multiple sections, slim list if one
+                        <>
+                          <NavigationMenuTrigger
+                            className={triggerCn}
+                            onPointerEnter={handleTriggerPointerEnter}
+                            onClick={handleTriggerClick}
+                          >
+                            {entry.label}
+                          </NavigationMenuTrigger>
+                          <NavigationMenuContent>
+                            <motion.div variants={dropdownVariants} initial="hidden" animate="visible">
+                              {entry.sections.length > 1 ? (
+                                // Wide 2-col grid (e.g. Platform)
+                                <ul className="w-[576px] grid grid-cols-2 gap-x-3 p-4 pt-3">
+                                  {entry.sections.map((section) => (
+                                    <Fragment key={section.heading}>
+                                      <li className="col-span-2 mt-3 mb-1 px-2">
+                                        <p className="text-xs font-semibold uppercase tracking-wider text-fg-caption leading-4">
+                                          {section.heading}
+                                        </p>
+                                      </li>
+                                      {section.items.map((item) => (
+                                        <li key={item.href}>
+                                          <DropdownCard item={{ ...item, icon: ICON_MAP[item.icon] }} />
+                                        </li>
+                                      ))}
+                                    </Fragment>
+                                  ))}
+                                </ul>
+                              ) : (
+                                // Slim 1-col list (e.g. Resources)
+                                <ul className="flex w-[320px] flex-col gap-0.5 p-4 pt-3">
+                                  {entry.sections[0] && (
+                                    <li className="mb-1 px-2">
+                                      <p className="text-xs font-semibold uppercase tracking-wider text-fg-caption leading-4">
+                                        {entry.sections[0].heading}
+                                      </p>
+                                    </li>
+                                  )}
+                                  {entry.sections[0]?.items.map((item) => (
+                                    <li key={item.href}>
+                                      <DropdownCard item={{ ...item, icon: ICON_MAP[item.icon] }} />
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </motion.div>
+                          </NavigationMenuContent>
+                        </>
+                      )}
+                    </NavigationMenuItem>
+                  ))}
 
                 </NavigationMenuList>
               </NavigationMenu>
@@ -480,64 +441,53 @@ export function Navbar() {
 
                 <div className="container">
 
-                  {/* Platform accordion */}
-                  <MobileAccordionItem
-                    label="Platform"
-                    isOpen={openSection === 'platform'}
-                    onToggle={() => setOpenSection((s) => s === 'platform' ? null : 'platform')}
-                  >
-                    <div className="pt-1 pb-1.5">
-                      {PLATFORM_SECTIONS.map((section) => (
-                        <div key={section.heading}>
-                          <p className="px-1.5 pt-3 pb-1 font-display text-xs font-semibold uppercase tracking-wider text-fg-caption leading-4">
-                            {section.heading}
-                          </p>
-                          {section.items.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              onClick={closeMobile}
-                              className="flex items-center gap-x-3 rounded-xl px-2 py-1.5 transition-colors duration-150 hover:bg-surface-subtle"
-                            >
-                              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-[10px] border border-subtle-stroke">
-                                <div className="absolute inset-0 scale-[0.8]">{item.icon}</div>
-                              </div>
-                              <div className="flex min-w-0 flex-col">
-                                <span className="text-[15px] font-medium leading-5 text-primary-foreground">{item.title}</span>
-                                <span className="truncate text-xs text-fg-accent">{item.description}</span>
-                              </div>
-                            </Link>
+                  {NAV_MENU.map((entry) => (
+                    entry.type === 'link' ? (
+                      // Simple link — no accordion
+                      <Link
+                        key={entry.label}
+                        href={entry.href}
+                        onClick={closeMobile}
+                        className="block border-b border-subtle-stroke py-4 pl-1.5 text-base text-primary-foreground hacker-mode:text-[#00d36a]"
+                      >
+                        {entry.label}
+                      </Link>
+                    ) : (
+                      // Dropdown entry → accordion
+                      <MobileAccordionItem
+                        key={entry.label}
+                        label={entry.label}
+                        isOpen={openSection === entry.label}
+                        onToggle={() => setOpenSection((s) => s === entry.label ? null : entry.label)}
+                      >
+                        <div className="pt-1 pb-1.5">
+                          {entry.sections.map((section) => (
+                            <div key={section.heading}>
+                              <p className="px-1.5 pt-3 pb-1 font-display text-xs font-semibold uppercase tracking-wider text-fg-caption leading-4">
+                                {section.heading}
+                              </p>
+                              {section.items.map((item) => (
+                                <Link
+                                  key={item.href}
+                                  href={item.href}
+                                  onClick={closeMobile}
+                                  className="flex items-center gap-x-3 rounded-xl px-2 py-1.5 transition-colors duration-150 hover:bg-surface-subtle"
+                                >
+                                  <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-[10px] border border-subtle-stroke">
+                                    <div className="absolute inset-0 scale-[0.8]">{ICON_MAP[item.icon]}</div>
+                                  </div>
+                                  <div className="flex min-w-0 flex-col">
+                                    <span className="text-[15px] font-medium leading-5 text-primary-foreground">{item.title}</span>
+                                    <span className="truncate text-xs text-fg-accent">{item.description}</span>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
                           ))}
                         </div>
-                      ))}
-                    </div>
-                  </MobileAccordionItem>
-
-                  {/* Resources accordion */}
-                  <MobileAccordionItem
-                    label="Resources"
-                    isOpen={openSection === 'resources'}
-                    onToggle={() => setOpenSection((s) => s === 'resources' ? null : 'resources')}
-                  >
-                    <div className="pt-1 pb-1.5">
-                      {RESOURCE_ITEMS.map((item) => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={closeMobile}
-                          className="flex items-center gap-x-3 rounded-xl px-2 py-1.5 transition-colors duration-150 hover:bg-surface-subtle"
-                        >
-                          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-[10px] border border-subtle-stroke">
-                            <div className="absolute inset-0 scale-[0.8]">{item.icon}</div>
-                          </div>
-                          <div className="flex min-w-0 flex-col">
-                            <span className="text-[15px] leading-5 text-primary-foreground">{item.title}</span>
-                            <span className="truncate text-xs text-fg-accent">{item.description}</span>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </MobileAccordionItem>
+                      </MobileAccordionItem>
+                    )
+                  ))}
 
                   {/* CTA buttons */}
                   {/* <div className="flex flex-col gap-3 pt-5 pb-6">
