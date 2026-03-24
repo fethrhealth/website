@@ -19,7 +19,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 // ─── ✏️  EDITABLE DATA ────────────────────────────────────────────────────────
 
@@ -53,7 +53,7 @@ export interface AppItem {
 }
 
 /**
- * ✏️  FEATURED_APPS ─ add your apps here.
+ * ✏️  FEATURED_APPS ─ logos en modo normal.
  *
  * Desktop: shows ALL entries in a single row (works best with 4–6 apps).
  * Mobile:  shows ONLY the first 4 in a 2×2 grid.
@@ -64,6 +64,27 @@ const FEATURED_APPS: AppItem[] = [
   { name: 'App 3', href: '', logo: <Image src="/assets/icons/developers/apps/app-three.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
   { name: 'App 4', href: '', logo: <Image src="/assets/icons/developers/apps/app-four.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
   { name: 'App 5', href: '', logo: <Image src="/assets/icons/developers/apps/app-five.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
+]
+
+/**
+ * ✏️  HACKER_APPS ─ logos alternativos para hacker mode.
+ *
+ * Misma estructura que FEATURED_APPS. Cuando data-hacker está activo en <html>,
+ * el componente muestra estos logos en lugar de los de arriba.
+ *
+ * Convención recomendada de nombres de archivo:
+ *   /assets/icons/developers/apps/hacker/app-one.png
+ *   /assets/icons/developers/apps/hacker/app-two.png
+ *   …
+ *
+ * Si un slot queda como `logo: null` se muestra el placeholder gris.
+ */
+const HACKER_APPS: AppItem[] = [
+  { name: 'Aircall', href: '', logo: <Image src="/assets/icons/developers/apps/app-one-hacker.png" width={104} height={104} alt="App 1" className="size-full object-contain" />},
+  { name: 'Granola', href: '', logo: <Image src="/assets/icons/developers/apps/app-two-hacker.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
+  { name: 'Linear', href: '', logo: <Image src="/assets/icons/developers/apps/app-three-hacker.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
+  { name: 'Pandadoc', href: '', logo: <Image src="/assets/icons/developers/apps/app-four-hacker.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
+  { name: 'Sequence', href: '', logo: <Image src="/assets/icons/developers/apps/app-five-hacker.png" width={104} height={104} alt="App 1" className="size-full object-contain" /> },
 ]
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
@@ -145,7 +166,18 @@ function GitHubIcon() {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function DevelopersSdkAppsSection() {
-  const n = FEATURED_APPS.length
+  // Hacker mode: swap logos when data-hacker is set on <html>
+  const [isHacker, setIsHacker] = useState(false)
+  useEffect(() => {
+    const update = () => setIsHacker(document.documentElement.hasAttribute('data-hacker'))
+    update()
+    const mo = new MutationObserver(update)
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-hacker'] })
+    return () => mo.disconnect()
+  }, [])
+
+  const apps = isHacker ? HACKER_APPS : FEATURED_APPS
+  const n = apps.length
   // Distribute N apps evenly across columns 2..12 (10 cols) in a 12-col grid.
   const desktopCol = (i: number) =>
     `${Math.round(2 + i * (10 / n))} / ${Math.round(2 + (i + 1) * (10 / n))}`
@@ -231,7 +263,7 @@ export function DevelopersSdkAppsSection() {
               </div>
 
               {/* Logo cards */}
-              {FEATURED_APPS.map((app, i) => (
+              {apps.map((app, i) => (
                 <LogoCard key={app.name} {...app} col={desktopCol(i)} row="1 / -1" />
               ))}
             </div>
@@ -322,7 +354,7 @@ export function DevelopersSdkAppsSection() {
                 [2, '1 / 7',  '6 / 11'],
                 [3, '7 / 13', '6 / 11'],
               ] as [number, string, string][]).map(([i, col, row]) => {
-                const app = FEATURED_APPS[i]
+                const app = apps[i]
                 return app ? (
                   <LogoCard key={app.name} {...app} col={col} row={row} />
                 ) : null

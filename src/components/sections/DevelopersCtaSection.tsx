@@ -296,9 +296,8 @@ function DraggableCard({
       >
         {/* ── Selection border: corner dots + connecting lines — visible while pointer is held ── */}
         {isPointerHeld && (() => {
-          // TODO: change '#000000' → 'currentColor' and add className="text-weak-stroke"
-          // to each SVG once you've confirmed the lines are visible.
-          const stroke = isOverlapping ? '#ef4444' : '#e2e8f0'
+          // currentColor + text class → hacker mode handled automatically via CSS variables.
+          const strokeClass = isOverlapping ? 'text-red-500' : 'text-default-stroke'
           return (
             <>
               {/* Corner dots */}
@@ -307,20 +306,20 @@ function DraggableCard({
               <div className={`pointer-events-none absolute bottom-0 left-0  z-20 size-1 -translate-x-1/2  translate-y-1/2 ${isOverlapping ? 'bg-red-500' : 'bg-default-stroke'}`} />
               <div className={`pointer-events-none absolute bottom-0 right-0 z-20 size-1  translate-x-1/2  translate-y-1/2 ${isOverlapping ? 'bg-red-500' : 'bg-default-stroke'}`} />
               {/* Top edge line */}
-              <svg width="100%" height="1" className="pointer-events-none absolute inset-x-0 top-0 z-20 -translate-y-1/2">
-                <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke={stroke} strokeLinecap="round" />
+              <svg width="100%" height="1" className={`pointer-events-none absolute inset-x-0 top-0 z-20 -translate-y-1/2 ${strokeClass}`}>
+                <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeLinecap="round" />
               </svg>
               {/* Bottom edge line */}
-              <svg width="100%" height="1" className="pointer-events-none absolute inset-x-0 bottom-0 z-20 translate-y-1/2">
-                <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke={stroke} strokeLinecap="round" />
+              <svg width="100%" height="1" className={`pointer-events-none absolute inset-x-0 bottom-0 z-20 translate-y-1/2 ${strokeClass}`}>
+                <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeLinecap="round" />
               </svg>
               {/* Left edge line */}
-              <svg width="1" height="100%" className="pointer-events-none absolute inset-y-0 left-0 z-20 -translate-x-1/2">
-                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke={stroke} strokeLinecap="round" />
+              <svg width="1" height="100%" className={`pointer-events-none absolute inset-y-0 left-0 z-20 -translate-x-1/2 ${strokeClass}`}>
+                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeLinecap="round" />
               </svg>
               {/* Right edge line */}
-              <svg width="1" height="100%" className="pointer-events-none absolute inset-y-0 right-0 z-20 translate-x-1/2">
-                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke={stroke} strokeLinecap="round" />
+              <svg width="1" height="100%" className={`pointer-events-none absolute inset-y-0 right-0 z-20 translate-x-1/2 ${strokeClass}`}>
+                <line x1="0.5" y1="0" x2="0.5" y2="100%" stroke="currentColor" strokeLinecap="round" />
               </svg>
             </>
           )
@@ -991,6 +990,7 @@ export function DevelopersCtaSection() {
             <div className="size-full">
               <div
                 ref={desktopGridRef}
+                data-cta-widgets=""
                 className="grid w-full items-center relative"
                 style={{
                   aspectRatio:           '24 / 13',
@@ -1053,6 +1053,7 @@ export function DevelopersCtaSection() {
             <div className="size-full">
               <div
                 ref={mobileGridRef}
+                data-cta-widgets=""
                 className="grid w-full items-center relative"
                 style={{
                   aspectRatio:         '12 / 19',

@@ -29,7 +29,13 @@
       "Bash(npx payload:*)",
       "Bash(git:*)",
       "Bash(rm:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(npx tsx:*)",
+      "Bash(awk NR==155:*)",
+      "Bash(done)",
+      "Bash(awk NR>=37 && NR<=115:*)",
+      "Bash(awk NR>=121 && NR<=193:*)"
     ]
   }
 }

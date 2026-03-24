@@ -389,7 +389,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '5 / 6',
                   gridRow: '1 / -3',
-                  background: `linear-gradient(to right, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
+                  background: `linear-gradient(to right, ${isHacker ? '#000000' : '#ffffff'} 20%, transparent)`,
                 }}
               />
               {/* ── Right edge fade */}
@@ -398,7 +398,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '-6 / -5',
                   gridRow: '1 / -3',
-                  background: `linear-gradient(to left, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
+                  background: `linear-gradient(to left, ${isHacker ? '#000000' : '#ffffff'} 20%, transparent)`,
                 }}
               />
 
@@ -471,7 +471,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '5 / 6',
                   gridRow: '1 / -5',
-                  background: `linear-gradient(to right, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
+                  background: `linear-gradient(to right, ${isHacker ? '#000000' : '#ffffff'} 20%, transparent)`,
                 }}
               />
               <div
@@ -479,7 +479,7 @@ export function DevelopersForDevsSection() {
                 style={{
                   gridColumn: '-6 / -5',
                   gridRow: '1 / -5',
-                  background: `linear-gradient(to left, ${isHacker ? '#050e05' : '#ffffff'} 20%, transparent)`,
+                  background: `linear-gradient(to left, ${isHacker ? '#000000' : '#ffffff'} 20%, transparent)`,
                 }}
               />
 

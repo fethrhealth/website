@@ -35,7 +35,7 @@ const H_LINES = Array.from({ length: 11 }, (_, i) => i % 2 === 0)  // true = das
 // isHacker: when true uses direct hex values instead of CSS vars (SVG attrs ignore CSS vars)
 function GeometricDiagram({ prefix, isHacker }: { prefix: string; isHacker: boolean }) {
   const C = isHacker
-    ? { bg: '#050e05', surface: '#0d1f0d', stroke: '#0a160a', shape: '#007f46' }
+    ? { bg: '#000000', surface: '#0d1f0d', stroke: '#0a160a', shape: '#007f46' }
     : { bg: '#ffffff', surface: '#edeff3', stroke: '#edeff3', shape: '#a4adba' }
 
   return (

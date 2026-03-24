@@ -8,13 +8,13 @@
  *   #007f46 — dark green      (tertiary / smaller labels)
  *   #005c34 — deepest green   (captions / disabled)
  *   #1a2d1a — dark green tint (borders / strokes)
- *   #050e05 — near-black      (backgrounds)
+ *   #000000 — pure black       (backgrounds)
  * ────────────────────────────────────────────────────────────────────────────── */
 
 /* 1 — CSS variable overrides (affect all hsl(var(--*)) tokens) */
 [data-hacker] {
-  --background:            120 100% 2%;
-  --background-secondary:  120 80%  3%;
+  --background:            0 0% 0%;
+  --background-secondary:  0 0% 0%;
   --surface-subtle:        120 60%  4%;
   --surface:               120 60%  6%;
   --muted:                 120 60%  6%;
@@ -25,8 +25,8 @@
   --foreground-caption:    120 100% 18%;   /* #005c34 */
   --border:                120 30%  14%;
   --input:                 120 30%  14%;
-  --internal-color-primary-background: #050e05;
-  --color-primary-background:          #050e05;
+  --internal-color-primary-background: #000000;
+  --color-primary-background:          #000000;
   --color-surface:                     #0d1f0d;
   --internal-color-surface:            #0d1f0d;
   --color-weak-stroke:                 #0a160a;
@@ -39,12 +39,12 @@
   /* shadcn/tailwind component tokens */
   --accent-foreground:     120 100% 25%;   /* maps text-accent-foreground → #007f46 */
   --secondary-foreground:  120 100% 33%;   /* maps text-secondary-foreground → #00a852 */
-  --card:                  120 100% 2%;
+  --card:                  0 0% 0%;
   --card-foreground:       120 100% 33%;
-  --popover:               120 100% 2%;
+  --popover:               0 0% 0%;
   --popover-foreground:    120 100% 33%;
   --primary:               120 100% 41%;   /* green */
-  --primary-foreground:    120 100% 2%;    /* near-black (text inside green buttons) */
+  --primary-foreground:    0 0% 0%;        /* pure black (text inside green buttons) */
   /* CSS var() aliases used in inline styles */
   --color-secondary-foreground: #00a852;
   color-scheme: dark;
@@ -52,7 +52,7 @@
 
 /* 2 — body base (wins over body { @apply bg-background }) */
 [data-hacker] body {
-  background-color: #050e05;
+  background-color: #000000;
   color: #00d36a;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
@@ -104,10 +104,10 @@
 [data-hacker] .text-tertiary-foreground  { color: #007f46; }
 [data-hacker] .text-card-foreground      { color: #00a852; }
 [data-hacker] .text-popover-foreground   { color: #00a852; }
-[data-hacker] .text-primary-foreground   { color: #050e05; }
+[data-hacker] .text-primary-foreground   { color: #000000; }
 
 /* stroke tokens used as text colors */
-[data-hacker] .text-subtle-stroke   { color: #1a2d1a; }
+[data-hacker] .text-subtle-stroke   { color: #001f11; }
 [data-hacker] .text-weak-stroke     { color: #1a2d1a; }
 [data-hacker] .text-default-stroke  { color: #1a2d1a; }
 [data-hacker] .text-strong-stroke   { color: #2a4a2a; }
@@ -141,13 +141,13 @@
 [data-hacker] .bg-white-100,
 [data-hacker] .bg-white-200,
 [data-hacker] .bg-white-300,
-[data-hacker] .bg-white-400 { background-color: #050e05; }
+[data-hacker] .bg-white-400 { background-color: #000000; }
 
 [data-hacker] .bg-white-500,
 [data-hacker] .bg-white-600,
 [data-hacker] .bg-white-700 { background-color: #0a150a; }
 
-[data-hacker] .bg-black-50  { background-color: #050e05; }
+[data-hacker] .bg-black-50  { background-color: #000000; }
 [data-hacker] .bg-black-100 { background-color: #0a150a; }
 [data-hacker] .bg-black-200 { background-color: #0d1f0d; }
 
@@ -181,8 +181,70 @@
 [data-hacker] .bg-background\/80,
 [data-hacker] .bg-white\/95,
 [data-hacker] .bg-white\/80 {
-  background-color: rgba(5, 14, 5, 0.95);
+  background-color: rgba(0, 0, 0, 0.95);
 }
+
+/* 9a-footer — footer link text + hover clearly visible in hacker mode */
+[data-hacker] footer .text-fg-tertiary,
+[data-hacker] footer a { color: #00a852; }
+
+[data-hacker] footer .text-fg-caption { color: #007f46; }
+
+[data-hacker] footer a:hover,
+[data-hacker] footer .hover\:text-fg-secondary:hover,
+[data-hacker] footer .hover\:text-fg-primary:hover { color: #00d36a; }
+
+[data-hacker] footer a:active,
+[data-hacker] footer .active\:text-fg-primary:active { color: #00d36a; }
+
+/* attio-group-hover-underline usa mix-blend-mode:multiply (invisible en fondo negro).
+ * En hacker mode el fondo es negro, igual que en dark mode → necesita screen. */
+[data-hacker] .attio-group-hover-underline {
+  mix-blend-mode: screen;
+  -webkit-text-stroke-color: #000;
+}
+
+/* ── DevelopersCtaSection widget SVG overrides ────────────────────────────────
+ * Las widgets SVGs usan colores hardcodeados vía el objeto C (light palette).
+ * CSS puede override SVG presentation attributes con mayor especificidad que 0,0,0,0.
+ * Scopeado a [data-cta-widgets] para no afectar otros SVGs en la página.
+ *
+ * Paleta hacker usada:
+ *   cardBg      #ffffff → #0d1f0d  cards flotando sobre bg negro
+ *   secondaryBg #fafafb → #000a06  áreas secundarias, más oscuras
+ *   surfaceSubtle #f3f4f6 → #080f08  highlights internos muy sutiles
+ *   surface     #edeff3 → #132413  paneles internos visibles
+ *   border      #e2e8f0 → #1a2d1a  bordes (default-stroke)
+ *   strokeLight #cad0d9 → #2a4a2a  strokes secundarios (strong-stroke)
+ *   iconMid     #8f99a8 → #005c34  iconos / texto caption (verde oscuro)
+ *   iconDark    #6f7988 → #007f46  etiquetas de texto (verde mid)
+ *   text dark   #505967 → #007f46  texto oscuro → verde mid
+ *   text mid    #616874 → #007f46  texto mid → verde mid
+ *   text light  #94a3b8 → #005c34  texto muted → verde oscuro
+ *   toggle on   #0fc27b → #00d36a  toggle activado → verde primario
+ *   toggle stk  #0db472 → #00a852  stroke del toggle → verde mid
+ * ─────────────────────────────────────────────────────────────────────────── */
+/* fill overrides */
+[data-hacker] [data-cta-widgets] [fill="#ffffff"]   { fill: #001b0f; }
+[data-hacker] [data-cta-widgets] [fill="#fafafb"]   { fill: #000a06; }
+[data-hacker] [data-cta-widgets] [fill="#f3f4f6"]   { fill: #080f08; }
+[data-hacker] [data-cta-widgets] [fill="#edeff3"]   { fill: #132413; }
+[data-hacker] [data-cta-widgets] [fill="#e2e8f0"]   { fill: #1a2d1a; }
+[data-hacker] [data-cta-widgets] [fill="#cad0d9"]   { fill: #2a4a2a; }
+[data-hacker] [data-cta-widgets] [fill="#8f99a8"]   { fill: #005630; }
+[data-hacker] [data-cta-widgets] [fill="#6f7988"]   { fill: #005630; }
+[data-hacker] [data-cta-widgets] [fill="#505967"]   { fill: #005630; }
+[data-hacker] [data-cta-widgets] [fill="#616874"]   { fill: #005630; }
+[data-hacker] [data-cta-widgets] [fill="#94a3b8"]   { fill: #005630; }
+[data-hacker] [data-cta-widgets] [fill="#0fc27b"]   { fill: #005630; }
+[data-hacker] [data-cta-widgets] [fill="#0db472"]   { fill: #005630; }
+/* stroke overrides */
+[data-hacker] [data-cta-widgets] [stroke="#e2e8f0"] { stroke: #1a2d1a; }
+[data-hacker] [data-cta-widgets] [stroke="#edeff3"] { stroke: #132413; }
+[data-hacker] [data-cta-widgets] [stroke="#cad0d9"] { stroke: #2a4a2a; }
+[data-hacker] [data-cta-widgets] [stroke="#8f99a8"] { stroke: #005630; }
+[data-hacker] [data-cta-widgets] [stroke="#6f7988"] { stroke: #005630; }
+[data-hacker] [data-cta-widgets] [stroke="#0db472"] { stroke: #005630; }
 
 /* 9a — navbar text: fijo en #00c663, no cambia en hover ni open */
 [data-hacker] header a,
@@ -209,8 +271,22 @@
 /* 10 — buttons: remap fg-primary bg to dark green */
 [data-hacker] .bg-fg-primary   { background-color: #00d36a; }
 [data-hacker] .bg-fg-secondary { background-color: #007f46; }
-/* text-background (used inside a bg-fg-primary button: text is bg color = near-black) */
-[data-hacker] .text-background { color: #050e05; }
+/* text-background (used inside a bg-fg-primary button: text is bg color = pure black) */
+[data-hacker] .text-background { color: #000000; }
+
+/* button-primary hacker mode — override gradient vars so bg-image shows dark green */
+[data-hacker] .button-primary {
+  --button-primary-bg-from:           #002917;
+  --button-primary-bg-to:             #002917;
+  --button-primary-bg-fallback:       #002917;
+  --button-primary-border:            #1a4a2a;
+  --button-primary-text:              #00d36a;
+  --button-primary-bg-hover-from:     #003d22;
+  --button-primary-bg-hover-to:       #002917;
+  --button-primary-bg-hover-fallback: #003d22;
+  --button-primary-border-hover:      #1a4a2a;
+  --button-primary-text-hover:        #00ff7a;
+}
 
 
 /* ─── Legal page prose ────────────────────────────────────────────────────────

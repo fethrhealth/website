@@ -191,7 +191,7 @@ export default function Footer({
     <footer className="relative flex min-h-[40svh] w-full flex-col justify-between bg-primary-background">
 
       {/* ── Top border line ───────────────────────────────────────────── */}
-      <svg width="100%" height="1" className="text-subtle-stroke shrink-0" aria-hidden>
+      <svg width="100%" height="1" className="text-subtle-stroke hacker-mode:text-[#1a2d1a] shrink-0" aria-hidden>
         <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeLinecap="round" />
       </svg>
 
@@ -207,7 +207,7 @@ export default function Footer({
                 alt="Fethr Health"
                 width={103}
                 height={26}
-                className="w-auto"
+                className="w-auto hacker-mode:[filter:grayscale(1)_sepia(1)_hue-rotate(100deg)_saturate(5)_brightness(1.3)]"
                 priority={false}
               />
             </Link>
@@ -224,7 +224,7 @@ export default function Footer({
           >
             {COLUMNS.map((col) => (
               <div key={col.title} className="pb-7">
-                <h2 className="py-1 text-sm text-fg-caption">{col.title}</h2>
+                <h2 className="py-1 text-sm text-fg-caption hacker-mode:text-[#005c26]">{col.title}</h2>
                 <ul className="flex flex-col">
                   {col.links.map((link) => (
                     <li key={link.href + link.label}>
@@ -237,7 +237,7 @@ export default function Footer({
 
             {/* Legal column — dynamically populated from Payload CMS */}
             <div className="pb-7">
-              <h2 className="py-1 text-sm text-fg-caption">Legal</h2>
+              <h2 className="py-1 text-sm text-fg-caption hacker-mode:text-[#005c26]">Legal</h2>
               {legalLinks.length > 0 && (
                 <ul className="flex flex-col">
                   {legalLinks.map((link) => (
@@ -254,7 +254,7 @@ export default function Footer({
       </div>
 
       {/* ── Bottom bar ────────────────────────────────────────────────── */}
-      <div className="w-full bg-secondary-background">
+      <div className="w-full bg-secondary-background hacker-mode:bg-[#000e08]">
         <div className="container mx-auto px-6">
           <div className="flex flex-wrap items-center justify-between gap-6 px-px py-10">
 
@@ -279,7 +279,7 @@ export default function Footer({
             </div>
 
             {/* Copyright */}
-            <p className="text-xs font-normal text-fg-caption">
+            <p className="text-xs font-normal text-fg-caption hacker-mode:text-[#005c26]">
               © 2026 Fethr Health Inc. All rights reserved.
             </p>
 
