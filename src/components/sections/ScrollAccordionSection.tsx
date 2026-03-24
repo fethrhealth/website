@@ -100,8 +100,7 @@ export function ScrollAccordionSection({
       const scaled = clamped * n
       const idx = Math.min(Math.floor(scaled), n - 1)
       setActiveIndex(idx)
-      // Last item stays at 100% so the bar stays filled at the end
-      setBarProgress(idx === n - 1 ? 100 : (scaled - idx) * 100)
+      setBarProgress((scaled - idx) * 100)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll() // sync with current scroll position on mount
