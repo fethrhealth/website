@@ -286,12 +286,11 @@ export function HomeSpeedVisual() {
               className="absolute inset-0 grid overflow-hidden [&>*]:col-start-1 [&>*]:row-start-1"
               style={{ height: 316, left: 2, top: 0, width: 76 } as CSSProperties}
             >
-              {/* Color layer — FlickeringGrid maskMode reveals this through its holes */}
-              <div className="h-full w-full bg-[#D2D7DE]" />
               <div className="h-full w-full overflow-hidden">
                 <FlickeringGrid
                   className="relative h-full w-full"
                   maskMode
+                  maskBackground="#D2D7DE"
                   maxOpacity={0.95}
                   minOpacity={0.1}
                   flickerChance={0.9}
@@ -353,19 +352,17 @@ export function HomeSpeedVisual() {
       <div className="relative">
         <div className="absolute top-[70px] bottom-[70px] left-0 hidden w-16 [mask-image:linear-gradient(to_right,#000,#0000_40px)] xl:block">
           <div className="h-full w-full [mask-image:radial-gradient(circle_at_-88px_158px,#000_140px,#0000_170px)]">
-            <div className="grid h-full w-full overflow-hidden [&>*]:col-start-1 [&>*]:row-start-1">
-              <div className="h-full w-full bg-[#D2D7DE]" />
-              <div className="h-full w-full overflow-hidden">
-                <FlickeringGrid
-                  className="relative h-full w-full"
-                  maskMode
-                  maxOpacity={0.95}
-                  minOpacity={0.1}
-                  flickerChance={0.9}
-                  squareSize={4}
-                  gridGap={6}
-                />
-              </div>
+            <div className="h-full w-full overflow-hidden">
+              <FlickeringGrid
+                className="relative h-full w-full"
+                maskMode
+                maskBackground="#D2D7DE"
+                maxOpacity={0.95}
+                minOpacity={0.1}
+                flickerChance={0.9}
+                squareSize={4}
+                gridGap={6}
+              />
             </div>
           </div>
         </div>

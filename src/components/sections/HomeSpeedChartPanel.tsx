@@ -14,6 +14,7 @@
  *   1.10s — Details header + field rows
  */
 
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
@@ -31,8 +32,14 @@ function useFade(delay: number, inView: boolean, base = 0) {
 
 function AvatarSJ() {
   return (
-    <div className="size-10 shrink-0 overflow-hidden rounded-full border border-white-500 bg-gradient-to-br from-[#b8cce8] to-[#7fa3c8] flex items-center justify-center select-none">
-      <span className="text-[11px] font-semibold text-white">SJ</span>
+    <div className="size-10 shrink-0 overflow-hidden rounded-full border border-white-500">
+      <Image
+        src="/assets/images/build-fast/home-enrichment-avatar.avif"
+        alt="SJ"
+        width={40}
+        height={40}
+        className="size-full object-cover"
+      />
     </div>
   )
 }

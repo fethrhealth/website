@@ -1614,19 +1614,17 @@ function DataModelTable({ tab, addHovered, contentVisible }: { tab: TabConfig; a
                 style={{ height: 36, left: 2, top: 2, width: 516 }}
               >
                 <div className="h-full w-full overflow-hidden">
-                  <div className="h-full w-full bg-[#D2D7DE]" />
-                </div>
-                {/* <FlickeringGrid /> */}
-                <FlickeringGrid
+                  <FlickeringGrid
                     className="relative h-full w-full"
                     maskMode
+                    maskBackground="#D2D7DE"
                     maxOpacity={0.95}
                     minOpacity={0.1}
                     flickerChance={0.9}
                     squareSize={4}
                     gridGap={6}
-                    // onReady={() => setGridReady(true)}
                   />
+                </div>
               </div>
             </div>
           </div>

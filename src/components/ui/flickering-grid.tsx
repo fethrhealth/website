@@ -28,6 +28,13 @@ interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
   maskMode?: boolean
   /** Minimum square opacity in maskMode (0–1). Default 0.3. */
   minOpacity?: number
+  /**
+   * Background color painted behind the canvas drawing buffer (CSS background-color).
+   * In maskMode, clearRect() holes show this color. Setting it here means the canvas
+   * already shows the correct color before the first draw frame — no gray/black flash
+   * on page load. Replaces the need for a separate colored div layered behind the canvas.
+   */
+  maskBackground?: string
   /** Called once on the first animation frame — use to show the gradient behind. */
   onReady?: () => void
 }
@@ -43,6 +50,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   maxOpacity = 0.3,
   maskMode = false,
   minOpacity = 0.3,
+  maskBackground,
   onReady,
   ...props
 }) => {
@@ -168,6 +176,11 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         const newHeight = height || container.clientHeight
         setCanvasSize({ width: newWidth, height: newHeight })
         gridParams = setupCanvas(canvas, newWidth, newHeight)
+        // Draw one frame synchronously so the canvas is never blank between
+        // setupCanvas (which resets canvas.width/height → clears to transparent)
+        // and the first rAF callback — this prevents the black-shadow flash on
+        // scroll-into-view.
+        drawGrid(ctx, canvas.width, canvas.height, gridParams.cols, gridParams.rows, gridParams.squares, gridParams.dpr)
       }
 
       updateCanvasSize()
@@ -241,6 +254,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         style={{
           width: canvasSize.width,
           height: canvasSize.height,
+          ...(maskBackground ? { background: maskBackground } : {}),
         }}
       />
     </div>
