@@ -232,10 +232,10 @@ function MobileAccordionItem({
           onClick={onToggle}
           className="group flex flex-1 cursor-pointer items-center justify-between py-1.5 pl-1.5"
         >
-          <span className="text-base text-primary-foreground">{label}</span>
+          <span className="text-base text-primary-foreground hacker-mode:text-[#00d36a]">{label}</span>
           <svg
             className={cn(
-              'h-5 w-5 text-black-500 transition-transform duration-300 ease-in-out',
+              'h-5 w-5 text-black-500 hacker-mode:text-[#007f46] transition-transform duration-300 ease-in-out',
               isOpen && 'rotate-180',
             )}
             width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden
