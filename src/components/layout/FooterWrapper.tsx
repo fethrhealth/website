@@ -4,6 +4,7 @@
  * Keeps Footer.tsx as a pure presentational component (no async data fetching).
  */
 
+import { unstable_noStore as noStore } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ClientFooter } from './ClientFooter'
@@ -11,6 +12,9 @@ import type { FooterLegalLink } from './Footer'
 import type { SocialLinkEntry } from '@/types'
 
 export async function FooterWrapper() {
+  // Opt out of static caching so footer always reflects current CMS data
+  noStore()
+
   let legalLinks: FooterLegalLink[] = []
   let socialLinks: SocialLinkEntry[] = []
 
