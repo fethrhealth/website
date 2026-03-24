@@ -34,50 +34,50 @@ interface NavSection {
 
 const askIcon = (
   <>
-    <Image src="/assets/icons/navbar/ask-attio.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-ask-attio-dark-3.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/ask-attio.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-ask-attio-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const aiIcon = (
   <>
-    <Image src="/assets/icons/navbar/ai.png"                    alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-ai-dark.svg"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/ai.png"                    alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-ai-dark.svg"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const dataIcon = (
   <>
-    <Image src="/assets/icons/navbar/data-model.png"            alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-data-dark.svg"     alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/data-model.png"            alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-data-dark.svg"     alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const productivityIcon = (
   <>
-    <Image src="/assets/icons/navbar/productivity.png"          alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-collaboration-dark.svg"   alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/productivity.png"          alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-collaboration-dark.svg"   alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const workflowsIcon = (
   <>
-    <Image src="/assets/icons/navbar/workflows.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-automations-dark.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/workflows.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-automations-dark.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const sequencesIcon = (
   <>
-    <Image src="/assets/icons/navbar/sequences.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-sequences-dark-3.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/sequences.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-sequences-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const reportingIcon = (
   <>
-    <Image src="/assets/icons/navbar/reporting.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-reporting-dark.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/reporting.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-reporting-dark.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const developersIcon = (
   <>
-    <Image src="/assets/icons/navbar/developer.png"             alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-dev-platform-dark-3.svg"      alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/developer.png"             alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-dev-platform-dark-3.svg"      alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 const blogIcon = (
@@ -96,8 +96,8 @@ const startupIcon = (
 )
 const partnersIcon = (
   <>
-    <Image src="/assets/icons/navbar/partner.png"               alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
-    <Image src="/assets/icons/navbar/hacker/navigation-partners-dark.svg"        alt="" width={40} height={40} className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
+    <Image src="/assets/icons/navbar/partner.png"               alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hacker-mode:hidden" />
+    <Image src="/assets/icons/navbar/hacker/navigation-partners-dark.svg"        alt="" width={40} height={40} loading="eager" className="absolute inset-0 size-10 object-cover hidden hacker-mode:block" />
   </>
 )
 
