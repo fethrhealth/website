@@ -6,8 +6,8 @@ import type { CollectionConfig } from 'payload'
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
-    // staticDir removed — Vercel Blob handles storage (see payload.config.ts).
-    // Falls back to local /tmp on dev if BLOB_READ_WRITE_TOKEN is not set.
+    // Vercel Blob handles storage — disable local filesystem entirely.
+    disableLocalStorage: true,
     imageSizes: [
       {
         name: 'thumbnail',
