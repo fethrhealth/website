@@ -17,6 +17,7 @@
 
 import { useId } from "react";
 import { motion } from "framer-motion";
+import { PARTNERS_HERO } from "@/data/partners-hero";
 
 const EASE_EMPHASIZED = [0.2, 0, 0, 1] as const;
 
@@ -63,7 +64,7 @@ export function PartnersHeroSection() {
                   transition={{ duration: 0.4, ease: EASE_EMPHASIZED }}
                   className="mb-6 inline-block w-fit rounded-[13px] border border-weak-stroke bg-primary-background px-3 py-1.5 font-medium text-[13px]/[1.4em] text-secondary-foreground"
                 >
-                  <h1>Partner programs</h1>
+                  <h1>{PARTNERS_HERO.badge}</h1>
                 </motion.div>
 
                 {/* Heading */}
@@ -73,7 +74,7 @@ export function PartnersHeroSection() {
                   transition={{ duration: 0.5, delay: 0.05, ease: EASE_EMPHASIZED }}
                   className="max-w-[15em] text-balance text-center text-heading-responsive-lg"
                 >
-                  Partner with us to build the next generation of CRM.
+                  {PARTNERS_HERO.heading}
                 </motion.h2>
 
                 {/* Subheading */}
@@ -83,7 +84,7 @@ export function PartnersHeroSection() {
                   transition={{ duration: 0.5, delay: 0.1, ease: EASE_EMPHASIZED }}
                   className="mt-4 max-w-xl text-balance text-center text-lg text-secondary-foreground lg:text-xl"
                 >
-                  We work with the best developers, creators, and consultants to power the next era of companies.
+                  {PARTNERS_HERO.subheading}
                 </motion.p>
 
               </header>

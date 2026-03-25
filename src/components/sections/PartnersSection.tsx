@@ -11,7 +11,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { PARTNERS, type PartnerType } from "@/data/partners";
+import { PARTNERS, type PartnerType } from "@/data/partners-list";
 import Divider from "../ui/divider";
 
 // ---------------------------------------------------------------------------

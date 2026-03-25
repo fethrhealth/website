@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { PartnersHeroSection } from "@/components/sections/PartnersHeroSection";
 import { PartnersSection } from "@/components/sections/PartnersSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { PARTNERS_TESTIMONIALS } from "@/data/home-testimonials";
+import { PARTNERS_TESTIMONIALS } from "@/data/partners-testimonials";
 import Divider from "@/components/ui/divider";
 import { KeepUpToDateSection } from "@/components/sections/KeepUpToDateSection";
+import { PARTNERS_UPDATES } from "@/data/partners-updates";
 
 export const metadata: Metadata = {
   title: 'Partners',
@@ -22,7 +23,11 @@ export default function PartnersPage(): React.ReactElement {
       <Divider/>
       <PartnersSection />
       <TestimonialsSection items={ PARTNERS_TESTIMONIALS }/>
-      <KeepUpToDateSection/>
+      <KeepUpToDateSection
+        heading={PARTNERS_UPDATES.heading}
+        subheading={PARTNERS_UPDATES.subheading}
+        channels={PARTNERS_UPDATES.channels}
+      />
     </main>
   )
 }
