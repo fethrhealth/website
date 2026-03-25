@@ -29,25 +29,6 @@ export interface FaqSectionProps {
 }
 
 // ---------------------------------------------------------------------------
-// /startups page FAQ
-// ---------------------------------------------------------------------------
-
-export const STARTUPS_FAQ: FaqItem[] = [
-  {
-    id: "startup-eligibility",
-    question: "Who is eligible for the Attio startup program?",
-    answer:
-      "Early-stage healthcare startups with fewer than 50 employees and pre-Series B funding are eligible. We focus on companies building tools for clinicians, patients, or healthcare operations.",
-  },
-  {
-    id: "startup-apply",
-    question: "How do I apply to the startup program?",
-    answer:
-      "Fill out the short application on this page. Our team reviews applications within 2 business days and will reach out to schedule a quick intro call.",
-  }
-];
-
-// ---------------------------------------------------------------------------
 // /refer page FAQ
 // ---------------------------------------------------------------------------
 
