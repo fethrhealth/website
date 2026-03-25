@@ -1,26 +1,26 @@
 /**
  * Company logo grids.
  *
- * Uso:
+ * Usage:
  *   <CompaniesSection logos={HOME_COMPANY_LOGOS} />
  *   <CompaniesSection logos={PARTNERS_COMPANY_LOGOS} heading="Trusted by our partners" />
  *
- * Imágenes → /public/assets/logos/companies/[slug].svg
- * Tamaño recomendado: 172×60 px
+ * Images → /public/assets/logos/companies/[slug].svg
+ * Recommended size: 172×60 px
  */
 
 export interface CompanyLogo {
-  /** Ruta desde /public, e.g. "/assets/logos/companies/acme.svg" */
+  /** Path from /public, e.g. "/assets/logos/companies/acme.svg" */
   src: string
-  /** Alt text descriptivo; puede quedar vacío ("") si es decorativo */
+  /** Descriptive alt text; can be empty ("") if decorative */
   alt: string
   width: number
   height: number
 }
 
 // ---------------------------------------------------------------------------
-// Home page — agrega hasta ~18 logos (desktop 6 cols × 3 rows).
-// En mobile (md↓) se muestran solo los primeros 9.
+// Home page — add up to ~18 logos (desktop 6 cols × 3 rows).
+// On mobile (md↓) only the first 9 are shown.
 // ---------------------------------------------------------------------------
 export const HOME_COMPANY_LOGOS: CompanyLogo[] = [
   { src: '/assets/logos/companies/company-1.webp',  alt: 'Company 1',  width: 172, height: 60 },

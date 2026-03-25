@@ -117,8 +117,8 @@ export function DevelopersReviewSection({ quote, name, role, photo }: Developers
               className="absolute inset-0"
               style={{ gridColumn: '3 / 9', gridRow: '3 / -3' }}
             >
-              {/* mix-blend-lighten sobre fondo negro = identidad, así que el PNG se ve tal cual.
-                  En hacker mode se aplica un filter para tintarlo verde antes de componer. */}
+              {/* mix-blend-lighten on black background = identity, so the PNG renders as-is.
+                  In hacker mode a filter is applied to tint it green before compositing. */}
               <div className="absolute inset-0 mix-blend-lighten hacker-mode:[filter:grayscale(1)_sepia(2)_hue-rotate(113deg)_saturate(4)_brightness(0.5)]">
                 {photo ?? <div className="w-full h-full" />}
               </div>

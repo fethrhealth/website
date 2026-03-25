@@ -10,11 +10,11 @@ export function CompaniesSection({
 }: {
   logos?: CompanyLogo[]
   /**
-   * Texto pequeño opcional encima de los logos, e.g. "Trusted by leading teams".
-   * Si no se pasa, no se renderiza nada.
+   * Optional small text above the logos, e.g. "Trusted by leading teams".
+   * If not provided, nothing is rendered.
    */
   heading?: string
-  /** Limita cuántos logos se muestran. Por defecto muestra todos. */
+  /** Limits how many logos are shown. Defaults to showing all. */
   maxLogos?: number
 }) {
   const visibleLogos = maxLogos !== undefined ? logos.slice(0, maxLogos) : logos

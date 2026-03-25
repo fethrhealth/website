@@ -1,38 +1,38 @@
 /**
  * Partners section data.
  *
- * Agrega un nuevo objeto al array PARTNERS para añadir un tipo de partner.
- * El índice (index) se muestra tal cual en el overline: "01 / App partners".
- * Las imágenes van en /public/partners/ — e.g. "/partners/app.svg".
+ * Add a new object to the PARTNERS array to add a partner type.
+ * The index is displayed as-is in the overline: "01 / App partners".
+ * Images go in /public/partners/ — e.g. "/partners/app.svg".
  */
 
 export interface PartnerType {
-  /** Número mostrado en el overline, e.g. "01" */
+  /** Number shown in the overline, e.g. "01" */
   index: string;
-  /** Etiqueta del overline, e.g. "App partners" */
+  /** Overline label, e.g. "App partners" */
   label: string;
   /**
-   * Primera parte del heading — se muestra en negro oscuro.
-   * Suele ser el nombre del tipo de partner con punto: "App partners."
+   * First part of the heading — displayed in dark black.
+   * Usually the partner type name with a period: "App partners."
    */
   titleBold: string;
   /**
-   * Segunda parte del heading — se muestra en gris (text-black-800).
-   * Es la descripción corta del programa.
+   * Second part of the heading — displayed in muted grey (text-black-800).
+   * Short description of the program.
    */
   titleMuted: string;
-  /** Texto del botón CTA */
+  /** CTA button label */
   ctaLabel: string;
-  /** Destino del botón CTA */
+  /** CTA button destination */
   ctaHref: string;
-  /** Ruta desde /public, e.g. "/partners/app.svg" */
+  /** Path from /public, e.g. "/partners/app.svg" */
   imageSrc: string;
-  /** Alt text para accesibilidad */
+  /** Alt text for accessibility */
   imageAlt: string;
 }
 
 // ---------------------------------------------------------------------------
-// EDIT THIS ARRAY ↓ — agrega o quita tipos de partners libremente.
+// EDIT THIS ARRAY ↓ — add or remove partner types freely.
 // ---------------------------------------------------------------------------
 export const PARTNERS: PartnerType[] = [
   {

@@ -1,17 +1,17 @@
 /**
  * Steps for the "Referral Process" section.
  *
- * Imágenes → /public/assets/images/referral/step-[n].webp
- * Tamaño recomendado: 370×80 px
+ * Images → /public/assets/images/referral/step-[n].webp
+ * Recommended size: 370×80 px
  *
- * Uso:
+ * Usage:
  *   <ReferralProcessSection steps={REFERRAL_STEPS} />
  */
 
 export interface ProcessStep {
-  /** Ruta de la imagen decorativa desde /public */
+  /** Path to the decorative image from /public */
   imageSrc: string
-  /** Número + título, e.g. "1. Share your unique link" */
+  /** Number + title, e.g. "1. Share your unique link" */
   title: string
   description: string
 }

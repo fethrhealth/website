@@ -92,9 +92,9 @@ const config: Config = {
           foreground: 'hsl(var(--card-foreground))',
         },
 
-        // ─── PALETA DE PRIMITIVOS (extraídos de attio.com) ───
+        // ─── PRIMITIVE PALETTE (extracted from attio.com) ───
         black: {
-          0:   '#000000',        // black-0  — negro puro (Attio dark:bg-black-0)
+          0:   '#000000',        // black-0  — pure black (Attio dark:bg-black-0)
           50:  '#101113',
           100: '#1c1d1f',
           200: '#202124',
@@ -193,7 +193,7 @@ const config: Config = {
           'fg-caption':           '#505967',      // black-600
           'fg-disabled':          '#6f7988',      // black-700
           'fg-link':              '#266df0',      // blue-500
-          'fg-link-strong':       '#709ff5',      // blue-400 (más brillante en oscuro)
+          'fg-link-strong':       '#709ff5',      // blue-400 (brighter on dark backgrounds)
         },
       },
 

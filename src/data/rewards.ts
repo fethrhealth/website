@@ -1,17 +1,17 @@
 /**
  * Accordion items for the rewards / tier sections on the Refer page.
  *
- * Cada item tiene su propia imagen — se muestra cuando el item está abierto.
- * Imágenes → /public/assets/images/rewards/[tier]-[slug].webp
+ * Each item has its own image — shown when the item is open.
+ * Images → /public/assets/images/rewards/[tier]-[slug].webp
  *
- * Uso:
+ * Usage:
  *   <AccordionImageSection items={TIER_1_REWARDS} ... />
  */
 
 export interface AccordionItem {
   title: string
   description: string
-  /** Imagen que se muestra en el panel derecho cuando este item está activo */
+  /** Image shown in the right panel when this item is active */
   imageSrc: string
   imageWidth?: number
   imageHeight?: number
@@ -19,7 +19,7 @@ export interface AccordionItem {
 }
 
 // ---------------------------------------------------------------------------
-// Agrega un array por cada tier / sección que uses en la página.
+// Add an array for each tier / section used on the page.
 // ---------------------------------------------------------------------------
 
 export const TIER_1_REWARDS: AccordionItem[] = [

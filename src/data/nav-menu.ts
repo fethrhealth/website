@@ -1,8 +1,8 @@
 /**
- * nav-menu.ts — Estructura del menú de navegación
+ * nav-menu.ts — Navigation menu structure
  *
- * Edita este archivo para agregar, quitar o modificar items del navbar.
- * No necesitas tocar ningún otro archivo.
+ * Edit this file to add, remove, or modify navbar items.
+ * No other file needs to be touched.
  *
  * ─── Tipos de entrada ────────────────────────────────────────────────────────
  *

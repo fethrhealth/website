@@ -1,10 +1,10 @@
 /**
  * Social / channel cards for the "Keep up to date" section.
  *
- * Uso:
+ * Usage:
  *   <KeepUpToDateSection channels={DEFAULT_SOCIAL_CHANNELS} />
  *
- * Los iconos disponibles son: 'linkedin' | 'x' | 'blog' | 'changelog'
+ * Available icons: 'linkedin' | 'x' | 'blog' | 'changelog'
  */
 
 export type ChannelIcon = 'linkedin' | 'x' | 'blog' | 'changelog'
@@ -13,13 +13,13 @@ export interface SocialChannel {
   label: string
   description: string
   href: string
-  /** true → abre en nueva pestaña con rel="noopener noreferrer" */
+  /** true → opens in a new tab with rel="noopener noreferrer" */
   external?: boolean
   icon: ChannelIcon
 }
 
 // ---------------------------------------------------------------------------
-// EDIT THIS ARRAY ↓ — agrega o quita canales libremente, tambien puedes crear nuevos SocialChannel[]=
+// EDIT THIS ARRAY ↓ — add or remove channels freely, you can also create new SocialChannel[] arrays
 // ---------------------------------------------------------------------------
 export const DEFAULT_SOCIAL_CHANNELS: SocialChannel[] = [
   {
