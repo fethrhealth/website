@@ -91,7 +91,7 @@ export const NAV_MENU: NavEntry[] = [
         heading: 'Company',
         items: [
           { title: 'Blog',             href: '/blog',     description: 'Insights on healthcare CRM strategy', icon: 'blog'     },
-          { title: 'Startup Program',  href: '/startups', description: 'Get Fethr free for up to 2 years',    icon: 'startup'  },
+          { title: 'Startup Program',  href: '/startups', description: 'Get Fethr free for up to 3 years',    icon: 'startup'  },
           { title: 'Become a Partner', href: '/partners', description: 'Join our partner ecosystem',          icon: 'partners' },
         ],
       },
@@ -99,5 +99,5 @@ export const NAV_MENU: NavEntry[] = [
   },
   
   // ── Link simple (sin dropdown) — descomenta para agregar ──────────────────
-  // { type: 'link', label: 'Pricing', href: '/pricing' },
+  // { type: 'link', label: 'Blog', href: '/blog' },
 ]
