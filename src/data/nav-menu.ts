@@ -1,22 +1,19 @@
 /**
- * nav-menu.ts — Estructura del menú de navegación
+ * Edit this file to add, remove, or modify navbar items.
+ * No need to touch any other file.
  *
- * Edita este archivo para agregar, quitar o modificar items del navbar.
- * No necesitas tocar ningún otro archivo.
- *
- * ─── Tipos de entrada ────────────────────────────────────────────────────────
+ * ─── Entry Types ─────────────────────────────────────────────────────────────
  *
  *  { type: 'link', label: '...', href: '...' }
- *    → Link simple en el navbar, sin dropdown.
+ *    → Simple link in the navbar, no dropdown.
  *
  *  { type: 'dropdown', label: '...', sections: [...] }
- *    → Botón que abre un dropdown con una o más secciones agrupadas.
+ *    → Button that opens a dropdown with one or more grouped sections.
  *
- * ─── Iconos disponibles ──────────────────────────────────────────────────────
+ * ─── Available Icons ─────────────────────────────────────────────────────────
  *
  *  'ask' | 'ai' | 'data' | 'productivity' | 'workflows' |
  *  'sequences' | 'reporting' | 'developers' | 'blog' | 'startup' | 'partners'
- *
  */
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -98,6 +95,6 @@ export const NAV_MENU: NavEntry[] = [
     ],
   },
   
-  // ── Link simple (sin dropdown) — descomenta para agregar ──────────────────
+  // ── Simple link (no dropdown) — uncomment to add ──────────────────
   // { type: 'link', label: 'Blog', href: '/blog' },
 ]
