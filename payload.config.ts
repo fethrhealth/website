@@ -55,8 +55,6 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI ?? '',
-      // Force IPv4 — Vercel's network cannot reach Supabase over IPv6.
-      family: 4,
     },
     // Push schema directly on startup — creates tables automatically on first deploy.
     // Safe for new databases; for future schema changes, generate migrations instead.
