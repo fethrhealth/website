@@ -1,19 +1,22 @@
 /**
- * Edit this file to add, remove, or modify navbar items.
- * No need to touch any other file.
+ * nav-menu.ts — Estructura del menú de navegación
  *
- * ─── Entry Types ─────────────────────────────────────────────────────────────
+ * Edita este archivo para agregar, quitar o modificar items del navbar.
+ * No necesitas tocar ningún otro archivo.
+ *
+ * ─── Tipos de entrada ────────────────────────────────────────────────────────
  *
  *  { type: 'link', label: '...', href: '...' }
- *    → Simple link in the navbar, no dropdown.
+ *    → Link simple en el navbar, sin dropdown.
  *
  *  { type: 'dropdown', label: '...', sections: [...] }
- *    → Button that opens a dropdown with one or more grouped sections.
+ *    → Botón que abre un dropdown con una o más secciones agrupadas.
  *
- * ─── Available Icons ─────────────────────────────────────────────────────────
+ * ─── Iconos disponibles ──────────────────────────────────────────────────────
  *
  *  'ask' | 'ai' | 'data' | 'productivity' | 'workflows' |
  *  'sequences' | 'reporting' | 'developers' | 'blog' | 'startup' | 'partners'
+ *
  */
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -88,7 +91,7 @@ export const NAV_MENU: NavEntry[] = [
         heading: 'Company',
         items: [
           { title: 'Blog',             href: '/blog',     description: 'Insights on healthcare CRM strategy', icon: 'blog'     },
-          { title: 'Startup Program',  href: '/startups', description: 'Get Fethr free for up to 3 years',    icon: 'startup'  },
+          { title: 'Startup Program',  href: '/startups', description: 'Get Fethr free for up to 2 years',    icon: 'startup'  },
           { title: 'Become a Partner', href: '/partners', description: 'Join our partner ecosystem',          icon: 'partners' },
         ],
       },
