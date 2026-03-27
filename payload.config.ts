@@ -2,6 +2,7 @@ import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { microsoftGraphEmail } from '@/lib/microsoft-graph-email'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { BlogPosts } from '@/collections/BlogPosts'
@@ -33,6 +34,9 @@ export default buildConfig({
   collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, LegalPages, SocialLinks, Media, Users],
 
   editor: lexicalEditor(),
+
+  // Email via Microsoft Graph API (Azure AD client credentials)
+  email: microsoftGraphEmail(),
 
   // Vercel Blob storage — replaces local /public/media on production.
   // BLOB_READ_WRITE_TOKEN is injected automatically by Vercel when the
