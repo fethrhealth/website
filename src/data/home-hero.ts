@@ -11,8 +11,8 @@ export const ANNOUNCEMENT_HREF = '/platform/ask'
 
 // ─── Hero copy ────────────────────────────────────────────────────────────────
 
-export const HERO_HEADING           = 'Customer relationship magic.'
-export const HERO_SUBHEADING        = 'Fethr is the AI CRM for health GTM teams.'
+export const HERO_HEADING           = 'Intelligent healthcare automation.'
+export const HERO_SUBHEADING        = 'Fethr is the AI-native automation platform for healthcare organizations.'
 export const HERO_CTA_PRIMARY       = 'Start for free'
 export const HERO_CTA_PRIMARY_HREF  = '/signup'
 
