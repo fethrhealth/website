@@ -49,9 +49,9 @@ export async function POST(request: NextRequest) {
         lastName,
         companyEmail,
         yearFounded:         typeof body.yearFounded         === 'string' ? body.yearFounded         : undefined,
-        latestFundingRound:  typeof body.latestFundingRound  === 'string' ? body.latestFundingRound  : undefined,
-        totalAmountRaised:   typeof body.totalAmountRaised   === 'string' ? body.totalAmountRaised   : undefined,
-        teamSize:            typeof body.teamSize            === 'string' ? body.teamSize            : undefined,
+        latestFundingRound:  typeof body.latestFundingRound  === 'string' ? body.latestFundingRound  as 'Pre-seed' | 'Seed' | 'Series A' | 'Series B' | 'Series C+' : undefined,
+        totalAmountRaised:   typeof body.totalAmountRaised   === 'string' ? body.totalAmountRaised   as '$0 to $500k' | '$500k to $1M' | '$1M to $2.5M' | '$2.5M to $5M' | '$5M to $7.5M' | '$7.5M+' : undefined,
+        teamSize:            typeof body.teamSize            === 'string' ? body.teamSize            as '1 to 5' | '6 to 10' | '11 to 20' | '21 to 50' | '51 to 100' | '101+' : undefined,
         useCase:             typeof body.useCase             === 'string' ? body.useCase             : undefined,
       },
     })
