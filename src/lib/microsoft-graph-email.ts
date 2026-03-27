@@ -1,4 +1,5 @@
-import type { EmailAdapter, SendEmailOptions } from 'payload'
+import type { EmailAdapter } from 'payload'
+import type { SendMailOptions as NodemailerSendMailOptions } from 'nodemailer'
 
 /**
  * Custom Payload CMS email adapter using Microsoft Graph API.
@@ -46,27 +47,36 @@ export function microsoftGraphEmail(): EmailAdapter {
     }
 
     /** Send an email via Microsoft Graph API. */
-    async function sendEmail(message: SendEmailOptions): Promise<unknown> {
+    async function sendEmail(message: NodemailerSendMailOptions): Promise<unknown> {
       const token = await getAccessToken()
-      const from = message.from ?? `${defaultFromName} <${defaultFromAddress}>`
+      const rawFrom = Array.isArray(message.from)
+        ? message.from[0]
+        : message.from
+      const from = (typeof rawFrom === 'object' && rawFrom !== null ? rawFrom.address : rawFrom)
+        ?? `${defaultFromName} <${defaultFromAddress}>`
 
       // Parse "Name <email>" format
       const fromMatch = from.match(/^(.+?)\s*<(.+?)>$/)
       const fromName = fromMatch?.[1]?.trim() ?? defaultFromName
       const fromEmail = fromMatch?.[2]?.trim() ?? from
 
-      // Build recipient list
-      const toList = typeof message.to === 'string' ? message.to.split(',') : [message.to].flat()
+      // Build recipient list — normalize nodemailer's flexible `to` field
+      const toRaw = message.to
+      const toList: string[] = typeof toRaw === 'string'
+        ? toRaw.split(',')
+        : Array.isArray(toRaw)
+          ? toRaw.map((r) => (typeof r === 'string' ? r : r.address ?? ''))
+          : []
       const toRecipients = toList
         .filter(Boolean)
-        .map((email) => ({ emailAddress: { address: (email as string).trim() } }))
+        .map((addr) => ({ emailAddress: { address: addr.trim() } }))
 
       const graphPayload = {
         message: {
           subject: message.subject,
           body: {
             contentType: message.html ? 'HTML' : 'Text',
-            content: message.html ?? message.text ?? '',
+            content: (message.html || message.text || '').toString(),
           },
           from: {
             emailAddress: { name: fromName, address: fromEmail },
@@ -97,6 +107,7 @@ export function microsoftGraphEmail(): EmailAdapter {
     }
 
     return {
+      name: 'microsoft-graph',
       defaultFromAddress,
       defaultFromName,
       sendEmail,
