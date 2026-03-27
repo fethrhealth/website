@@ -1669,7 +1669,7 @@ export function HomeHeroSection(): ReactNode {
           <div className="container">
             <div className="flex flex-col items-center relative mt-24 mb-18 max-xl:mt-20 max-lg:mt-20 max-lg:mb-16">
               <AnnouncementBadge />
-              <h1 className="mt-6 max-w-[14ch] font-display text-center text-heading-md md:text-heading-lg lg:text-heading-xl">
+              <h1 className="mt-6 max-w-[18ch] font-display text-center text-heading-md md:text-heading-lg lg:text-heading-xl">
                 {HERO_HEADING}
               </h1>
               <p className="mt-4 max-w-md text-pretty text-center text-lg text-accent-foreground md:text-xl">
