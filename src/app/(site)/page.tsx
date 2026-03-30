@@ -42,8 +42,9 @@ export default function HomePage(): React.ReactElement {
       <Divider />
       <TrialSection
         source='home'
+        heading='Ready to automate your'
+        headingSerif='healthcare workflows?'
         showSales={false}
-        showPlansLink
         showImageMobile
       />
       <Divider />
@@ -56,7 +57,7 @@ export default function HomePage(): React.ReactElement {
         ctaText={ADAPTIVE_CTA_TEXT}
         ctaHref={ADAPTIVE_CTA_HREF}
       />
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       <HomeSpeedSection
         index={3}
         sectionLabel={SPEED_SECTION_LABEL}

@@ -235,7 +235,7 @@ function TriggerCard(): ReactNode {
           <div className="flex items-center gap-2 p-2.5 pr-3">
             <TriggerIcon />
             <p className="font-medium text-[14px] text-primary-foreground leading-5 tracking-[-0.02em]">
-              New lead found
+              New interface request
             </p>
           </div>
         </div>
@@ -345,12 +345,14 @@ export function BentoIllustrationAIWorkflow(): ReactNode {
           {/* Row 2: Activate PLG motion */}
           <AgentCardRow
             rowStartClass="row-start-2"
-            title="Activate PLG motion"
-            question="Does the company sell software to other businesses?"
+            title="Build interface"
+            question="What interfaces do I need to build?"
             answer={
-              <>Yes, they are a{' '}
-                <G size="400%" pos="bg-center">B2B SaaS</G>
-                {' '}business
+              <>Based on the spec document, an{' '}
+                <G size="400%" pos="bg-center">ADT</G>
+                {' '}and{' '}
+                <G size="400%" pos="bg-center">ORM</G>
+                {' '}feed
               </>
             }
             badgeDelay={T.badge1.d}
@@ -360,14 +362,11 @@ export function BentoIllustrationAIWorkflow(): ReactNode {
           {/* Row 3: Evaluate size of opportunity */}
           <AgentCardRow
             rowStartClass="row-start-3"
-            title="Evaluate size of opportunity"
-            question="Did the company raise any funds recently?"
+            title="Self-heal failed connector"
+            question="Why did the diet interface stop?"
             answer={
-              <>
-                <G size="200%" pos="bg-left">$25M</G>
-                {' '}raised in{' '}
-                <G size="400%" pos="bg-center">Series A</G>
-                {' '}funding round
+              <>Invalid supplement sent —{' '}
+                <G size="400%" pos="bg-center">skipped message</G>
               </>
             }
             badgeDelay={T.badge2.d}
@@ -377,11 +376,11 @@ export function BentoIllustrationAIWorkflow(): ReactNode {
           {/* Row 4: Identify key stakeholders */}
           <AgentCardRow
             rowStartClass="row-start-4"
-            title="Identify key stakeholders"
-            question="Who are the key stakeholders at the company?"
+            title="Scrape payer portal updates"
+            question="What changed on the Aetna eligibility portal?"
             answer={
               <G size="300%" pos="bg-center">
-                Adam Kingsley, CEO; Anne Zaragoza, CTO; Tom Wagner, VP of Sales
+                3 new denial codes added
               </G>
             }
             badgeDelay={T.badge3.d}

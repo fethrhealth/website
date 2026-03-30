@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 634.21 638.37">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#linear-gradient2);
+      }
+
+      .st1 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st2 {
+        fill: url(#linear-gradient4);
+      }
+
+      .st3 {
+        fill: url(#linear-gradient3);
+      }
+
+      .st4 {
+        fill: #ec1c24;
+      }
+
+      .st5 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="127.7" y1="277.04" x2="496.96" y2="293.27" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22b6e3"/>
+      <stop offset="1" stop-color="#2b7bd9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="133.26" y1="150.47" x2="502.53" y2="166.7" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient2" x1="125.85" y1="319.13" x2="495.11" y2="335.37" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient3" x1="123.11" y1="381.41" x2="492.38" y2="397.64" gradientTransform="translate(413.13 -205.43) rotate(45)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient4" x1="119.13" y1="471.99" x2="488.4" y2="488.22" gradientTransform="translate(449.14 -118.5) rotate(45)" xlink:href="#linear-gradient"/>
+  </defs>
+  <path class="st5" d="M315.57,318.15c-1.98-1.98-2.96-4.75-2.66-7.54l-.72-96.8c.83-7.74,10.26-11.06,15.76-5.56l95.57,95.57c3.62,3.62,3.62,9.48,0,13.1l-48.04,48.04c-3.62,3.62-9.48,3.62-13.1,0l-46.82-46.82Z"/>
+  <path class="st1" d="M294.12,275.69l1.58-94.5c.4-2.87-.58-5.76-2.63-7.81L146.63,26.93c-5.5-5.5-14.92-2.18-15.76,5.56l-9.35,86.74c-.3,2.79.68,5.56,2.66,7.54l154.21,154.21c5.41,5.41,14.68,2.3,15.72-5.28Z"/>
+  <path class="st0" d="M288.39,439.67l1.58-96.74c.4-2.87-.58-5.76-2.63-7.81l-134.15-134.15c-5.5-5.5-14.92-2.18-15.76,5.56l-9.35,86.74c-.3,2.79.68,5.56,2.66,7.54l141.91,144.15c5.41,5.41,14.68,2.3,15.72-5.28Z"/>
+  <rect class="st3" x="411.31" y="351.49" width="86.46" height="88.99" rx="9.26" ry="9.26" transform="translate(-146.87 437.39) rotate(-45)"/>
+  <rect class="st2" x="324.39" y="438.41" width="86.46" height="88.99" rx="9.26" ry="9.26" transform="translate(-233.79 401.39) rotate(-45)"/>
+  <rect class="st4" x="237.25" y="525.13" width="86.88" height="89.42" rx="43.44" ry="43.44" transform="translate(-320.72 365.38) rotate(-45)"/>
+</svg>
