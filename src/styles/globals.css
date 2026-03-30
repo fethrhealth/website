@@ -1259,10 +1259,10 @@
     }
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .home-bento-grid,
     .home-bento-spacer {
-      grid-template-columns: 280px 1fr 320px;
+      grid-template-columns: 280px 1fr clamp(270px, calc(100vw - 960px), 320px);
     }
 
     .home-bento-grid {
