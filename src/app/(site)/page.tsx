@@ -42,8 +42,9 @@ export default function HomePage(): React.ReactElement {
       <Divider />
       <TrialSection
         source='home'
+        heading='Ready to automate your'
+        headingSerif='healthcare workflows?'
         showSales={false}
-        showPlansLink
         showImageMobile
       />
       <Divider />

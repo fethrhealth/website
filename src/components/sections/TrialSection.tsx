@@ -317,13 +317,12 @@ export default function TrialSection({
                   {/* CTA row — stacks vertically on mobile */}
                   <div className="mt-6 flex w-full items-center justify-center gap-x-2.5 gap-y-2 max-md:flex-col lg:justify-start">
 
-                    {/* "Start for free" — desktop only */}
-                    <Link
-                      href="/sign-up"
+                    {/* Talk to Sales — desktop only */}
+                    <TalkToSalesDialog
+                      source={source}
+                      label="Talk to Sales"
                       className={cn(BTN_BASE, 'button-primary max-md:hidden')}
-                    >
-                      Start for free
-                    </Link>
+                    />
 
                     {/* "Talk to sales" dialog — desktop only */}
                     {showSales && (
@@ -339,15 +338,15 @@ export default function TrialSection({
                       submitLabel={submitLabel}
                     />
 
-                    {/* "See our plans" — optional */}
-                    {showPlansLink && (
+                    {/* TODO: Re-enable "See our plans" once pricing page is built */}
+                    {/* {showPlansLink && (
                       <Link
                         href="/pricing"
                         className={cn(BTN_BASE, 'button-outline')}
                       >
                         See our plans
                       </Link>
-                    )}
+                    )} */}
                   </div>
                 </div>
 

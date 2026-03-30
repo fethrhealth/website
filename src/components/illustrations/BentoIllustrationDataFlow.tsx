@@ -7,83 +7,77 @@ import type { ReactNode } from 'react'
 
 // ─── Category label icons (14×14) ─────────────────────────────────────────────
 
-// EHR systems — monitor/screen icon
-function EhrIcon(): ReactNode {
+function SalesIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <rect x="2" y="1.5" width="10" height="8" rx="1.5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M5 12.5h4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M7 9.5v3" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M5 5h4M7 3v4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M7 1.5L12.5 4.5V9.5L7 12.5L1.5 9.5V4.5L7 1.5Z" stroke="#6F7988" strokeWidth="1.1" strokeLinejoin="round" />
+      <circle cx="7" cy="7" r="2" stroke="#6F7988" strokeWidth="1.1" />
     </svg>
   )
 }
 
-// Lab systems — test tube icon
-function LabIcon(): ReactNode {
+function EmailIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path d="M5.5 2v4.5L2.5 11a1.5 1.5 0 0 0 1.3 2.25h6.4A1.5 1.5 0 0 0 11.5 11L8.5 6.5V2" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M4.5 2h5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M4 9h6" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <rect x="1.5" y="3" width="11" height="8" rx="1.5" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M1.5 5L7 8.5L12.5 5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
 
-// FHIR endpoints — flame/fire icon
-function FhirIcon(): ReactNode {
+function DataIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path d="M7 1C7 1 3 5 3 8.5a4 4 0 0 0 8 0C11 5 7 1 7 1Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7 7s-1.5 1.5-1.5 3A1.5 1.5 0 0 0 7 11.5 1.5 1.5 0 0 0 8.5 10C8.5 8.5 7 7 7 7Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <ellipse cx="7" cy="4" rx="4.5" ry="1.5" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M2.5 4V7C2.5 7.83 4.57 8.5 7 8.5S11.5 7.83 11.5 7V4" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M2.5 7V10C2.5 10.83 4.57 11.5 7 11.5S11.5 10.83 11.5 10V7" stroke="#6F7988" strokeWidth="1.1" />
     </svg>
   )
 }
 
-// Flat files & CSVs — document with lines icon
-function FlatFileIcon(): ReactNode {
+function SupportIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path d="M8 1.5H4.5a1.5 1.5 0 0 0-1.5 1.5v8a1.5 1.5 0 0 0 1.5 1.5h5a1.5 1.5 0 0 0 1.5-1.5V4.5L8 1.5Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8 1.5V4.5h3" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M5 7h4M5 9h2.5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <circle cx="7" cy="7" r="5.5" stroke="#6F7988" strokeWidth="1.1" />
+      <circle cx="7" cy="7" r="2" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M7 1.5V5M7 9V12.5M1.5 7H5M9 7H12.5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
 
-// Claims & billing — receipt/dollar doc icon
-function ClaimsIcon(): ReactNode {
+function BillingIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path d="M3 1.5l1 .75 1-.75 1 .75 1-.75 1 .75 1-.75 1 .75 1-.75v11l-1-.75-1 .75-1-.75-1 .75-1-.75-1 .75-1-.75-1 .75V1.5Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M5.5 5.5h3M5.5 7.5h3M5.5 9.5h2" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <rect x="1.5" y="3" width="11" height="8" rx="1.5" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M1.5 6H12.5" stroke="#6F7988" strokeWidth="1.1" />
+      <circle cx="4.5" cy="9" r="1" fill="#6F7988" />
     </svg>
   )
 }
 
-// REST APIs — code brackets icon
-function ApiIcon(): ReactNode {
+function ProductIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path d="M4.5 3L1.5 7l3 4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9.5 3l3 4-3 4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8 2L6 12" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <rect x="1.5" y="1.5" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
+      <rect x="8" y="1.5" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
+      <rect x="1.5" y="8" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
+      <rect x="8" y="8" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
     </svg>
   )
 }
 
 // ─── Card entity icons (18×18, from /assets/icons/home/connect-data/) ─────────
 
-const WorkspaceColourIcon = () => (
-  <Image src="/assets/icons/home/connect-data/DashboardColourIcon.svg" alt="Workspace" width={18} height={18} />
+const EpicColourIcon = () => (
+  <Image src="/assets/icons/companies/epic-logo.png" alt="Epic" width={18} height={18} />
 )
 
-const CompanyColourIcon = () => (
-  <Image src="/assets/icons/home/connect-data/CompanyColourIcon.svg" alt="Company" width={18} height={18} />
+const TeamsColourIcon = () => (
+  <Image src="/assets/icons/companies/teams-logo.svg" alt="Teams" width={18} height={18} />
 )
 
-const DealColourIcon = () => (
-  <Image src="/assets/icons/home/connect-data/DollarDocColourIcon.svg" alt="Deal" width={18} height={18} />
+const SnowflakeColourIcon = () => (
+  <Image src="/assets/icons/companies/snowflake-logo.svg" alt="Snowflake" width={18} height={18} />
 )
 
 // ─── Label chip ───────────────────────────────────────────────────────────────
@@ -127,13 +121,15 @@ function AnimatedCount({ to, inView }: { to: number; inView: boolean }): ReactNo
 // ─── Data card ────────────────────────────────────────────────────────────────
 
 function DataCard({
-  icon, label, count, inView, gridClass,
+  icon, label, count, inView, gridClass, tag = 'Standard', unit = 'Records',
 }: {
   icon: ReactNode
   label: string
   count: number
   inView: boolean
   gridClass: string
+  tag?: string
+  unit?: string
 }): ReactNode {
   return (
     <div
@@ -144,7 +140,7 @@ function DataCard({
         {icon}
         <p className="text-[12px] leading-[16px] tracking-[-0.02em]">{label}</p>
         <div className="ml-auto rounded-[8px] border border-[#EEEFF1] bg-[#F4F5F6] px-1.5 py-0.5 font-medium text-[10px] leading-[14px] tracking-[-0.02em]">
-          Standard
+          {tag}
         </div>
       </div>
       <svg width="100%" height="1" className="text-subtle-stroke" aria-hidden>
@@ -154,7 +150,7 @@ function DataCard({
         <span className="text-[11px] text-black-300 tabular-nums">
           <AnimatedCount to={count} inView={inView} />
         </span>
-        <span className="text-[10px] text-black-700 pl-1">Records</span>
+        <span className="text-[10px] text-black-700 pl-1">{unit}</span>
       </p>
     </div>
   )
@@ -264,16 +260,16 @@ export function BentoIllustrationDataFlow(): ReactNode {
           {/* Label chips — 3 rows, bottom-aligned */}
           <div className="relative flex size-full flex-col items-center justify-end" style={{ bottom: 73, gap: 37 }}>
             <div className="flex items-center justify-center" style={{ gap: 109 }}>
-              <LabelChip icon={<EhrIcon />}      label="EHR systems" />
-              <LabelChip icon={<LabIcon />}      label="Lab systems" />
+              <LabelChip icon={<SalesIcon />}   label="EHRs" />
+              <LabelChip icon={<EmailIcon />}   label="Email & calendar" />
             </div>
             <div className="flex items-center justify-center" style={{ gap: 181 }}>
-              <LabelChip icon={<FhirIcon />}     label="FHIR endpoints" />
-              <LabelChip icon={<FlatFileIcon />} label="Flat files & CSVs" />
+              <LabelChip icon={<DataIcon />}    label="Data warehouses" />
+              <LabelChip icon={<SupportIcon />} label="Customer support" />
             </div>
             <div className="flex items-center justify-center" style={{ gap: 109 }}>
-              <LabelChip icon={<ClaimsIcon />}   label="Claims & billing" />
-              <LabelChip icon={<ApiIcon />}      label="REST APIs" />
+              <LabelChip icon={<BillingIcon />} label="Billing & invoicing" />
+              <LabelChip icon={<ProductIcon />} label="Programming languages" />
             </div>
           </div>
 
@@ -316,31 +312,36 @@ export function BentoIllustrationDataFlow(): ReactNode {
             </svg>
           </div>
 
-          {/* Workspace card */}
+          {/* Epic card */}
           <DataCard
-            icon={<WorkspaceColourIcon />}
-            label="Workspace"
-            count={2900}
+            icon={<EpicColourIcon />}
+            label="Epic"
+            count={5283493}
             inView={inView}
             gridClass="col-span-4 col-start-1 row-start-2"
+            tag="EHR"
+            unit="Patients"
           />
 
-          {/* Company card */}
+          {/* Teams card */}
           <DataCard
-            icon={<CompanyColourIcon />}
-            label="Company"
+            icon={<TeamsColourIcon />}
+            label="Teams"
             count={3128}
             inView={inView}
             gridClass="col-span-4 col-start-5 row-start-2"
+            tag="Communication"
+            unit="Messages"
           />
 
-          {/* Deal card */}
+          {/* Snowflake card */}
           <DataCard
-            icon={<DealColourIcon />}
-            label="Deal"
-            count={5518}
+            icon={<SnowflakeColourIcon />}
+            label="Snowflake"
+            count={2383495}
             inView={inView}
             gridClass="col-span-full row-start-4"
+            tag="Database"
           />
 
         </div>

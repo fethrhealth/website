@@ -34,12 +34,12 @@ const CARDS: readonly CardDef[] = [
     opacity: 0, scale: 0.6, translateY: '-414%',
   },
   {
-    label: 'Eligibility verification',
+    label: 'Claims denial follow-up',
     iconBg: 'rgb(255,235,235)', iconBorder: 'rgb(255,220,219)', iconStroke: 'rgb(119,35,34)',
     opacity: 0.25, scale: 0.7, translateY: '-354.5%',
   },
   {
-    label: 'Bi-directional lab results',
+    label: 'Eligibility verification',
     iconBg: 'rgb(255,243,204)', iconBorder: 'rgb(255,235,173)', iconStroke: 'rgb(112,85,0)',
     opacity: 0.5, scale: 0.8, translateY: '-268%',
   },
@@ -49,7 +49,7 @@ const CARDS: readonly CardDef[] = [
     opacity: 0.75, scale: 0.9, translateY: '-163.5%',
   },
   {
-    label: 'Claims denial follow-up',
+    label: 'Bi-directional lab results',
     iconBg: 'rgb(221,249,228)', iconBorder: 'rgb(199,244,211)', iconStroke: 'rgb(7,90,57)',
     opacity: 1, scale: 1, translateY: '-50%',
   },
