@@ -56,7 +56,7 @@ export default function HomePage(): React.ReactElement {
         ctaText={ADAPTIVE_CTA_TEXT}
         ctaHref={ADAPTIVE_CTA_HREF}
       />
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       <HomeSpeedSection
         index={3}
         sectionLabel={SPEED_SECTION_LABEL}

@@ -7,61 +7,67 @@ import type { ReactNode } from 'react'
 
 // ─── Category label icons (14×14) ─────────────────────────────────────────────
 
-function SalesIcon(): ReactNode {
+// EHR systems — monitor/screen icon
+function EhrIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path d="M7 1.5L12.5 4.5V9.5L7 12.5L1.5 9.5V4.5L7 1.5Z" stroke="#6F7988" strokeWidth="1.1" strokeLinejoin="round" />
-      <circle cx="7" cy="7" r="2" stroke="#6F7988" strokeWidth="1.1" />
+      <rect x="2" y="1.5" width="10" height="8" rx="1.5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5 12.5h4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M7 9.5v3" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M5 5h4M7 3v4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
 
-function EmailIcon(): ReactNode {
+// Lab systems — test tube icon
+function LabIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <rect x="1.5" y="3" width="11" height="8" rx="1.5" stroke="#6F7988" strokeWidth="1.1" />
-      <path d="M1.5 5L7 8.5L12.5 5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M5.5 2v4.5L2.5 11a1.5 1.5 0 0 0 1.3 2.25h6.4A1.5 1.5 0 0 0 11.5 11L8.5 6.5V2" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4.5 2h5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M4 9h6" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
 
-function DataIcon(): ReactNode {
+// FHIR endpoints — flame/fire icon
+function FhirIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <ellipse cx="7" cy="4" rx="4.5" ry="1.5" stroke="#6F7988" strokeWidth="1.1" />
-      <path d="M2.5 4V7C2.5 7.83 4.57 8.5 7 8.5S11.5 7.83 11.5 7V4" stroke="#6F7988" strokeWidth="1.1" />
-      <path d="M2.5 7V10C2.5 10.83 4.57 11.5 7 11.5S11.5 10.83 11.5 10V7" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M7 1C7 1 3 5 3 8.5a4 4 0 0 0 8 0C11 5 7 1 7 1Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7 7s-1.5 1.5-1.5 3A1.5 1.5 0 0 0 7 11.5 1.5 1.5 0 0 0 8.5 10C8.5 8.5 7 7 7 7Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
-function SupportIcon(): ReactNode {
+// Flat files & CSVs — document with lines icon
+function FlatFileIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <circle cx="7" cy="7" r="5.5" stroke="#6F7988" strokeWidth="1.1" />
-      <circle cx="7" cy="7" r="2" stroke="#6F7988" strokeWidth="1.1" />
-      <path d="M7 1.5V5M7 9V12.5M1.5 7H5M9 7H12.5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M8 1.5H4.5a1.5 1.5 0 0 0-1.5 1.5v8a1.5 1.5 0 0 0 1.5 1.5h5a1.5 1.5 0 0 0 1.5-1.5V4.5L8 1.5Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 1.5V4.5h3" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5 7h4M5 9h2.5" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
 
-function BillingIcon(): ReactNode {
+// Claims & billing — receipt/dollar doc icon
+function ClaimsIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <rect x="1.5" y="3" width="11" height="8" rx="1.5" stroke="#6F7988" strokeWidth="1.1" />
-      <path d="M1.5 6H12.5" stroke="#6F7988" strokeWidth="1.1" />
-      <circle cx="4.5" cy="9" r="1" fill="#6F7988" />
+      <path d="M3 1.5l1 .75 1-.75 1 .75 1-.75 1 .75 1-.75 1 .75 1-.75v11l-1-.75-1 .75-1-.75-1 .75-1-.75-1 .75-1-.75-1 .75V1.5Z" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5.5 5.5h3M5.5 7.5h3M5.5 9.5h2" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
 
-function ProductIcon(): ReactNode {
+// REST APIs — code brackets icon
+function ApiIcon(): ReactNode {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <rect x="1.5" y="1.5" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
-      <rect x="8" y="1.5" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
-      <rect x="1.5" y="8" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
-      <rect x="8" y="8" width="4.5" height="4.5" rx="1" stroke="#6F7988" strokeWidth="1.1" />
+      <path d="M4.5 3L1.5 7l3 4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.5 3l3 4-3 4" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 2L6 12" stroke="#6F7988" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
@@ -258,16 +264,16 @@ export function BentoIllustrationDataFlow(): ReactNode {
           {/* Label chips — 3 rows, bottom-aligned */}
           <div className="relative flex size-full flex-col items-center justify-end" style={{ bottom: 73, gap: 37 }}>
             <div className="flex items-center justify-center" style={{ gap: 109 }}>
-              <LabelChip icon={<SalesIcon />}   label="Sales engagement" />
-              <LabelChip icon={<EmailIcon />}   label="Email & calendar" />
+              <LabelChip icon={<EhrIcon />}      label="EHR systems" />
+              <LabelChip icon={<LabIcon />}      label="Lab systems" />
             </div>
             <div className="flex items-center justify-center" style={{ gap: 181 }}>
-              <LabelChip icon={<DataIcon />}    label="Data warehouses" />
-              <LabelChip icon={<SupportIcon />} label="Customer support" />
+              <LabelChip icon={<FhirIcon />}     label="FHIR endpoints" />
+              <LabelChip icon={<FlatFileIcon />} label="Flat files & CSVs" />
             </div>
             <div className="flex items-center justify-center" style={{ gap: 109 }}>
-              <LabelChip icon={<BillingIcon />} label="Billing & invoicing" />
-              <LabelChip icon={<ProductIcon />} label="Product data" />
+              <LabelChip icon={<ClaimsIcon />}   label="Claims & billing" />
+              <LabelChip icon={<ApiIcon />}      label="REST APIs" />
             </div>
           </div>
 
@@ -359,7 +365,7 @@ export function BentoIllustrationDataFlow(): ReactNode {
             <div className="absolute inset-px overflow-hidden rounded-[11px] bg-white-100" />
           </div>
           <div className="absolute inset-px flex items-center justify-center rounded-[11px] bg-[#FFFFFF]">
-            <Image src="/assets/icons/home/connect-data/attio.svg" alt="" width={36} height={32} />
+            <Image src="/assets/icons/home/connect-data/fethr.svg" alt="" width={36} height={32} />
           </div>
         </div>
 
