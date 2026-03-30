@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useKeenSlider } from 'keen-slider/react'
 import { cn } from '@/lib/utils'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
 
@@ -1262,62 +1263,163 @@ function DesktopCardGrid({
   )
 }
 
-// ─── Mobile / tablet card strip (< 1320px) ───────────────────────────────────
+// ─── Mobile slide connectors — cross lines between the 2×2 card grid ─────────
+// Vertical line through col 2 (center column) + horizontal line through row 2
+// (center row) with an intersection dot. Matches attio's relationship-line style.
+
+function MobileSlideConnectors() {
+  return (
+    <>
+      {/* Vertical line — center column, spans all 3 rows */}
+      {/* <div
+        className="pointer-events-none select-none col-start-2 row-start-1 row-span-3 relative"
+        aria-hidden
+      >
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 1 1"
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <line
+            x1="0.5" y1="0" x2="0.5" y2="1"
+            stroke="#E4E7EC" strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+      </div> */}
+
+      {/* Horizontal line — center row, spans all 3 columns + center dot */}
+      <div
+        className="pointer-events-none select-none col-start-1 col-span-3 row-start-2 relative"
+        aria-hidden
+      >
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 1 1"
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <line
+            x1="0" y1="0.5" x2="1" y2="0.5"
+            stroke="#E4E7EC" strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        {/* Intersection dot */}
+        {/* <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <svg width="6" height="6" viewBox="0 0 6 6" fill="none">
+            <circle cx="3" cy="3" r="2" fill="white" stroke="#E4E7EC" strokeWidth="1.5" />
+          </svg>
+        </div> */}
+      </div>
+    </>
+  )
+}
+
+// ─── Mobile / tablet card slider (< 1320px) ───────────────────────────────────
+// keen-slider where each slide shows one tab's full 2×2 card layout.
+// Active slide: scale(1) opacity(1). Inactive: scale(0.85) opacity(0.5).
+// Tab buttons are hidden on mobile; swiping calls onTabChange to keep parent in sync.
 
 function MobileCardStrip({
-  tab,
+  tabs,
+  activeTabIndex,
+  onTabChange,
   addHovered,
   onAddEnter,
-  contentVisible,
 }: {
-  tab: TabConfig
+  tabs: TabConfig[]
+  activeTabIndex: number
+  onTabChange: (i: number) => void
   addHovered: boolean
   onAddEnter: () => void
-  contentVisible: boolean
 }) {
+  // Guard ref prevents circular update: tab-button click → moveToIdx → slideChanged → onTabChange
+  const isProgrammaticMove = useRef(false)
+
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: activeTabIndex,
+    slides: { perView: 1 },
+    slideChanged(slider) {
+      if (isProgrammaticMove.current) {
+        isProgrammaticMove.current = false
+        return
+      }
+      onTabChange(slider.track.details.rel)
+    },
+  })
+
+  // When the active tab changes from outside (tab button click), move the slider
+  useEffect(() => {
+    if (!instanceRef.current) return
+    const currentIdx = instanceRef.current.track.details.rel
+    if (currentIdx === activeTabIndex) return
+    isProgrammaticMove.current = true
+    instanceRef.current.moveToIdx(activeTabIndex)
+  }, [activeTabIndex, instanceRef])
+
   return (
     <div className="relative block min-[1320px]:hidden">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <DotGridBg />
       </div>
 
-      <div className="relative flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-7 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0 : 0, ease: 'easeOut' }}
-        >
-          <ObjectCard card={tab.leftCard} />
-        </motion.div>
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0.06 : 0, ease: 'easeOut' }}
-        >
-          <ObjectCard card={tab.centerCard} />
-        </motion.div>
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0.12 : 0, ease: 'easeOut' }}
-        >
-          <ObjectCard card={tab.rightCard} />
-        </motion.div>
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0.18 : 0, ease: 'easeOut' }}
-        >
-          <AddObjectSlot
-            addCard={tab.addCard}
-            hovered={addHovered}
-            onEnter={onAddEnter}
-          />
-        </motion.div>
+      <div ref={sliderRef} className="keen-slider">
+        {tabs.map((tab, i) => {
+          const isActive = i === activeTabIndex
+          return (
+            <div key={tab.id} className="keen-slider__slide">
+              {/*
+               * Slide content — scale + opacity transition on active/inactive.
+               * origin-bottom keeps the cards from visually jumping up when scaling.
+               */}
+              <div
+                className="transition-all duration-300 ease-in-out origin-bottom"
+                style={{
+                  transform: isActive ? 'scale(1)' : 'scale(0.85)',
+                  opacity: isActive ? 1 : 0.5,
+                }}
+              >
+                {/*
+                 * 2×2 card grid — grid-cols-[1fr_64px_1fr] grid-rows-[auto_40px_auto].
+                 * Center column (64px) + center row (40px) hold connector lines.
+                 * Bottom cards shifted ±11px toward center (mirrors attio layout).
+                 */}
+                <div className="grid grid-cols-[1fr_64px_1fr] grid-rows-[auto_40px_auto] px-6 pt-5 pb-16 w-fit mx-auto">
+
+                  {/* Top-left card */}
+                  <div className="col-start-1 row-start-1">
+                    <ObjectCard card={tab.leftCard} />
+                  </div>
+
+                  {/* Top-right card */}
+                  <div className="col-start-3 row-start-1 flex justify-end">
+                    <ObjectCard card={tab.rightCard} />
+                  </div>
+
+                  {/* Bottom-left card — shifted 11px right toward center */}
+                  <div className="col-start-1 row-start-3 relative left-[11px]">
+                    <ObjectCard card={tab.centerCard} />
+                  </div>
+
+                  {/* Bottom-right card (AddObjectSlot when active, plain card when inactive) */}
+                  <div className="col-start-3 row-start-3 relative right-[11px] flex justify-end">
+                    {isActive ? (
+                      <AddObjectSlot addCard={tab.addCard} hovered={addHovered} onEnter={onAddEnter} />
+                    ) : (
+                      <ObjectCard card={tab.addCard} />
+                    )}
+                  </div>
+
+                  {/* Cross connector lines */}
+                  <MobileSlideConnectors />
+
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -1596,7 +1698,7 @@ function renderTableCell(cell: TableCell): React.ReactNode {
 
 function DataModelTable({ tab, addHovered, contentVisible }: { tab: TabConfig; addHovered: boolean; contentVisible: boolean }) {
   return (
-    <div className="lg:px-[108px] xl:px-[241px] -ml-6 w-[calc(100%+48px)]">
+    <div className="container lg:px-[108px] xl:px-[241px] -ml-6 w-[calc(100%+48px)]">
       <div className="grid w-full grid-cols-[24px_1fr_24px] grid-rows-[10px_1fr_10px] pb-20 lg:grid-rows-[24px_1fr_24px]">
 
         {/* ── (col1, row1) Top-left corner: right + bottom dashed lines ── */}
@@ -1799,7 +1901,7 @@ export function HomeAdaptiveModelVisual() {
   }
 
   return (
-    <div className="pt-10 w-full overflow-hidden border-x border-subtle-stroke">
+    <div className="pt-10 w-full overflow-hidden lg:border-x border-subtle-stroke">
 
       {/* ── Tabs ─────────────────────────────────────────────────────────── */}
       <div className="scrollbar-none flex gap-x-1.5 overflow-x-scroll py-[20px] min-[450px]:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -1826,7 +1928,7 @@ export function HomeAdaptiveModelVisual() {
         <div className="h-full w-[22px] shrink-0" aria-hidden />
       </div>
 
-      {/* ── Cards + connectors (blur + fade, cards stagger on enter) ────── */}
+      {/* ── Desktop cards + connectors (blur + fade on tab change) ─────── */}
       <motion.div
         initial={false}
         animate={contentVisible ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(8px)' }}
@@ -1839,15 +1941,16 @@ export function HomeAdaptiveModelVisual() {
           onAddEnter={() => setAddHovered(true)}
           contentVisible={contentVisible}
         />
-
-        {/* Mobile / tablet strip (< 1320px) */}
-        <MobileCardStrip
-          tab={tab}
-          addHovered={addHovered}
-          onAddEnter={() => setAddHovered(true)}
-          contentVisible={contentVisible}
-        />
       </motion.div>
+
+      {/* ── Mobile / tablet slider (< 1320px) — handles its own transitions ── */}
+      <MobileCardStrip
+        tabs={TABS}
+        activeTabIndex={activeTab}
+        onTabChange={handleTabChange}
+        addHovered={addHovered}
+        onAddEnter={() => setAddHovered(true)}
+      />
 
       {/* ── Data model table (per-column slide-down on enter) ────────────── */}
       <DataModelTable tab={tab} addHovered={addHovered} contentVisible={contentVisible} />

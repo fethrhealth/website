@@ -41,7 +41,7 @@ export function HomeAdaptiveSection({
       <div className="overflow-hidden">
 
         {/* ── Desktop section label (hidden on mobile) ──────────────────── */}
-        <div className="hidden lg:block pt-[100px] border-subtle-stroke border-x font-display">
+        <div className="hidden lg:block pt-[100px] border-subtle-stroke lg:border-x font-display">
           <div className="flex items-center justify-between px-5 text-overline">
             <h2 className="flex gap-x-[6px]">
               <span>{indexStr}</span>
