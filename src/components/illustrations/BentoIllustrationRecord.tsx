@@ -23,7 +23,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useInView } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
-import { BasepointLogo } from '@/components/icons/BasepointLogo'
+import Image from 'next/image'
 import { DomainsIcon, NameIcon, EstimatedARRIcon, LocationIcon, CategoriesIcon, FundingRaisedIcon, StakeholdersIcon } from '@/components/icons/BentoRecordIcons'
 
 // ─── Animated text hook ────────────────────────────────────────────────────────
@@ -112,8 +112,8 @@ function DataRow({
 
 function RecordCard({ inView }: { inView: boolean }): ReactNode {
   // Delayed character-reveal for the two AI-enriched rows
-  const funding     = useCharReveal('$25M Series A', inView, 500)
-  const stakeholder = useCharReveal('Adam King',     inView, 850)
+  const lastMessage = useCharReveal('3s ago',    inView, 500)
+  const connectedTo = useCharReveal('Epic → Omnicell', inView, 850)
 
   return (
     <div
@@ -122,15 +122,15 @@ function RecordCard({ inView }: { inView: boolean }): ReactNode {
     >
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="flex items-center gap-2 border-b border-[#E4E7EC] px-3 py-[10px]">
-        {/* Basepoint logo — black circle + white SVG mark */}
-        <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#1C1D1F]">
-          <BasepointLogo size={20} />
+        {/* Epic logo */}
+        <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center">
+          <Image src="/assets/icons/companies/epic-logo.png" alt="Epic" width={22} height={22} />
         </div>
         <span
           className="font-semibold text-[#1C1D1F]"
           style={{ fontSize: 13, lineHeight: '18px', letterSpacing: '-0.01em' }}
         >
-          Basepoint
+          Epic ADT Feed
         </span>
       </div>
 
@@ -139,33 +139,33 @@ function RecordCard({ inView }: { inView: boolean }): ReactNode {
 
         <DataRow
           icon={<DomainsIcon />}
-          label="Domains"
-          value={
-            <div
-              className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium"
-              style={{ fontSize: 10, backgroundColor: '#FFFFFF', borderColor: '#B8D0FF', color: '#407FF2' }}
-            >
-              basepoint.com
-            </div>
-          }
-        />
-        <DataRow icon={<NameIcon />}                  label="Name"           value="Basepoint"     />
-        <DataRow
-          icon={<EstimatedARRIcon />}
-          label="Estimated ARR"
+          label="Status"
           value={
             <div
               className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium"
               style={{ fontSize: 10, backgroundColor: '#DDF9E4', borderColor: '#C7F4D3', color: '#075A39' }}
             >
-              $1–10M
+              Active
             </div>
           }
         />
-        <DataRow icon={<LocationIcon />}  label="Location"       value="San Francisco" />
+        <DataRow icon={<NameIcon />}                  label="Name"           value="Epic ADT Feed"     />
+        <DataRow
+          icon={<EstimatedARRIcon />}
+          label="Protocol"
+          value={
+            <div
+              className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium"
+              style={{ fontSize: 10, backgroundColor: '#FFFFFF', borderColor: '#B8D0FF', color: '#407FF2' }}
+            >
+              MLLP / HL7 v2.5
+            </div>
+          }
+        />
+        <DataRow icon={<LocationIcon />}  label="Messages today"  value="14,832" />
         <DataRow
           icon={<CategoriesIcon />}
-          label="Categories"
+          label="Labels"
           value={
             <div className="relative flex items-center gap-1.5">
               {/* Short horizontal connector line */}
@@ -173,18 +173,18 @@ function RecordCard({ inView }: { inView: boolean }): ReactNode {
                 <line x1="0" y1="0.5" x2="100%" y2="0.5" stroke="currentColor" strokeLinecap="round" />
               </svg>
               <div className="relative">
-                <div className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium" style={{ fontSize: 10, backgroundColor: '#F5EEFF', borderColor: '#E8DDFE', color: '#4711BB' }}>SaaS</div>
+                <div className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium" style={{ fontSize: 10, backgroundColor: '#F5EEFF', borderColor: '#E8DDFE', color: '#4711BB' }}>ADT</div>
               </div>
               <div className="relative">
-                <div className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium" style={{ fontSize: 10, backgroundColor: '#E5EEFF', borderColor: '#D6E5FF', color: '#183C81' }}>B2B</div>
+                <div className="flex h-4 w-fit items-center rounded-[6px] border px-[5px] font-medium" style={{ fontSize: 10, backgroundColor: '#E5EEFF', borderColor: '#D6E5FF', color: '#183C81' }}>ORM</div>
               </div>
             </div>
           }
         />
 
         {/* Animated rows — AI-enriched (character reveal on enter) */}
-        <DataRow icon={<FundingRaisedIcon />}  label="Funding raised" value={funding}       />
-        <DataRow icon={<StakeholdersIcon />}  label="Stakeholders"   value={stakeholder}   />
+        <DataRow icon={<FundingRaisedIcon />}  label="Last message"    value={lastMessage}   />
+        <DataRow icon={<StakeholdersIcon />}   label="Connected"       value={connectedTo}   />
 
       </div>
     </div>

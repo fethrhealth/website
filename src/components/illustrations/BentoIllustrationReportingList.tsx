@@ -77,11 +77,11 @@ function VariableIcon(): ReactNode {
 // ─── Item data ────────────────────────────────────────────────────────────────
 
 const ITEMS = [
-  { label: 'Insight',          icon: <InsightIcon />          },
-  { label: 'Historical values', icon: <HistoricalValuesIcon /> },
-  { label: 'Funnel',           icon: <FunnelIcon />           },
-  { label: 'Time in stage',    icon: <TimeInStageIcon />      },
-  { label: 'Variable',         icon: <VariableIcon />         },
+  { label: 'Message volume',    icon: <InsightIcon />          },
+  { label: 'Error rate',       icon: <HistoricalValuesIcon /> },
+  { label: 'Uptime',           icon: <FunnelIcon />           },
+  { label: 'Latency',          icon: <TimeInStageIcon />      },
+  { label: 'Throughput',       icon: <VariableIcon />         },
 ] as const
 
 // ─── Main export ──────────────────────────────────────────────────────────────

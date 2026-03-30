@@ -68,16 +68,16 @@ function ProductIcon(): ReactNode {
 
 // ─── Card entity icons (18×18, from /assets/icons/home/connect-data/) ─────────
 
-const WorkspaceColourIcon = () => (
-  <Image src="/assets/icons/home/connect-data/DashboardColourIcon.svg" alt="Workspace" width={18} height={18} />
+const EpicColourIcon = () => (
+  <Image src="/assets/icons/companies/epic-logo.png" alt="Epic" width={18} height={18} />
 )
 
-const CompanyColourIcon = () => (
-  <Image src="/assets/icons/home/connect-data/CompanyColourIcon.svg" alt="Company" width={18} height={18} />
+const TeamsColourIcon = () => (
+  <Image src="/assets/icons/companies/teams-logo.svg" alt="Teams" width={18} height={18} />
 )
 
-const DealColourIcon = () => (
-  <Image src="/assets/icons/home/connect-data/DollarDocColourIcon.svg" alt="Deal" width={18} height={18} />
+const SnowflakeColourIcon = () => (
+  <Image src="/assets/icons/companies/snowflake-logo.svg" alt="Snowflake" width={18} height={18} />
 )
 
 // ─── Label chip ───────────────────────────────────────────────────────────────
@@ -121,13 +121,15 @@ function AnimatedCount({ to, inView }: { to: number; inView: boolean }): ReactNo
 // ─── Data card ────────────────────────────────────────────────────────────────
 
 function DataCard({
-  icon, label, count, inView, gridClass,
+  icon, label, count, inView, gridClass, tag = 'Standard', unit = 'Records',
 }: {
   icon: ReactNode
   label: string
   count: number
   inView: boolean
   gridClass: string
+  tag?: string
+  unit?: string
 }): ReactNode {
   return (
     <div
@@ -138,7 +140,7 @@ function DataCard({
         {icon}
         <p className="text-[12px] leading-[16px] tracking-[-0.02em]">{label}</p>
         <div className="ml-auto rounded-[8px] border border-[#EEEFF1] bg-[#F4F5F6] px-1.5 py-0.5 font-medium text-[10px] leading-[14px] tracking-[-0.02em]">
-          Standard
+          {tag}
         </div>
       </div>
       <svg width="100%" height="1" className="text-subtle-stroke" aria-hidden>
@@ -148,7 +150,7 @@ function DataCard({
         <span className="text-[11px] text-black-300 tabular-nums">
           <AnimatedCount to={count} inView={inView} />
         </span>
-        <span className="text-[10px] text-black-700 pl-1">Records</span>
+        <span className="text-[10px] text-black-700 pl-1">{unit}</span>
       </p>
     </div>
   )
@@ -258,7 +260,7 @@ export function BentoIllustrationDataFlow(): ReactNode {
           {/* Label chips — 3 rows, bottom-aligned */}
           <div className="relative flex size-full flex-col items-center justify-end" style={{ bottom: 73, gap: 37 }}>
             <div className="flex items-center justify-center" style={{ gap: 109 }}>
-              <LabelChip icon={<SalesIcon />}   label="Sales engagement" />
+              <LabelChip icon={<SalesIcon />}   label="EHRs" />
               <LabelChip icon={<EmailIcon />}   label="Email & calendar" />
             </div>
             <div className="flex items-center justify-center" style={{ gap: 181 }}>
@@ -267,7 +269,7 @@ export function BentoIllustrationDataFlow(): ReactNode {
             </div>
             <div className="flex items-center justify-center" style={{ gap: 109 }}>
               <LabelChip icon={<BillingIcon />} label="Billing & invoicing" />
-              <LabelChip icon={<ProductIcon />} label="Product data" />
+              <LabelChip icon={<ProductIcon />} label="Programming languages" />
             </div>
           </div>
 
@@ -310,31 +312,36 @@ export function BentoIllustrationDataFlow(): ReactNode {
             </svg>
           </div>
 
-          {/* Workspace card */}
+          {/* Epic card */}
           <DataCard
-            icon={<WorkspaceColourIcon />}
-            label="Workspace"
-            count={2900}
+            icon={<EpicColourIcon />}
+            label="Epic"
+            count={5283493}
             inView={inView}
             gridClass="col-span-4 col-start-1 row-start-2"
+            tag="EHR"
+            unit="Patients"
           />
 
-          {/* Company card */}
+          {/* Teams card */}
           <DataCard
-            icon={<CompanyColourIcon />}
-            label="Company"
+            icon={<TeamsColourIcon />}
+            label="Teams"
             count={3128}
             inView={inView}
             gridClass="col-span-4 col-start-5 row-start-2"
+            tag="Communication"
+            unit="Messages"
           />
 
-          {/* Deal card */}
+          {/* Snowflake card */}
           <DataCard
-            icon={<DealColourIcon />}
-            label="Deal"
-            count={5518}
+            icon={<SnowflakeColourIcon />}
+            label="Snowflake"
+            count={2383495}
             inView={inView}
             gridClass="col-span-full row-start-4"
+            tag="Database"
           />
 
         </div>
@@ -359,7 +366,7 @@ export function BentoIllustrationDataFlow(): ReactNode {
             <div className="absolute inset-px overflow-hidden rounded-[11px] bg-white-100" />
           </div>
           <div className="absolute inset-px flex items-center justify-center rounded-[11px] bg-[#FFFFFF]">
-            <Image src="/assets/icons/home/connect-data/attio.svg" alt="" width={36} height={32} />
+            <Image src="/assets/icons/home/connect-data/fethr.svg" alt="" width={36} height={32} />
           </div>
         </div>
 

@@ -59,7 +59,7 @@ const CHART_DATA: readonly (readonly BarDatum[])[] = [
 
 const MONTHS = ['July', 'August', 'September'] as const
 
-const Y_LABELS = ['$ 2.8M', '$ 2.4M', '$ 2.0M', '$ 1.6M', '$ 1.2M', '$ 0.8M', '$ 0.4M'] as const
+const Y_LABELS = ['10.5M', '9M', '7.5M', '6M', '4.5M', '3M', '1.5M'] as const
 
 // ─── Bar SVG path ─────────────────────────────────────────────────────────────
 // Rounded-top rectangle path matching Attio's exact geometry.
@@ -151,7 +151,7 @@ function Tooltip({ inView }: { inView: boolean }): ReactNode {
       {/* Content */}
       <div className="flex flex-col gap-y-1.5 py-1 pr-1">
         <span className="font-medium lg:tracking-[-0.28px] text-[12px] leading-4 tracking-[-0.28px] lg:text-[14px] lg:leading-5">
-          Pro plan
+          EPIC_ADT
         </span>
         <div className="flex items-center gap-x-1.5">
           <span className="font-medium lg:tracking-[-0.28px] text-[#5C5E63] text-[12px] leading-4 tracking-[-0.28px] lg:text-[14px] lg:leading-5">
@@ -163,10 +163,10 @@ function Tooltip({ inView }: { inView: boolean }): ReactNode {
         </div>
         <div className="flex items-center gap-x-1.5">
           <span className="font-medium lg:tracking-[-0.28px] text-[#5C5E63] text-[12px] leading-4 tracking-[-0.28px] lg:text-[14px] lg:leading-5">
-            Amount
+            Messages
           </span>
           <span className="font-medium tracking-normal inline-flex items-center py-[0.5px] lg:rounded-lg lg:border lg:px-[5px] lg:py-px text-nowrap rounded-[5px] border border-[#EEEFF1] bg-[#F4F5F6] px-[3px] text-[#5C5E63] text-[10px] leading-3 lg:text-xs">
-            $ 1,920,240.00
+            7,384,200
           </span>
         </div>
       </div>
@@ -299,21 +299,21 @@ export function BentoIllustrationReportingChart(): ReactNode {
         <div className="flex items-center gap-x-1.5">
           <LegendDot fill="#FFD03D" />
           <span className="font-medium tracking-normal lg:text-[12px] lg:leading-4 text-nowrap text-[#5C5E63] text-[12px] leading-4">
-            Plus
+            DIET_ORM
           </span>
         </div>
 
         <div className="flex items-center gap-x-1.5">
           <LegendDot fill="#FB84A7" />
           <span className="font-medium tracking-normal lg:text-[12px] lg:leading-4 text-nowrap text-[#5C5E63] text-[12px] leading-4">
-            Pro
+            EPIC_ADT
           </span>
         </div>
 
         <div className="flex items-center gap-x-1.5">
           <LegendDot fill="#A27AFA" />
           <span className="font-medium tracking-normal lg:text-[12px] lg:leading-4 text-nowrap text-[#5C5E63] text-[12px] leading-4">
-            Enterprise
+            LAB_ORM
           </span>
         </div>
 

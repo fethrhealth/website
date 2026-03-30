@@ -134,23 +134,23 @@ function AnnouncementBadge(): ReactNode {
 function HeroCTAs(): ReactNode {
   return (
     <div className="flex items-center justify-center gap-y-2 max-md:flex-col max-md:items-center mt-6 w-full gap-x-2">
-      {/* Desktop primary */}
-      <Link
+      {/* Desktop primary — hidden for now */}
+      {/* <Link
         href={HERO_CTA_PRIMARY_HREF}
         className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-primary max-md:hidden"
       >
         {HERO_CTA_PRIMARY}
-      </Link>
+      </Link> */}
 
-      {/* Mobile email form */}
-      <DemoRequestForm
+      {/* Mobile email form — hidden for now */}
+      {/* <DemoRequestForm
         source='home'
-      />
+      /> */}
 
       {/* Desktop outline */}
       <TalkToSalesDialog
         source="home-hero"
-        className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-outline max-md:hidden"
+        className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-9 gap-x-1.5 rounded-[10px] px-3 text-sm max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base button-primary max-md:hidden"
       />
     </div>
   )
@@ -1659,17 +1659,17 @@ export function HomeHeroSection(): ReactNode {
     <div className="relative max-w-screen overflow-x-clip">
 
       {/* ── Layer 1: sticky testimonial (background) ── */}
-      <StickyTestimonial />
+      {/* <StickyTestimonial /> */}
 
-      {/* ── Layer 2: hero overlay (absolute, scrolls normally) ── */}
-      <div className="absolute inset-x-0 top-0 overflow-x-clip border-b border-subtle-stroke bg-primary-background">
+      {/* ── Layer 2: hero overlay (now relative since testimonial is hidden) ── */}
+      <div className="relative inset-x-0 top-0 overflow-x-clip border-b border-subtle-stroke bg-primary-background">
         <div className="relative grid">
 
           {/* Hero content — badge, h1, subtitle, CTAs */}
           <div className="container">
             <div className="flex flex-col items-center relative mt-24 mb-18 max-xl:mt-20 max-lg:mt-20 max-lg:mb-16">
-              <AnnouncementBadge />
-              <h1 className="mt-6 max-w-[14ch] font-display text-center text-heading-md md:text-heading-lg lg:text-heading-xl">
+              {/* <AnnouncementBadge /> */}
+              <h1 className="mt-6 max-w-[15ch] font-display text-center text-heading-md md:text-heading-lg lg:text-heading-xl">
                 {HERO_HEADING}
               </h1>
               <p className="mt-4 max-w-md text-pretty text-center text-lg text-accent-foreground md:text-xl">

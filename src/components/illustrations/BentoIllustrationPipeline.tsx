@@ -76,11 +76,8 @@ function DealIcon(): ReactNode {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <rect x="0.5" y="0.5" width="19" height="19" rx="5.5" fill="#E5EEFF" />
       <rect x="0.5" y="0.5" width="19" height="19" rx="5.5" stroke="#D6E5FF" />
-      <path d="M5.5 7.9517L5.50003 12.0484C5.50004 13.1696 5.50004 13.7302 5.71803 14.158C5.90977 14.5343 6.21573 14.8403 6.59206 15.032C7.01988 15.25 7.57993 15.25 8.70004 15.25H11.3C12.4201 15.25 12.9802 15.25 13.408 15.032C13.7843 14.8403 14.0903 14.5343 14.282 14.158C14.5 13.7302 14.5 13.1701 14.5 12.05V7.75009C14.5 6.81824 14.5 6.35232 14.3478 5.98481C14.1448 5.49468 13.7554 5.10528 13.2652 4.9023C12.8977 4.7501 12.4318 4.75011 11.5 4.75014L8.69999 4.75014C7.57989 4.75014 7.01984 4.75014 6.59202 4.96813C6.21569 5.15988 5.90973 5.46584 5.71798 5.84217C5.5 6.26999 5.5 6.83055 5.5 7.95167Z" stroke="#407FF2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M10.0001 6.22015V7.0794" stroke="#407FF2" strokeLinecap="round" />
-      <path d="M9.99988 11.3756V12.2349" stroke="#407FF2" strokeLinecap="round" />
-      <path d="M8.48368 11.3766H10.6959C11.0036 11.3766 11.2986 11.2634 11.5162 11.062C11.7337 10.8606 11.8559 10.5874 11.8559 10.3025C11.8559 10.0177 11.7337 9.74449 11.5162 9.54307C11.2986 9.34165 11.0036 9.22849 10.6959 9.22849H9.30392C8.99627 9.22849 8.70122 9.11533 8.48368 8.9139C8.26613 8.71248 8.14392 8.43929 8.14392 8.15444C8.14392 7.86958 8.26613 7.59639 8.48368 7.39497C8.70122 7.19354 8.99627 7.08038 9.30392 7.08038H11.4847" stroke="#407FF2" strokeLinecap="round" />
-      <path d="M5.50342 13.6747H14.5" stroke="#407FF2" />
+      <path d="M7 5.5h5a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="#407FF2" strokeWidth="1.2" />
+      <path d="M8 8.5h4M8 10.5h3M8 12.5h2" stroke="#407FF2" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
@@ -256,9 +253,9 @@ export function BentoIllustrationPipeline(): ReactNode {
             <AnimPath d="M 6 101 L 11 96" stroke="#54D490" delay={T.arrowBranch.d} dur={T.arrowBranch.t} inView={inView} />
             <AnimPath d="M 6 101 L1 96"   stroke="#54D490" delay={T.arrowBranch.d} dur={T.arrowBranch.t} inView={inView} />
           </svg>
-          {/* "Upsell" label pill */}
+          {/* "Orders" label pill */}
           <div className={`${CAP} inline-flex items-center text-nowrap rounded-lg border px-1.5 py-px absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-normal transition-colors duration-[375ms] ease-out border-[#54D490] bg-primary-background text-[#0B935D]`}>
-            Upsell
+            Orders
           </div>
         </div>
 
@@ -269,9 +266,9 @@ export function BentoIllustrationPipeline(): ReactNode {
             {/* Arrowhead — gray */}
             <path d="M136 96 L141 101 L146 96" stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          {/* "Nurture" label pill */}
+          {/* "Labs" label pill */}
           <div className={`${CAP} inline-flex items-center text-nowrap rounded-lg border px-1.5 py-px absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-normal border-[#EEEFF1] bg-[#F4F5F6] text-[#5C5E63]`}>
-            Nurture
+            Labs
           </div>
         </div>
 
@@ -314,9 +311,9 @@ export function BentoIllustrationPipeline(): ReactNode {
             badge="Triggered"
             triggerTab
             icon={<DealIcon />}
-            title="When Deal updated"
-            tag="Deals"
-            desc="Trigger when a Deal's status is updated"
+            title="Incoming Epic Orders"
+            tag="HL7 Inbound"
+            desc="Receive HL7 ORM messages from Epic"
             width={280}
           />
         </div>
@@ -331,9 +328,9 @@ export function BentoIllustrationPipeline(): ReactNode {
             inView={inView}
             badge="Completed"
             icon={<SwitchIcon />}
-            title="Switch"
+            title="Check Message Type"
             tag="Condition"
-            desc="Route to upsell or nurture"
+            desc="Route based on ORM segment value"
             width={240}
           />
         </div>
@@ -348,9 +345,9 @@ export function BentoIllustrationPipeline(): ReactNode {
             inView={inView}
             badge="Completed"
             icon={<EnrollIcon />}
-            title="Enroll in sequence"
-            tag="Sequences"
-            desc={'Enroll person in "Power user upsell"'}
+            title="Map & Send to Cerner"
+            tag="Transform"
+            desc="Map Epic fields and send outbound HL7"
             width={252}
           />
         </div>
@@ -365,9 +362,9 @@ export function BentoIllustrationPipeline(): ReactNode {
             inView={false}
             animated={false}
             icon={<EnrollIcon />}
-            title="Enroll in sequence"
-            tag="Sequences"
-            desc={'Enroll person in "Nurture"'}
+            title="Route to Lab System"
+            tag="Outbound"
+            desc="Send lab orders to downstream LIS"
             width={252}
           />
         </div>
