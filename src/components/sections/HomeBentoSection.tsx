@@ -143,7 +143,7 @@ function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; con
 
         {/* ── titleAndDescription ────────────────────────────────────────── */}
         <div
-          className="flex lg:max-w-[320px] flex-col items-start bg-primary-background px-[30px] pt-[30px] pb-[22px] lg:px-[36px] lg:pt-[32px] lg:pb-[24px]"
+          className="flex xl:max-w-[320px]  flex-col items-start bg-primary-background px-[30px] pt-[30px] pb-[22px] lg:px-[36px] lg:pt-[32px] lg:pb-[24px]"
           style={{ gridArea: 'titleAndDescription' }}
         >
           <h2 className="mb-[8px] font-display !font-semibold text-lg xl:py-[2px] xl:text-xl">
@@ -233,22 +233,23 @@ export function HomeBentoSection(): ReactNode {
               {/* ── Top spacer — dashed vertical column dividers ─────────── */}
               <div className="container relative w-full lg:grid lg:grid-cols-12 lg:gap-x-6 lg:px-0">
                 {/*
-                 * .home-bento-spacer shares the same column template as .home-bento-grid
-                 * so the vertical lines align with the bento column boundaries.
+                 * .home-bento-spacer now uses 3 proportional columns (1fr 0.8fr 0.8fr at lg,
+                 * 1fr 1.6fr 1fr at xl) matching the next section's grid so the vertical
+                 * lines track together as the viewport scales.
                  * Children:
                  *   div 1 — always visible (left column border)
-                 *   div 2 — lg only, col-span-2 at lg, col-span-1 at xl
-                 *   div 3 — xl only (third column border)
+                 *   div 2 — lg+ (second column border)
+                 *   div 3 — lg+ (third column border)
                  *   absolute SVG — right edge border
                  */}
                 <div className="home-bento-spacer relative grid w-full gap-px p-px *:bg-white-100 col-span-10 col-start-2 h-5 bg-white-100 py-0">
                   <div>
                     <DashedV className="text-subtle-stroke -ml-px" />
                   </div>
-                  <div className="col-span-2 hidden lg:block xl:col-span-1">
+                  <div className="hidden lg:block">
                     <DashedV className="text-subtle-stroke -ml-px" />
                   </div>
-                  <div className="hidden xl:block">
+                  <div className="hidden lg:block">
                     <DashedV className="text-subtle-stroke -ml-px" />
                   </div>
                   <DashedV className="text-subtle-stroke absolute right-0 bottom-0" />

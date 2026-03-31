@@ -1233,8 +1233,11 @@
   /* ── Home Bento Grid — responsive named-area grid ────────────────────────────
    * Used by HomeBentoSection for both content rows and spacer rows.
    * home-bento-grid  → full named-area layout (titleAndDescription + content cells)
-   * home-bento-spacer → same column template, no named areas (for dashed spacers)
-   * Column widths: mobile=1col, lg=280px+1fr, xl=280px+1fr+320px
+   * home-bento-spacer → same column template as the next section's grid, so the
+   *                     dashed vertical lines track together as the viewport scales.
+   * Column proportions match the next section: lg=1fr+0.8fr+0.8fr, xl=1fr+1.6fr+1fr
+   * home-bento-grid at lg uses 1fr+1.6fr (merged cols 2+3) so the first divider
+   * aligns with the spacer's first divider.
   ────────────────────────────────────────────────────────────────────────── */
   .home-bento-grid,
   .home-bento-spacer {
@@ -1248,21 +1251,24 @@
   }
 
   @media (min-width: 992px) {
-    .home-bento-grid,
-    .home-bento-spacer {
-      grid-template-columns: 280px 1fr;
-    }
-
+    /* grid: 2 cols — title | content; proportions match spacer col1 + (col2+col3) */
     .home-bento-grid {
+      grid-template-columns: 1fr 1.6fr;
       grid-template-areas: "titleAndDescription contentA";
       grid-template-rows: 1fr;
+    }
+
+    /* spacer: 3 cols matching the next section's lg proportions */
+    .home-bento-spacer {
+      grid-template-columns: 1fr 0.8fr 0.8fr;
     }
   }
 
   @media (min-width: 1200px) {
+    /* xl: both share the same 3-col proportions as the next section */
     .home-bento-grid,
     .home-bento-spacer {
-      grid-template-columns: 280px 1fr clamp(270px, calc(100vw - 960px), 320px);
+      grid-template-columns: 1fr 1.6fr 1fr;
     }
 
     .home-bento-grid {
