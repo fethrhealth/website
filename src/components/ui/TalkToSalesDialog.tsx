@@ -140,9 +140,11 @@ function SuccessState() {
 export function TalkToSalesDialog({
   className,
   source,
+  label = 'Talk to sales',
 }: {
   className?: string
   source?: string
+  label?: string
 }) {
   const [open, setOpen]     = useState(false)
   const [status, setStatus] = useState<Status>('idle')
@@ -200,7 +202,7 @@ export function TalkToSalesDialog({
     <DialogPrimitive.Root open={open} onOpenChange={handleOpenChange}>
 
       <DialogPrimitive.Trigger asChild>
-        <button type="button" className={className}>Talk to sales</button>
+        <button type="button" className={className}>{label}</button>
       </DialogPrimitive.Trigger>
 
       <DialogPrimitive.Portal>

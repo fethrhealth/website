@@ -20,14 +20,14 @@ import type { ReactNode } from 'react'
 // ─── Logo card positions ───────────────────────────────────────────────────────
 
 const LOGOS = [
-  { src: '/assets/icons/home/connect-data/Logo1.svg', col: 3, row: 1 },
-  { src: '/assets/icons/home/connect-data/Logo2.svg', col: 7, row: 1 },
-  { src: '/assets/icons/home/connect-data/Logo3.svg', col: 3, row: 2 },
-  { src: '/assets/icons/home/connect-data/Logo4.svg', col: 7, row: 2 },
-  { src: '/assets/icons/home/connect-data/Logo5.svg', col: 3, row: 3 },
-  { src: '/assets/icons/home/connect-data/Logo6.svg', col: 7, row: 3 },
-  { src: '/assets/icons/home/connect-data/Logo7.svg', col: 3, row: 4 },
-  { src: '/assets/icons/home/connect-data/Logo8.svg', col: 7, row: 4 },
+  { src: '/assets/icons/companies/epic-logo.png', col: 3, row: 1 },
+  { src: '/assets/icons/companies/oracle-logo.png', col: 7, row: 1 },
+  { src: '/assets/icons/companies/gmail-logo.svg', col: 3, row: 2 },
+  { src: '/assets/icons/companies/outlook-logo.svg', col: 7, row: 2 },
+  { src: '/assets/icons/companies/docker-logo.svg', col: 3, row: 3 },
+  { src: '/assets/icons/companies/azure-logo.svg', col: 7, row: 3 },
+  { src: '/assets/icons/companies/aws-logo.svg', col: 3, row: 4 },
+  { src: '/assets/icons/companies/python-logo.svg', col: 7, row: 4 },
 ] as const
 
 // ─── Main export ──────────────────────────────────────────────────────────────

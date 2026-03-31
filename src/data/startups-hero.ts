@@ -7,5 +7,5 @@
 export const STARTUPS_HERO = {
   badge:      'Startup program',
   heading:    'Fethr for startups.',
-  subheading: 'Build on the CRM for the next generation of healthcare. Get 80% off Fethr and benefits to help your startup grow.',
+  subheading: 'Build on top of the most flexible healthcare automation platform. Get 80% off Fethr and dedicated onboarding to accelerate your launch.',
 }

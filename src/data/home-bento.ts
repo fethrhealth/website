@@ -13,8 +13,8 @@ export const BENTO_SECTION_COUNTER = '/ item 1 ⋮ 4'
 // ─── Main heading ─────────────────────────────────────────────────────────────
 // \u00a0 = non-breaking space (preserves the &nbsp; entities from the original JSX)
 
-export const BENTO_HEADING    = 'GTM\u00a0at\u00a0full\u00a0throttle.\u00a0'
-export const BENTO_SUBHEADING = 'Execute your revenue strategy with precision. Design powerful workflows, deploy AI, integrate your data and build detailed reports — all in one platform.'
+export const BENTO_HEADING    = 'Automate\u00a0at\u00a0full\u00a0throttle.\u00a0'
+export const BENTO_SUBHEADING = 'Execute your integration strategy with speed. Design powerful workflows, deploy AI, integrate your data and build detailed reports — all in one platform.'
 
 // ─── Row item data ────────────────────────────────────────────────────────────
 
@@ -39,7 +39,7 @@ export const BENTO_ITEMS: readonly BentoItem[] = [
   },
   {
     title:       'Deploy AI',
-    description: 'Search and create with Ask Fethr, connect your stack with MCP, or put agents to work on complex tasks like prospecting and lead scoring.',
+    description: 'AI that builds your interfaces, catches issues before they escalate, and keeps your integrations running around the clock. Deploy pre-built agents or create your own — purpose-built for healthcare automation.',
     linkLabel:   'Explore AI',
     linkHref:    '/platform/ask',
     patternId:   'bento-dot-b',
@@ -47,7 +47,7 @@ export const BENTO_ITEMS: readonly BentoItem[] = [
   },
   {
     title:       'Connect any type of data',
-    description: 'Sync product data, billing data, and everything in between, for a real-time single source of truth for your business.',
+    description: "It doesn\u2019t matter where your data lives or what format it\u2019s in. Fethr connects to any data source, normalizes everything and routes it exactly where it needs to go.",
     linkLabel:   'Explore data',
     linkHref:    '/platform/data',
     patternId:   'bento-dot-c',

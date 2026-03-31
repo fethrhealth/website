@@ -42,11 +42,13 @@ export default function HomePage(): React.ReactElement {
       <Divider />
       <TrialSection
         source='home'
+        heading='Ready to automate your'
+        headingSerif='healthcare workflows?'
         showSales={false}
-        showPlansLink
         showImageMobile
       />
       <Divider />
+      {/* TODO: Re-enable Adaptive Model section when content is ready
       <HomeAdaptiveSection
         index={2}
         sectionLabel={ADAPTIVE_SECTION_LABEL}
@@ -56,9 +58,10 @@ export default function HomePage(): React.ReactElement {
         ctaText={ADAPTIVE_CTA_TEXT}
         ctaHref={ADAPTIVE_CTA_HREF}
       />
-      <TestimonialsSection />
+      */}
+      {/* <TestimonialsSection /> */}
       <HomeSpeedSection
-        index={3}
+        index={2}
         sectionLabel={SPEED_SECTION_LABEL}
         sectionTag={SPEED_SECTION_TAG}
         heading={SPEED_HEADING}
@@ -69,7 +72,7 @@ export default function HomePage(): React.ReactElement {
         <HomeSpeedVisual />
       </HomeSpeedSection>
       <HomeScaleSection
-        index={4}
+        index={3}
         sectionLabel={SCALE_SECTION_LABEL}
         sectionTag={SCALE_SECTION_TAG}
         heading={SCALE_HEADING}
@@ -79,7 +82,16 @@ export default function HomePage(): React.ReactElement {
       <Divider />
       <SecuritySection />
       <Divider />
+      {/* TODO: Re-enable CTA section ("The CRM behind thousands of companies") when ready
       <CtaSection />
+      */}
+      <TrialSection
+        source='home-bottom'
+        heading='Ready to automate your'
+        headingSerif='healthcare workflows?'
+        showSales={false}
+        showImageMobile
+      />
     </main>
   )
 }

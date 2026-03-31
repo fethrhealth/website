@@ -152,14 +152,16 @@ function BentoRow({ item, contentA, contentB, contentC }: { item: BentoItem; con
           <p className="mb-[12px] text-accent-foreground">
             {item.description}
           </p>
-          {/* Ghost button — button-ghost class defined in globals.css */}
-          <Link
+          {/* TODO: Re-enable these "Explore ..." buttons once each respective page
+               (automations, AI, data, reporting) is built with content.
+               For now, these sections exist on the landing page with no link. */}
+          {/* <Link
             href={item.linkHref}
             className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50 h-10 gap-x-2 rounded-xl px-3.25 pr-2.5 text-base button-ghost group mt-auto -ml-3.5"
           >
             <span>{item.linkLabel}</span>
             <BentoArrowIcon />
-          </Link>
+          </Link> */}
         </div>
 
         {/* ── contentA ──────────────────────────────────────────────────── */}

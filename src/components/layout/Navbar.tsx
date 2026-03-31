@@ -16,6 +16,7 @@ import {
 import { cn } from '@/lib/utils'
 import { IconMenu } from '../icons/IconMenu'
 import { NAV_MENU, type NavIcon, type NavEntry } from '@/data/nav-menu'
+import { TalkToSalesDialog } from '@/components/ui/TalkToSalesDialog'
 
 // ─── Icon registry ────────────────────────────────────────────────────────────
 // Maps icon keys (used in nav-menu.ts) to their JSX. Don't edit unless adding
@@ -367,7 +368,7 @@ export function Navbar() {
 
             {/* Desktop CTAs */}
             <div className="hidden lg:flex items-center gap-x-2.5">
-              <Link
+              {/* <Link
                 href="/"
                 className={cn(
                   'relative inline-flex cursor-pointer items-center justify-center',
@@ -377,18 +378,17 @@ export function Navbar() {
                 )}
               >
                 Sign in
-              </Link>
-              <Link
-                href="/"
+              </Link> */}
+              <TalkToSalesDialog
+                source="navbar"
+                label="Start for free"
                 className={cn(
                   'relative inline-flex cursor-pointer items-center justify-center',
                   'text-nowrap h-9 gap-x-1.5 rounded-[10px] px-3 text-sm',
                   'bg-fg-primary text-background border border-transparent',
                   'hover:bg-fg-secondary transition-colors duration-300 hover:duration-75',
                 )}
-              >
-                Start for free
-              </Link>
+              />
             </div>
 
             {/* Mobile hamburger */}
