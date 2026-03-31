@@ -51,7 +51,7 @@ export function RevenueShareSection() {
                     <th className="pb-3 pr-6 text-xs font-medium text-accent-foreground">Annual Engagement</th>
                     <th className="pb-3 pr-6 text-xs font-medium text-accent-foreground">Annual Referral Fee</th>
                     <th className="pb-3 pr-6 text-xs font-medium text-accent-foreground">3-Year Total</th>
-                    <th className="pb-3 text-xs font-medium text-accent-foreground">5 Referrals (3-Year)</th>
+                    <th className="pb-3 text-xs font-medium text-accent-foreground hidden md:table-cell">5 Referrals (3-Year)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -66,7 +66,7 @@ export function RevenueShareSection() {
                       <td className="py-4 pr-6 text-sm font-medium text-secondary-foreground">{row.engagement}</td>
                       <td className="py-4 pr-6 text-sm text-secondary-foreground">{row.annual}</td>
                       <td className="py-4 pr-6 text-sm text-secondary-foreground">{row.threeYear}</td>
-                      <td className="py-4 text-sm font-semibold text-secondary-foreground">{row.fiveReferrals}</td>
+                      <td className="py-4 text-sm font-semibold text-secondary-foreground hidden md:table-cell">{row.fiveReferrals}</td>
                     </motion.tr>
                   ))}
                 </tbody>

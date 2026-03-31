@@ -95,19 +95,19 @@ const COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    title: 'Company',
+    title: 'Resources',
     links: [
-      { label: 'Blog',             href: '/blog' },
-      { label: 'Manifesto',        href: '/redefine' },
-      /* { label: 'Become a Partner', href: '/partners',  disabled: false }, */
-      { label: 'Startup Program',  href: '/startups' },
+      { label: 'Blog',         href: '/blog' },
+      // { label: 'Help Center',  href: '/help',                 disabled: true },
+      /* { label: 'Developers',   href: '/platform/developers' }, */
     ],
   },
   {
-    title: 'Resources',
+    title: 'Company',
     links: [
-      // { label: 'Help Center',  href: '/help',                 disabled: true },
-      { label: 'Developers',   href: '/platform/developers' },
+      { label: 'Manifesto',        href: '/redefine' },
+      /* { label: 'Become a Partner', href: '/partners',  disabled: false }, */
+      { label: 'Startup Program',  href: '/startups' },
     ],
   },
   // Legal column is populated dynamically from Payload CMS via FooterWrapper
@@ -219,7 +219,7 @@ export default function Footer({
               'col-[5/-1] grid grid-cols-4 gap-0',
               'max-xl:col-[4/-1]',
               'max-lg:col-[1/-1] max-lg:grid-cols-2',
-              'max-sm:grid-cols-1',
+              'max-sm:grid-cols-2',
             )}
           >
             {COLUMNS.map((col) => (
