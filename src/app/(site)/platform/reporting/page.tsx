@@ -15,7 +15,7 @@ import { REPORTING_ENGINE_SECTION, REPORTING_ENGINE } from "@/data/reporting-eng
 
 export const metadata: Metadata = {
   title: 'Reporting',
-  description: 'Understand your pipeline at a glance. Build reports and dashboards that give every team member the context they need.',
+  description: 'Real-time reporting for healthcare teams. Create bar, funnel, pie, and more. Fethr transforms millions of data points into insights for your entire team.',
 }
 
 /**

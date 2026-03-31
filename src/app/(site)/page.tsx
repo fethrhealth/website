@@ -27,8 +27,8 @@ import {
 } from '@/data/home-scale'
 
 export const metadata: Metadata = {
-  title: 'The CRM for modern healthcare teams',
-  description: 'Fethr Health gives healthcare teams a CRM built for their world — fast, flexible, and deeply integrated with the tools they already use.',
+  title: { absolute: 'Fethr, Intelligent Healthcare Automation Platform' },
+  description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data.',
 }
 
 /**

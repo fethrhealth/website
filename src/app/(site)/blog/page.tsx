@@ -9,8 +9,8 @@ import config from '@payload-config'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Insights, updates, and perspectives from the Fethr Health team.',
+  title: 'Insights & Updates',
+  description: 'Learn more about Fethr, healthcare automation, and interoperability from members of our team and industry-leading experts.',
 }
 
 async function getPosts(): Promise<BlogPost[]> {

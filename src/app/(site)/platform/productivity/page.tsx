@@ -22,8 +22,8 @@ import { Divide } from 'lucide-react'
 
 
 export const metadata: Metadata = {
-  title: 'Productivity',
-  description: 'Do more with less friction. Fethr Health keeps your team in flow with tools designed for speed and collaboration.',
+  title: 'Work & Collaboration',
+  description: 'Streamline operations, automate communications, and collaborate with notes and comments. Fethr propels healthcare teams towards new levels of productivity.',
 }
 
 /**

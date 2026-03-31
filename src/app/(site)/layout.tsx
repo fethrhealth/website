@@ -41,10 +41,38 @@ const tiempos = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Fethr Health',
+    default: 'Fethr, Intelligent Healthcare Automation Platform',
     template: '%s | Fethr Health',
   },
-  description: 'Fethr Health — healthcare data platform.',
+  description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data.',
+  keywords: ['healthcare', 'integration', 'AI', 'automation', 'health technology', 'EHR', 'FHIR', 'HL7', 'interoperability'],
+  authors: [{ name: 'Fethr' }],
+  creator: 'Fethr',
+  publisher: 'Fethr',
+  robots: 'index, follow',
+  metadataBase: new URL('https://www.fethrhealth.com'),
+  openGraph: {
+    title: 'Fethr, Intelligent Healthcare Automation Platform',
+    description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data.',
+    url: 'https://www.fethrhealth.com',
+    siteName: 'Fethr Health',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Fethr Health - Intelligent Healthcare Automation Platform',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fethr, Intelligent Healthcare Automation Platform',
+    description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data.',
+    images: ['/og-image.png'],
+    creator: '@fethrhealth',
+  },
 }
 
 export default function SiteLayout({ children }: { children: React.ReactNode }): React.ReactElement {

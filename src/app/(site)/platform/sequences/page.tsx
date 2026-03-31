@@ -18,7 +18,7 @@ import { SEQUENCES_CTA_SOURCE } from "@/data/sequences-cta"
 
 export const metadata: Metadata = {
   title: 'Sequences',
-  description: 'Send the right message at the right time. Build personalized outreach sequences that feel human and scale effortlessly.',
+  description: 'Go from first touch to final signature with perfectly crafted messages delivered right on cue.',
 }
 
 /**
