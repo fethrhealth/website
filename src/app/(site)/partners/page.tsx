@@ -9,7 +9,7 @@ import { PARTNERS_UPDATES } from "@/data/partners-updates";
 
 export const metadata: Metadata = {
   title: 'Partners',
-  description: 'Grow your business with Fethr Health. Join our partner network and help healthcare teams work better.',
+  description: 'Grow your business with Fethr. Join our partner network and help healthcare teams automate better.',
 }
 
 /**

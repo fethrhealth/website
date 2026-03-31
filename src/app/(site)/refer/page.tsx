@@ -8,8 +8,8 @@ import { ReferHeroCta } from "./ReferHeroCta"
 import { ReferTrialSection } from "./ReferTrialSection"
 
 export const metadata: Metadata = {
-  title: 'Refer',
-  description: 'Refer healthcare organizations to Fethr Health and earn 10% revenue share for 3 years. No cap on deal size or number of referrals.',
+  title: 'Referral Program',
+  description: 'Refer healthcare organizations to Fethr and earn 10% revenue share for 3 years. No cap on deal size or number of referrals.',
 }
 
 export default function ReferPage(): React.ReactElement {

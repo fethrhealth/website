@@ -17,8 +17,8 @@ import { BETTER_SYSTEMS_BENTO, BETTER_SYSTEM_FEATURES } from '@/data/workflows-b
 import Divider from '@/components/ui/divider'
 
 export const metadata: Metadata = {
-  title: 'Workflows',
-  description: 'Automate the repetitive work. Build powerful workflows that keep your healthcare team moving without the manual effort.',
+  title: 'Automations & Workflows',
+  description: 'The future of automation, supercharged by AI. Build powerful workflows for your healthcare team, right inside your platform.',
 }
 
 /**
