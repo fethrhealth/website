@@ -129,9 +129,9 @@ function GlobeIcon() {
 // ─── Pills data ───────────────────────────────────────────────────────────────
 
 const PILLS = [
+  { icon: <SegmentIcon />, label: 'Existing engine' },
+  { icon: <CalendarIcon />, label: 'Ticketing system' },
   { icon: <EmailIcon />, label: 'Email events' },
-  { icon: <CalendarIcon />, label: 'Calendar events' },
-  { icon: <SegmentIcon />, label: 'Segment events' },
   { icon: <GlobeIcon />, label: 'Data sources' },
 ] as const
 

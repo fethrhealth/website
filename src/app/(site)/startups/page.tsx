@@ -20,8 +20,11 @@ export default function StartupsPage(): React.ReactElement {
         badge={STARTUPS_HERO.badge}
         heading={STARTUPS_HERO.heading}
         subheading={STARTUPS_HERO.subheading}
+        paddingBottom="pb-10 lg:pb-16 xl:pb-24"
       />
+      {/* TODO: Re-enable CompaniesSection when we have our own startup logos
       <CompaniesSection logos={ STARTUP_COMPANY_LOGOS }/>
+      */}
       <StartupApplicationSection
         heading={STARTUPS_APPLICATION.heading}
         benefitsLabel={STARTUPS_APPLICATION.benefitsLabel}

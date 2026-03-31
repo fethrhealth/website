@@ -1703,8 +1703,12 @@ export function HomeHeroSection(): ReactNode {
             </div>
           </div>
 
-          {/* Company logos — below the product mock, inside the hero overlay */}
+          {/* TODO: Re-enable CompaniesSection when we have our own logos
           <CompaniesSection maxLogos={6} />
+          */}
+
+          {/* Spacer — replaces CompaniesSection gap */}
+          <div className="pb-16 lg:pb-24 xl:pb-32" />
 
         </div>
       </div>
