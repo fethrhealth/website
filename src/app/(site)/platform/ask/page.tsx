@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import TrialSection from "@/components/sections/TrialSection";
 import { AskHeroSection } from '@/components/sections/AskHeroSection'
 import { HomeContextSection } from '@/components/sections/HomeContextSection'
@@ -27,6 +28,11 @@ import Divider from "@/components/ui/divider";
  * Ask AI page — /platform/ask
  * TODO Phase 2: Implement pixel-perfect design.
  */
+export const metadata: Metadata = {
+  title: 'Ask Fethr',
+  description: 'Ask more from your healthcare data.',
+}
+
 export default function AskAIPage(): React.ReactElement {
   return (
     <main>

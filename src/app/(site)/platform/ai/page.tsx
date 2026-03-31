@@ -16,7 +16,7 @@ import { AI_ACCORDION_HEADING, AI_ACCORDION_SUBHEADING, AI_ACCORDION_ITEMS } fro
 
 export const metadata: Metadata = {
   title: 'Embedded Intelligence',
-  description: 'AI built into every layer of your CRM. Enrich records, surface insights, and let Fethr Health think alongside your team.',
+  description: 'Build powerful systems with Fethr\'s AI features. Transform complex healthcare tasks into effortless, intelligent workflows.',
 }
 
 /**

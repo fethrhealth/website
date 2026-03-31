@@ -16,8 +16,8 @@ import { DATA_NAV_CURRENT_HREF } from '@/data/data-nav-section'
 import { DATA_CTA_SOURCE } from '@/data/data-cta'
 
 export const metadata: Metadata = {
-  title: 'Data',
-  description: 'Your healthcare data, structured and enriched. Keep every record accurate, complete, and ready to act on.',
+  title: 'Data Structure & Syncing',
+  description: 'Model your data structure, get automatic enrichment, and syncing from your integrations. Fethr gives you complete control to build the perfect automation platform.',
 }
 
 /**

@@ -9,8 +9,8 @@ import { DevelopersReviewSection } from '@/components/sections/DevelopersReviewS
 import { DevelopersSdkAppsSection } from '@/components/sections/DevelopersSdkAppsSection'
 
 export const metadata: Metadata = {
-  title: 'Developers',
-  description: 'Build on Fethr Health with a powerful REST API, MCP server, and SDK. Integrate, automate, and extend your CRM your way.',
+  title: 'Developer Platform',
+  description: 'Fethr is the automation platform for developers. Build with powerful APIs, MCP server, and SDK.',
 }
 
 /**

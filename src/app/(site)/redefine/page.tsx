@@ -3,8 +3,8 @@ import { RedefineHeroSection } from '@/components/sections/RedefineHeroSection'
 import { RedefineManifestoSection } from '@/components/sections/RedefineManifestoSection'
 
 export const metadata: Metadata = {
-  title: 'Redefine',
-  description: 'A new vision for healthcare relationship management. Read our manifesto.',
+  title: 'Redefining Healthcare Interoperability',
+  description: 'Healthcare automation magic: A platform that works for you, not the other way around.',
 }
 
 /**

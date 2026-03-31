@@ -9,8 +9,8 @@ import { STARTUPS_HERO } from "@/data/startups-hero"
 import { STARTUPS_APPLICATION } from "@/data/startups-application"
 
 export const metadata: Metadata = {
-  title: 'Startups',
-  description: 'Get 80% off Fethr Health and tools to help your startup grow. Built for the next generation of healthcare companies.',
+  title: 'Startup Program',
+  description: 'Discover why ambitious startups love Fethr. The automation platform for the next generation of healthcare builders. Get up to 80% off.',
 }
 
 export default function StartupsPage(): React.ReactElement {
