@@ -91,7 +91,7 @@ const COLUMNS: FooterColumn[] = [
   {
     title: 'Platform',
     links: [
-      { label: 'Refer a team', href: '/refer' },
+      { label: 'Refer an organization', href: '/refer' },
     ],
   },
   {

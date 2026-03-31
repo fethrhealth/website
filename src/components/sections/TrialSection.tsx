@@ -262,6 +262,8 @@ interface TrialSectionProps {
    * 'inline' — continuous sentence, both at text-heading-responsive-md, serif is font-normal font-serif.
    */
   headingLayout?: 'stacked' | 'inline'
+  /** Optional custom primary CTA — replaces the default "Talk to Sales" button when provided. */
+  customCta?: React.ReactNode
 }
 
 // ─── Main section ─────────────────────────────────────────────────────────────
@@ -275,6 +277,7 @@ export default function TrialSection({
   showSales     = true,
   source        = 'trial',
   headingLayout = 'stacked',
+  customCta,
 }: TrialSectionProps) {
   return (
     <section className="trial-section" style={{ backgroundColor: 'var(--trial-bg)' }}>
@@ -317,12 +320,14 @@ export default function TrialSection({
                   {/* CTA row — stacks vertically on mobile */}
                   <div className="mt-6 flex w-full items-center justify-center gap-x-2.5 gap-y-2 max-md:flex-col lg:justify-start">
 
-                    {/* Talk to Sales — desktop only */}
-                    <TalkToSalesDialog
-                      source={source}
-                      label="Talk to Sales"
-                      className={cn(BTN_BASE, 'button-primary max-md:hidden')}
-                    />
+                    {/* Primary CTA — desktop only */}
+                    {customCta ?? (
+                      <TalkToSalesDialog
+                        source={source}
+                        label="Talk to Sales"
+                        className={cn(BTN_BASE, 'button-primary max-md:hidden')}
+                      />
+                    )}
 
                     {/* "Talk to sales" dialog — desktop only */}
                     {showSales && (
