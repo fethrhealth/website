@@ -122,7 +122,7 @@ export function HomeSpeedChartPanel({ baseDelay = 0 }: { baseDelay?: number }) {
             Mobile:  grid-rows-[auto_244px] (single column, row 2 hidden)
             Desktop: grid-cols-[319px_1fr] grid-rows-[auto_1fr]
             ═══════════════════════════════════════════════════════════════ */}
-        <div className="h-full w-full gap-px grid grid-rows-[auto_244px] lg:grid-cols-[319px_1fr] lg:grid-rows-[auto_1fr]">
+        <div className="h-full w-full gap-px grid grid-rows-[auto_auto] lg:grid-cols-[319px_1fr] lg:grid-rows-[auto_1fr]">
 
           {/* ── Contact card (col 1, row 1) ──────────────────────────── */}
           <div className="relative flex flex-col bg-white-100 p-4">

@@ -94,9 +94,9 @@ export function HomeSpeedSection({
               </div>
 
               {/* ── CTA area ──────────────────────────────────────────────── */}
-              <div className="mt-7">
+              <div className="mt-7 flex justify-center">
 
-                {/* Desktop: outline button, hidden on mobile */}
+                {/* Start for free button */}
                 <Link
                   href={ctaHref}
                   className={cn(
@@ -105,53 +105,11 @@ export function HomeSpeedSection({
                     'disabled:pointer-events-none disabled:cursor-default',
                     'h-9 gap-x-1.5 rounded-[10px] px-3 text-sm',
                     'max-lg:h-[46px] max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base',
-                    'button-outline max-md:hidden',
+                    'button-outline',
                   )}
                 >
                   {ctaText}
                 </Link>
-
-                {/* Mobile: email input + submit button, hidden on md+ */}
-                {/* <form
-                  className="flex w-full max-w-xs flex-col gap-2 md:hidden"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col gap-y-1.5">
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Your email address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      autoComplete="email"
-                      aria-invalid={false}
-                      className={cn(
-                        'block w-full rounded-[10px] p-[10px_13px] outline-none',
-                        'bg-white text-[#232529] placeholder:text-[#a4adba] text-base',
-                        'border border-[#cad0d9] transition-all duration-300 ease-out',
-                        'hover:border-[#6f7988] hover:shadow-[0px_1px_4px_rgba(56,62,71,0.1)]',
-                        'focus:border-[#266df0] focus:ring-[3px] focus:ring-[#266df0]/20',
-                        'placeholder:truncate',
-                      )}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className={cn(
-                      'relative inline-flex cursor-pointer items-center justify-center text-nowrap border',
-                      'transition-colors duration-300 ease-in-out hover:duration-50 active:duration-50',
-                      'h-[46px] gap-x-2 rounded-xl px-3.5 text-base',
-                      'button-primary w-full',
-                    )}
-                  >
-                    {ctaText}
-                  </button>
-                </form> */}
-
-                <DemoRequestForm
-                  source='buildfast'
-                  showSales={false}
-                />
 
               </div>
 

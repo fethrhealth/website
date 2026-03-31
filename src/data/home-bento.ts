@@ -8,7 +8,7 @@
 
 export const BENTO_SECTION_NUMBER  = '[01]'
 export const BENTO_SECTION_LABEL   = 'Powerful platform'
-export const BENTO_SECTION_COUNTER = '/ item 1 ⋮ 4'
+export const BENTO_SECTION_COUNTER = '/ item 1 ⋮ 3'
 
 // ─── Main heading ─────────────────────────────────────────────────────────────
 // \u00a0 = non-breaking space (preserves the &nbsp; entities from the original JSX)

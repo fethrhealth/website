@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useKeenSlider } from 'keen-slider/react'
 import { cn } from '@/lib/utils'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
 
@@ -57,6 +58,24 @@ function FiPipeline() {
       <rect width="2.5" height="11" x="6.25" y="2" stroke="#5C5E63" strokeWidth="1.1" rx="1" />
       <rect width="2.5" height="5" x="10.5" y="2" stroke="#5C5E63" strokeWidth="1.1" rx="1" />
     </svg>
+  )
+}
+
+function FiHeartHand() {
+  return (
+    <svg className="size-2 lg:size-3" width="12" height="12" viewBox="0 0 12 12" fill="none"><rect width="12" height="12" rx="4.25" fill="#E7E7E7"></rect><rect x=".4" y=".4" width="11.2" height="11.2" rx="3.85" stroke="#000" strokeOpacity=".04" strokeWidth=".8"></rect><path d="M2.336 6.435A2.308 2.308 0 0 1 5.444 3.03L4.28 4.197a1.334 1.334 0 0 0 .008 1.887 1.314 1.314 0 0 0 1.876 0l1.106-1.111 1.702 1.71a.507.507 0 0 1-.86.437L7.1 6.11a.37.37 0 1 0-.522.522l.979.979a.554.554 0 1 1-.783.783l-.98-.979a.37.37 0 0 0-.522.522l1.012 1.012a.508.508 0 1 1-.718.718l-3.23-3.23Z" fill="#969696"></path><path d="M6.546 3.139 4.882 4.803a.508.508 0 0 0 .718.718L7.11 4.01a.216.216 0 0 1 .306 0l2.197 2.197a.09.09 0 0 0 .13-.002A2.215 2.215 0 0 0 6.545 3.14Z" fill="#969696"></path></svg>
+  )
+}
+
+function FiInvoice() {
+  return (
+    <svg className="size-2 lg:size-3" width="12" height="12" viewBox="0 0 12 12" fill="none"><rect width="12" height="12" rx="4.25" fill="#E7E7E7"></rect><rect x=".4" y=".4" width="11.2" height="11.2" rx="3.85" stroke="#000" strokeOpacity=".04" strokeWidth=".8"></rect><path fillRule="evenodd" clipRule="evenodd" d="M6 2.143h-.29c-1.08 0-1.62 0-2.032.21-.363.185-.658.48-.843.843-.21.412-.21.952-.21 2.032v1.543c0 1.08 0 1.62.21 2.033.185.363.48.658.843.843.413.21.953.21 2.033.21h.578c1.08 0 1.62 0 2.033-.21.363-.185.658-.48.843-.843.21-.413.21-.953.21-2.033V5.517h-1.37c-.253 0-.473 0-.653-.014-.19-.016-.38-.05-.563-.143a1.446 1.446 0 0 1-.632-.632 1.473 1.473 0 0 1-.143-.563C6 3.985 6 3.765 6 3.511V2.143Zm3.318 2.41a1.446 1.446 0 0 0-.162-.363c-.091-.147-.22-.273-.476-.524l-.43-.421-.45-.441c-.25-.244-.374-.366-.519-.454-.1-.06-.206-.108-.317-.142v1.285c0 .278 0 .457.011.594a.55.55 0 0 0 .041.203c.047.09.12.164.211.21a.55.55 0 0 0 .203.042c.137.01.317.011.594.011h1.294Z" fill="#969696"></path><path d="M4.67 8h2.667M4.67 6h.667" stroke="#E7E7E7" strokeWidth=".933" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+  )
+}
+
+function FiCurrencyIcon() {
+  return (
+    <svg className="size-2 lg:size-3" width="12" height="12" fill="none" viewBox="0 0 12 12"><rect width="12" height="12" rx="4.25" fill="#E7E7E7"></rect><rect x=".4" y=".4" width="11.2" height="11.2" rx="3.85" stroke="#000" strokeOpacity=".04" strokeWidth=".8"></rect><path fillRule="evenodd" clipRule="evenodd" d="M6.002 10.158a4.154 4.154 0 1 0 0-8.308 4.154 4.154 0 0 0 0 8.308Zm.456-6.923a.462.462 0 0 0-.923 0v.33h-.16c-.391 0-.77.147-1.053.416-.284.27-.448.642-.448 1.034s.164.763.448 1.033c.283.27.662.417 1.052.417h1.247c.16 0 .309.061.416.163.106.1.16.232.16.365a.504.504 0 0 1-.16.365.604.604 0 0 1-.416.162H4.64a.462.462 0 1 0 0 .923h.894v.33a.462.462 0 1 0 .923 0v-.33h.163c.39 0 .77-.147 1.052-.417.284-.27.448-.641.448-1.033 0-.392-.164-.764-.448-1.034a1.527 1.527 0 0 0-1.052-.417H5.374c-.16 0-.309-.06-.416-.162a.504.504 0 0 1-.16-.365c0-.133.054-.264.16-.365a.604.604 0 0 1 .416-.163h.614a.511.511 0 0 0 .016 0h1.323a.462.462 0 0 0 0-.923h-.87v-.33Z" fill="#969696"></path></svg>
   )
 }
 
@@ -139,11 +158,23 @@ function OrgIcon() {
   )
 }
 
+function FundIcon() {
+  return (
+    <svg className="size-[14px] lg:size-5" width="14" height="14" viewBox="0 0 14 14" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M.381 1.911C0 2.66 0 3.64 0 5.6v2.8c0 1.96 0 2.94.381 3.689a3.5 3.5 0 0 0 1.53 1.53C2.66 14 3.64 14 5.6 14h2.8c1.96 0 2.94 0 3.689-.382a3.5 3.5 0 0 0 1.53-1.529C14 11.34 14 10.36 14 8.4V5.6c0-1.96 0-2.94-.382-3.689A3.5 3.5 0 0 0 12.09.381C11.34 0 10.36 0 8.4 0H5.6C3.64 0 2.66 0 1.911.381a3.5 3.5 0 0 0-1.53 1.53ZM11.846 7a4.846 4.846 0 1 1-9.692 0 4.846 4.846 0 0 1 9.692 0ZM7 3.23c.298 0 .539.242.539.54v.384H8.55a.538.538 0 1 1 0 1.077H6.273c-.187 0-.36.07-.485.19a.588.588 0 0 0-.188.425c0 .155.064.308.188.426.124.119.298.19.485.19h1.454c.456 0 .898.172 1.228.486.331.315.522.748.522 1.206 0 .457-.191.89-.522 1.206-.33.314-.772.486-1.228.486h-.188v.385a.538.538 0 1 1-1.077 0v-.385H5.416a.538.538 0 0 1 0-1.077h2.311c.187 0 .36-.07.485-.19a.588.588 0 0 0 .188-.425.588.588 0 0 0-.188-.426.705.705 0 0 0-.485-.19H6.273c-.456 0-.898-.172-1.228-.486a1.665 1.665 0 0 1-.522-1.206c0-.457.191-.89.522-1.206.33-.314.772-.486 1.228-.486h.189v-.385c0-.297.24-.538.538-.538Z" fill="#FD9038"></path></svg>
+  )
+}
+
 function CustomIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="size-[14px] lg:size-5">
       <path fill="#0FC27B" fillRule="evenodd" d="M.381 1.911C0 2.66 0 3.64 0 5.6v2.8c0 1.96 0 2.94.381 3.689a3.5 3.5 0 0 0 1.53 1.53C2.66 14 3.64 14 5.6 14h2.8c1.96 0 2.94 0 3.689-.382a3.5 3.5 0 0 0 1.53-1.529C14 11.34 14 10.36 14 8.4V5.6c0-1.96 0-2.94-.382-3.689A3.5 3.5 0 0 0 12.09.381C11.34 0 10.36 0 8.4 0H5.6C3.64 0 2.66 0 1.911.381a3.5 3.5 0 0 0-1.53 1.53Zm5.316 3.695 1.942-1.941a2.585 2.585 0 0 1 3.73 3.577.105.105 0 0 1-.151.002L8.654 4.68a.252.252 0 0 0-.356 0L6.534 6.444a.592.592 0 0 1-.837-.838Zm-2.97-1.903a2.692 2.692 0 0 0 0 3.807l3.77 3.77a.592.592 0 0 0 .837-.838l-1.18-1.18a.43.43 0 1 1 .609-.61l1.142 1.143a.646.646 0 0 0 .914-.914L7.677 7.739a.43.43 0 0 1 .609-.61l1.18 1.18a.592.592 0 0 0 1.004-.51L8.484 5.805 7.194 7.1a1.533 1.533 0 0 1-2.188 0 1.556 1.556 0 0 1-.01-2.2l1.357-1.363a2.693 2.693 0 0 0-3.626.166Z" clipRule="evenodd" />
     </svg>
+  )
+}
+
+function InvoiceIcon() {
+  return (
+    <svg className="size-[14px] lg:size-5" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M.545 2.728C0 3.798 0 5.198 0 7.998v4c0 2.8 0 4.2.545 5.27a5 5 0 0 0 2.185 2.185c1.07.545 2.47.545 5.27.545h4c2.8 0 4.2 0 5.27-.545a5 5 0 0 0 2.185-2.185c.545-1.07.545-2.47.545-5.27v-4c0-2.8 0-4.2-.545-5.27A5 5 0 0 0 17.27.543C16.2-.002 14.8-.002 12-.002H8c-2.8 0-4.2 0-5.27.545A5 5 0 0 0 .545 2.728Zm8.458.841h1.077v2.535c0 .382 0 .71.022.981.024.286.075.57.215.844.208.409.54.74.948.949.273.14.558.19.844.214.27.022.6.022.98.022h2.536v2.684c0 1.62 0 2.43-.315 3.05-.278.543-.72.986-1.265 1.263-.618.316-1.428.316-3.049.316H9.004c-1.62 0-2.43 0-3.05-.316a2.893 2.893 0 0 1-1.264-1.264c-.315-.619-.315-1.43-.315-3.05V8.199c0-1.62 0-2.431.315-3.05.277-.544.72-.987 1.264-1.264.62-.316 1.43-.316 3.05-.316Zm6.56 4.073.006.026h-2.451c-.417 0-.687 0-.892-.018-.196-.016-.269-.043-.305-.061a.723.723 0 0 1-.316-.316c-.018-.036-.045-.109-.061-.305a12.264 12.264 0 0 1-.017-.891v-2.44c.205.052.401.135.583.244.217.13.404.314.777.68l.863.845.833.816c.384.377.576.565.714.786.122.196.212.41.266.634Z" fill="#0FC27B"></path><path d="M6.882 9.912h1.06M7 13h5" stroke="#0FC27B" strokeWidth="1.482" strokeLinecap="round" strokeLinejoin="round"></path></svg>
   )
 }
 
@@ -177,8 +208,8 @@ interface ObjCard {
 type TableCell =
   /** Blue pill — e.g. email address */
   | { type: 'email'; value: string }
-  /** Grey pill with optional logo image — e.g. company */
-  | { type: 'record'; label: string; logo?: string; logoW?: number; logoH?: number }
+  /** Grey pill with optional logo — image path (string) or inline SVG icon (ReactElement) */
+  | { type: 'record'; label: string; logo?: string | React.ReactElement; logoW?: number; logoH?: number }
   /** Underlined plain text — e.g. LinkedIn slug */
   | { type: 'text-link'; value: string }
   /** Colored status badge */
@@ -294,6 +325,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
       { type: 'text', value: 'San Francisco' },
       { type: 'strength', label: 'Strong', level: 'strong' },
     ],
+    addCell: { type: 'record', label: 'SF meetup', logo: <FiHeartHand />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Loom',
@@ -306,6 +338,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
       { type: 'text', value: 'San Francisco' },
       { type: 'strength', label: 'Good', level: 'good' },
     ],
+    addCell: { type: 'record', label: 'LinkedIn campaign', logo: <FiHeartHand />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'DataDog',
@@ -318,6 +351,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
       { type: 'text', value: 'New York City' },
       { type: 'strength', label: 'Very strong', level: 'very-strong' },
     ],
+    addCell: { type: 'record', label: 'New York billboards', logo: <FiHeartHand />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Vercel',
@@ -330,6 +364,7 @@ const TABLE_COMPANIES_SAAS: TableRowDef[] = [
       { type: 'text', value: 'San Francisco' },
       { type: 'strength', label: 'Strong', level: 'strong' },
     ],
+    addCell: { type: 'record', label: 'Founder\' dinner', logo: <FiHeartHand />, logoW: 1024, logoH: 1024 },
   },
 ]
 
@@ -344,6 +379,7 @@ const TABLE_PEOPLE_SMB: TableRowDef[] = [
       { type: 'record', label: 'Gusto', logo: '/images/logos/gusto.png', logoW: 128, logoH: 128 },
       { type: 'text-link', value: 'sophia-bennett' },
     ],
+    addCell: { type: 'record', label: 'INV-20241108-EKQE3K-4480', logo: <FiInvoice />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Amina Hassan',
@@ -352,6 +388,7 @@ const TABLE_PEOPLE_SMB: TableRowDef[] = [
       { type: 'record', label: 'Canva', logo: '/images/logos/canva.webp', logoW: 193, logoH: 192 },
       { type: 'text-link', value: 'amina-hassan' },
     ],
+    addCell: { type: 'record', label: 'INV-20241108-3J93O0-2703', logo: <FiInvoice />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Charlotte Sullivan',
@@ -360,6 +397,7 @@ const TABLE_PEOPLE_SMB: TableRowDef[] = [
       { type: 'record', label: 'Blue Bottle Coffee', logo: '/images/logos/blue-bottle-coffee.jpeg', logoW: 225, logoH: 225 },
       { type: 'text-link', value: 'charlotte-sullivan' },
     ],
+    addCell: { type: 'record', label: 'INV-20241108-02MZ9D-7926', logo: <FiInvoice />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Luca Moretti',
@@ -368,6 +406,7 @@ const TABLE_PEOPLE_SMB: TableRowDef[] = [
       { type: 'record', label: 'Brex', logo: '/images/logos/brex.png', logoW: 225, logoH: 225 },
       { type: 'text-link', value: 'luca-moretti' },
     ],
+    addCell: { type: 'record', label: 'INV-20241108-305137-5717', logo: <FiInvoice />, logoW: 1024, logoH: 1024 },
   },
 ]
 
@@ -383,6 +422,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
       { type: 'person', label: 'Daniel Chess' },
       { type: 'status', label: 'Seed', color: 'yellow' },
     ],
+    addCell: { type: 'record', label: 'Fund I', logo: <FiCurrencyIcon />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Bravado – $15M Series B',
@@ -392,6 +432,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
       { type: 'person', label: 'Hannah Worley' },
       { type: 'status', label: 'Series B', color: 'blue-soft' },
     ],
+    addCell: { type: 'record', label: 'Fund III', logo: <FiCurrencyIcon />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Modal – $12M Series A',
@@ -401,6 +442,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
       { type: 'person', label: 'Maria Levey' },
       { type: 'status', label: 'Series A', color: 'teal' },
     ],
+    addCell: { type: 'record', label: 'Fund V', logo: <FiCurrencyIcon />, logoW: 1024, logoH: 1024 },
   },
   {
     name: 'Kloudle – $1M Pre-Seed',
@@ -410,6 +452,7 @@ const TABLE_DEALS_IN: TableRowDef[] = [
       { type: 'person', label: 'Scott Gray' },
       { type: 'status', label: 'Pre-Seed', color: 'orange' },
     ],
+    addCell: { type: 'record', label: 'Fund I', logo: <FiCurrencyIcon />, logoW: 1024, logoH: 1024 },
   },
 ]
 
@@ -525,6 +568,7 @@ const TABS: TabConfig[] = [
       { headerIcon: <HdrLocationIcon />, headerLabel: 'Location' },
       { headerIcon: <HdrStrengthIcon />, headerLabel: 'Connection strength', hiddenOnMobile: true },
     ],
+    tableAddColumn: { headerIcon: <HdrWorkspaceIcon />, headerLabel: 'Partnership' },
     tableRows: TABLE_COMPANIES_SAAS,
   },
   {
@@ -564,7 +608,7 @@ const TABS: TabConfig[] = [
       moreCount: 12,
     },
     addCard: {
-      entityIcon: <CustomIcon />,
+      entityIcon: <InvoiceIcon />,
       name: 'Invoice',
       badge: 'Custom',
       attrs: [
@@ -580,6 +624,7 @@ const TABS: TabConfig[] = [
       { headerIcon: <HdrCompanyIcon />, headerLabel: 'Company' },
       { headerIcon: <HdrLinkedInIcon />, headerLabel: 'LinkedIn', hiddenOnMobile: true },
     ],
+    tableAddColumn: { headerIcon: <HdrWorkspaceIcon />, headerLabel: 'Invoice' },
     tableRows: TABLE_PEOPLE_SMB,
   },
   {
@@ -619,7 +664,7 @@ const TABS: TabConfig[] = [
       moreCount: 10,
     },
     addCard: {
-      entityIcon: <OrgIcon />,
+      entityIcon: <FundIcon />,
       name: 'Fund',
       badge: 'Custom',
       attrs: [
@@ -635,6 +680,7 @@ const TABS: TabConfig[] = [
       { headerIcon: <HdrOwnerIcon />, headerLabel: 'Owner' },
       { headerIcon: <HdrSelectFieldIcon />, headerLabel: 'Funding round', hiddenOnMobile: true },
     ],
+    tableAddColumn: { headerIcon: <HdrWorkspaceIcon />, headerLabel: 'Fund' },
     tableRows: TABLE_DEALS_IN,
   },
 ]
@@ -1156,6 +1202,7 @@ function FundToDeal_in(show: boolean) {
   )
 }
 
+
 // ─── TAB_CONNECTORS — pick which connectors appear per tab ────────────────────
 // Add new C_* blocks above and reference them here to customise each tab.
 
@@ -1174,6 +1221,402 @@ const TAB_ADD_CONNECTORS: Record<string, ((show: boolean) => React.ReactNode)[]>
   'saas-startups': [CompanyToPartnership_saas],
   'smbs': [ProjectToInvoice_smb, CompanyToInvoice_smb],
   'investors': [FundToPerson_in, FundToDeal_in],
+}
+
+// ─── TAB_TABLET_CONNECTORS — connectors for the lg↔1320px breakpoint ─────────
+// Same shape as TAB_CONNECTORS. Add new T_* building block constants above
+// and reference them here.
+
+
+const PersonToUserTablet_Su = (
+  <div className="pointer-events-none absolute top-0 bottom-0 left-[128px] col-start-1 col-end-2 row-start-2 row-end-3"><svg className="h-full w-full" viewBox="0 0 60 64" fill="none"><path pathLength="1" strokeDasharray="1 1" d="M59 64L59 50.0831C59 42.9327 54.2556 36.6503 47.378 34.6937L12.622 24.8063C5.74441 22.8497 0.999988 16.5673 0.999988 9.41688L0.999987 -2.55887e-06" stroke="#E4E7EC" strokeDashoffset="0"></path></svg><div className="absolute -top-px left-px"><svg className="h-px w-px overflow-visible" fill="none"><path pathLength="1" strokeDasharray="1 1" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0"></path><path pathLength="1" strokeDasharray="1 1" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0"></path><circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" opacity="1"></circle><circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" opacity="1"></circle><circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" opacity="1"></circle></svg></div><div className="absolute -right-0 -bottom-px"><svg className="h-px w-px overflow-visible" fill="none"><circle cx="0" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" opacity="1"></circle></svg></div></div>
+)
+
+const DealToPersonTablet_Su = (
+  <div className="pointer-events-none absolute top-0 right-[33px] bottom-[-25px] left-[58px] col-start-2 col-end-4 row-start-2 row-end-4">
+    <svg className="h-full w-full" viewBox="0 0 374 254" fill="none" preserveAspectRatio="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M0.577637 175H36.5001C50.8595 175 62.5001 186.641 62.5001 201V227C62.5001 241.36 74.1407 253 88.5001 253H347.001C361.361 253 373.001 241.36 373.001 227V65.5904C373.001 51.231 361.361 39.5904 347.001 39.5904H329C315.745 39.5904 305 28.8452 305 15.5904L305 0.275391" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute -top-px right-[67px]">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute bottom-[77.5px] left-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const PersonToDealTablet_Ss = (
+  <div className="pointer-events-none absolute top-1/2 col-start-2 col-end-3 row-start-1 row-end-2 w-full">
+    <svg className="h-full w-full" viewBox="0 0 200 2" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M0 1L200 1" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute bottom-0 left-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute top-px -right-px">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const CompanyToDealTablet_Ss = (
+  <div className="pointer-events-none absolute top-0 bottom-0 left-[128px] col-start-1 col-end-2 row-start-2 row-end-3">
+    <svg className="h-full w-full" viewBox="0 0 60 64" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M59 64L59 50.0831C59 42.9327 54.2556 36.6503 47.378 34.6937L12.622 24.8063C5.74441 22.8497 0.999988 16.5673 0.999988 9.41688L0.999987 -2.55887e-06" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute -top-px left-px">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute right-0 -bottom-0.5">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <circle cx="0" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const CompanyToPersonTablet_Ss = (
+  <div className="pointer-events-none absolute top-0 right-[128px] left-[58px] col-start-2 col-end-4 row-start-2 row-end-3">
+    <svg className="h-full w-full" viewBox="0 0 272 118" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M0 117L31.5001 117C45.8595 117 57.5001 105.359 57.5001 91L57.5001 64.5C57.5001 50.1406 69.1407 38.5 83.5001 38.5L245 38.5C259.36 38.5 271 26.8594 271 12.5L271 8.034e-07" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute -top-px right-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute -bottom-0 left-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const CompanyToProjectTablet_Smb = (
+  <div className="pointer-events-none absolute top-[61px] right-0 left-0 col-start-2 col-end-3 row-start-1 row-end-2">
+    <svg className="h-full w-full" viewBox="0 0 200 2" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M0 1L200 1" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute top-px left-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute top-px -right-px">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const CompanyToPersonTablet_Smb = (
+  <div className="pointer-events-none absolute top-[103px] right-0 left-[58px] col-start-2 col-end-3 row-start-1 row-end-3">
+    <svg className="h-full w-full" viewBox="0 0 144 200" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M0.499878 199H35C49.3594 199 61 187.359 61 173V27C61 12.6406 72.6406 1 87 1H144" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute top-px -right-px">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute bottom-0 left-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const CompanyToPersonTablet_In = (
+  <div className="pointer-events-none absolute top-1/2 left-0 col-start-2 col-end-3 row-start-1 row-end-2 w-full">
+    <svg className="h-full w-full" viewBox="0 0 200 2" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M0 1L200 1" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute top-px left-0">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute top-px -right-px">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+const CompanyToDealTablet_In = (
+  <div className="pointer-events-none absolute top-0 bottom-0 left-1/2 col-start-1 col-end-2 row-start-2 row-end-3">
+    <svg className="h-full w-full" viewBox="0 0 60 64" fill="none">
+      <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M59 64L59 50.0831C59 42.9327 54.2556 36.6503 47.378 34.6937L12.622 24.8063C5.74441 22.8497 0.999988 16.5673 0.999988 9.41688L0.999987 -2.55887e-06" stroke="#E4E7EC" />
+    </svg>
+    <div className="absolute -top-px left-[1px]">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+    <div className="absolute right-[0.25px] -bottom-0.5">
+      <svg className="h-px w-px overflow-visible" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 -3 A 8 8 0 0 1 -9 -12 L 0 -12" strokeWidth="1" stroke="#E4E7EC" />
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 -3 A 8 8 0 0 0 9 -12 L 0 -12" strokeWidth="1" stroke="#E4E7EC" />
+        <circle cx="-17" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="0" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        <circle cx="17" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+)
+
+// Grid reference (matches attio's tablet layout):
+//   grid-cols-[auto_200px_auto]   col-1 = left card | col-2 = 200px gap | col-3 = right card
+//   grid-rows-[auto_64px_auto]    row-1 = top cards  | row-2 = 64px gap  | row-3 = bottom cards
+// Bottom-left card: relative right-[-58px] col-start-1 row-start-3
+// Bottom-right add: relative left-[-58px]  col-start-3 row-start-3
+
+const TAB_TABLET_CONNECTORS: Record<string, React.ReactNode[]> = {
+  'health-systems': [PersonToUserTablet_Su, DealToPersonTablet_Su],
+  'saas-startups': [PersonToDealTablet_Ss, CompanyToDealTablet_Ss, CompanyToPersonTablet_Ss],
+  'smbs': [CompanyToProjectTablet_Smb, CompanyToPersonTablet_Smb],
+  'investors': [CompanyToPersonTablet_In, CompanyToDealTablet_In],
+}
+
+// ─── TAB_TABLET_ADD_CONNECTORS ────────────────────────────────────────────────
+// Functions (show: boolean) => ReactNode — fade in when add card is hovered.
+
+function AddUserToWorkspaceTablet_Su(show: boolean) {
+  return (
+    <div key="add-user-to-workspace-tablet-su" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-[81px] right-[58px] left-0 col-start-2 col-end-3 row-start-1 row-end-3 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 144 200" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M144 199H112.5C98.1406 199 86.5 187.359 86.5 173V27C86.5 12.6406 74.8594 1 60.5 1H0.5" stroke="#E4E7EC" />
+      </svg>
+      <div className="absolute -right-px bottom-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute top-px left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function WorkspaceToDealTablet_Su(show: boolean) {
+  return (
+    <div style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-[157px] bottom-0 col-start-3 col-end-4 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 60 64" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M1.00001 64L1.00001 50.0831C1 42.9327 5.74444 36.6503 12.622 34.6937L47.378 24.8063C54.2556 22.8497 59 16.5673 59 9.41688L59 -2.55887e-06" stroke="#E4E7EC" />
+      </svg>
+      <div className="absolute -bottom-0.5 left-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="0" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute -top-px right-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function PartnershipToCompanyTablet_Ss(show: boolean) {
+  return (
+    <div style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute right-[58px] bottom-[52px] left-[58px] col-start-2 col-end-3 row-start-3 row-end-4 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 83 2" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M82.9999 1L0.0927734 1" stroke="#E4E7EC" />
+      </svg>
+      <div className="absolute bottom-0 left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute top-px -right-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function CompanyToInvoiceTablet_Smb(show: boolean) {
+  return (
+    <div style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-1/2 bottom-0 col-start-3 col-end-4 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 60 64" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M1.00001 64L1.00001 50.0831C1 42.9327 5.74444 36.6503 12.622 34.6937L47.378 24.8063C54.2556 22.8497 59 16.5673 59 9.41688L59 -2.55887e-06" stroke="#E4E7EC" />
+      </svg>
+      <div className="absolute -bottom-0.5 left-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M -17 0 L -17 -3 A 8 8 0 0 1 -9 -12 L 0 -12" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 17 0 L 17 -3 A 8 8 0 0 0 9 -12 L 0 -12" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="-17" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="17" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute -top-px right-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function ProjectToInvoiceTablet_Smb(show: boolean) {
+  return (
+    <div style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-[58px] left-[31px] col-start-1 col-end-3 row-start-2 row-end-4 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 370 253" fill="none" preserveAspectRatio="none">
+        <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M370.001 175H338.079C323.72 175 312.079 186.641 312.079 201V226C312.079 240.36 300.438 252 286.079 252H26.5778C12.2184 252 0.577789 240.36 0.577789 226V64.5904C0.577789 50.231 12.2184 38.5904 26.5778 38.5904H41.5791C54.8339 38.5904 65.579 27.8452 65.579 14.5904L65.5791 0.275391" stroke="#E4E7EC" />
+      </svg>
+      <div className="absolute -right-px bottom-[77px]">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 -17 L -3 -17 A 8 8 0 0 0 -12 -9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <path pathLength="1" strokeDasharray="1 1" strokeDashoffset="0" d="M 0 17 L -3 17 A 8 8 0 0 1 -12 9 L -12 0" strokeWidth="1" stroke="#E4E7EC" />
+          <circle cx="0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute -top-px left-[65.5px]">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function PersonToFundTablet_In(show: boolean) {
+  return (
+    <div style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-1/2 bottom-0 col-start-3 col-end-4 row-start-2 row-end-3 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 60 64" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" d="M1.00001 64L1.00001 50.0831C1 42.9327 5.74444 36.6503 12.622 34.6937L47.378 24.8063C54.2556 22.8497 59 16.5673 59 9.41688L59 -2.55887e-06" stroke="#E4E7EC" strokeDashoffset="0" />
+      </svg>
+      <div className="absolute -bottom-0.5 left-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M -17 0 L -17 -3 A 8 8 0 0 1 -9 -12 L 0 -12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 17 0 L 17 -3 A 8 8 0 0 0 9 -12 L 0 -12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-17" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="17" cy="-0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute -top-px right-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M -17 0 L -17 3 A 8 8 0 0 0 -9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 17 0 L 17 3 A 8 8 0 0 1 9 12 L 0 12" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="0" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="17" cy="0.5" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function FundToDealTablet_In(show: boolean) {
+  return (
+    <div style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-1/2 right-[58px] left-[58px] col-start-2 col-end-3 row-start-3 row-end-4 transition-opacity duration-300 ease-in-out">
+      <svg className="h-full w-full" viewBox="0 0 83 2" fill="none">
+        <path pathLength="1" strokeDasharray="1 1" d="M82.9999 1L0.0927734 1" stroke="#E4E7EC" strokeDashoffset="0" />
+      </svg>
+      <div className="absolute top-px -right-px">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <circle cx="0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+      <div className="absolute top-px left-0">
+        <svg className="h-px w-px overflow-visible" fill="none">
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 -17 L 3 -17 A 8 8 0 0 1 12 -9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <path pathLength="1" strokeDasharray="1 1" d="M 0 17 L 3 17 A 8 8 0 0 0 12 9 L 12 0" strokeWidth="1" stroke="#E4E7EC" strokeDashoffset="0" />
+          <circle cx="-0.5" cy="-17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="0" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+          <circle cx="-0.5" cy="17" r="2" fill="white" stroke="#E4E7EC" strokeWidth="2" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+const TAB_TABLET_ADD_CONNECTORS: Record<string, ((show: boolean) => React.ReactNode)[]> = {
+  'health-systems': [AddUserToWorkspaceTablet_Su, WorkspaceToDealTablet_Su],
+  'saas-startups': [PartnershipToCompanyTablet_Ss],
+  'smbs': [CompanyToInvoiceTablet_Smb, ProjectToInvoiceTablet_Smb],
+  'investors': [PersonToFundTablet_In, FundToDealTablet_In],
 }
 
 // ─── GridConnectors — renders the active tab's connector set ──────────────────
@@ -1262,9 +1705,12 @@ function DesktopCardGrid({
   )
 }
 
-// ─── Mobile / tablet card strip (< 1320px) ───────────────────────────────────
+// ─── Tablet card grid (lg → min-[1320px]) ─────────────────────────────────────
+// Matches attio's hidden lg:block min-[1320px]:hidden wrapper exactly.
+// Grid: grid-cols-[auto_200px_auto] grid-rows-[auto_64px_auto]
+// Bottom cards shifted ±58px toward center (right-[-58px] / left-[-58px]).
 
-function MobileCardStrip({
+function TabletCardGrid({
   tab,
   addHovered,
   onAddEnter,
@@ -1275,49 +1721,301 @@ function MobileCardStrip({
   onAddEnter: () => void
   contentVisible: boolean
 }) {
+  const connectors = TAB_TABLET_CONNECTORS[tab.id] ?? []
+
   return (
-    <div className="relative block min-[1320px]:hidden">
+    <div className="relative hidden lg:block min-[1320px]:hidden">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <DotGridBg />
       </div>
 
-      <div className="relative flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-7 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0 : 0, ease: 'easeOut' }}
-        >
-          <ObjectCard card={tab.leftCard} />
-        </motion.div>
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0.06 : 0, ease: 'easeOut' }}
-        >
-          <ObjectCard card={tab.centerCard} />
-        </motion.div>
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0.12 : 0, ease: 'easeOut' }}
-        >
-          <ObjectCard card={tab.rightCard} />
-        </motion.div>
-        <motion.div
-          className="snap-center shrink-0"
-          initial={false}
-          animate={{ y: contentVisible ? 0 : 8 }}
-          transition={{ duration: 0.32, delay: contentVisible ? 0.18 : 0, ease: 'easeOut' }}
-        >
-          <AddObjectSlot
-            addCard={tab.addCard}
-            hovered={addHovered}
-            onEnter={onAddEnter}
-          />
-        </motion.div>
+      <div className="relative px-[34px] pt-[34px] pb-16">
+        <div className="relative mx-auto grid w-fit grid-cols-[auto_200px_auto] grid-rows-[auto_64px_auto]">
+
+          {/* Top-left card */}
+          <motion.div
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0 : 0, ease: 'easeOut' }}
+          >
+            <ObjectCard card={tab.leftCard} />
+          </motion.div>
+
+          {/* Top-right card */}
+          <motion.div
+            className="col-start-3"
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0.5 : 0, ease: 'easeOut' }}
+          >
+            <ObjectCard card={tab.rightCard} />
+          </motion.div>
+
+          {/* Bottom-left card — shifted 58px toward center */}
+          <motion.div
+            className="relative right-[-58px] col-start-1 row-start-3"
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0.4 : 0, ease: 'easeOut' }}
+          >
+            <ObjectCard card={tab.centerCard} />
+          </motion.div>
+
+          {/* Bottom-right add card — shifted 58px toward center */}
+          <motion.div
+            className="relative left-[-58px] col-start-3 row-start-3"
+            initial={false}
+            animate={{ y: contentVisible ? 0 : 8 }}
+            transition={{ duration: 0.32, delay: contentVisible ? 0.33 : 0, ease: 'easeOut' }}
+          >
+            <AddObjectSlot
+              addCard={tab.addCard}
+              hovered={addHovered}
+              onEnter={onAddEnter}
+            />
+          </motion.div>
+
+          {/* Connector paths — always visible */}
+          {connectors.map((node, i) => (
+            <Fragment key={`tc-${i}`}>{node}</Fragment>
+          ))}
+
+          {/* Add-card connectors — fade in when add card is hovered */}
+          {(TAB_TABLET_ADD_CONNECTORS[tab.id] ?? []).map((fn, i) => (
+            <Fragment key={`tac-${i}`}>{fn(addHovered)}</Fragment>
+          ))}
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Mobile connector building blocks ────────────────────────────────────────
+//
+// Grid reference for mobile slides:
+//   grid-cols-[1fr_64px_1fr]   col 1 = leftCard  | col 2 = 64px gap | col 3 = rightCard
+//   grid-rows-[auto_40px_auto] row 1 = top cards  | row 2 = 40px gap | row 3 = bottom cards
+//
+// Place connector divs using col-start-*, row-start-*, col-span-*, row-span-*.
+// Every piece must be pointer-events-none select-none and positioned relative/absolute
+// — same pattern as the desktop connector constants above.
+
+const UserToPerson_su = (
+  <div className="pointer-events-none absolute top-0 bottom-0 left-1/2 col-start-1 col-end-2 row-start-2 row-end-3"><svg className="data-model-cards-mobile-connection-container" width="14" height="41" viewBox="0 0 14 41" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M13 41V29C13 26.4819 11.8144 24.1108 9.8 22.6L4.2 18.4C2.18555 16.8892 1 14.5181 1 12V0" stroke="#E4E7EC"></path></svg><div className="absolute -top-px left-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M -10.5 0 L -10.5 2 A 5 5 0 0 0 -5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 10.5 0 L 10.5 2 A 5 5 0 0 1 5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute right-0 -bottom-0.5"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const PersonToDealMobile_su = (
+  <div className="pointer-events-none absolute top-0 right-[-11px] left-[11px] col-start-2 col-end-4 row-start-2"><svg className="data-model-cards-mobile-connection-container" width="194" height="164" viewBox="0 0 194 164" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 125 H 20.5 C 25 125 28.5 128.5 28.5 133 V 146.5 C 28.5 156 36 163.5 45.5 163.5 H 176.5 C186 163.5 193.5 156 193.5 146.5 V 49.5 V 46.5 C193.5 37 186 29.5 176.5 29.5 H 158 C153.5 29.5 150 26 150 21.5V0" stroke="#E4E7EC"></path></svg><div className="absolute -top-px right-[54px]"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M -10.5 0 L -10.5 2 A 5 5 0 0 0 -5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 10.5 0 L 10.5 2 A 5 5 0 0 1 5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute bottom-[37.5px] -left-[0.5px]"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const DealToCompanyMobile_Ss = (
+  <div className="pointer-events-none absolute top-1/2 col-start-2 col-end-3 row-start-1 row-end-2 w-full -translate-y-1/2"><svg className="data-model-cards-mobile-connection-container" width="64" height="1" viewBox="0 0 64 1" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M0.5 0.45L64 0.5" stroke="#E4E7EC"></path></svg><div className="absolute top-[0.5px] left-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 -10.5 L 2 -10.5 A 5 5 0 0 1 7 -5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 10.5 L 2 10.5 A 5 5 0 0 0 7 5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-[0.5px] -right-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 -10.5 L -2 -10.5 A 5 5 0 0 0 -7 -5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 10.5 L -2 10.5 A 5 5 0 0 1 -7 5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const PersonToDealMobile_Ss = (
+  <div className="pointer-events-none absolute top-0 bottom-0 left-1/2 col-start-1 col-end-2 row-start-2 row-end-3"><svg className="data-model-cards-mobile-connection-container" width="14" height="41" viewBox="0 0 14 41" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M13 41V29C13 26.4819 11.8144 24.1108 9.8 22.6L4.2 18.4C2.18555 16.8892 1 14.5181 1 12V0" stroke="#E4E7EC"></path></svg><div className="absolute -top-px left-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M -10.5 0 L -10.5 2 A 5 5 0 0 0 -5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 10.5 0 L 10.5 2 A 5 5 0 0 1 5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute right-0 -bottom-0.5"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const PersonToCompany_Ss = (
+  <div className="pointer-events-none absolute top-0 left-[11px] col-start-2 col-end-3 row-start-2 row-end-4"><svg className="data-model-cards-mobile-connection-container" width="123" height="77" viewBox="0 0 123 77" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M122.5 0.5V14.5C122.5 18.9183 118.918 22.5 114.5 22.5H39C29.6112 22.5 22 30.1112 22 39.5V68.5C22 72.9183 18.4183 76.5 14 76.5H0" stroke="#E4E7EC"></path></svg><div className="absolute -top-px right-[-0.5px]"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M -10.5 0 L -10.5 2 A 5 5 0 0 0 -5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 10.5 0 L 10.5 2 A 5 5 0 0 1 5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute -bottom-[0.5px] left-0"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const CompanyToProject_Smb = (
+  <div className="pointer-events-none absolute top-[35px] col-start-2 col-end-3 row-start-1 row-end-2 w-full -translate-y-1/2"><svg className="data-model-cards-mobile-connection-container" width="64" height="1" viewBox="0 0 64 1" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M0 0.5L29 0.499998L40.5 0.499997L63.5 0.499998" stroke="#E4E7EC"></path></svg><div className="absolute top-[0.5px] left-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 -10.5 L 2 -10.5 A 5 5 0 0 1 7 -5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 10.5 L 2 10.5 A 5 5 0 0 0 7 5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-[0.5px] -right-px"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const CompanyToPerson_Smb = (
+  <div className="pointer-events-none absolute top-[71px] right-0 left-[11px] col-start-2 col-end-3 row-start-1 row-end-4"><svg className="data-model-cards-mobile-connection-container" width="52" height="137" viewBox="0 0 52 137" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M52 0.499999L35.4283 0.5C31.0381 0.5 27.4681 4.03795 27.4286 8.42793L27.0356 52.0451C27.0132 54.5377 25.8301 56.8774 23.8359 58.373L18.2 62.6C16.1855 64.1108 15 66.4819 15 69L15 128C15 132.418 11.4183 136 6.99999 136L0 136" stroke="#E4E7EC"></path></svg><div className="absolute bottom-0 left-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 -10.5 L 2 -10.5 A 5 5 0 0 1 7 -5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 10.5 L 2 10.5 A 5 5 0 0 0 7 5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-[0.5px] -right-px"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const CompanyToPerson_In = (
+  <div className="pointer-events-none absolute top-1/2 col-start-2 col-end-3 row-start-1 row-end-2 w-full -translate-y-1/2"><svg className="data-model-cards-mobile-connection-container" width="64" height="1" viewBox="0 0 64 1" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M0.5 0.45L64 0.5" stroke="#E4E7EC"></path></svg><div className="absolute top-[0.5px] left-0"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-[0.5px] -right-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 -10.5 L -2 -10.5 A 5 5 0 0 0 -7 -5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 10.5 L -2 10.5 A 5 5 0 0 1 -7 5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+const CompanyToDeal_In = (
+  <div className="pointer-events-none absolute top-0 bottom-0 left-1/2 col-start-1 col-end-2 row-start-2 row-end-3"><svg className="data-model-cards-mobile-connection-container" width="14" height="41" viewBox="0 0 14 41" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M13 41V29C13 26.4819 11.8144 24.1108 9.8 22.6L4.2 18.4C2.18555 16.8892 1 14.5181 1 12V0" stroke="#E4E7EC"></path></svg><div className="absolute -top-px left-px"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute right-0 -bottom-[2px]"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M -10.5 0 L -10.5 -2 A 5 5 0 0 1 -5.5 -7 L 0 -7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 10.5 0 L 10.5 -2 A 5 5 0 0 0 5.5 -7 L 0 -7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-10.5" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="10.5" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+)
+
+// ─── TAB_MOBILE_CONNECTORS ────────────────────────────────────────────────────
+// Same pattern as TAB_CONNECTORS for desktop — pick which pieces appear per tab.
+// Add new MConn_* building blocks above and reference them here.
+
+const TAB_MOBILE_CONNECTORS: Record<string, React.ReactNode[]> = {
+  'health-systems': [UserToPerson_su, PersonToDealMobile_su],
+  'saas-startups': [DealToCompanyMobile_Ss, PersonToDealMobile_Ss, PersonToCompany_Ss],
+  'smbs': [CompanyToProject_Smb, CompanyToPerson_Smb],
+  'investors': [CompanyToPerson_In, CompanyToDeal_In],
+}
+
+// ─── Mobile add-card connector building blocks ────────────────────────────────
+// Functions (show: boolean) => ReactNode — opacity 0→1 when add card is hovered.
+// Pattern mirrors TAB_ADD_CONNECTORS for desktop.
+//
+// Grid reference (same as base connectors):
+//   col-1 = left cards (1fr) | col-2 = 64px center gap | col-3 = right cards (1fr)
+//   row-1 = top cards (auto) | row-2 = 40px center gap  | row-3 = bottom cards (auto)
+// Add card is at col-start-3 row-start-3 (bottom-right).
+
+function AddUserToWorkspace_Su(show: boolean) {
+  return (
+    <div key="add-user-to-workspace-su" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-[42px] right-[11px] left-0 col-start-2 col-end-2 row-start-1"><svg className="data-model-cards-mobile-connection-container" width="52" height="154" viewBox="0 0 52 154" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M1.70714e-05 0.999999L17 1C21.4183 1 25 4.58172 25 9L25 69C25 71.5181 26.1856 73.8892 28.2 75.4L33.8 79.6C35.8145 81.1108 37 83.4819 37 86L37 145C37 149.418 40.5817 153 45 153L52 153" stroke="#E4E7EC"></path></svg><div className="absolute -right-px bottom-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 -10.5 L -2 -10.5 A 5 5 0 0 0 -7 -5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 10.5 L -2 10.5 A 5 5 0 0 1 -7 5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-px left-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 -10.5 L 2 -10.5 A 5 5 0 0 1 7 -5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 10.5 L 2 10.5 A 5 5 0 0 0 7 5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+  )
+}
+
+function AddPartnershipToPerson_Ss(show: boolean) {
+  return (
+    <div key="add-partnership-to-person-ss" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute right-[11px] bottom-[48px] left-[11px] col-start-2 col-end-3 row-start-3 row-end-4"><svg className="data-model-cards-mobile-connection-container" width="43" height="2" viewBox="0 0 43 2" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M42.5 1H0.5" stroke="#E4E7EC"></path></svg><div className="absolute top-px -right-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 -10.5 L -2 -10.5 A 5 5 0 0 0 -7 -5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 10.5 L -2 10.5 A 5 5 0 0 1 -7 5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-px left-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 -10.5 L 2 -10.5 A 5 5 0 0 1 7 -5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 10.5 L 2 10.5 A 5 5 0 0 0 7 5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+  )
+}
+
+function AddCompanyToInvoice_Smb(show: boolean) {
+  return (
+    <div key="add-company-to-invoice-smb" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-1/2 bottom-0 col-start-3 col-end-4 row-start-2 row-end-3"><svg className="data-model-cards-mobile-connection-container" width="14" height="41" viewBox="0 0 14 41" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M1 41V29C1 26.4819 2.18555 24.1108 4.2 22.6L9.8 18.4C11.8144 16.8892 13 14.5181 13 12V0" stroke="#E4E7EC"></path></svg><div className="absolute -bottom-0.5 left-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M -10.5 0 L -10.5 -2 A 5 5 0 0 1 -5.5 -7 L 0 -7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 10.5 0 L 10.5 -2 A 5 5 0 0 0 5.5 -7 L 0 -7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-10.5" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="10.5" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute -top-px right-0"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+  )
+}
+
+function AddProjectToInvoice_Smb(show: boolean) {
+  return (
+    <div key="add-project-to-invoice-smb" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-[11px] left-0 col-start-1 col-end-3 row-start-2 row-end-3"><svg className="data-model-cards-mobile-connection-container" width="193" height="165" viewBox="0 0 193 165" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M193 125.499H174C169.582 125.499 166 129.081 166 133.499V146.919C166 156.308 158.389 163.919 149 163.919H18.0001C8.61123 163.919 1.00006 156.308 1.00006 146.919V49.9193V46.9193C1.00006 37.5305 8.61122 29.9193 18.0001 29.9193H36.5001C40.9183 29.9193 44.5001 26.3376 44.5001 21.9193V0" stroke="#E4E7EC"></path></svg><div className="absolute -right-px bottom-[38.5px]"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 -10.5 L -2 -10.5 A 5 5 0 0 0 -7 -5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 0 10.5 L -2 10.5 A 5 5 0 0 1 -7 5.5 L -7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute -top-px left-[44.5px]"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+  )
+}
+
+function AddPersonToFund_In(show: boolean) {
+  return (
+    <div key="add-person-to-fund-in" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-0 right-1/2 bottom-0 col-start-3 col-end-4 row-start-2 row-end-3"><svg className="data-model-cards-mobile-connection-container" width="14" height="41" viewBox="0 0 14 41" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M1 41V29C1 26.4819 2.18555 24.1108 4.2 22.6L9.8 18.4C11.8144 16.8892 13 14.5181 13 12V0" stroke="#E4E7EC"></path></svg><div className="absolute -bottom-0.5 left-px"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M -10.5 0 L -10.5 -2 A 5 5 0 0 1 -5.5 -7 L 0 -7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M 10.5 0 L 10.5 -2 A 5 5 0 0 0 5.5 -7 L 0 -7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out opacity-100" cx="-10.5" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out opacity-100" cx="10.5" cy="-0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute -top-px right-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M -10.5 0 L -10.5 2 A 5 5 0 0 0 -5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 10.5 0 L 10.5 2 A 5 5 0 0 1 5.5 7 L 0 7" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="0" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="10.5" cy="0.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+  )
+}
+
+function AddFundToDeal_In(show: boolean) {
+  return (
+
+    <div key="add-fund-to-deal-in" style={{ opacity: show ? 1 : 0 }} className="pointer-events-none absolute top-1/2 right-[11px] left-[11px] col-start-2 col-end-3 row-start-3 row-end-4"><svg className="data-model-cards-mobile-connection-container" width="41" height="2" viewBox="0 0 41 2" fill="none"><path className="data-model-cards-mobile-connection data-model-cards-mobile-connection-active-forwards" pathLength="1" d="M41 1H0" stroke="#E4E7EC"></path></svg><div className="absolute top-px -right-px"><svg className="h-px w-px overflow-visible" fill="none"><circle className="transition-opacity duration-300 ease-out opacity-100" cx="0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div><div className="absolute top-px left-0"><svg className="h-px w-px overflow-visible" fill="none"><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 -10.5 L 2 -10.5 A 5 5 0 0 1 7 -5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><path className="data-model-cards-mobile-connector [animation-delay:0.8s] data-model-cards-mobile-connection-active-backwards" pathLength="1" d="M 0 10.5 L 2 10.5 A 5 5 0 0 0 7 5.5 L 7 0" strokeWidth="1" stroke="#E4E7EC"></path><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="-10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="0" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle><circle className="transition-opacity duration-300 ease-out [transition-delay:1.1s] opacity-100" cx="-0.5" cy="10.5" r="1.25" fill="white" stroke="#E4E7EC" strokeWidth="1.5"></circle></svg></div></div>
+  )
+}
+
+
+// ─── TAB_MOBILE_ADD_CONNECTORS ────────────────────────────────────────────────
+// Per-tab add connectors for mobile — functions invoked with (show: boolean).
+// Rendered inside MobileCardStrip after the base TAB_MOBILE_CONNECTORS.
+
+const TAB_MOBILE_ADD_CONNECTORS: Record<string, ((show: boolean) => React.ReactNode)[]> = {
+  'health-systems': [AddUserToWorkspace_Su],
+  'saas-startups': [AddPartnershipToPerson_Ss],
+  'smbs': [AddCompanyToInvoice_Smb, AddProjectToInvoice_Smb],
+  'investors': [AddPersonToFund_In, AddFundToDeal_In],
+}
+
+// ─── Mobile / tablet card slider (< 1320px) ───────────────────────────────────
+// keen-slider where each slide shows one tab's full 2×2 card layout.
+// Active slide: scale(1) opacity(1). Inactive: scale(0.85) opacity(0.5).
+// Tab buttons are hidden on mobile; swiping calls onTabChange to keep parent in sync.
+
+function MobileCardStrip({
+  tabs,
+  activeTabIndex,
+  onTabChange,
+  addHovered,
+  onAddEnter,
+}: {
+  tabs: TabConfig[]
+  activeTabIndex: number
+  onTabChange: (i: number) => void
+  addHovered: boolean
+  onAddEnter: () => void
+}) {
+  // Guard ref prevents circular update: tab-button click → moveToIdx → slideChanged → onTabChange
+  const isProgrammaticMove = useRef(false)
+
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: activeTabIndex,
+    slides: { perView: 1 },
+    slideChanged(slider) {
+      if (isProgrammaticMove.current) {
+        isProgrammaticMove.current = false
+        return
+      }
+      onTabChange(slider.track.details.rel)
+    },
+  })
+
+  // When the active tab changes from outside (tab button click), move the slider
+  useEffect(() => {
+    if (!instanceRef.current) return
+    const currentIdx = instanceRef.current.track.details.rel
+    if (currentIdx === activeTabIndex) return
+    isProgrammaticMove.current = true
+    instanceRef.current.moveToIdx(activeTabIndex)
+  }, [activeTabIndex, instanceRef])
+
+  return (
+    <div className="relative block lg:hidden">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <DotGridBg />
+      </div>
+
+      <div ref={sliderRef} className="keen-slider">
+        {tabs.map((tab, i) => {
+          const isActive = i === activeTabIndex
+          return (
+            <div key={tab.id} className="keen-slider__slide">
+              {/*
+               * Slide content — scale + opacity transition on active/inactive.
+               * origin-bottom keeps the cards from visually jumping up when scaling.
+               */}
+              <div
+                className="transition-all duration-300 ease-in-out origin-bottom"
+                style={{
+                  transform: isActive ? 'scale(1)' : 'scale(0.85)',
+                  opacity: isActive ? 1 : 0.5,
+                }}
+              >
+                {/*
+                 * 2×2 card grid — grid-cols-[1fr_64px_1fr] grid-rows-[auto_40px_auto].
+                 * Center column (64px) + center row (40px) hold connector lines.
+                 * Bottom cards shifted ±11px toward center (mirrors attio layout).
+                 */}
+                <div className="relative grid grid-cols-[1fr_64px_1fr] grid-rows-[auto_40px_auto] px-6 pt-5 pb-16 w-fit mx-auto">
+
+                  {/* Top-left card */}
+                  <div className="col-start-1 row-start-1">
+                    <ObjectCard card={tab.leftCard} />
+                  </div>
+
+                  {/* Top-right card */}
+                  <div className="col-start-3 row-start-1 flex justify-end">
+                    <ObjectCard card={tab.rightCard} />
+                  </div>
+
+                  {/* Bottom-left card — shifted 11px right toward center */}
+                  <div className="col-start-1 row-start-3 relative left-[11px]">
+                    <ObjectCard card={tab.centerCard} />
+                  </div>
+
+                  {/* Bottom-right card (AddObjectSlot when active, plain card when inactive) */}
+                  <div className="col-start-3 row-start-3 relative right-[11px] flex justify-end">
+                    {isActive ? (
+                      <AddObjectSlot addCard={tab.addCard} hovered={addHovered} onEnter={onAddEnter} />
+                    ) : (
+                      <ObjectCard card={tab.addCard} />
+                    )}
+                  </div>
+
+                  {/* Per-tab mobile connectors — always visible */}
+                  {(TAB_MOBILE_CONNECTORS[tab.id] ?? TAB_MOBILE_CONNECTORS['health-systems']!).map((node, ci) => (
+                    <Fragment key={`mc-${ci}`}>{node}</Fragment>
+                  ))}
+
+                  {/* Per-tab mobile add connectors — fade in when add card is hovered */}
+                  {(TAB_MOBILE_ADD_CONNECTORS[tab.id] ?? []).map((fn, i) => (
+                    <Fragment key={`mac-${i}`}>{fn(addHovered && isActive)}</Fragment>
+                  ))}
+
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -1411,6 +2109,7 @@ function HdrWorkspaceIcon() {
     </svg>
   )
 }
+
 
 /** Header LinkedIn icon */
 function HdrLinkedInIcon() {
@@ -1533,16 +2232,22 @@ function renderTableCell(cell: TableCell): React.ReactNode {
       return (
         <div className={cn(badgeBase, 'border-[#E6E7EA]', cell.logo && 'pl-0.5 lg:pl-[3px]')}>
           {cell.logo && (
-            <div className="relative">
-              <Image
-                alt={cell.label}
-                src={cell.logo}
-                width={cell.logoW ?? 24}
-                height={cell.logoH ?? 24}
-                className="size-2 rounded-sm lg:size-3"
-              />
-              <div className="absolute inset-0 rounded-sm border-[#232529]/10 border-[0.75px]" />
-            </div>
+            typeof cell.logo === 'string' ? (
+              <div className="relative">
+                <Image
+                  alt={cell.label}
+                  src={cell.logo}
+                  width={cell.logoW ?? 24}
+                  height={cell.logoH ?? 24}
+                  className="size-2 rounded-sm lg:size-3"
+                />
+                <div className="absolute inset-0 rounded-sm border-[#232529]/10 border-[0.75px]" />
+              </div>
+            ) : (
+              <div className="size-2 lg:size-3 shrink-0 flex items-center justify-center">
+                {cell.logo}
+              </div>
+            )
           )}
           <div>{cell.label}</div>
         </div>
@@ -1596,7 +2301,7 @@ function renderTableCell(cell: TableCell): React.ReactNode {
 
 function DataModelTable({ tab, addHovered, contentVisible }: { tab: TabConfig; addHovered: boolean; contentVisible: boolean }) {
   return (
-    <div className="lg:px-[108px] xl:px-[241px] -ml-6 w-[calc(100%+48px)]">
+    <div className="container lg:px-[108px] xl:px-[241px] -ml-6 w-[calc(100%+48px)]">
       <div className="grid w-full grid-cols-[24px_1fr_24px] grid-rows-[10px_1fr_10px] pb-20 lg:grid-rows-[24px_1fr_24px]">
 
         {/* ── (col1, row1) Top-left corner: right + bottom dashed lines ── */}
@@ -1799,7 +2504,7 @@ export function HomeAdaptiveModelVisual() {
   }
 
   return (
-    <div className="pt-10 w-full overflow-hidden border-x border-subtle-stroke">
+    <div className="pt-10 w-full overflow-hidden lg:border-x border-subtle-stroke">
 
       {/* ── Tabs ─────────────────────────────────────────────────────────── */}
       <div className="scrollbar-none flex gap-x-1.5 overflow-x-scroll py-[20px] min-[450px]:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -1826,7 +2531,7 @@ export function HomeAdaptiveModelVisual() {
         <div className="h-full w-[22px] shrink-0" aria-hidden />
       </div>
 
-      {/* ── Cards + connectors (blur + fade, cards stagger on enter) ────── */}
+      {/* ── Desktop cards + connectors (blur + fade on tab change) ─────── */}
       <motion.div
         initial={false}
         animate={contentVisible ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(8px)' }}
@@ -1840,14 +2545,23 @@ export function HomeAdaptiveModelVisual() {
           contentVisible={contentVisible}
         />
 
-        {/* Mobile / tablet strip (< 1320px) */}
-        <MobileCardStrip
+        {/* Tablet grid (lg → 1320px) */}
+        <TabletCardGrid
           tab={tab}
           addHovered={addHovered}
           onAddEnter={() => setAddHovered(true)}
           contentVisible={contentVisible}
         />
       </motion.div>
+
+      {/* ── Mobile / tablet slider (< 1320px) — handles its own transitions ── */}
+      <MobileCardStrip
+        tabs={TABS}
+        activeTabIndex={activeTab}
+        onTabChange={handleTabChange}
+        addHovered={addHovered}
+        onAddEnter={() => setAddHovered(true)}
+      />
 
       {/* ── Data model table (per-column slide-down on enter) ────────────── */}
       <DataModelTable tab={tab} addHovered={addHovered} contentVisible={contentVisible} />
