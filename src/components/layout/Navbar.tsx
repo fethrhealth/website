@@ -19,7 +19,7 @@ import { NAV_MENU, type NavIcon, type NavEntry } from '@/data/nav-menu'
 import { TalkToSalesDialog } from '@/components/ui/TalkToSalesDialog'
 
 // ─── Icon registry ────────────────────────────────────────────────────────────
-// Maps icon keys (used in nav-menu.ts) to their JSX. Don't edit unless adding
+// Maps icon keys (used in nav-menu.ts) to their JSX. Do not edit unless adding
 // a new icon — to change menu items, edit src/data/nav-menu.ts instead.
 
 const ICON_MAP: Record<NavIcon, ReactNode> = {
