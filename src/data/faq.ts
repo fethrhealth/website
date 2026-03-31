@@ -34,39 +34,39 @@ export interface FaqSectionProps {
 
 export const REFER_FAQ: FaqItem[] = [
   {
-    id: "refer-redeem-rewards",
-    question: "How do I get my rewards?",
+    id: "refer-eligibility",
+    question: "Who is eligible to participate?",
     answer:
-      "Visit your referral settings in Attio and click 'redeem'.",
+      "You must be a U.S. citizen or permanent resident, not be a current Fethr employee or contractor, and be over 18. Complete a Referral Partner Agreement to get started.",
   },
   {
-    id: "refer-terms-conditions",
-    question: "Are there any terms and conditions I should be aware of?",
+    id: "refer-qualifying-referral",
+    question: "What counts as a Qualifying Referral?",
     answer:
-      "Please refer to our Referral Policy for more details.",
+      "A Qualifying Referral is a new client introduction that results in a signed engagement agreement with Fethr within 365 days. The client must be a new Fethr client.",
   },
   {
-    id: "refer-qualified-referral",
-    question: "What counts as a qualified referral?",
+    id: "refer-earnings",
+    question: "How much do I earn per referral?",
     answer:
-      "Your referral is only valid when a new workspace signs up using your link and converts to a paid plan. The workspace must be new and not an existing customer.",
+      "You earn 10% of the initial annual engagement revenue for 3 years. There is no cap on deal size — whether the engagement is $15,000/year or $500,000/year, you earn 10%.",
   },
   {
-    id: "refer-cash-redemption",
-    question: "Can I use my points for cash?",
+    id: "refer-payment",
+    question: "When and how do I get paid?",
     answer:
-      "Unfortunately not, we don't offer any cash alternatives for reward tiers.",
+      "Referral fees are paid quarterly, within 30 days following the end of each calendar quarter. Payment is made via ACH, wire transfer, or check. You'll receive a quarterly statement detailing your referrals and fees.",
   },
   {
-    id: "refer-referral-limit",
-    question: "Is there a limit to how many teams I can refer?",
+    id: "refer-limit",
+    question: "Is there a limit to how many organizations I can refer?",
     answer:
-      "There's no limit to the number of teams you can refer. The more you refer, the more likely you are to earn points.",
+      "No limit. Revenue shares from multiple referrals are cumulative and stack. The more you refer, the more you earn.",
   },
   {
-    id: "refer-referral-cancellation",
-    question: "What happens if a referral cancels their subscription?",
+    id: "refer-cancellation",
+    question: "What happens if a referred client cancels?",
     answer:
-      "Nothing changes if a referral cancels their subscription. Your points don't get deducted and you're still eligible to redeem rewards.",
+      "If the referred client terminates their engagement before the 3-year period expires, the revenue share for that client ceases. However, your other active referrals are unaffected.",
   },
 ];

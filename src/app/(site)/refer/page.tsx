@@ -2,15 +2,14 @@ import type { Metadata } from 'next'
 import { FaqSection } from "@/components/sections/FaqSection"
 import { PageHero } from "@/components/sections/PageHero"
 import { REFER_FAQ } from "@/data/faq"
-import TrialSection from "@/components/sections/TrialSection"
-import { CompaniesSection } from "@/components/sections/CompaniesSection"
 import { ReferralProcessSection } from "@/components/sections/ReferralProcessSection"
-import { AccordionImageSection } from "@/components/sections/AccordionImageSection"
-import { TIER_1_REWARDS } from "@/data/rewards"
+import { RevenueShareSection } from "@/components/sections/RevenueShareSection"
+import { ReferHeroCta } from "./ReferHeroCta"
+import { ReferTrialSection } from "./ReferTrialSection"
 
 export const metadata: Metadata = {
   title: 'Refer',
-  description: 'Share Fethr Health with your network. Gift teams a discount and earn exclusive rewards through our referral program.',
+  description: 'Refer healthcare organizations to Fethr Health and earn 10% revenue share for 3 years. No cap on deal size or number of referrals.',
 }
 
 export default function ReferPage(): React.ReactElement {
@@ -18,23 +17,22 @@ export default function ReferPage(): React.ReactElement {
     <main>
       <PageHero
         badge="Referral program"
-        heading="Gift teams 10% off. Earn exclusive rewards."
-        subheading="Refer more teams to Attio, gift them 10% off their subscription, and earn exclusive rewards."
-        primaryCta={{ label: "Get my shareable link", href: "/refer" }}
-        paddingBottom="pb-10 lg:pb-16 xl:pb-24"
+        heading="Refer an organization. Earn 10% revenue share."
+        subheading="Introduce healthcare organizations to Fethr and earn 10% of the annual engagement revenue for 3 years."
+        paddingBottom="pb-0"
       />
+      <ReferHeroCta />
+      {/* TODO: Re-enable CompaniesSection when we have our own logos
       <CompaniesSection />
-      <ReferralProcessSection />
-      <AccordionImageSection
-        headerLayout="split"
-        headingPrimary="Selected"
-        headingMuted="just for you."
-        headingLineBreak
-        subheading="The more teams you refer, the more exclusive bundles you can claim."
-        items={TIER_1_REWARDS}
+      */}
+      <ReferralProcessSection
+        headingBold="Our referral"
+        headingMuted="process."
+        subheading="Earn recurring revenue by introducing organizations to Fethr in just a few steps."
       />
+      <RevenueShareSection />
       <FaqSection items={REFER_FAQ} />
-      <TrialSection />
+      <ReferTrialSection />
     </main>
   )
 }

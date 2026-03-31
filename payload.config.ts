@@ -13,6 +13,7 @@ import { LegalPages } from '@/collections/LegalPages'
 import { SocialLinks } from '@/collections/SocialLinks'
 import { Media } from '@/collections/Media'
 import { Users } from '@/collections/Users'
+import { ReferralPartners } from '@/collections/ReferralPartners'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -31,7 +32,7 @@ export default buildConfig({
   },
 
   // Collections — blog + media + auth
-  collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, LegalPages, SocialLinks, Media, Users],
+  collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, ReferralPartners, LegalPages, SocialLinks, Media, Users],
 
   editor: lexicalEditor(),
 

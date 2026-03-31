@@ -6,7 +6,7 @@ import type { FooterLegalLink } from './Footer'
 import type { SocialLinkEntry } from '@/types'
 
 /** Routes that should render WITHOUT the site footer. */
-const NO_FOOTER_ROUTES = ['/redefine']
+const NO_FOOTER_ROUTES: string[] = []
 
 export function ClientFooter({
   legalLinks,
