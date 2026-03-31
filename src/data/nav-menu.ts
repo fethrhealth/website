@@ -53,6 +53,7 @@ export type NavEntry =
 // ─── Menu data ────────────────────────────────────────────────────────────────
 
 export const NAV_MENU: NavEntry[] = [
+  /* TODO: Re-enable Platform dropdown when platform pages are built
   {
     type: 'dropdown',
     label: 'Platform',
@@ -82,6 +83,7 @@ export const NAV_MENU: NavEntry[] = [
       },
     ],
   },
+  */
 
   {
     type: 'dropdown',
@@ -90,9 +92,9 @@ export const NAV_MENU: NavEntry[] = [
       {
         heading: 'Company',
         items: [
-          { title: 'Blog',             href: '/blog',     description: 'Insights on healthcare CRM strategy', icon: 'blog'     },
-          { title: 'Startup Program',  href: '/startups', description: 'Get Fethr free for up to 2 years',    icon: 'startup'  },
-          { title: 'Become a Partner', href: '/partners', description: 'Join our partner ecosystem',          icon: 'partners' },
+          { title: 'Blog',             href: '/blog',     description: 'Insights on healthcare automation',   icon: 'blog'     },
+          { title: 'Startup Program',  href: '/startups', description: 'Get Fethr 80% off for up to 2 years', icon: 'startup'  },
+          /* { title: 'Become a Partner', href: '/partners', description: 'Join our partner ecosystem',          icon: 'partners' }, */
         ],
       },
     ],

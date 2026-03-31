@@ -13,7 +13,7 @@ export const STARTUPS_APPLICATION = {
     '80% off the annual Pro plan and credits for the first year',
     '30% off the second year',
     'Dedicated onboarding support',
-    'Perks from tools startups love, including 3 months of Linear and 6 months of Notion for free',
+    'Access to Fethr partner network and integration marketplace',
   ],
   qualificationNote: 'To qualify, you must be affiliated with a venture firm or a Fethr startup partner.',
 }
