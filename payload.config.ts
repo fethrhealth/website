@@ -14,6 +14,8 @@ import { SocialLinks } from '@/collections/SocialLinks'
 import { Media } from '@/collections/Media'
 import { Users } from '@/collections/Users'
 import { ReferralPartners } from '@/collections/ReferralPartners'
+import { TelemetryEvents } from '@/collections/TelemetryEvents'
+import { ServerReports } from '@/collections/ServerReports'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -32,7 +34,7 @@ export default buildConfig({
   },
 
   // Collections — blog + media + auth
-  collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, ReferralPartners, LegalPages, SocialLinks, Media, Users],
+  collections: [BlogPosts, DemoRequests, SalesLeads, StartupApplications, ReferralPartners, TelemetryEvents, ServerReports, LegalPages, SocialLinks, Media, Users],
 
   editor: lexicalEditor(),
 
