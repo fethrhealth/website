@@ -80,8 +80,10 @@ export default function HomePage(): React.ReactElement {
         stats={SCALE_STATS}
       />
       <Divider />
+      {/* TODO: Re-enable GDPR/CCPA/ISO compliance section when ready
       <SecuritySection />
       <Divider />
+      */}
       {/* TODO: Re-enable CTA section ("The CRM behind thousands of companies") when ready
       <CtaSection />
       */}
