@@ -36,6 +36,19 @@ export function middleware(request: NextRequest) {
     return new NextResponse(null, { status: 200, headers })
   }
 
+  // Engine telemetry now lives in fethr-os (os.fethrhealth.com). Installs that
+  // still post to fethrhealth.com/v1/reports/* are proxied there unchanged and
+  // nothing is stored in this site's CMS. fethr-os adds its own CORS headers,
+  // so this branch must not add ours (duplicate Allow-Origin breaks browsers).
+  if (path.startsWith('/v1/reports/') || path.startsWith('/api/v1/reports/')) {
+    const base = process.env.FETHR_OS_URL ?? 'https://os.fethrhealth.com'
+    const target = new URL(path.replace(/^\/api\/v1\//, '/v1/') + request.nextUrl.search, base)
+    const forwarded = new Headers(request.headers)
+    forwarded.delete('host') // let the proxy set Host to os.fethrhealth.com
+    forwarded.set('x-fethr-forwarded-by', 'fethrhealth.com')
+    return NextResponse.rewrite(target, { request: { headers: forwarded } })
+  }
+
   // For actual requests, add CORS headers to the response
   const response = NextResponse.next()
   for (const [key, value] of Object.entries(headers)) {
