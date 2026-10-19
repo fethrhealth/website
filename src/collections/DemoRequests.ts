@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { notifyFethrOs } from '@/lib/notifyFethrOs'
 
 /**
  * DemoRequests collection — stores every "request a demo" form submission
@@ -21,6 +22,10 @@ export const DemoRequests: CollectionConfig = {
   },
   // No draft workflow needed — every submission is immediately visible
   timestamps: true,
+  // Every new lead and status change goes to fethr-os (Clients › Inbound).
+  hooks: {
+    afterChange: [notifyFethrOs],
+  },
   access: {
     create: () => true,                            // public
     read:   ({ req: { user } }) => Boolean(user),  // admins only

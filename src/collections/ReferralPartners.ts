@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { notifyFethrOs } from '@/lib/notifyFethrOs'
 
 /**
  * ReferralPartners collection — stores referral partner applications.
@@ -19,6 +20,10 @@ export const ReferralPartners: CollectionConfig = {
     description:    'Referral partner applications submitted via the website.',
   },
   timestamps: true,
+  // Every new lead and status change goes to fethr-os (Clients › Inbound).
+  hooks: {
+    afterChange: [notifyFethrOs],
+  },
   access: {
     create: () => true,
     read:   ({ req: { user } }) => Boolean(user),

@@ -110,6 +110,8 @@ NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX      # optional
 NEXT_PUBLIC_META_PIXEL_ID=...        # optional
 NEXT_PUBLIC_LINKEDIN_ID=...          # optional
 BLOB_READ_WRITE_TOKEN=...           # auto-injected by Vercel
+FETHR_OS_WEBHOOK_SECRET=...         # shared with fethr-os WEBSITE_WEBHOOK_SECRET; signs lead deliveries
+FETHR_OS_WEBHOOK_URL=...            # optional, default https://os.fethrhealth.com/api/webhooks/website
 ```
 
 ## Deployment
