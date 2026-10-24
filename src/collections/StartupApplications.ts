@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { sendLeadNotification } from '@/lib/lead-notification'
 
 /**
  * StartupApplications collection — stores every startup program application
@@ -25,6 +26,27 @@ export const StartupApplications: CollectionConfig = {
     read:   ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation !== 'create') return
+        const d = doc as Record<string, unknown>
+        await sendLeadNotification(req.payload, {
+          subject: `New startup application — ${String(d.firstName ?? '')} ${String(d.lastName ?? '')} (${String(d.companyEmail ?? '')})`,
+          heading: 'New startup program application',
+          fields: [
+            { label: 'Name',                value: `${String(d.firstName ?? '')} ${String(d.lastName ?? '')}`.trim() },
+            { label: 'Company email',       value: d.companyEmail },
+            { label: 'Year founded',        value: d.yearFounded },
+            { label: 'Latest funding round', value: d.latestFundingRound },
+            { label: 'Total amount raised', value: d.totalAmountRaised },
+            { label: 'Team size',           value: d.teamSize },
+            { label: 'Use case',            value: d.useCase },
+          ],
+        })
+      },
+    ],
   },
   fields: [
     // ── Identity ────────────────────────────────────────────────────────────

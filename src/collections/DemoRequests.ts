@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { sendLeadNotification } from '@/lib/lead-notification'
 
 /**
  * DemoRequests collection — stores every "request a demo" form submission
@@ -26,6 +27,22 @@ export const DemoRequests: CollectionConfig = {
     read:   ({ req: { user } }) => Boolean(user),  // admins only
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation !== 'create') return
+        const d = doc as Record<string, unknown>
+        await sendLeadNotification(req.payload, {
+          subject: `New demo request — ${String(d.email ?? '')}`,
+          heading: 'New demo request',
+          fields: [
+            { label: 'Email',  value: d.email },
+            { label: 'Source', value: d.source },
+          ],
+        })
+      },
+    ],
   },
   fields: [
     {

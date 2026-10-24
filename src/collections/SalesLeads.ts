@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { sendLeadNotification } from '@/lib/lead-notification'
 
 /**
  * SalesLeads collection — stores every "Talk to sales" form submission.
@@ -24,6 +25,27 @@ export const SalesLeads: CollectionConfig = {
     read:   ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation !== 'create') return
+        const d = doc as Record<string, unknown>
+        await sendLeadNotification(req.payload, {
+          subject: `New sales lead — ${String(d.firstName ?? '')} ${String(d.lastName ?? '')} (${String(d.companyEmail ?? '')})`,
+          heading: 'New sales lead (Talk to sales)',
+          fields: [
+            { label: 'Name',         value: `${String(d.firstName ?? '')} ${String(d.lastName ?? '')}`.trim() },
+            { label: 'Company email', value: d.companyEmail },
+            { label: 'Phone',        value: d.phone },
+            { label: 'Region',       value: d.region },
+            { label: 'Company size', value: d.companySize },
+            { label: 'Details',      value: d.details },
+            { label: 'Source',       value: d.source },
+          ],
+        })
+      },
+    ],
   },
   fields: [
     {

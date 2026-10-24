@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { sendLeadNotification } from '@/lib/lead-notification'
 
 /**
  * ReferralPartners collection — stores referral partner applications.
@@ -24,6 +25,30 @@ export const ReferralPartners: CollectionConfig = {
     read:   ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation !== 'create') return
+        const d = doc as Record<string, unknown>
+        await sendLeadNotification(req.payload, {
+          subject: `New referral partner — ${String(d.firstName ?? '')} ${String(d.lastName ?? '')}, ${String(d.company ?? '')}`,
+          heading: 'New referral partner application',
+          fields: [
+            { label: 'Name',              value: `${String(d.firstName ?? '')} ${String(d.lastName ?? '')}`.trim() },
+            { label: 'Email',             value: d.email },
+            { label: 'Phone',             value: d.phone },
+            { label: 'Company',           value: d.company },
+            { label: 'Job title',         value: d.jobTitle },
+            { label: 'LinkedIn',          value: d.linkedIn },
+            { label: 'Region',            value: d.region },
+            { label: 'Healthcare network', value: d.healthcareNetwork },
+            { label: 'Heard about us via', value: d.referralSource },
+            { label: 'Message',           value: d.message },
+          ],
+        })
+      },
+    ],
   },
   fields: [
     {
