@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { notifyFethrOs } from '@/lib/notifyFethrOs'
 
 /**
  * StartupApplications collection — stores every startup program application
@@ -20,6 +21,10 @@ export const StartupApplications: CollectionConfig = {
     description:    'Applications submitted via the Startup Program form.',
   },
   timestamps: true,
+  // Every new lead and status change goes to fethr-os (Clients › Inbound).
+  hooks: {
+    afterChange: [notifyFethrOs],
+  },
   access: {
     create: () => true,
     read:   ({ req: { user } }) => Boolean(user),
