@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { notifyFethrOs } from '@/lib/notifyFethrOs'
 
 /**
  * SalesLeads collection — stores every "Talk to sales" form submission.
@@ -19,6 +20,10 @@ export const SalesLeads: CollectionConfig = {
     description:    'Leads captured via the "Talk to sales" dialog.',
   },
   timestamps: true,
+  // Every new lead and status change goes to fethr-os (Clients › Inbound).
+  hooks: {
+    afterChange: [notifyFethrOs],
+  },
   access: {
     create: () => true,
     read:   ({ req: { user } }) => Boolean(user),
