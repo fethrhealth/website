@@ -5,6 +5,11 @@ import { logSpam, spamReason } from '@/lib/spamGuard'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/** A non-blank string. Blank selects arrive as '' and Payload rejects '' as a select value. */
+function filled(v: unknown): v is string {
+  return typeof v === 'string' && v.trim() !== ''
+}
+
 export async function POST(request: NextRequest) {
   let body: unknown
 
@@ -45,8 +50,8 @@ export async function POST(request: NextRequest) {
       lastName:    (b.lastName    as string).trim(),
       companyEmail:(b.companyEmail as string).trim().toLowerCase(),
       phone:       typeof b.phone       === 'string' ? b.phone.trim()       : '',
-      region:      typeof b.region      === 'string' ? b.region      as 'North America' | 'Europe' | 'Rest of World' : undefined,
-      companySize: typeof b.companySize === 'string' ? b.companySize as '1 to 5' | '6 to 10' | '11 to 20' | '21 to 50' | '51 to 100' | '101+' : undefined,
+      region:      filled(b.region)             ? b.region      as 'North America' | 'Europe' | 'Rest of World' : undefined,
+      companySize: filled(b.companySize)        ? b.companySize as '1 to 5' | '6 to 10' | '11 to 20' | '21 to 50' | '51 to 100' | '101+' : undefined,
       details:     typeof b.details     === 'string' ? b.details.trim()     : '',
       source:      typeof b.source      === 'string' ? b.source.trim()      : '',
     },
