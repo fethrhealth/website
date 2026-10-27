@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
+import { useSpamTrap } from '@/components/ui/useSpamTrap'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -149,6 +150,7 @@ export function TalkToSalesDialog({
   const [open, setOpen]     = useState(false)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const { trap, trapFields } = useSpamTrap()
   const [form, setForm]     = useState<FormData>(EMPTY)
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof FormData, boolean>>>({})
 
@@ -185,7 +187,7 @@ export function TalkToSalesDialog({
       const res = await fetch('/api/talk-to-sales', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ ...form, source }),
+        body:    JSON.stringify({ ...form, source, ...trapFields() }),
       })
       if (!res.ok) {
         const data = (await res.json().catch(() => ({}))) as { error?: string }
@@ -250,6 +252,7 @@ export function TalkToSalesDialog({
 
                 {/* ── Form ────────────────────────────────────────────── */}
                 <form className="mt-8" onSubmit={handleSubmit} noValidate>
+                  {trap}
                   <div className="flex flex-col gap-y-5">
 
                     {/* First / Last name */}

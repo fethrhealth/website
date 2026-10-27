@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { logSpam, spamReason } from '@/lib/spamGuard'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -31,6 +32,16 @@ export async function POST(request: NextRequest) {
   if (!firstName)                    return NextResponse.json({ error: 'First name is required.'    }, { status: 400 })
   if (!lastName)                     return NextResponse.json({ error: 'Last name is required.'     }, { status: 400 })
   if (!EMAIL_RE.test(companyEmail))  return NextResponse.json({ error: 'A valid company email is required.' }, { status: 400 })
+
+  const spam = spamReason(body, {
+    emails: [companyEmail],
+    names:  [firstName, lastName],
+    text:   [body.yearFounded, body.useCase].filter((v): v is string => typeof v === 'string'),
+  })
+  if (spam) {
+    logSpam('startup-application', spam, companyEmail)
+    return NextResponse.json({ success: true }, { status: 201 })
+  }
 
   let payload: Awaited<ReturnType<typeof getPayload>>
 

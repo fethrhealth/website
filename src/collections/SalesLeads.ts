@@ -5,7 +5,7 @@ import { notifyFethrOs } from '@/lib/notifyFethrOs'
  * SalesLeads collection — stores every "Talk to sales" form submission.
  *
  * Access:
- *   create — public (unauthenticated form submission)
+ *   create — admins only; the public form saves through its /api route (local API)
  *   read / update / delete — authenticated admins only
  */
 export const SalesLeads: CollectionConfig = {
@@ -25,7 +25,7 @@ export const SalesLeads: CollectionConfig = {
     afterChange: [notifyFethrOs],
   },
   access: {
-    create: () => true,
+    create: ({ req: { user } }) => Boolean(user),   // forms save via the local API in src/app/api/*
     read:   ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),

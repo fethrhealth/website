@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useSpamTrap } from '@/components/ui/useSpamTrap'
 
 type SubmitStatus = 'idle' | 'loading' | 'success' | 'error'
 
@@ -150,6 +151,7 @@ export function StartupApplicationSection({
   const [form,   setForm]   = useState<FormState>(EMPTY_FORM)
   const [status, setStatus] = useState<SubmitStatus>('idle')
   const [error,  setError]  = useState<string>('')
+  const { trap, trapFields } = useSpamTrap()
 
   function set(field: keyof FormState) {
     return (v: string) => setForm((prev) => ({ ...prev, [field]: v }))
@@ -164,7 +166,7 @@ export function StartupApplicationSection({
       const res = await fetch('/api/startup-application', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(form),
+        body:    JSON.stringify({ ...form, ...trapFields() }),
       })
 
       if (!res.ok) {
@@ -237,6 +239,7 @@ export function StartupApplicationSection({
                     {/* ── Form ───────────────────────────────────────── */}
                     {status !== 'success' && (
                     <form id="startup-application-form" onSubmit={handleSubmit}>
+                      {trap}
                       <div className="flex flex-col gap-y-5">
 
                         {/* First + Last name */}
