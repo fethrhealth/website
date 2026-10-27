@@ -4,6 +4,7 @@ import { useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
 import { useSpamTrap } from '@/components/ui/useSpamTrap'
+import { isEmail, requiredFieldsMessage } from '@/lib/formValidation'
 import { TalkToSalesDialog } from './TalkToSalesDialog'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -182,6 +183,13 @@ export function DemoRequestForm({
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (status === 'loading') return
+
+    const warning = requiredFieldsMessage(email.trim() ? [] : ['Email'], !!email.trim() && !isEmail(email))
+    if (warning) {
+      setErrorMsg(warning)
+      setStatus('error')
+      return
+    }
 
     setStatus('loading')
     setErrorMsg('')

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useSpamTrap } from '@/components/ui/useSpamTrap'
+import { isEmail, requiredFieldsMessage } from '@/lib/formValidation'
 
 type SubmitStatus = 'idle' | 'loading' | 'success' | 'error'
 
@@ -26,20 +27,22 @@ const selectBaseCls =
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function Label({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) {
+function Label({ htmlFor, required, children }: { htmlFor: string; required?: boolean; children: React.ReactNode }) {
   return (
     <label htmlFor={htmlFor} className="text-fg-accent text-xs font-medium">
       {children}
+      {required && <span className="text-red-500" aria-hidden="true"> *</span>}
     </label>
   )
 }
 
 function TextInput({
-  id, name, type = 'text', placeholder, value, onChange,
+  id, name, type = 'text', placeholder, value, onChange, error,
 }: {
   id: string; name: string; type?: string
   placeholder: string; value: string
   onChange: (v: string) => void
+  error?: boolean
 }) {
   return (
     <input
@@ -49,7 +52,8 @@ function TextInput({
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className={inputCls}
+      aria-invalid={error || undefined}
+      className={cn(inputCls, error && 'border-red-400 focus:border-red-400')}
     />
   )
 }
@@ -151,6 +155,7 @@ export function StartupApplicationSection({
   const [form,   setForm]   = useState<FormState>(EMPTY_FORM)
   const [status, setStatus] = useState<SubmitStatus>('idle')
   const [error,  setError]  = useState<string>('')
+  const [missing, setMissing] = useState<Partial<Record<keyof FormState, boolean>>>({})
   const { trap, trapFields } = useSpamTrap()
 
   function set(field: keyof FormState) {
@@ -159,6 +164,25 @@ export function StartupApplicationSection({
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+
+    const empty: Partial<Record<keyof FormState, boolean>> = {
+      firstName:    !form.firstName.trim(),
+      lastName:     !form.lastName.trim(),
+      companyEmail: !form.companyEmail.trim(),
+    }
+    const badEmail = !empty.companyEmail && !isEmail(form.companyEmail)
+    const warning = requiredFieldsMessage(
+      [empty.firstName && 'First name', empty.lastName && 'Last name', empty.companyEmail && 'Company email']
+        .filter((l): l is string => Boolean(l)),
+      badEmail,
+    )
+    setMissing({ ...empty, companyEmail: empty.companyEmail || badEmail })
+    if (warning) {
+      setError(warning)
+      setStatus('error')
+      return
+    }
+
     setStatus('loading')
     setError('')
 
@@ -238,26 +262,28 @@ export function StartupApplicationSection({
 
                     {/* ── Form ───────────────────────────────────────── */}
                     {status !== 'success' && (
-                    <form id="startup-application-form" onSubmit={handleSubmit}>
+                    <form id="startup-application-form" onSubmit={handleSubmit} noValidate>
                       {trap}
+                      <p className="mb-5 text-fg-accent text-xs"><span className="text-red-500">*</span> Required field</p>
+
                       <div className="flex flex-col gap-y-5">
 
                         {/* First + Last name */}
                         <div className="grid grid-cols-2 gap-x-5 gap-y-3 max-md:grid-cols-1">
                           <div className="flex flex-col gap-y-1.5">
-                            <Label htmlFor="firstName">First name</Label>
-                            <TextInput id="firstName" name="firstName" placeholder="e.g. Julia" value={form.firstName} onChange={set('firstName')} />
+                            <Label htmlFor="firstName" required>First name</Label>
+                            <TextInput id="firstName" name="firstName" placeholder="e.g. Julia" value={form.firstName} onChange={set('firstName')} error={missing.firstName} />
                           </div>
                           <div className="flex flex-col gap-y-1.5">
-                            <Label htmlFor="lastName">Last name</Label>
-                            <TextInput id="lastName" name="lastName" placeholder="e.g. Arowa" value={form.lastName} onChange={set('lastName')} />
+                            <Label htmlFor="lastName" required>Last name</Label>
+                            <TextInput id="lastName" name="lastName" placeholder="e.g. Arowa" value={form.lastName} onChange={set('lastName')} error={missing.lastName} />
                           </div>
                         </div>
 
                         {/* Company email */}
                         <div className="flex flex-col gap-y-1.5">
-                          <Label htmlFor="companyEmail">Company email</Label>
-                          <TextInput id="companyEmail" name="companyEmail" type="email" placeholder="e.g. julia@example.com" value={form.companyEmail} onChange={set('companyEmail')} />
+                          <Label htmlFor="companyEmail" required>Company email</Label>
+                          <TextInput id="companyEmail" name="companyEmail" type="email" placeholder="e.g. julia@example.com" value={form.companyEmail} onChange={set('companyEmail')} error={missing.companyEmail} />
                         </div>
 
                         {/* Year founded + Funding round */}
@@ -294,7 +320,7 @@ export function StartupApplicationSection({
 
                       {/* Error message */}
                       {status === 'error' && error && (
-                        <p className="mt-4 rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">
+                        <p className="mt-4 rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600" role="alert">
                           {error}
                         </p>
                       )}
