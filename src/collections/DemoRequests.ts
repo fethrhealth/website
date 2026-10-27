@@ -6,7 +6,7 @@ import { notifyFethrOs } from '@/lib/notifyFethrOs'
  * from heroes, CTAs, and any other page that uses <DemoRequestForm />.
  *
  * Access:
- *   create — public (no auth required, the form is unauthenticated)
+ *   create — admins only; the public form saves through /api/demo-request (local API)
  *   read / update / delete — authenticated admins only
  */
 export const DemoRequests: CollectionConfig = {
@@ -27,7 +27,7 @@ export const DemoRequests: CollectionConfig = {
     afterChange: [notifyFethrOs],
   },
   access: {
-    create: () => true,                            // public
+    create: ({ req: { user } }) => Boolean(user),   // forms save via the local API in src/app/api/*
     read:   ({ req: { user } }) => Boolean(user),  // admins only
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),

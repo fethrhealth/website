@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { logSpam, spamReason } from '@/lib/spamGuard'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -23,6 +24,16 @@ export async function POST(request: NextRequest) {
   }
   if (typeof b.companyEmail !== 'string' || !EMAIL_RE.test(b.companyEmail.trim())) {
     return NextResponse.json({ error: 'Please enter a valid work email.' }, { status: 400 })
+  }
+
+  const spam = spamReason(b, {
+    emails: [b.companyEmail as string],
+    names:  [b.firstName as string, b.lastName as string],
+    text:   [b.phone, b.details].filter((v): v is string => typeof v === 'string'),
+  })
+  if (spam) {
+    logSpam('talk-to-sales', spam, b.companyEmail as string)
+    return NextResponse.json({ success: true }, { status: 201 })
   }
 
   const payload = await getPayload({ config: configPromise })

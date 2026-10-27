@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { logSpam, spamReason } from '@/lib/spamGuard'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -29,6 +30,16 @@ export async function POST(request: NextRequest) {
   }
   if (typeof b.region !== 'string' || !b.region.trim()) {
     return NextResponse.json({ error: 'Region is required.' }, { status: 400 })
+  }
+
+  const spam = spamReason(b, {
+    emails: [b.email as string],
+    names:  [b.firstName as string, b.lastName as string],
+    text:   [b.company, b.jobTitle, b.referralSource, b.message].filter((v): v is string => typeof v === 'string'),
+  })
+  if (spam) {
+    logSpam('referral-partner', spam, b.email as string)
+    return NextResponse.json({ success: true }, { status: 201 })
   }
 
   const payload = await getPayload({ config: configPromise })
