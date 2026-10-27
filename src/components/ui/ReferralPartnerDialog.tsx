@@ -4,6 +4,7 @@ import { useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
 import { useSpamTrap } from '@/components/ui/useSpamTrap'
+import { isEmail, requiredFieldsMessage } from '@/lib/formValidation'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -49,8 +50,9 @@ function InputField({
 }: React.InputHTMLAttributes<HTMLInputElement> & { id: string; label: string; error?: boolean }) {
   return (
     <div className="flex flex-col gap-y-1.5">
-      <label className={LABEL_CLS} htmlFor={id}>{label}</label>
+      <label className={LABEL_CLS} htmlFor={id}>{label}{props.required && <span className="text-red-500" aria-hidden="true"> *</span>}</label>
       <input
+        aria-invalid={error || undefined}
         id={id}
         className={cn(INPUT_CLS, error && 'border-red-400 focus:border-red-400')}
         {...props}
@@ -62,18 +64,20 @@ function InputField({
 // ─── SelectField ──────────────────────────────────────────────────────────────
 
 function SelectField({
-  id, name, label, placeholder, options, value, onChange,
+  id, name, label, placeholder, options, value, onChange, required, error,
 }: {
   id: string; name: string; label: string; placeholder: string
   options: string[]; value: string; onChange: (v: string) => void
+  required?: boolean; error?: boolean
 }) {
   return (
     <div className="flex flex-col gap-y-1.5">
-      <label className={LABEL_CLS} htmlFor={id}>{label}</label>
+      <label className={LABEL_CLS} htmlFor={id}>{label}{required && <span className="text-red-500" aria-hidden="true"> *</span>}</label>
       <div className={cn(
         'relative flex w-full cursor-pointer items-center justify-between rounded-[10px]',
         'bg-primary-background py-2.5 pr-3 pl-[13px]',
-        'border border-default-stroke transition-[border-color,box-shadow] duration-150 ease-in-out',
+        'border transition-[border-color,box-shadow] duration-150 ease-in-out',
+        error ? 'border-red-400' : 'border-default-stroke',
         'hover:shadow-[0px_1px_4px_rgba(56,62,71,0.1)]',
         'focus-within:border-blue-500 focus-within:ring-[3px] focus-within:ring-blue-300',
       )}>
@@ -91,6 +95,7 @@ function SelectField({
           name={name}
           value={value}
           onChange={e => onChange(e.target.value)}
+          aria-invalid={error || undefined}
           className="absolute inset-0 w-full cursor-pointer opacity-0"
         >
           <option value="">{placeholder}</option>
@@ -177,7 +182,20 @@ export function ReferralPartnerDialog({
     if (!form.email.trim())     errors.email     = true
     if (!form.company.trim())   errors.company   = true
     if (!form.region)           errors.region    = true
-    if (Object.keys(errors).length > 0) { setFieldErrors(errors); return }
+    const badEmail = !errors.email && !isEmail(form.email)
+    const warning = requiredFieldsMessage(
+      [
+        errors.firstName && 'First name', errors.lastName && 'Last name', errors.email && 'Email',
+        errors.company && 'Company / Organization', errors.region && 'Region',
+      ].filter((l): l is string => Boolean(l)),
+      badEmail,
+    )
+    if (warning) {
+      setFieldErrors({ ...errors, email: errors.email || badEmail })
+      setErrorMsg(warning)
+      setStatus('error')
+      return
+    }
 
     setStatus('loading')
     setErrorMsg('')
@@ -253,6 +271,7 @@ export function ReferralPartnerDialog({
                 {/* Form */}
                 <form className="mt-8" onSubmit={handleSubmit} noValidate>
                   {trap}
+                  <p className="mb-5 text-accent-foreground text-xs"><span className="text-red-500">*</span> Required field</p>
                   <div className="flex flex-col gap-y-5">
 
                     {/* First / Last name */}
@@ -302,7 +321,7 @@ export function ReferralPartnerDialog({
                         value={form.jobTitle} onChange={field('jobTitle')}
                       />
                       <SelectField
-                        id="rp-region" name="region" label="Region"
+                        id="rp-region" name="region" label="Region" required error={fieldErrors.region}
                         placeholder="Select"
                         options={['North America', 'Europe', 'Rest of World']}
                         value={form.region}
