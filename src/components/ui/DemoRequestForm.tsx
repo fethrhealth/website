@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
+import { useSpamTrap } from '@/components/ui/useSpamTrap'
 import { TalkToSalesDialog } from './TalkToSalesDialog'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -170,6 +171,7 @@ export function DemoRequestForm({
   const [email,    setEmail]    = useState('')
   const [status,   setStatus]   = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const { trap, trapFields } = useSpamTrap()
 
   function handleDialogClose() {
     // Reset to idle so the user can submit again after closing the dialog
@@ -188,7 +190,7 @@ export function DemoRequestForm({
       const res = await fetch('/api/demo-request', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email, source }),
+        body:    JSON.stringify({ email, source, ...trapFields() }),
       })
 
       if (!res.ok) {
@@ -214,6 +216,7 @@ export function DemoRequestForm({
         className={cn('flex w-full flex-col gap-2 md:hidden max-w-[320px]', className)}
         noValidate
       >
+        {trap}
         {/* Email input */}
         <input
           type="email"

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { logSpam, spamReason } from '@/lib/spamGuard'
 
 // Basic email regex — intentionally simple; full validation lives on the client
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -27,6 +28,12 @@ export async function POST(request: NextRequest) {
 
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 })
+  }
+
+  const spam = spamReason(body as Record<string, unknown>, { emails: [email] })
+  if (spam) {
+    logSpam('demo-request', spam, email)
+    return NextResponse.json({ success: true }, { status: 201 })
   }
 
   const payload = await getPayload({ config: configPromise })
