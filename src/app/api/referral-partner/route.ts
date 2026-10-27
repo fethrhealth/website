@@ -5,6 +5,11 @@ import { logSpam, spamReason } from '@/lib/spamGuard'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/** A non-blank string. Blank selects arrive as '' and Payload rejects '' as a select value. */
+function filled(v: unknown): v is string {
+  return typeof v === 'string' && v.trim() !== ''
+}
+
 export async function POST(request: NextRequest) {
   let body: unknown
 
@@ -55,7 +60,7 @@ export async function POST(request: NextRequest) {
       jobTitle:         typeof b.jobTitle         === 'string' ? b.jobTitle.trim()         : '',
       linkedIn:         typeof b.linkedIn         === 'string' ? b.linkedIn.trim()         : '',
       region:           b.region as 'North America' | 'Europe' | 'Rest of World',
-      healthcareNetwork:typeof b.healthcareNetwork === 'string' ? b.healthcareNetwork as 'Health Systems' | 'Health IT Vendors' | 'Consulting' | 'Other' : undefined,
+      healthcareNetwork:filled(b.healthcareNetwork)        ? b.healthcareNetwork as 'Health Systems' | 'Health IT Vendors' | 'Consulting' | 'Other' : undefined,
       referralSource:   typeof b.referralSource   === 'string' ? b.referralSource.trim()   : '',
       message:          typeof b.message          === 'string' ? b.message.trim()          : '',
     },

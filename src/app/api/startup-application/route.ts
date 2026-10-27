@@ -16,6 +16,11 @@ type Body = {
   useCase?: unknown
 }
 
+/** A non-blank string. Blank selects arrive as '' and Payload rejects '' as a select value. */
+function filled(v: unknown): v is string {
+  return typeof v === 'string' && v.trim() !== ''
+}
+
 export async function POST(request: NextRequest) {
   let body: Body
 
@@ -59,11 +64,11 @@ export async function POST(request: NextRequest) {
         firstName,
         lastName,
         companyEmail,
-        yearFounded:         typeof body.yearFounded         === 'string' ? body.yearFounded         : undefined,
-        latestFundingRound:  typeof body.latestFundingRound  === 'string' ? body.latestFundingRound  as 'Pre-seed' | 'Seed' | 'Series A' | 'Series B' | 'Series C+' : undefined,
-        totalAmountRaised:   typeof body.totalAmountRaised   === 'string' ? body.totalAmountRaised   as '$0 to $500k' | '$500k to $1M' | '$1M to $2.5M' | '$2.5M to $5M' | '$5M to $7.5M' | '$7.5M+' : undefined,
-        teamSize:            typeof body.teamSize            === 'string' ? body.teamSize            as '1 to 5' | '6 to 10' | '11 to 20' | '21 to 50' | '51 to 100' | '101+' : undefined,
-        useCase:             typeof body.useCase             === 'string' ? body.useCase             : undefined,
+        yearFounded:         filled(body.yearFounded)                ? body.yearFounded         : undefined,
+        latestFundingRound:  filled(body.latestFundingRound)         ? body.latestFundingRound  as 'Pre-seed' | 'Seed' | 'Series A' | 'Series B' | 'Series C+' : undefined,
+        totalAmountRaised:   filled(body.totalAmountRaised)          ? body.totalAmountRaised   as '$0 to $500k' | '$500k to $1M' | '$1M to $2.5M' | '$2.5M to $5M' | '$5M to $7.5M' | '$7.5M+' : undefined,
+        teamSize:            filled(body.teamSize)                   ? body.teamSize            as '1 to 5' | '6 to 10' | '11 to 20' | '21 to 50' | '51 to 100' | '101+' : undefined,
+        useCase:             filled(body.useCase)                    ? body.useCase             : undefined,
       },
     })
   } catch (err) {
