@@ -80,7 +80,7 @@ export const ServerReports: CollectionConfig = {
           type:  'text',
           label: 'Server Version',
           admin: {
-            description: 'The Kestra version of the reporting instance.',
+            description: 'The Fethr version of the reporting instance.',
           },
         },
         {

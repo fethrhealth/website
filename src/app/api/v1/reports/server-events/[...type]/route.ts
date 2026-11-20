@@ -22,7 +22,7 @@ import configPromise from '@payload-config'
  *   ...payload fields (unwrapped via @JsonUnwrapped)
  * }
  *
- * Note: Kestra uses @JsonUnwrapped on the payload field, so the report-
+ * Note: Fethr uses @JsonUnwrapped on the payload field, so the report-
  * specific data is flattened into the root of the JSON body rather than
  * nested under a "payload" key. We store the entire body as the payload.
  */
